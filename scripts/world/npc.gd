@@ -11,7 +11,7 @@ signal observed(feature_id)
 @export var character_name: String = "Unknown"
 @export var portrait: Texture2D
 @export var interactable: bool = true
-@export var initial_dialogue_title: String = "start"
+@export var initial_dialogue_title: String = ""
 @export var description: String = ""
 
 # Observable features for memory discovery
@@ -67,22 +67,33 @@ func load_character_data():
 	# First try to use the CharacterDataLoader if available
 	var character_loader = get_node_or_null("/root/CharacterDataLoader")
 	if character_loader:
-		character_data = character_loader.get_character(character_id)
-		if character_data:
+		var loaded_data = character_loader.get_character(character_id)
+		if loaded_data:
 			print("Loading character data for: ", character_id)
 			
 			# Set basic properties
-			character_name = character_data.name
-			description = character_data.description
-			initial_dialogue_title = character_data.initial_dialogue_title
+			character_name = loaded_data.name
+			description = loaded_data.description
+			
+			# BUGFIX: Properly set the initial_dialogue_title from character data
+			# Only override if the initial_dialogue_title is not already set in the scene
+			if loaded_data.initial_dialogue_title and loaded_data.initial_dialogue_title != "":
+				if initial_dialogue_title == "":
+					initial_dialogue_title = loaded_data.initial_dialogue_title
+					print("Setting initial dialogue title to: ", initial_dialogue_title)
+				else:
+					print("Keeping scene-defined initial dialogue title: ", initial_dialogue_title)
+			
+			# Debug print to verify initial dialogue title
+			print(character_id, " initial dialogue title: ", initial_dialogue_title)
 			
 			# Load portrait if available
-			if ResourceLoader.exists(character_data.portrait_path):
-				portrait = load(character_data.portrait_path)
+			if ResourceLoader.exists(loaded_data.portrait_path):
+				portrait = load(loaded_data.portrait_path)
 			
 			# Set observable features from character data
-			for feature_id in character_data.observable_features:
-				var feature = character_data.observable_features[feature_id]
+			for feature_id in loaded_data.observable_features:
+				var feature = loaded_data.observable_features[feature_id]
 				add_observable_feature(feature_id, feature.description)
 				if debug: print("Added feature ", feature_id, " to ", character_id)
 			
@@ -90,8 +101,9 @@ func load_character_data():
 			self.character_data = {
 				"id": character_id,
 				"name": character_name,
-				"interests": character_data.interests,
-				"relationship_level": relationship_level
+				"interests": loaded_data.interests,
+				"relationship_level": relationship_level,
+				"initial_dialogue_title": initial_dialogue_title  # Store for reference
 			}
 			
 			print("Character data loaded for: ", character_name)
@@ -103,7 +115,8 @@ func load_character_data():
 		"id": character_id,
 		"name": character_name,
 		"interests": ["ecology", "lichens", "sustainability"],
-		"relationship_level": relationship_level
+		"relationship_level": relationship_level,
+		"initial_dialogue_title": initial_dialogue_title  # Store for reference
 	}
 	print("Character data loaded for: ", character_name)
 	
@@ -130,7 +143,14 @@ func interact():
 	
 	# Start dialogue using the Dialogue Manager
 	if dialogue_system:
-		var result = dialogue_system.start_dialog(character_id, initial_dialogue_title)
+		# BUGFIX: Use default "start" title if none is specified
+		var dialogue_title = "start"
+		if initial_dialogue_title != null and initial_dialogue_title != "":
+			dialogue_title = initial_dialogue_title
+		
+		print(str(character_id) + " is speaking from title '" + str(dialogue_title) + "'")
+		
+		var result = dialogue_system.start_dialog(character_id, dialogue_title)
 		if result:
 			if debug: print("Dialogue started successfully")
 			

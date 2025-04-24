@@ -115,8 +115,14 @@ func apply_character_data(npc: Node, character_id: String) -> bool:
 		npc.character_name = character_data.name
 	if "description" in npc:
 		npc.description = character_data.description
+	
+	# BUGFIX: Only override initial_dialogue_title if it's not already set in the scene
 	if "initial_dialogue_title" in npc:
-		npc.initial_dialogue_title = character_data.initial_dialogue_title
+		if npc.initial_dialogue_title == "" and character_data.initial_dialogue_title != "":
+			npc.initial_dialogue_title = character_data.initial_dialogue_title
+			if debug: print("Setting " + character_id + " dialogue title to: " + character_data.initial_dialogue_title)
+		else:
+			if debug: print("Keeping scene-defined dialogue title for " + character_id + ": " + npc.initial_dialogue_title)
 	
 	# Apply portrait if available
 	if "portrait" in npc and ResourceLoader.exists(character_data.portrait_path):

@@ -242,6 +242,7 @@ collision_mask = 0
 script = ExtResource("2_n4awu")
 character_id = "poison"
 character_name = "Poison"
+initial_dialogue_title = "start"
 description = "Poison"
 metadata/_edit_group_ = true
 
@@ -288,6 +289,7 @@ collision_mask = 0
 script = ExtResource("2_n4awu")
 character_id = "li"
 character_name = "Li"
+initial_dialogue_title = "start"
 description = "Li"
 metadata/_edit_group_ = true
 
@@ -335,6 +337,7 @@ collision_mask = 0
 script = ExtResource("2_n4awu")
 character_id = "kitty"
 character_name = "Kitty"
+initial_dialogue_title = "start"
 description = "Kitty"
 metadata/_edit_group_ = true
 
@@ -356,6 +359,7 @@ collision_mask = 0
 script = ExtResource("2_n4awu")
 character_id = "professor_moss"
 character_name = "Professor Moss"
+initial_dialogue_title = "start"
 metadata/_edit_group_ = true
 
 [node name="Professor_moss" type="Sprite2D" parent="ProfessorMoss"]
