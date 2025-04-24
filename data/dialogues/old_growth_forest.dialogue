@@ -1,0 +1,349 @@
+~ start
+You stand in the ancient forest preserve of the college grounds. The trees here have been growing for centuries, creating a peaceful sanctuary where time seems to slow down.
+
+The air feels different - cooler, richer with oxygen, carrying the subtle scents of moss, fungi, and decaying leaves that nourish new life.
+
+- Examine the giant trees => giant_trees
+- Look at the forest floor => forest_floor
+- Check for lichen samples => lichen_samples
+- Follow the winding path deeper => follow_path
+- Leave the forest => END
+
+~ giant_trees
+Massive trees tower above you, their canopies forming a cathedral-like ceiling. Most are ancient oaks and maples, though you spot several impressive conifers as well.
+
+One particularly massive oak must be at least 300 years old. Its gnarled trunk bears the subtle marks of lightning strikes and weather, yet it continues to thrive.
+
+Professor Moss often mentions these trees as "living libraries" - their rings containing centuries of climate data, their bark hosting ecosystems of lichens and moss that have evolved alongside them.
+
+- Examine a particularly old oak => old_oak
+- Look for fungi on the trees => tree_fungi
+- Return to the main area => start
+
+~ old_oak
+This ancient oak stands as a silent sentinel of the forest. Its massive trunk would take several people joining hands to encircle.
+
+Looking up, you can see where the tree has been struck by lightning at least twice in its long life, yet it adapted and continued growing. The scars have become home to various fungi and small animals.
+
+A small brass plaque at the base reads: "Quercus alba, est. 1689. When this tree was a sapling, this land was still stewarded by the indigenous peoples of the region."
+
+The oak's spreading branches support an entire community of life - birds nest in its crown, squirrels travel its highways, and various insects make their homes in its bark.
+
+- Look at the lichens growing on the bark => oak_lichens
+- Check the soil around its roots => oak_roots
+- Return to examining the trees => giant_trees
+
+~ oak_lichens
+The oak's bark hosts an impressive variety of lichen species. You identify the familiar leafy lobes of foliose lichens in shades of pale green and gray, along with the flatter, crust-like growth of crustose lichens.
+
+Most notable is a patch of bright orange Xanthoria parietina on the southern side of the trunk - a nitrogen-loving species that typically indicates high levels of bird activity above.
+
+You also spot what appears to be Lobaria pulmonaria, commonly known as "lung lichen," which is an indicator species for clean air and old-growth forests. Its presence here is a good sign for the health of this ecosystem.
+
+These lichens are not just decorative - they're slowly breaking down the bark, returning minerals to the tree while creating microhabitats for tiny invertebrates.
+
+- Take a small sample for study => take_lichen_sample
+- Return to examining the oak => old_oak
+
+~ take_lichen_sample
+You carefully collect a small sample of the Lobaria pulmonaria, making sure to take only what you need for study while leaving the colony intact.
+
+This sample could be valuable for your research or for Professor Moss's collection. The species is sensitive to air pollution and climate changes, making it an excellent bioindicator.
+
+do InventorySystem.add_item("rare_lichen1", 1)
+
+- Return to examining the oak => old_oak
+
+~ oak_roots
+Around the base of the ancient oak, the soil forms a rich, dark loam - the product of centuries of fallen leaves decomposing. The tree's massive roots create a complex architecture both above and below ground.
+
+You notice how the roots extend far beyond the tree's canopy, intermingling with the roots of neighboring trees. This reminds you of Professor Moss's lectures on the "wood wide web" - how trees communicate and share resources through mycorrhizal networks.
+
+Small woodland plants thrive in the microclimate created by these roots, protected from temperature extremes and nourished by the rich soil.
+
+- Examine the mycorrhizal connections => mycorrhizal_network
+- Return to examining the oak => old_oak
+
+~ mycorrhizal_network
+Kneeling down, you carefully brush away a small section of leaf litter and soil, revealing the delicate white threads of fungal mycelia that connect the oak's roots to those of neighboring trees.
+
+This is the physical manifestation of the forest's communication network - a symbiotic relationship between fungi and trees that allows for the exchange of carbon, nitrogen, and even information about threats like insect attacks.
+
+It's humbling to think that beneath your feet lies an invisible network potentially as complex as the human brain, facilitating a sophisticated ecosystem that humans are only beginning to understand.
+
+- Return to examining the oak roots => oak_roots
+
+~ tree_fungi
+Various fungi have made their homes on the trees. Shelf-like bracket fungi protrude from some trunks, while others host more delicate species after recent rains.
+
+A fallen log nearby has become a veritable fungi garden, with colorful turkey tail (Trametes versicolor) forming overlapping brackets along its length. Their rainbow-like concentric rings add splashes of blue, brown, and cream to the forest palette.
+
+These fungi are the forest's recyclers, slowly breaking down dead wood and returning its nutrients to the soil. Without them, the forest floor would be piled high with debris, and new growth would struggle to find nourishment.
+
+- Collect a turkey tail specimen => collect_turkey_tail
+- Return to the trees => giant_trees
+
+~ collect_turkey_tail
+You carefully harvest a small section of turkey tail fungi. Besides being visually striking, turkey tail has been studied for potential medicinal properties.
+
+The specimen should remain viable for study if you keep it dry. Professor Moss might be interested in this for the mycology section of her class.
+
+do InventorySystem.add_item("turkey_tail_fungi", 1)
+
+- Return to examining the fungi => tree_fungi
+
+~ forest_floor
+The forest floor is a rich tapestry of life. Decaying leaves form a soft carpet underfoot, home to countless invertebrates that help break down organic matter.
+
+Ferns and woodland wildflowers thrive in patches where sunlight breaks through the canopy. You notice the distinctive leaves of trillium, jack-in-the-pulpit, and wild ginger - all indicators of a healthy, mature forest ecosystem.
+
+Small woodland mammals have left signs of their presence - disturbed soil where something was buried, tiny footprints in a muddy patch, and occasionally, the flash of movement as something small darts under cover.
+
+- Examine the decaying logs => decaying_logs
+- Look for signs of wildlife => wildlife_signs
+- Check for interesting plants => forest_plants
+- Return to the main area => start
+
+~ decaying_logs
+Several fallen logs in various states of decay create microhabitats throughout the forest floor. What began as solid wood is being systematically broken down by fungi, bacteria, insects, and time.
+
+The most recently fallen log still has its bark intact, while others have softened, their insides becoming rich, spongy homes for beetles and other decomposers. The oldest are barely recognizable as logs at all - just gentle mounds of enriched soil where new plants are taking root.
+
+This cycle of death and renewal is central to the forest's health. Each log might take decades to fully decompose, providing shelter and nutrition to countless organisms throughout its journey.
+
+- Roll over a smaller log => roll_log
+- Return to examining the forest floor => forest_floor
+
+~ roll_log
+You carefully roll over a small, partially decayed log, revealing a miniature world beneath. Pill bugs, millipedes, and small red mites scurry to find new shelter, while pale fungal mycelia thread through the damp wood.
+
+A red-backed salamander, startled by the sudden light, wriggles quickly into a nearby crevice. These salamanders are lungless, breathing entirely through their skin, which is why they require the damp microclimate beneath logs.
+
+You notice how the underside of the log and the soil beneath it form a distinct boundary - a specialized ecological interface where different communities of organisms interact.
+
+After observing for a moment, you gently roll the log back to its original position, preserving this small habitat.
+
+- Return to examining the logs => decaying_logs
+
+~ wildlife_signs
+Though larger animals are seldom seen during daylight visits, the forest is full of signs of wildlife activity.
+
+A patch of disturbed soil with small paw prints suggests where a squirrel recently buried or retrieved an acorn. The bark on some saplings shows the distinctive scraping of deer antlers. A small pile of cracked nuts on a fallen log marks the dining spot of a chipmunk.
+
+High in the trees, you spot several different styles of bird nests, from the simple twig platforms of mourning doves to the intricately woven pouches of orioles.
+
+The preservation of this forest provides crucial habitat for wildlife in an increasingly developed landscape. Each species plays a role in the ecosystem, from seed dispersal to population control of insects.
+
+- Follow a set of tracks => follow_tracks
+- Check a nearby bird nest => bird_nest
+- Return to exploring the forest floor => forest_floor
+
+~ follow_tracks
+The tracks lead you to a small clearing where the soil is softer. Here, you find more distinct impressions - the rounded prints of raccoons, the delicate marks of deer hooves, and even what appears to be fox tracks.
+
+This area might serve as a corridor for wildlife moving through the preserve, especially at dawn and dusk when human activity is minimal.
+
+A game trail - a narrow path beaten down by regular animal use - continues into a denser section of the forest. Following it might lead to water sources or feeding areas, but those places are best left undisturbed to allow wildlife their necessary space.
+
+- Return to looking for wildlife signs => wildlife_signs
+
+~ bird_nest
+You spot a recently abandoned bird nest within reach on a lower branch. It appears to be from the previous breeding season, so examining it won't disturb any active nesting.
+
+The nest is a masterpiece of natural engineering - a tight cup made of carefully woven twigs, lined with softer materials like grass, moss, and even a few strands of human hair. The builder was likely an American robin.
+
+Inside, you find a single unhatched egg, its pale blue color still visible. This offers a small window into the continuing cycle of life in the forest.
+
+- Return to looking for wildlife signs => wildlife_signs
+
+~ forest_plants
+The forest preserve hosts an impressive diversity of plant life beyond just the trees. In the understory, you find shrubs like spicebush and witch hazel. The herbaceous layer features spring ephemerals that bloom before the canopy leafs out, as well as summer-flowering species adapted to deeper shade.
+
+A patch of bright green moss catches your eye, along with the distinctive fronds of christmas ferns that remain green year-round. In a damper area, you spot the carnivorous leaves of a small patch of sundew plants, their sticky droplets glistening.
+
+Each plant has found its niche in this complex community, adapted to specific light levels, soil conditions, and ecological relationships.
+
+- Examine the spring wildflowers => spring_wildflowers
+- Look at the moss carpet => moss_carpet
+- Check the carnivorous plants => carnivorous_plants
+- Return to exploring the forest floor => forest_floor
+
+~ spring_wildflowers
+Though some have already completed their brief life cycle for the year, you can still identify several spring ephemeral wildflowers.
+
+The distinctive three-part leaves of trillium are visible, though its flowers have already produced small fruits. Delicate mayapple umbrellas spread their broad leaves, and the heart-shaped leaves of wild ginger hug the forest floor.
+
+These spring ephemerals have evolved to complete their flowering and fruiting before the tree canopy fully leafs out, taking advantage of the brief window of abundant sunlight that reaches the forest floor in early spring.
+
+Professor Moss often points out how the timing of these flowers provides crucial early-season nutrition for pollinators emerging from winter dormancy.
+
+- Return to examining the plants => forest_plants
+
+~ moss_carpet
+A lush carpet of moss spreads across a large rock and onto the surrounding soil. Unlike most plants, mosses have no true roots or vascular systems, absorbing water and nutrients directly through their cells.
+
+You identify at least three species growing together: the feathery fronds of Hypnum, the distinctive upright capsules of Polytrichum, and the flat, overlapping leaves of Thuidium.
+
+Mosses like these play important ecological roles, preventing erosion, retaining moisture like tiny sponges, and creating microhabitats for invertebrates. They're also incredibly resilient - some moss species can dry out completely and remain dormant for years before rehydrating and resuming growth.
+
+- Return to examining the plants => forest_plants
+
+~ carnivorous_plants
+In a particularly damp, sunny patch where the canopy opens slightly, you discover a small colony of round-leaved sundews (Drosera rotundifolia). Their leaves are covered in red, glandular hairs, each tipped with a droplet of sticky fluid that glistens in the light.
+
+These tiny carnivores have evolved to supplement their nutrition by trapping and digesting insects, an adaptation to the nutrient-poor, acidic soil they prefer.
+
+Looking closely, you can see several small insects caught on the sticky leaves, slowly being digested. The plant will absorb the nutrients, particularly nitrogen, that might otherwise be scarce in this environment.
+
+- Return to examining the plants => forest_plants
+
+~ lichen_samples
+The forest preserve is an excellent location to find diverse lichen specimens. These fascinating organisms - symbiotic partnerships between fungi and algae or cyanobacteria - grow on tree trunks, rocks, and even directly on the soil in some areas.
+
+You notice several distinct growth forms: the flat, crusty patches of crustose lichens; the leaf-like lobes of foliose lichens; and the branching structures of fruticose lichens hanging from branches.
+
+The variety here reflects the clean air and stable environmental conditions of the preserve - many lichen species are highly sensitive to pollution and disturbance.
+
+- Collect common lichen samples => collect_common_lichen
+- Look for rare lichen varieties => rare_lichen
+- Return to the main area => start
+
+~ collect_common_lichen
+You carefully collect small samples of several common lichen species from fallen branches (taking care not to harvest from living trees without permission).
+
+Your samples include the pale green Flavoparmelia caperata (common greenshield lichen), the gray-blue Parmotrema perlatum (black-eyed shield lichen), and the bright yellow Xanthoria parietina (common orange lichen).
+
+These will make excellent specimens for study or to fulfill Professor Moss's collection requirements.
+
+do InventorySystem.add_item("common_lichen1", 1)
+do InventorySystem.add_item("common_lichen2", 1)
+do InventorySystem.add_item("common_lichen3", 1)
+
+- Return to looking for lichen => lichen_samples
+
+~ rare_lichen
+Moving deeper into a less disturbed section of the forest, you begin to spot some uncommon lichen species.
+
+On an ancient maple, you discover a patch of Lobaria pulmonaria, the distinctive "lung lichen" with its lobed, leaf-like structure and pitted surface. This species is an indicator of old-growth forest conditions and excellent air quality.
+
+Even more exciting, on a rock face in a particularly damp, shaded area, you find what appears to be Peltigera membranacea, a large dog lichen that forms symbiotic relationships with nitrogen-fixing cyanobacteria rather than the more common green algae.
+
+Professor Moss would be particularly interested in these findings, as they speak to the pristine nature of this forest preserve.
+
+- Collect a small rare lichen sample => collect_rare_lichen
+- Return to looking for lichen => lichen_samples
+
+~ collect_rare_lichen
+After careful consideration of ethical collection practices, you take a very small sample of the rare lichen - just enough for microscopic identification while ensuring the colony remains viable.
+
+You make sure to document the exact location and growth conditions to include with your specimen. This information is crucial for scientific documentation and future monitoring of these sensitive species.
+
+This sample will be valuable for both your studies and potentially for Professor Moss's research on lichen diversity as environmental indicators.
+
+do InventorySystem.add_item("rare_lichen2", 1)
+
+- Return to looking for lichen => lichen_samples
+
+~ follow_path
+The winding path leads deeper into the forest preserve. As you walk, you notice how the composition of the forest changes subtly - in some areas, maples dominate, while others favor oaks or beeches, each creating slightly different conditions below.
+
+The path itself is minimal by design, allowing access for educational purposes while minimizing impact on the ecosystem. In places, tree roots cross the trail, while in others, simple wooden boardwalks protect delicate wetland areas.
+
+The sounds of the campus fade entirely as you move deeper in, replaced by bird calls, the rustle of leaves, and the occasional scurrying of small animals in the underbrush.
+
+- Discover the forest pond => forest_pond
+- Find the researcher's station => research_station
+- Encounter an unusual clearing => forest_clearing
+- Return to the forest entrance => start
+
+~ forest_pond
+The path opens onto a small, secluded pond nestled among the trees. Its surface reflects the canopy above, creating a mirror image of the forest.
+
+Aquatic plants thrive along the edges - the broad leaves of water lilies, the distinctive spikes of cattails, and various sedges and rushes. A fallen log extends partially into the water, providing a basking spot for several painted turtles that quickly slide into the water as you approach.
+
+The pond serves as a crucial water source for wildlife and creates habitat for species not found elsewhere in the forest. Professor Moss often brings ecology students here to study the transition between terrestrial and aquatic ecosystems.
+
+- Examine the pond life => pond_life
+- Check for amphibians => amphibians
+- Return to the path => follow_path
+
+~ pond_life
+Kneeling at the pond's edge, you observe a wealth of aquatic life. Water striders skate across the surface tension, while whirligig beetles trace erratic patterns as they search for food.
+
+Below the surface, small fish dart among the underwater plants, and crayfish scuttle along the bottom. Dragonfly and damselfly nymphs hunt among the submerged vegetation before eventually climbing out to transform into their aerial adult forms.
+
+The water itself is clear but tinted brown from tannins leached from decomposing leaves - a natural characteristic of forest ponds rather than a sign of pollution.
+
+- Return to exploring the pond => forest_pond
+
+~ amphibians
+The forest pond provides ideal breeding habitat for several amphibian species. Though they can be difficult to spot directly, you find evidence of their presence.
+
+In the shallow water near the edge, you discover a mass of clear jelly-like eggs - likely from wood frogs or spring peepers that breed early in the season. Later in summer, you might find the distinctive egg strings of American toads or the loose clusters of green frog eggs.
+
+A flash of movement catches your eye as an eastern newt in its red "red eft" terrestrial juvenile stage crosses a damp patch of ground. These remarkable amphibians spend their youth on land before returning to water as aquatic adults.
+
+The abundance of amphibians here speaks to the health of both the aquatic and terrestrial components of this ecosystem.
+
+- Return to exploring the pond => forest_pond
+
+~ research_station
+A small wooden structure blends almost seamlessly into the forest. This is the field research station used by the Environmental Science department for ongoing studies of the preserve.
+
+The simple, weathered building houses basic scientific equipment, reference materials, and a logbook where researchers record observations and data. Solar panels on the south-facing portion of the roof provide minimal electricity for equipment, while rainwater collection systems demonstrate sustainable field station design.
+
+Several research projects appear to be in progress, with weather monitoring equipment, sample collection areas, and tagged trees visible in the surrounding area.
+
+- Check the current research projects => research_projects
+- Look at the field guides => field_guides
+- Return to the path => follow_path
+
+~ research_projects
+The station's bulletin board displays information about ongoing research projects:
+
+- A long-term forest dynamics study that has been tracking tree growth, mortality, and regeneration in permanent plots for over 20 years
+- A seasonal bird survey documenting breeding and migratory species using the preserve
+- A climate change impact study measuring phenological changes in spring flowering times
+- A soil microbiome project examining the fungal and bacterial communities beneath different tree species
+
+Each project includes contact information for the lead researcher and opportunities for student involvement. Many of the studies rely on consistent methodology continued over many years, creating valuable long-term datasets.
+
+- Return to exploring the research station => research_station
+
+~ field_guides
+A bookshelf holds an impressive collection of well-worn field guides covering the flora and fauna of the region. These references help researchers and students accurately identify what they observe in the preserve.
+
+The collection includes specialized guides for trees, wildflowers, ferns, mosses, lichens, birds, mammals, reptiles and amphibians, insects, and fungi. Many have notes or tabs marking locally common species.
+
+A handwritten journal titled "Seasonal Observations" contains years of phenological records - when the first spring flowers bloom, when certain migratory birds arrive, when leaves change color in fall - potentially valuable data for tracking climate change impacts.
+
+- Return to exploring the research station => research_station
+
+~ forest_clearing
+The path leads to a small, roughly circular clearing in the forest. Unlike the random patterns of natural forest gaps, there's something distinctly intentional about this space.
+
+At the center stands a ring of stones, weathered by time but clearly arranged by human hands. The clearing is carpeted with low-growing plants, but notably lacks saplings or young trees that would typically colonize an opening in the canopy.
+
+Local indigenous traditions once held ceremonies in places like this, according to informational materials at the preserve entrance. The college maintains this clearing out of respect for that cultural heritage, in consultation with representatives from the native communities who first stewarded this land.
+
+- Examine the stone circle => stone_circle
+- Look for unusual plants => clearing_plants
+- Return to the path => follow_path
+
+~ stone_circle
+The stone circle consists of seven large boulders arranged in a perfect circle about twelve feet in diameter. Each stone is approximately waist-high and deeply weathered, with patches of lichen and moss adding color to their gray surfaces.
+
+A small, unobtrusive plaque provides context: "This stone circle marks a traditional meeting place used by indigenous peoples for generations before European settlement. It is maintained in respectful recognition of their continuing connection to this land. Please treat this sacred space with respect."
+
+The plaque also notes that the site is still occasionally used for educational and ceremonial purposes by members of the indigenous communities whose ancestors first cared for this forest.
+
+- Return to exploring the clearing => forest_clearing
+
+~ clearing_plants
+The plants growing in the clearing differ notably from those in the surrounding forest. Here, you find species that thrive in open areas but would struggle under the deep shade of the canopy.
+
+Of particular interest are several patches of medicinal plants that ethnobotanical research indicates were traditionally used by indigenous peoples: echinacea with its distinctive purple coneflowers, fragrant wild bergamot, and the delicate white flowers of bloodroot.
+
+A small sign explains that these plants are part of an ethnobotanical education garden, maintained in partnership with indigenous knowledge keepers to preserve traditional relationships with native plants. Visitors are asked not to harvest from these deliberately cultivated patches.
+
+- Return to exploring the clearing => forest_clearing

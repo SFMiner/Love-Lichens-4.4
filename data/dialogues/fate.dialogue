@@ -1,0 +1,20 @@
+# Dialogue: Fate
+
+~ start
+Fate: The breeze feels like it’s carrying secrets today.
+- "Like what?" => fate_poetic
+- Adam: That charm on your wrist—it Kitty’s? ask_about_charm [if GameState.has_tag("fate_kitty_wrist_seen")]
+
+
+~ fate_poetic
+Fate: Like something old remembering itself forward. You know, standard weather.
+
+~ ask_about_charm
+Fate: Mhm. She gave it to me in exchange for three sardines and a piece of my soul.
+- "Was it worth it?" => fate_smile
+
+~ fate_smile
+Fate: Oh, absolutely. She has the better half of my soul now.
+
+
+=> END

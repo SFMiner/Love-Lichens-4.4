@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://7syu50gcc3vi"]
+
+[ext_resource type="Script" uid="uid://b8hup1s2k45rj" path="res://scripts/pickups/pickup_item.gd" id="1_sn1gm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mxh8y"]
+radius = 30.0
+
+[node name="PickupItem" type="Area2D"]
+script = ExtResource("1_sn1gm")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -29.0
+offset_top = -29.0
+offset_right = 11.0
+offset_bottom = 11.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = -48.0
+offset_top = 36.0
+offset_right = 48.0
+offset_bottom = 64.0
+text = "Item Name"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mxh8y")

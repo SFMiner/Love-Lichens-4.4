@@ -1,0 +1,19 @@
+# Dialogue: Li
+
+~ start
+Li: Don’t mind me, just observing the local chaos.
+- "Anything interesting?" => li_snark
+- Adam: You always wear two pairs of glasses? => ask_about_glasses [if GameState.has_tag("li_lucky_glasses_seen")]
+- Leave Li to their observations => END!
+
+~ li_snark
+Li: Saw a squirrel get into a vending machine. It won’t end well—for either of them. 
+=> start
+
+~ ask_about_glasses
+Li: Only when I need backup. These ones are from fifth grade. They’re hollow now—no lenses. Just muscle memory.
+- "That’s... kind of cool, actually."
+Li: Yeah, well. Sometimes you keep the armor even after you outgrow the war.
+
+
+=> END

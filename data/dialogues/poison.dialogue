@@ -1,0 +1,107 @@
+# poison.dialogue
+~ start
+
+Poison: [#wry] What's up?
+- How's it going?
+	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. => general_chat
+- I've been exploring campus [do GameState.set_tag("dusty_bracelet_seen")]
+	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 	=> general_chat
+- What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen")]
+	=> ask_about_necklace
+
+~ general_chat
+
+Poison: So... biology major, huh? Must be fun to stare at moss all day.
+- It's actually fascinating
+	Poison: [#softens] Yeah, I know. Just giving you a hard time. There's something kind of peaceful about plants just doing their thing without all the drama.
+- Lichens, not moss
+	Poison: [#amused] Oh, excuse my botanical faux pas. Lichens, not moss. Got it, Professor.
+	Poison: [#genuine] For real though, what made you pick that specific field?
+- What are you studying?
+	Poison: Environmental policy. Someone's gotta clean up all the messes, right? 
+	Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.
+	do GameState.set_tag("poison_peepaw_mentioned")
+ 
+Poison: Anyway, I should get going. Have a lab to pretend to care about.
+- See you around
+	Poison: Later, lichen lover.
+	=> END!
+- Your grandfather sounds important to you [if GameState.has_tag("poison_peepaw_mentioned")]
+	Poison: [#surprised] Yeah, he was... is.
+	=> peepaw_brief
+- That necklace seems special [if GameState.has_tag("poison_necklace_seen")]
+	=> ask_about_necklace
+
+
+
+~ peepaw_brief
+
+Poison: [#thoughtful] Pee-Paw practically raised me. Taught me how to fish, how to fix things, how to call out BS when I saw it.
+Poison: [#shifting] Sorry, not really trying to get all sentimental in the middle of the quad.
+- No problem, I understand
+	Poison: [#grateful] Thanks. Catch you later.
+- My parents weren't around much either
+	Poison: [#connecting] It's weird, right? How you can miss something you never really had.
+	Poison: Anyway, I should go. Later.
+	=> END!
+- You mentioned a story about him? [if GameState.has_tag("poison_peepaw_memory_stirred")]
+	=> peepaw_story
+
+~ ask_about_necklace
+
+Poison: [#surprised] Oh, this?
+Poison: [#awkward_laugh] It's, uh... it's got some of Pee-Paw's ashes in it. My grandfather.
+do GameState.set_tag("poison_peepaw_known")
+- That's a beautiful way to remember someone
+	Poison: [#genuine] Yeah. Keeps him close, you know? He was always there for me when I needed him.
+	Poison: [#shifting] Anyway, not trying to get all heavy on you.
+- Isn't that a bit morbid?
+	Poison: [#defensive] Is it? I don't know, seemed better than letting him sit on a shelf somewhere.
+	Poison: [#softer] He was always there for me. Guess I wanted to keep that going somehow.
+- I'm sorry for your loss
+	Poison: [#quiet] Thanks. It's been a few years now, but... yeah. Thanks.
+
+Poison: [#changing_subject] We should probably get to class. Catch you later?
+- Sure, see you
+	Poison: Later.
+- Before you go, you mentioned a story about your grandfather? [if GameState.has_tag("poison_peepaw_memory_stirred")]
+	=> peepaw_story
+
+~ family_conversation
+# This would be triggered during a separate conversation event
+# where Dusty mentions missing their grandmother
+
+if GameState.has_tag("poison_peepaw_known") and not GameState.has_tag("poison_peepaw_memory_stirred")
+	Poison: [#thoughtful] Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.
+	do GameState.set_tag("poison_peepaw_memory_stirred")
+=> END
+
+~ peepaw_story
+
+Poison: [#wistful] So there was this one time, I must have been maybe twelve? 
+Poison: We were sitting on his porch swing, drinking these gas station root beers he always bought me.
+Poison: [#smile] And out of nowhere, completely serious, he goes: "If you ever find yourself on a roof with a goat and a weathervane, bet on the goat."
+- What does that even mean?
+	Poison: [#laughing] I have no idea! That was Pee-Paw for you. Absolute nonsense delivered like ancient wisdom.
+	Poison: But you know what? Years later I was helping a friend catch their escaped goat off their garage roof...
+	Poison: ...and that ridiculous advice was all I could think about.
+- Sounds like he had a unique perspective
+	Poison: [#fond] That's one way to put it. He was full of these weird one-liners.
+	Poison: But there was usually something to them, even if it wasn't obvious right away.
+- Did you ever ask him what he meant?
+	Poison: [#shaking_head] Nah. That wasn't really how we worked. He'd say something wild, I'd roll my eyes, and years later it would somehow make sense.
+	Poison: [#laughing] Or at least I'd convince myself it did.
+
+Poison: [#grateful] Thanks for listening to my random Pee-Paw story. Not many people I share that stuff with.
+do GameState.set_tag("poison_peepaw_story_shared")
+do RelationshipSystem.increase_affinity("Poison", 5)
+- It's nice getting to know you better
+	Poison: [#genuine_smile] Yeah. You're alright, Adam.
+- He sounds like he was a great guy
+	Poison: [#nodding] The best. Weird, but the best.
+- My grandfather collected bottle caps
+	Poison: [#interested] Yeah? What was his deal?
+	Poison: Actually, tell me about that sometime. I gotta run now.
+
+Poison: See you around, lichen boy.
+=> END

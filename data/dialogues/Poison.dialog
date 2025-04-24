@@ -1,0 +1,84 @@
+~ start
+Poison: Hey Adam. What's up?
+- How are you doing today?
+	Poison: About as good as a radish that's been left in the sun. Take that however you want.
+	Adam: (I'm not sure if that's good or bad...)
+	=> main_topics
+- Can I ask you something?
+	=> main_topics
+- Nothing, just saying hi.
+	Poison: [shrugs] Well, mission accomplished I guess.
+	=> END
+
+~ main_topics
+- What are you working on?
+	Poison: Just trying to finish this lichen classification for Moss's class. The man loves his fungi a little too much, if you ask me.
+	Adam: He certainly is passionate about them.
+	Poison: That's one word for it. [smiles slightly]
+	=> main_topics
+- [if GameState.has_tag("poison_necklace_seen")] What's that necklace you're wearing? => ask_about_necklace
+- [if GameState.has_tag("poison_peepaw_known")] Tell me about your Pee-Paw. => peepaw_conversation
+- [if GameState.has_tag("poison_peepaw_memory_stirred")] You mentioned a story about your Pee-Paw? => grandpa_goat_story
+- [if GameState.has_tag("poison_dusty_awkward_noticed")] What's the deal with you and Dusty? => dusty_history_hint
+- [if GameState.has_tag("poison_dusty_hint")] Tell me more about that ex you mentioned. => dusty_history_full
+- I should get going.
+	Poison: Later.
+	=> END
+
+~ ask_about_necklace
+Poison: [touches the small metal vial] Oh, this? [laughs awkwardly]
+Poison: It's... um, it holds some of my Pee-Paw's ashes.
+Adam: Oh, I'm sorry. I didn't mean to...
+Poison: No, it's cool. It's a way of keeping family close, even now. Not everyone gets it, but it works for me.
+set GameState.set_tag("poison_peepaw_known")
+=> main_topics
+
+~ peepaw_conversation
+Poison: Pee-Paw? [softens] He was something else. Raised me mostly, after mom got sick.
+Poison: He had this old house with a massive porch swing where we'd sit for hours. He'd tell the weirdest stories...
+Adam: He sounds like he was important to you.
+Poison: Yeah. [quiet for a moment] He was. Still is, I guess. That's why I carry this. [touches necklace]
+=> main_topics
+
+~ peepaw_memory_mention
+# This would be triggered during a conversation about family
+Poison: [listening to Dusty talk about their grandmother, then turns to you quietly]
+Poison: Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.
+set GameState.set_tag("poison_peepaw_memory_stirred")
+=> END
+
+~ grandpa_goat_story
+Poison: [laughs] Okay, so we're sitting on the porch swing one day drinking these gas station root beers...
+Poison: And out of nowhere, Pee-Paw turns to me, all serious, and says:
+Poison: "If you ever find yourself on a roof with a goat and a weathervane, bet on the goat."
+Adam: ...What does that even mean?
+Poison: [shrugs, smiling] No idea! That was Pee-Paw. Full of weird wisdom that made no sense until exactly when you needed it.
+Poison: I've been waiting for my roof-goat-weathervane moment ever since. [touches necklace fondly]
+Adam: That's... actually pretty amazing.
+Poison: [looks genuinely pleased] Yeah. It is.
+set GameState.set_tag("poison_peepaw_story_shared")
+=> main_topics
+
+~ observe_poison_dusty
+# This would be triggered when seeing Poison and Dusty together
+Adam: (There's a strange tension between Poison and Dusty that I can't quite place.)
+=> END
+
+~ dusty_history_hint
+Poison: [glances around] Dusty? It's... complicated. 
+Poison: Let's just say we both dated the same terrible person in high school.
+Poison: It could have gone really badly, but... [shrugs]
+Poison: Ancient history now.
+set GameState.set_tag("poison_dusty_hint")
+=> main_topics
+
+~ dusty_history_full
+Poison: [sighs] Fine, since you're so curious.
+Poison: This person - I won't even say their name - they were manipulative. Played us against each other.
+Poison: Dusty and I hated each other for months because of all the lies we were being told.
+Adam: What happened?
+Poison: On the last day of high school, we both confronted them at the same time. Total accident.
+Poison: [smiles slightly] Turned out we had more in common than we thought. We ditched them right there and went to get milkshakes.
+Poison: Been friends ever since. Kind of weird, but good weird.
+set GameState.set_tag("poison_dusty_resolution")
+=> main_topics

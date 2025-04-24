@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://cat2hsijx0mea"
+path="res://.godot/imported/kitty.dialogue-1809b035cfd8a6852d9a35576d2dddbd.tres"
+
+[deps]
+
+source_file="res://data/dialogues/kitty.dialogue"
+dest_files=["res://.godot/imported/kitty.dialogue-1809b035cfd8a6852d9a35576d2dddbd.tres"]
+
+[params]
+
+defaults=true

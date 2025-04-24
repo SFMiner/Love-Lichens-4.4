@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://btpde16iixqs7"
+
+[deps]
+
+files=["res://assets/character_sprites/Adam/credits/credits.notes.translation", "res://assets/character_sprites/Adam/credits/credits.authors.translation", "res://assets/character_sprites/Adam/credits/credits.licenses.translation", "res://assets/character_sprites/Adam/credits/credits.urls.translation"]
+
+source_file="res://assets/character_sprites/Adam/credits/credits.csv"
+dest_files=["res://assets/character_sprites/Adam/credits/credits.notes.translation", "res://assets/character_sprites/Adam/credits/credits.authors.translation", "res://assets/character_sprites/Adam/credits/credits.licenses.translation", "res://assets/character_sprites/Adam/credits/credits.urls.translation"]
+
+[params]
+
+compress=true
+delimiter=0

@@ -1,0 +1,35 @@
+extends Resource
+class_name MemoryTrigger
+
+enum TriggerType {
+	LOOK_AT,
+	ITEM_ACQUIRED,
+	LOCATION_VISITED,
+	DIALOGUE_CHOICE,
+	QUEST_COMPLETED,
+	CHARACTER_RELATIONSHIP
+}
+
+@export var id: String
+@export var trigger_type: TriggerType
+@export var target_id: String
+@export var unlock_tag: String
+@export var description: String
+@export var dialogue_title: String = ""
+@export var condition_tags: Array[String] = []
+
+func is_triggered(target: String) -> bool:
+	# Check if the target matches and all condition tags are met
+	return target == target_id and _check_conditions()
+
+func _check_conditions() -> bool:
+	# If no condition tags are set, always return true
+	if condition_tags.is_empty():
+		return true
+	
+	# Check if all condition tags are present
+	for tag in condition_tags:
+		if not GameState.has_tag(tag):
+			return false
+	
+	return true

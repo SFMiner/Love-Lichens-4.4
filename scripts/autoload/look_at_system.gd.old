@@ -1,0 +1,133 @@
+extends Node
+
+signal description_shown(text: String)
+
+# References to other systems
+var memory_system: Node
+var notification_system: Node
+
+func _ready() -> void:
+	# Connect to other systems
+	await get_tree().process_frame
+	memory_system = get_node_or_null("/root/MemorySystem")
+	notification_system = get_node_or_null("/root/NotificationSystem")
+
+# Main function for looking at a target
+func look_at(target: Node) -> void:
+	if not is_instance_valid(target):
+		return
+	
+	# Get a more specific target ID if available
+	var target_id = target.name
+	
+	# For NPCs, check for observable features
+	if target.is_in_group("npc") and target.has_method("observe_feature"):
+		# For now, only look at the NPC as a whole
+		# Observable features will need to be handled differently later
+		if target.has_method("get_look_description"):
+			var description = target.get_look_description()
+			show_description(description)
+			
+		# Check for special observable features
+		if target.has_method("has_observable_feature") and target.has_observable_feature("necklace"):
+			var necklace_desc = target.observe_feature("necklace")
+			if not necklace_desc.is_empty():
+				show_description(necklace_desc)
+				return
+	else:
+		# For regular objects, get a description and show it
+		var description = _get_look_description(target)
+		show_description(description)
+	
+	# Check if this triggers a memory
+	if memory_system:
+		memory_system.trigger_look_at(target_id)
+
+# Show a description to the player
+func show_description(text: String) -> void:
+	# First try to use DialogSystem to show the text in a dialogue balloon
+	var dialog_system = get_node_or_null("/root/DialogSystem")
+	if dialog_system and dialog_system.has_method("start_custom_dialog"):
+		# Create a simple dialogue with the description
+		var dialogue_content = """
+~ start
+[color=yellow]Observation[/color]
+{text}
+=> END
+"""
+		# Replace the {text} with actual content
+		dialogue_content = dialogue_content.replace("{text}", text)
+		
+		# Start the dialogue
+		var success = dialog_system.start_custom_dialog(dialogue_content)
+		if success:
+			# Successfully displayed in dialogue balloon
+			description_shown.emit(text)
+			return
+	
+	# Fallback to notification system if dialogue didn't work
+	if notification_system:
+		notification_system.show_notification(text)
+	
+	description_shown.emit(text)
+
+# Get the appropriate description for a target
+func _get_look_description(target: Node) -> String:
+	# Default description
+	var description = "You see " + target.name
+	
+	# Try to get a custom description from the target
+	if target.has_method("get_look_description"):
+		var custom_desc = target.get_look_description()
+		if not custom_desc.is_empty():
+			description = custom_desc
+	
+	# Check for NPC specific logic
+	if target.is_in_group("npc"):
+		description = _get_npc_description(target)
+	
+	# Check for item specific logic
+	elif target.is_in_group("item"):
+		description = _get_item_description(target)
+	
+	# Check for interactable specific logic
+	elif target.is_in_group("interactable"):
+		description = _get_interactable_description(target)
+	
+	return description
+
+# NPC descriptions can be more detailed
+func _get_npc_description(npc: Node) -> String:
+	var description = "You see " + npc.name
+	
+	# Try to get a custom description
+	if npc.has_method("get_look_description"):
+		var custom_desc = npc.get_look_description()
+		if not custom_desc.is_empty():
+			description = custom_desc
+	
+	return description
+
+# Item descriptions
+func _get_item_description(item: Node) -> String:
+	var description = "You see a " + item.name
+	
+	# Try to get a custom description
+	if item.has_method("get_look_description"):
+		var custom_desc = item.get_look_description()
+		if not custom_desc.is_empty():
+			description = custom_desc
+	
+	return description
+
+# Interactable descriptions
+func _get_interactable_description(interactable: Node) -> String:
+	var description = "You see a " + interactable.name
+	
+	# Try to get a custom description
+	if interactable.has_method("get_look_description"):
+		var custom_desc = interactable.get_look_description()
+		if not custom_desc.is_empty():
+			description = custom_desc
+	
+	return description

@@ -1,0 +1,150 @@
+extends Node
+
+# Memory chains stored by ID
+var memory_chains: Dictionary = {}
+var active_chains: Array[MemoryChain] = []
+
+# Signals
+signal memory_discovered(memory_tag: String, description: String)
+signal memory_chain_completed(character_id: String, chain_id: String)
+
+func _ready() -> void:
+	_load_all_memory_data()
+	
+	# Connect to existing systems
+	if has_node("/root/GameState"):
+		GameState.game_loaded.connect(_on_game_loaded)
+
+# Main API for handling memory triggers
+func trigger_look_at(target_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.LOOK_AT, target_id)
+	return triggered
+
+func trigger_item_acquired(item_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.ITEM_ACQUIRED, item_id)
+	return triggered
+
+func trigger_location_visited(location_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.LOCATION_VISITED, location_id)
+	return triggered
+	
+func trigger_dialogue_choice(choice_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.DIALOGUE_CHOICE, choice_id)
+	return triggered
+
+func trigger_quest_completed(quest_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.QUEST_COMPLETED, quest_id)
+	return triggered
+
+func trigger_character_relationship(character_id: String) -> bool:
+	var triggered = _check_triggers(MemoryTrigger.TriggerType.CHARACTER_RELATIONSHIP, character_id)
+	return triggered
+
+# Check for triggered memories
+func _check_triggers(trigger_type: int, target_id: String) -> bool:
+	var triggered_any = false
+	
+	for chain in active_chains:
+		var current_trigger = chain.get_current_trigger()
+		if current_trigger and current_trigger.trigger_type == trigger_type:
+			if current_trigger.is_triggered(target_id):
+				# Set the memory tag
+				GameState.set_tag(current_trigger.unlock_tag)
+				
+				# Emit the discovery signal
+				memory_discovered.emit(current_trigger.unlock_tag, current_trigger.description)
+				
+				# Advance to the next step in the chain
+				var has_more_steps = chain.advance()
+				
+				# Check if the chain was completed
+				if not has_more_steps:
+					memory_chain_completed.emit(chain.character_id, chain.id)
+				
+				triggered_any = true
+	
+	return triggered_any
+
+# Check if a specific character has a memory tag
+func character_has_memory(character_id: String, memory_tag: String) -> bool:
+	if GameState.has_tag(memory_tag):
+		for chain_id in memory_chains:
+			var chain = memory_chains[chain_id]
+			if chain.character_id == character_id:
+				for step in chain.steps:
+					if step.unlock_tag == memory_tag:
+						return true
+	return false
+
+# Load memory data from JSON files
+func _load_all_memory_data() -> void:
+	var dir = DirAccess.open("res://data/memories/")
+	if not dir:
+		print("ERROR: Could not open memory data directory")
+		return
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	
+	while file_name != "":
+		if file_name.ends_with(".json") and not dir.current_is_dir():
+			var path = "res://data/memories/" + file_name
+			_load_memory_file(path)
+		file_name = dir.get_next()
+
+func _load_memory_file(path: String) -> void:
+	if not FileAccess.file_exists(path):
+		print("ERROR: Memory file does not exist: ", path)
+		return
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var json_text = file.get_as_text()
+	file.close()
+	
+	var json_data = JSON.parse_string(json_text)
+	if json_data == null:
+		print("ERROR: Failed to parse memory JSON: ", path)
+		return
+	
+	# Process each memory chain in the file
+	for chain_data in json_data:
+		var chain = MemoryChain.new()
+		chain.id = chain_data.id
+		chain.character_id = chain_data.character_id
+		chain.relationship_reward = chain_data.get("relationship_reward", 0)
+		chain.completed_tag = chain_data.get("completed_tag", "")
+		
+		# Load the memory steps
+		for step_data in chain_data.steps:
+			var trigger = MemoryTrigger.new()
+			trigger.id = step_data.id
+			trigger.trigger_type = step_data.trigger_type
+			trigger.target_id = step_data.target_id
+			trigger.unlock_tag = step_data.unlock_tag
+			trigger.description = step_data.description
+			
+			if step_data.has("condition_tags"):
+				for tag in step_data.condition_tags:
+					trigger.condition_tags.append(tag)
+			
+			chain.steps.append(trigger)
+		
+		# Add the chain to our registry and activate it
+		memory_chains[chain.id] = chain
+		active_chains.append(chain)
+
+# GameState integration
+func _on_game_loaded(_slot = null) -> void:
+	# Reset all memory chains
+	for chain in active_chains:
+		chain.reset()
+	
+	# Advance chains based on already discovered memories
+	for chain in active_chains:
+		var advanced = true
+		while advanced:
+			var current_trigger = chain.get_current_trigger()
+			if current_trigger and GameState.has_tag(current_trigger.unlock_tag):
+				advanced = chain.advance()
+			else:
+				advanced = false

@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://btt6pku86skfp"
+path="res://.godot/imported/fate.dialogue-bdf9885fb240df5d8232320c8ffe6543.tres"
+
+[deps]
+
+source_file="res://data/dialogues/fate.dialogue"
+dest_files=["res://.godot/imported/fate.dialogue-bdf9885fb240df5d8232320c8ffe6543.tres"]
+
+[params]
+
+defaults=true

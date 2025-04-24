@@ -1,0 +1,950 @@
+[gd_scene load_steps=56 format=3 uid="uid://op3bmm58tjvd"]
+
+[ext_resource type="Script" uid="uid://bnjfc5seu20rn" path="res://scripts/world/cemetery.gd" id="1_xgtns"]
+[ext_resource type="Texture2D" uid="uid://cxg2up0rwqh07" path="res://assets/images/scenes/cemetery/cemetery.png" id="2_776x0"]
+[ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="2_jfo7o"]
+[ext_resource type="Texture2D" uid="uid://ccq4mqallkq6b" path="res://assets/images/scenes/cemetery/TS1a.png" id="4_w8y0v"]
+[ext_resource type="Texture2D" uid="uid://oh8x7bfmcvio" path="res://assets/images/scenes/cemetery/TS1b.png" id="5_56uy4"]
+[ext_resource type="Texture2D" uid="uid://daqdckjiggy0q" path="res://assets/images/scenes/cemetery/TS1c.png" id="6_xgtns"]
+[ext_resource type="Texture2D" uid="uid://ndk8o48mrp6c" path="res://assets/images/scenes/cemetery/TS1d.png" id="7_xj1tb"]
+[ext_resource type="Texture2D" uid="uid://bfyp855eab1u5" path="res://assets/images/scenes/cemetery/TS2a.png" id="8_qso2a"]
+[ext_resource type="Texture2D" uid="uid://bvglen8y13n7v" path="res://assets/images/scenes/cemetery/TS2b.png" id="9_2mmxy"]
+[ext_resource type="Texture2D" uid="uid://buuhf8i7mere1" path="res://assets/images/scenes/cemetery/circular_pair.png" id="9_b7eay"]
+[ext_resource type="Texture2D" uid="uid://daci6krflj7ii" path="res://assets/images/scenes/cemetery/cross.png" id="9_gx8fs"]
+[ext_resource type="Texture2D" uid="uid://b047s3wx22d2h" path="res://assets/images/scenes/cemetery/TS2c.png" id="10_voevw"]
+[ext_resource type="Texture2D" uid="uid://bfmwvseci6kut" path="res://assets/images/scenes/cemetery/TS3a.png" id="11_myg2a"]
+[ext_resource type="Texture2D" uid="uid://d0rbqrpo6vri5" path="res://assets/images/scenes/cemetery/TS3b.png" id="12_776x0"]
+[ext_resource type="Texture2D" uid="uid://d06qi6mm7j4x2" path="res://assets/images/scenes/cemetery/TS3c.png" id="13_gx8fs"]
+[ext_resource type="Texture2D" uid="uid://cc7y27mfenjec" path="res://assets/images/scenes/cemetery/TS3d.png" id="14_b7eay"]
+[ext_resource type="Texture2D" uid="uid://b7de6bnnq3unr" path="res://assets/images/scenes/cemetery/TS4a.png" id="15_ugsul"]
+[ext_resource type="Texture2D" uid="uid://dncwudo1k0l5q" path="res://assets/images/scenes/cemetery/TS4b.png" id="16_rjlar"]
+[ext_resource type="Texture2D" uid="uid://ccqunipuljgjv" path="res://assets/images/scenes/cemetery/TS5a.png" id="17_b70eq"]
+[ext_resource type="Texture2D" uid="uid://dp6nwbcmx6071" path="res://assets/images/scenes/cemetery/TS5b.png" id="18_0ev4x"]
+[ext_resource type="Texture2D" uid="uid://wciludoa10re" path="res://assets/images/scenes/cemetery/TS5a - lichen.png" id="19_0ev4x"]
+[ext_resource type="Texture2D" uid="uid://dqmly886vqeqk" path="res://assets/images/scenes/cemetery/TS6.png" id="19_7iom2"]
+[ext_resource type="Texture2D" uid="uid://d2avsyop5yvg0" path="res://assets/images/scenes/cemetery/TS7a.png" id="20_y6t33"]
+[ext_resource type="Texture2D" uid="uid://c5tuukxsd7057" path="res://assets/images/scenes/cemetery/TS7b.png" id="21_mpdnk"]
+[ext_resource type="Texture2D" uid="uid://ci1dl6n2u645t" path="res://assets/images/scenes/cemetery/stone_stack.png" id="22_myg2a"]
+[ext_resource type="Texture2D" uid="uid://ccu4w45l4pwkj" path="res://assets/images/scenes/cemetery/TS7c.png" id="22_tyhha"]
+[ext_resource type="Texture2D" uid="uid://c8yfepewpnk1s" path="res://assets/images/scenes/cemetery/TS8a.png" id="23_lig25"]
+[ext_resource type="Texture2D" uid="uid://b74o05r83nnl2" path="res://assets/images/scenes/cemetery/TS8b.png" id="24_meyvk"]
+[ext_resource type="Texture2D" uid="uid://c23oxgagon6yt" path="res://assets/images/scenes/cemetery/leaning_book.png" id="24_ugsul"]
+[ext_resource type="Texture2D" uid="uid://dep25v3oi0nt1" path="res://assets/images/scenes/cemetery/TS8c.png" id="25_1bpnd"]
+[ext_resource type="Texture2D" uid="uid://b778idfi8aufj" path="res://assets/images/scenes/cemetery/TS8d.png" id="26_qy6j6"]
+[ext_resource type="Texture2D" uid="uid://bp1pl3qgihpks" path="res://assets/images/scenes/cemetery/TS8e.png" id="27_u7ync"]
+[ext_resource type="Texture2D" uid="uid://cbi6iln76oajn" path="res://assets/images/scenes/cemetery/TSE1.png" id="28_pp7w2"]
+[ext_resource type="Texture2D" uid="uid://by7w511ybp50x" path="res://assets/images/scenes/cemetery/birdstonewithbath.png" id="29_b7eay"]
+[ext_resource type="Texture2D" uid="uid://cdi4mjnm0vost" path="res://assets/images/scenes/cemetery/TSE2.png" id="29_jp40i"]
+[ext_resource type="Texture2D" uid="uid://3car3yg1esoy" path="res://assets/images/scenes/cemetery/F1a.png" id="30_ogcs0"]
+[ext_resource type="Texture2D" uid="uid://byim2qw0dy2sq" path="res://assets/images/scenes/cemetery/F1b.png" id="31_h0qsa"]
+[ext_resource type="Texture2D" uid="uid://d12b21l7qk5mq" path="res://assets/images/scenes/cemetery/Post.png" id="32_yio8j"]
+[ext_resource type="Texture2D" uid="uid://d2c6fd2y2epa" path="res://assets/images/scenes/cemetery/F2a.png" id="33_bh4rq"]
+[ext_resource type="Texture2D" uid="uid://crpk706kptfow" path="res://assets/images/scenes/cemetery/F2b.png" id="34_5f0lf"]
+[ext_resource type="Texture2D" uid="uid://b4l7dt4r7pqjy" path="res://assets/images/scenes/cemetery/F2c.png" id="35_vn62c"]
+[ext_resource type="Texture2D" uid="uid://bi4dsw7ofxpwv" path="res://assets/images/scenes/cemetery/F3a.png" id="36_6dy67"]
+[ext_resource type="Texture2D" uid="uid://cm1132somqy4v" path="res://assets/images/scenes/cemetery/F3b.png" id="37_tga7s"]
+[ext_resource type="Shader" uid="uid://u4eqjl6u8exf" path="res://scenes/world/locations/TREE_ROOT.gdshader" id="38_2mmxy"]
+[ext_resource type="Texture2D" uid="uid://pu2tmu81gtf2" path="res://assets/images/scenes/cemetery/roots.png" id="38_56uy4"]
+[ext_resource type="Texture2D" uid="uid://bxngltrthm20s" path="res://assets/images/scenes/cemetery/Tree.png" id="39_xgtns"]
+[ext_resource type="Script" uid="uid://bhfkcl6u6ldi0" path="res://scripts/world/location_transition.gd" id="40_2dq5r"]
+[ext_resource type="Texture2D" uid="uid://ftr2e2562oh1" path="res://assets/images/scenes/cemetery/bench1a.png" id="41_myg2a"]
+[ext_resource type="Texture2D" uid="uid://dpa27lvywtvfb" path="res://assets/images/scenes/cemetery/bench1b.png" id="42_776x0"]
+[ext_resource type="Script" uid="uid://b0vt1wx861dgx" path="res://scripts/world/interactable.gd" id="42_qso2a"]
+[ext_resource type="Texture2D" uid="uid://bk5rfqclhv1ga" path="res://assets/images/scenes/cemetery/colorful_stones.png" id="47_rjlar"]
+[ext_resource type="Texture2D" uid="uid://c238g1f45fn5f" path="res://assets/images/scenes/cemetery/cem_remote.png" id="51_b70eq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_voevw"]
+shader = ExtResource("38_2mmxy")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dbj4a"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2mmxy"]
+radius = 46.8389
+
+[node name="Cemetery" type="Node2D"]
+script = ExtResource("1_xgtns")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(913.851, 915.851)
+scale = Vector2(1.84151, 1.84151)
+texture = ExtResource("2_776x0")
+
+[node name="nonwalkable_areas" type="StaticBody2D" parent="Sprite2D"]
+position = Vector2(-488.076, -287.103)
+scale = Vector2(0.478506, 0.478506)
+collision_layer = 3
+collision_mask = 0
+
+[node name="Col_Main" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(2316, 1047, 1606, 1302, 1610, 1212, 2074, 1030, 2078.41, 211.851, 1247, -142, 847, -243, 438, -13, -58.2777, 234.343, -35.7862, 1052.32, 672, 1416, 562.014, 1435.86, -33.4187, 1197.93, -38.1537, 1669.06, 2091.43, 1670.24, 2089.07, 1136.37, 2259.53, 1078.37, 2262, 1876, -233, 1830, -284, 198, 867, -409, 2394, 142)
+
+[node name="Col_bench" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1510, 795, 1271, 704, 1217, 746, 1432, 839)
+
+[node name="Col_fence1" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-35.7862, 82.8212)
+polygon = PackedVector2Array(1480.89, 1278.46, 1060.65, 1498.64, 994.36, 1492.72, 1388.55, 1278.46)
+
+[node name="Col_TS7a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-393.854, -149.968)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS7b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-200.93, -65.9892)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS7c" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS8a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-512.429, -492.215)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS8c2" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-341.041, -405.529)
+polygon = PackedVector2Array(1851.54, 723.007, 1818.06, 739.129, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS8c" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-188.503, -318.718)
+polygon = PackedVector2Array(1854.02, 724.247, 1825.5, 739.129, 1775.89, 720.526, 1774.65, 690.763)
+
+[node name="Col_TS8d" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-45.8855, -254.23)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS8e" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(154.771, -153.654)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS6a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-131.456, 200.904)
+polygon = PackedVector2Array(1865.18, 725.487, 1836.66, 741.609, 1746.13, 710.605, 1747.37, 683.322)
+
+[node name="Col_TS1a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(84.9576, 497.138, 114.552, 504.241, 202.15, 471.095, 167.821, 466.36)
+
+[node name="Col_TS1b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(360.774, 381.129, 390.368, 392.967, 473.232, 357.454, 437.719, 350.352)
+
+[node name="Col_TS1c" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(599.894, 310.104, 625.937, 321.941, 696.963, 293.531, 673.288, 287.612)
+
+[node name="Col_TS1d" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(830.728, 213.035, 763.253, 236.71, 736.027, 231.975, 812.971, 205.932)
+
+[node name="Col_TS2a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(71.9362, 729.156, 153.616, 691.275, 115.735, 682.989, 39.9746, 722.053)
+
+[node name="Col_TS2b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(296.851, 627.352, 326.445, 638.006, 410.492, 607.228, 380.898, 593.023)
+
+[node name="Col_TS2c" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(511.112, 540.937, 554.911, 557.51, 633.04, 517.262, 582.138, 507.792)
+
+[node name="Col_TS3a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(218.723, 871.207, 244.766, 879.493, 337.099, 843.981, 309.872, 830.959)
+
+[node name="Col_TS3b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(463.762, 764.668, 498.091, 780.057, 576.219, 754.015, 534.787, 740.993)
+
+[node name="Col_TS3c" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(670.92, 707.848, 699.33, 717.318, 777.459, 685.356, 738.394, 677.07)
+
+[node name="Col_TS3d" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(913.591, 616.698, 872.16, 624.984, 854.403, 615.514, 862.69, 598.942, 902.937, 597.758, 913.591, 606.044)
+
+[node name="Col_TS4a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(545.441, 1009.71, 444.821, 1065.34, 386.817, 1042.85, 403.39, 1023.91, 422.33, 1021.54, 494.539, 989.583)
+
+[node name="Col_TS4b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(802.318, 929.211, 698.147, 975.378, 648.429, 956.438, 666.185, 946.968, 759.702, 915.006)
+
+[node name="Col_TS5a" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(730.108, 1171.88, 629.488, 1214.5, 578.587, 1190.82, 680.39, 1156.49)
+
+[node name="Col_TS5b" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(978.698, 1058.24, 902.937, 1089.02, 869.792, 1076, 946.737, 1041.67)
+
+[node name="Col_Tree" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1245.04, 429.664, 1098.26, 405.988, 882.814, 402.437, 842.566, 422.561, 760.886, 413.091, 705.249, 397.702, 733.659, 388.232, 798.766, 387.048, 829.544, 374.027, 863.873, 343.249, 908.856, 314.839, 971.596, 308.92, 1052.09, 313.655, 1106.54, 319.574, 1124.3, 345.616, 1182.31, 382.313)
+
+[node name="Col_Roots" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1177.57, 484.117, 1067.48, 472.279, 1028.42, 458.074, 1003.15, 402.704, 983.433, 403.621, 943.185, 458.074, 901.754, 469.912, 820.074, 481.749, 841.382, 462.809, 860.322, 455.706, 904.121, 395.334, 1089.39, 398.165, 1108.91, 432.031, 1124.3, 448.604, 1159.81, 465.176)
+
+[node name="z_Objects" type="Node2D" parent="Sprite2D"]
+
+[node name="Ts1a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-425.515, -39.648)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("4_w8y0v")
+offset = Vector2(2.58365, -105.142)
+
+[node name="Ts1c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-272.514, -93.5484)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("5_56uy4")
+offset = Vector2(-33.8944, -100.769)
+
+[node name="Ts1c2" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-179.991, -130.34)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("6_xgtns")
+offset = Vector2(-2.11743, -75.8795)
+
+[node name="Ts1d" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-112.341, -171.286)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("7_xj1tb")
+offset = Vector2(-2.49438, -60.3093)
+
+[node name="Ts2a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-446.979, 66.6745)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("8_qso2a")
+offset = Vector2(7.70932, -80.6088)
+
+[node name="Ts2b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+visible = false
+position = Vector2(-324.242, 23.2542)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("9_2mmxy")
+offset = Vector2(2.47885, -103.598)
+
+[node name="CircularPair" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-320.308, -15.124)
+scale = Vector2(0.543033, 0.543033)
+skew = 0.0872665
+texture = ExtResource("9_b7eay")
+
+[node name="Cross" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-212.245, -74.8576)
+scale = Vector2(0.543033, 0.543033)
+texture = ExtResource("9_gx8fs")
+
+[node name="Ts2c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+visible = false
+position = Vector2(-219.851, -15.9113)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("10_voevw")
+offset = Vector2(3.45282, -91.7479)
+
+[node name="Ts3a2" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-360.289, 140.158)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("11_myg2a")
+offset = Vector2(1.40747, -92.907)
+
+[node name="Ts3b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-244.284, 90.7674)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("12_776x0")
+offset = Vector2(6.37946, -81.6892)
+
+[node name="Ts3c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-142.737, 59.8144)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("13_gx8fs")
+offset = Vector2(4.29663, -85.0025)
+
+[node name="Ts3d" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-63.6412, 0.478485)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("14_b7eay")
+
+[node name="Ts4a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-268.953, 217.895)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("15_ugsul")
+offset = Vector2(6.66473, -96.3665)
+
+[node name="Ts4b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-143.792, 175.763)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("16_rjlar")
+offset = Vector2(4.23358, -94.3159)
+
+[node name="Ts5a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-172.603, 290.06)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("17_b70eq")
+offset = Vector2(-2.55567, -79.1803)
+
+[node name="Ts5a-Lichen" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-167.173, 292.775)
+scale = Vector2(0.494061, 0.494061)
+texture = ExtResource("19_0ev4x")
+offset = Vector2(5.49561, -105.516)
+
+[node name="Ts5b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-45.5338, 239.558)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("18_0ev4x")
+offset = Vector2(4.02362, -100.639)
+
+[node name="Ts6" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(311.751, 180.51)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("19_7iom2")
+offset = Vector2(-3.23987, -88.2371)
+
+[node name="Ts7a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(193.118, 4.26489)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("20_y6t33")
+offset = Vector2(-10.4504, -89.913)
+
+[node name="Ts7b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(278.52, 38.7335)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("21_mpdnk")
+offset = Vector2(-23.7917, -86.0817)
+
+[node name="Ts7c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(379.35, 82.596)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("22_tyhha")
+offset = Vector2(-0.376831, -83.6125)
+
+[node name="LeaningBook" type="Sprite2D" parent="Sprite2D/z_Objects/Ts7c"]
+position = Vector2(-35.666, -48.7445)
+scale = Vector2(2.08984, 2.08984)
+texture = ExtResource("24_ugsul")
+
+[node name="StoneStack" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(129.866, -193.782)
+scale = Vector2(0.266425, 0.266425)
+texture = ExtResource("22_myg2a")
+
+[node name="Ts8a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-6.97856, -268.72)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("23_lig25")
+offset = Vector2(-8.91577, -89.994)
+
+[node name="Ts8b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(197.352, -118.844)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("24_meyvk")
+offset = Vector2(-3.13525, -84.8438)
+
+[node name="Ts8b2" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(232.406, -105.007)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("24_meyvk")
+offset = Vector2(-3.13525, -84.8438)
+
+[node name="Ts8c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(292.269, -82.9676)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("25_1bpnd")
+offset = Vector2(-7.79541, -45.6111)
+
+[node name="Ts8d" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(363.871, -43.1582)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("26_qy6j6")
+offset = Vector2(-13.8928, -105.941)
+
+[node name="Birdstonewithbath" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(440.48, -63.9969)
+scale = Vector2(0.506131, 0.506131)
+texture = ExtResource("29_b7eay")
+
+[node name="Ts8e" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+visible = false
+position = Vector2(449.916, 6.09546)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("27_u7ync")
+offset = Vector2(6.28564, -95.8735)
+
+[node name="Tse1" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(175.959, 395.921)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("28_pp7w2")
+offset = Vector2(88.2738, -182.411)
+
+[node name="Tse2" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(271.499, 352.601)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("29_jp40i")
+offset = Vector2(-9.39014, -144.88)
+
+[node name="F1a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(52.5281, 471.878)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("30_ogcs0")
+offset = Vector2(9.22473, -150.15)
+
+[node name="F1b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(112.449, 381.369)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("31_h0qsa")
+
+[node name="Post" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-0.879486, 489.087)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("32_yio8j")
+offset = Vector2(8.83801, -139.114)
+
+[node name="F2a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(339.742, 333.612)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("33_bh4rq")
+offset = Vector2(1.99268, -157.195)
+
+[node name="F2b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(426.381, 316.996)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("34_5f0lf")
+offset = Vector2(-3.06885, -163.471)
+
+[node name="F2c" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(483.35, 280.204)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("35_vn62c")
+offset = Vector2(-14.1233, -226.582)
+
+[node name="F3a" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-399.656, 347.854)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("36_6dy67")
+offset = Vector2(-17.7821, -263.959)
+
+[node name="F3b" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(-222.818, 403.635)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("37_tga7s")
+offset = Vector2(-76.3464, -146.533)
+
+[node name="Roots" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+material = SubResource("ShaderMaterial_voevw")
+position = Vector2(-11.561, -43.9047)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("38_56uy4")
+offset = Vector2(-0.839233, -50.8193)
+
+[node name="Tree" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
+position = Vector2(2.08759, -81.1873)
+scale = Vector2(0.478506, 0.478506)
+texture = ExtResource("39_xgtns")
+offset = Vector2(10.6373, -452.332)
+
+[node name="Bench1a" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(130.409, 84.794)
+scale = Vector2(0.479, 0.479)
+texture = ExtResource("41_myg2a")
+offset = Vector2(-3.40112, -34.0105)
+
+[node name="Bench1b" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(203.175, 117.919)
+scale = Vector2(0.479, 0.479)
+texture = ExtResource("42_776x0")
+offset = Vector2(13.6041, -100.897)
+
+[node name="ColorfulStones" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(190.685, 7.14032)
+scale = Vector2(0.479, 0.479)
+texture = ExtResource("47_rjlar")
+offset = Vector2(-31.7429, -34.0104)
+
+[node name="EntranceSpawn" type="Marker2D" parent="." groups=["spawn_point"]]
+position = Vector2(1764.41, 1743.41)
+scale = Vector2(0.881168, 0.881168)
+
+[node name="CampusExitPoint" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1752.96, 1788.96)
+scale = Vector2(0.881168, 0.881168)
+collision_layer = 2
+script = ExtResource("40_2dq5r")
+target_location = "campus_quad"
+spawn_point = "cemetery_exit"
+transition_name = "Return to Campus"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CampusExitPoint"]
+position = Vector2(0.687977, -26.6937)
+shape = SubResource("CircleShape2D_dbj4a")
+
+[node name="ColorRect" type="ColorRect" parent="CampusExitPoint"]
+offset_left = -23.6753
+offset_top = -50.9018
+offset_right = 24.3247
+offset_bottom = -2.90179
+color = Color(0.235294, 0.172549, 0.0862745, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CampusExitPoint"]
+offset_left = -78.1284
+offset_top = -5.66785
+offset_right = 82.8716
+offset_bottom = 20.3322
+text = "Return to Campus"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Player" parent="." instance=ExtResource("2_jfo7o")]
+position = Vector2(1670.96, 1783.96)
+scale = Vector2(3.80019, 3.80019)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = 1.91975
+anchor_top = 1.63461
+anchor_right = 1.91975
+anchor_bottom = 1.63461
+offset_left = 1394.0
+offset_top = 1544.0
+offset_right = 1454.0
+offset_bottom = 1584.0
+
+[node name="Headstone  Interactable1" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(161, 835)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs1a_interactable"
+dis_name = "HS1a Interactable"
+dia_id = "headstones"
+dia_tit = "headstone1"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable1"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable2" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(402, 742)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs1b_interactable"
+dis_name = "HS1b Interactable"
+dia_id = "headstones"
+dia_tit = "student_memorial"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable2"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable3" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(601, 684)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs1c_interactable"
+dis_name = "HS1c Interactable"
+dia_id = "headstones"
+dia_tit = "headstone2"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable3"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable4" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(723, 621)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs1d_interactable"
+dis_name = "HS1d Interactable"
+dia_id = "headstones"
+dia_tit = "headstone12"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable4"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable5" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(117, 1037)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs2a_interactable"
+dis_name = "HS2a Interactable"
+dia_id = "headstones"
+dia_tit = "headstone3"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable5"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable6" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(319, 963)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs2b_interactable"
+dis_name = "HS2b Interactable"
+dia_id = "headstones"
+dia_tit = "headstone13"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable6"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable7" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(536, 874)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs2c_interactable"
+dis_name = "HS2bcInteractable"
+dia_id = "headstones"
+dia_tit = "headstone4"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable7"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable8" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(275, 1148)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs3a_interactable"
+dis_name = "HS3a Interactable"
+dia_id = "headstones"
+dia_tit = "headstone14"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable8"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable9" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(489, 1077)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs3b_interactable"
+dis_name = "HS3b Interactable"
+dia_id = "headstones"
+dia_tit = "headstone5"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable9"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable10" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(668, 1018)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs3c_interactable"
+dis_name = "HS3c Interactable"
+dia_id = "headstones"
+dia_tit = "headstone15"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable10"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable11" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(451, 1297)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs4a_interactable"
+dis_name = "HS4a Interactable"
+dia_id = "headstones"
+dia_tit = "headstone6"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable11"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable12" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(676, 1226)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs4b_interactable"
+dis_name = "HS4b Interactable"
+dia_id = "headstones"
+dia_tit = "funny_epitaph"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable12"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable13" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(610, 1443)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs5a_interactable"
+dis_name = "HS5a  Interactable"
+dia_id = "headstones"
+dia_tit = "headstone7"
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable13"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable14" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(843, 1334)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs5b_interactable"
+dis_name = "HS5b Interactable"
+dia_id = "headstones"
+dia_tit = "mystery_grave"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable14"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable15" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1150, 627)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs8a_interactable"
+dis_name = "HS8a Interactable"
+dia_id = "headstones"
+dia_tit = "stacked_stones"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable15"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable16" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1304, 712)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs8b_interactable"
+dis_name = "HS1b Interactable"
+dia_id = "headstones"
+dia_tit = "headstone8"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable16"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable17" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1454, 787)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs8c_interactable"
+dis_name = "HS8c Interactable"
+dia_id = "headstones"
+dia_tit = "historical_grave_plants"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable17"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable18" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1573, 829)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs8d_interactable"
+dis_name = "HS8d Interactable"
+dia_id = "headstones"
+dia_tit = "headstone9"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable18"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable19" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1723, 885)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs8d_interactable"
+dis_name = "HS8d Interactable"
+dia_id = "headstones"
+dia_tit = "artist_grave"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable19"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable22" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1606, 1046)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs7c_interactable"
+dis_name = "HS7c Interactable"
+dia_id = "headstones"
+dia_tit = "poet_grave"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable22"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable21" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1255, 922)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs7a_interactable"
+dis_name = "HS7a Interactable"
+dia_id = "headstones"
+dia_tit = "headstone10"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable21"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable25" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1419, 979)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs7a_interactable"
+dis_name = "HS7a Interactable"
+dia_id = "headstones"
+dia_tit = "time_capsule"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable25"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable23" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1173, 1069)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs7b_interactable"
+dis_name = "HS7b Interactable"
+dia_id = "headstones"
+dia_tit = "headstone11"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable23"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable24" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1272, 1107)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs7b_interactable"
+dis_name = "HS7b Interactable"
+dia_id = "headstones"
+dia_tit = "headstone11"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable24"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="Headstone  Interactable20" type="Area2D" parent="." groups=["interactable"]]
+position = Vector2(1481, 1220)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("42_qso2a")
+int_id = "hs6a_interactable"
+dis_name = "HS6a Interactable"
+dia_id = "headstones"
+dia_tit = " pets_memorial"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headstone  Interactable20"]
+position = Vector2(-6.69127, -77.4275)
+shape = SubResource("CircleShape2D_2mmxy")
+
+[node name="CemRemote" type="Sprite2D" parent="."]
+position = Vector2(759, 1002)
+scale = Vector2(1.4697, 1.4697)
+texture = ExtResource("51_b70eq")
+offset = Vector2(-4, -16)

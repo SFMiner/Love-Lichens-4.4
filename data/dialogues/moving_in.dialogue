@@ -1,0 +1,185 @@
+# Move-In Day Full Sequence - Modular Scenes with Comments
+# (Using Nathan Hoad's Dialogue Manager Format)
+# (Each section ends with =END to return control to player)
+
+# ------------------------
+# Scene 1: Adam Arrives at the Dorm
+# ------------------------
+
+You shoulder open the door to your new dorm room.  
+Someone’s already partly moved in.
+
+Adam: [wait=0.3] Looks like I’m not first here. I guess that's about right, classes start tomorrow.
+
+Narrator:  
+You spot a food bowl by the window.  
+A soft cat bed tucked against the wall.  
+Toys scattered like breadcrumbs.
+
+- Inspect the food bowl
+	Adam: [examining] Fresh water. Not long ago.
+
+- Look around more
+	Adam: [observing] Cat toys, scratcher... Whoever it is, they travel smart.
+
+- Start unpacking
+	Adam: [muttering] Might as well claim a corner.
+
+[next=auto]
+
+Narrator:  
+Footsteps echo outside the door.
+
+[next=auto]
+
+=END
+
+# -- COMMENT: After this =END, player can move freely. 
+# Fate will arrive shortly (based on player action or light timer).
+
+# ------------------------
+# Scene 2: Meeting Fate
+# ------------------------
+
+Narrator:  
+The door swings open.  
+Someone steps in, balancing a box with one arm and a backpack with the other.
+
+Fate: [cheerfully awkward] Hey! You must be Adam.
+
+Adam: [smiling] That's me.  
+Adam: [wait=0.2] Uh, hi.
+
+- Shake hands
+	Adam: Good to meet you.
+
+- Smile shyly
+	Adam: Hi.
+
+- Make a joke
+	Adam: Please tell me you’re not hiding snakes too.
+
+Fate: [laughs] Nope. Just one feline overlord.
+
+Fate: I'm Fate. I got here earlier.  
+Fate: You probably noticed Socks’ stuff already.
+
+Adam: Socks?
+
+Fate: My cat. They're around. [wait=0.3] Shy, but curious.
+
+Narrator:  
+As you glance toward the bed, you catch a flicker — a tail, a flash of ears — before it vanishes under a dresser.
+
+Fate: [smiling] They'll come out when they're ready.
+
+[next=auto]
+
+=END
+
+# -- COMMENT: After this =END, player gets first real free roam. 
+# Adam can explore campus, unpack, nap. 
+# Venom encounter triggers when player returns to room.
+
+# ------------------------
+# Scene 3: Meeting Venom (Poison)
+# ------------------------
+
+Narrator:  
+You push the door open.  
+Inside, the room has shifted again.
+
+Narrator:  
+Several tanks are stacked neatly along one wall.  
+Soft cloth covers some of them.  
+The air hums faintly.
+
+Narrator:  
+Someone sits at the desk, methodically adjusting a tank cover.
+
+Poison: [without looking] Roommate?
+
+Adam: [stepping inside] Yeah. Adam.
+
+Poison: Venom.  
+Poison: [short pause] Poison’s fine.
+
+- Comment on the tanks
+	Adam: [grinning] Impressive setup.
+
+- Joke lightly
+	Adam: Tell me none of those things are loose.
+
+- Stay polite but neutral
+	Adam: Looks like you moved in early.
+
+Poison: [reacts depending on choice]
+- If interested: [gruff] "Most people panic. You didn't."
+- If joking: [smirk] "Only the best ones escape."
+- If neutral: [nod] "Had stuff to set up."
+
+[next=auto]
+
+Narrator:  
+At the edge of your vision —  
+A twitch of black fur under Fate’s bed.
+
+Fate: [offscreen laugh] Socks is scouting.
+
+Adam: [amused] Tactical advantage.
+
+Poison: [gruff but pleased] Field recon.
+
+[next=auto]
+
+=END
+
+# -- COMMENT: After this =END, all three roommates have been introduced.
+# Player can now free-roam, unpack more, start seeing random light roommate chatter.
+
+# ------------------------
+# Scene 4: Socks Makes His Move
+# ------------------------
+
+Narrator:  
+The room buzzes softly with life — unpacking, murmured conversation, charger cables tangling.  
+You’re midway through sorting your books when —
+
+[wait=1.0]
+
+Narrator:  
+A sudden blur of black darts across the floor.
+
+Poison: [startled grunt] Hey!
+
+Narrator:  
+Socks is gleefully attacking Poison’s shoelaces.  
+Tugging. Biting. Purring loudly.
+
+Fate: [grinning] You've been officially accepted.
+
+- Joke about being next
+	Adam: Better hide my sneakers.
+
+- Tease Poison
+	Adam: Socks has good taste.
+
+- Laugh and stay quiet
+	Adam: [chuckles quietly]
+
+Poison: [depends on reaction]
+- If joked: [deadpan] "Betrayed by footgear."
+- If teased: [gruff grin] "You’re next, kid."
+- If quiet: [nod of grudging respect]
+
+Narrator:  
+The tension in the room lifts — not all at once, but enough.  
+Maybe... this could be home.
+
+[next=auto]
+
+=END
+
+# -- COMMENT: After this =END, player fully unlocked in the dorm space.
+# All roommate relationships gently seeded.
+# Future story events (bug hunt, movie night, study sessions) can now naturally trigger.

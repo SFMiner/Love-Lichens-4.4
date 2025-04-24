@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bdfbfdwywmspu"]
+
+[node name="passage_collision" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="passage_collision2" type="CollisionPolygon2D" parent="."]
+position = Vector2(-15.8, -51.91)
+polygon = PackedVector2Array(20, 41, 7, 41, 3, 44, 4, 51, 18, 52, 26, 49, 27, 43)

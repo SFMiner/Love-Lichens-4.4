@@ -1,0 +1,41 @@
+{
+	"id": "dusty",
+	"name": "Dusty",
+	"description": "Warm, protective, and honest. Once had a rivalry with Poison, now forming a strong, earned friendship.",
+	"portrait_path": "res://assets/characters/dusty_portrait.png",
+	"dialogue_file": "res://data/dialogues/dusty.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["warm", "protective", "loyal", "down-to-earth"],
+	"interests": ["social justice", "campus life", "old family stories"],
+	"background": "Once had a tense rivalry with Poison over a shared manipulative ex, but they resolved it on the last day of high school.",
+	"observable_features": {
+		"bracelet": {
+			"description": "Dusty wears a wooden bracelet that looks handmade — maybe by a family member.",
+			"observed": false,
+			"memory_tag": "dusty_bracelet_seen",
+			"dialogue_title": "ask_about_bracelet"
+		},
+		"stance": {
+			"description": "They stand in a way that makes others feel safe — a protective presence without needing to say much.",
+			"observed": false
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Poison": {
+			"type": "reconciled_friend",
+			"description": "Former rivalry healed into a mutual respect and developing friendship."
+		},
+		"Adam": {
+			"type": "growing_friendship",
+			"description": "Appreciates Adam’s honesty and openness."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_bracelet": {
+			"unlock_condition": "dusty_bracelet_seen",
+			"description": "You noticed Dusty's bracelet and asked about its origin.",
+			"dialogue_title": "ask_about_bracelet"
+		}
+	}
+}

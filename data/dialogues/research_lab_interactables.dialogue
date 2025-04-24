@@ -1,0 +1,310 @@
+~ microscope
+You examine the microscope on the table. It seems to be set up for lichen analysis.
+What would you like to do?
+
+- I'd like to examine my lichen samples. => examine_lichens
+- Nothing right now. => END
+
+~ examine_lichens
+You prepare to place your collected lichen samples under the microscope.
+
+=> check_samples
+
+~ check_samples
+# Use a custom DialogueManager condition that calls a proper function
+if InventorySystem.count_items_by_tag("common_lichen") >= 3 and InventorySystem.count_items_by_tag("rare_lichen") >= 1
+	=> success
+else
+	=> need_more_samples
+
+~ success
+You carefully examine the lichen samples under the microscope. The structures are fascinating! You can see the fungal hyphae and algal cells living together in symbiosis.
+
+The different varieties show unique structural patterns. With these samples, you should have enough data to report back to Professor Moss.
+do QuestSystem.complete_custom_objective("lichen_collection", "microscope")
+=> END
+
+~ need_more_samples
+You need more samples to complete the analysis. According to the research requirements, you need at least 3 common lichen samples and 1 rare lichen sample.
+
+You currently have {{QuestSystem.count_items_by_tag("common_lichen")}} common lichen samples and {{QuestSystem.count_items_by_tag("rare_lichen")}} rare lichen samples.
+
+=> END
+
+~ poster
+You examine the poster showing microscopic images of fungal spores being released from a pod.
+
+- [Look closer at the diagram] => examine_diagram
+- [Step away] => END
+
+~ examine_diagram
+The diagram illustrates the remarkable dispersal mechanism of Lycoperdon pyriforme, commonly known as the pear-shaped puffball.
+
+When mature, the spore sac develops a small opening at the top. Environmental triggers like rainfall or physical contact cause the sac to contract, forcing millions of spores through the opening in a cloud-like puff.
+
+What's particularly interesting is the recent research suggesting these spores contain compounds with potential antimicrobial properties. The poster mentions ongoing studies at the university examining their effectiveness against certain resistant bacteria.
+
+- [Read the researcher credits] => researcher_info
+- [Step away] => END
+
+~ researcher_info
+The research is being led by Dr. Eliza Chen in collaboration with Professor Moss from the Environmental Science department.
+
+There's a note indicating that student volunteers are needed for the next phase of lab work, with a contact email for those interested in joining the project.
+
+- [Step away] => END
+
+
+~ board_by_cat
+You examine the bulletin board and see several notes pinned up.
+
+- Read note: "URGENT: Environmental Science Club Meeting" => note_1
+- Read note: "Lost Dog Flyer" => note_2 
+- Read note: "Job Opportunity" => note_3
+- Step away from the board. => END
+
+~ note_1
+URGENT: Environmental Science Club Meeting
+Thursday at 5PM in Room 302
+Topic: Campus Sustainability Initiative
+
+- Read another note => board_by_cat
+- Step away from the board. => END
+
+~ note_2
+LOST DOG: Brown labrador named Charlie
+Last seen near the science building
+Reward offered! Call 555-0123
+
+- Read another note => board_by_cat
+- Step away from the board. => END
+
+~ note_3
+JOB OPPORTUNITY: Student Lab Assistant
+Requirements: Prior experience with microscopes
+Contact Professor Moss
+
+- Read another note => board_by_cat
+- Step away from the board. => END
+
+~ lab_bulletin_board_medium
+You examine a bulletin board covered with various notices, reminders, and small publications relevant to the research lab.
+
+- [Look at the academic papers] => lab_bulletin_academic_papers
+- [Check out personal notes] => lab_bulletin_personal_notes
+- [Look at event announcements] => lab_bulletin_event_announcements
+- [Step away] => END
+
+~ lab_bulletin_academic_papers
+Several published paper abstracts are pinned to the board:
+
+"Novel Photosynthetic Pathways in Urban Lichen Formations"
+"Symbiotic Relationships Between Fungi and Algae in Manufactured Environments"
+"Sound Frequency Effects on Lichen Growth Patterns: Preliminary Findings"
+
+A hand-drawn star marks the last one with a note: "This is what I was telling you about! -Adam"
+
+- [Check out personal notes] => lab_bulletin_personal_notes
+- [Look at event announcements] => lab_bulletin_event_announcements
+- [Step away] => END
+
+~ lab_bulletin_personal_notes
+Various colorful sticky notes dot the board:
+
+"Li - borrowed your culture samples, will return tomorrow. -Dusty"
+"Whoever keeps eating my lunch, I've started adding indicator dye to my food. Enjoy your blue tongue! -Poison"
+"REMINDER: Greenhouse door code changed to 4238"
+"Looking for roommate who doesn't mind occasional glowing specimens -Erik"
+
+- [Look at academic papers] => lab_bulletin_academic_papers
+- [Look at event announcements] => lab_bulletin_event_announcements
+- [Step away] => END
+
+~ lab_bulletin_event_announcements
+Several upcoming events are posted:
+
+"Annual Fungi Foray - This Saturday, 9AM. Meet at campus forest entrance. Bring collection containers!"
+"Guest Lecture: 'Commercial Applications of Lichen-Derived Compounds' by Dr. Eliza Chen"
+"Reminder: Lab Safety Recertification Due Next Month"
+"Sustainability Club Fundraiser: Selling propagated native plants, greenhouse #3"
+
+- [Look at academic papers] => lab_bulletin_academic_papers
+- [Check out personal notes] => lab_bulletin_personal_notes
+- [Step away] => END
+
+~ lab_bulletin_small
+You look at a small personal bulletin board with a collection of notes, photos, and other items.
+
+- [Examine the research notes] => lab_bulletin_small_research
+- [Look at personal reminders] => lab_bulletin_small_personal
+- [Step away] => END
+
+~ lab_bulletin_small_research
+Several research-related items are pinned to the board:
+
+A hand-drawn diagram showing different lichen growth patterns under various light conditions.
+
+A small labeled photo of what appears to be an unusual lichen formation with bright blue edges.
+
+A bulleted list titled "Sound Response Hypotheses" with several points checked off.
+
+- [Look at personal reminders] => lab_bulletin_small_personal
+- [Step away] => END
+
+~ lab_bulletin_small_personal
+A few personal reminders are scattered across the board:
+
+"Return Luna's field recorder!!!"
+"Meeting w/adviser Thursday 2PM"
+"Fate's birthday next week - get non-toxic cake this time"
+"Call Mom"
+
+The corner of the board has a polaroid of a cat sitting on what appears to be a lab notebook. Someone has written "Lab Assistant of the Month" underneath it.
+
+- [Examine research notes] => lab_bulletin_small_research
+- [Step away] => END
+
+~ lab_framed_certificate
+You examine a framed document hanging on the laboratory wall. It appears to be something of significance to the research team.
+
+- [Read the document] => lab_framed_certificate_document
+- [Look at the frame details] => lab_framed_certificate_frame
+- [Step away] => END
+
+~ lab_framed_certificate_document
+The document is a recognition certificate from the International Lichenology Association.
+
+"Presented to The State University of New York College of Environmental Science and Forestry for outstanding contributions to symbiotic organism research and conservation."
+
+The certificate highlights groundbreaking work in identifying novel symbiotic relationships and potential ecological applications.
+
+- [Look at the frame details] => lab_framed_certificate_frame
+- [Step away] => END
+
+~ lab_framed_certificate_frame
+The frame is made of reclaimed wood, carefully finished with a natural oil. Upon closer inspection, you notice small patterns in the wood grain that almost look like miniature lichens themselves.
+
+A small metal plate at the bottom of the frame reads: "Donated by Sustainability Club - From the fallen oak that once stood outside this building, now continuing its ecological journey as art."
+
+Someone has stuck a small post-it note on the corner: "Remember why we do this work! -Prof. Moss"
+
+- [Read document again] => lab_framed_certificate_document
+- [Step away] => END
+
+~ lab_green_machine
+You examine a sophisticated scientific apparatus with a glowing green containment chamber. The device appears to be monitoring something inside the translucent green enclosure.
+
+- [Look closer at the contents] => lab_green_machine_contents
+- [Check the control panel] => lab_green_machine_controls
+- [Step away] => END
+
+~ lab_green_machine_contents
+Peering into the green chamber, you see what appears to be several small lichen samples suspended in a specialized solution. The lichens seem to be slowly moving, almost as if they're growing in accelerated time.
+
+Small bubbles occasionally rise from the samples, and faint patterns of light pulse through the greenish medium.
+
+- [Check the control panel] => lab_green_machine_controls
+- [Step away] => END
+
+~ lab_green_machine_controls
+The control panel features several readings:
+
+pH: 6.8 (Optimal)
+Temperature: 24.3°C
+Growth rate: 3.75x standard
+Luminosity: 42%
+
+A small note stuck to the corner reads: "DO NOT ADJUST SETTINGS - long-term experiment in progress! Yes, it's supposed to be glowing. No, it's not radioactive. -Erik"
+
+Below that, someone else has scribbled: "Then why did I find my keys glowing after I left them next to this? -Poison"
+
+- [Look at contents again] => lab_green_machine_contents
+- [Step away] => END
+
+~ lab_map
+You examine a framed map hanging on the wall. It appears to show a specific research area with various markings.
+
+- [Study the map details] => lab_map_details
+- [Read the legend] => lab_map_legend
+- [Step away] => END
+
+~ lab_map_details
+The map shows what appears to be a detailed survey of the old cemetery near campus. Various areas are marked with different colors - the red spots seem to indicate particular points of interest.
+
+Some areas are circled, with what look like sample numbers written beside them. The northwestern corner has the most markings, indicating it might be particularly significant to the research.
+
+A dotted line traces what might be a suggested collection route through the area.
+
+- [Read the legend] => lab_map_legend
+- [Step away] => END
+
+~ lab_map_legend
+The legend explains the various markings:
+
+Red Dots: "Rare Lichen Formations"
+Blue Shading: "High Moisture Areas"
+Green Triangles: "Previously Sampled (2022)"
+Yellow Stars: "Control Sites"
+
+A note at the bottom reads: "Updated Survey - Spring 2023"
+
+A small sticky note next to the map reads: "Cemetery gate code: 1872 (year it was established). Don't tell the groundskeeper I gave you this. -Prof. Moss"
+
+- [Study the map again] => lab_map_details
+- [Step away] => END
+
+~ lab_pink_fungi
+You examine a sealed display case containing several vibrant pink fungi specimens.
+
+- [Look closer at the specimens] => lab_pink_fungi_examine
+- [Read information label] => lab_pink_fungi_label
+- [Step away] => END
+
+~ lab_pink_fungi_examine
+The specimens appear to be a rare variety of bioluminescent fungi. Even in the daylight, you can see a faint pinkish glow emanating from them.
+
+The largest specimen has a distinct mushroom shape, while the smaller ones seem to be in various stages of growth. They're all growing from what looks like a specially prepared substrate.
+
+- [Read information label] => lab_pink_fungi_label
+- [Step away] => END
+
+~ lab_pink_fungi_label
+"Mycena rosea fluorens (Pink Glowing Mycena)"
+
+These custom-bred fungi exhibit enhanced bioluminescent properties not found in natural specimens. The fluorescence is amplified when exposed to certain wavelengths of light.
+
+Caution: Do NOT open display case. Spores may cause temporary synesthesia effects if inhaled.
+
+A handwritten note adds: "Adam - these might be perfect for your sound/light project! Come see me. -Prof. Moss"
+
+- [Examine fungi again] => lab_pink_fungi_examine
+- [Step away] => END
+
+~ lab_whiteboard
+You examine what appears to be a technical diagram on a university whiteboard. The blue pixelated markings form some kind of schematic.
+
+- [Try to decipher the diagram] => lab_whiteboard_diagram
+- [Look for author information] => lab_whiteboard_author
+- [Step away] => END
+
+~ lab_whiteboard_diagram
+The diagram seems to be depicting some kind of ecosystem relationship map or perhaps a molecular structure. The scattered blue pixels form connections that might represent chemical bonds or ecological relationships.
+
+Some portions look like they could be mathematical notations, while others appear more like abstract representations of natural systems.
+
+Without more context, it's difficult to determine exactly what scientific concept this is illustrating.
+
+- [Look for author information] => lab_whiteboard_author
+- [Step away] => END
+
+~ lab_whiteboard_author
+In the corner of the diagram, you notice some small text:
+
+"Draft mapping for lichen/substrate environmental interaction model"
+"Do NOT erase - Dr. Chen's research team"
+
+Below that is a sticky note with a handwritten message:
+"This makes no sense. Meet me in the greenhouse tomorrow to see the REAL interactions. -Fate"
+
+- [Examine diagram again] => lab_whiteboard_diagram
+- [Step away] => END

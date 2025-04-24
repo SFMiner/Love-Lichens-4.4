@@ -1,0 +1,886 @@
+~ start
+# This is the default interaction that happens when a player approaches any headstone
+# that doesn't have a specific dialogue
+
+You examine the weathered headstone. Time has eroded most of the inscription, making it difficult to read.
+
+=> END
+
+~ headstone1
+You approach a well-maintained headstone carved from marble.
+
+The inscription reads: "Dr. Elizabeth Thorne, 1932-2015. Pioneering Botanist. 'In nature's pattern she found her purpose.'"
+
+Small patches of a gray-green lichen grow along the top edge, their delicate structures creating a natural crown.
+
+- Examine the lichen more closely => headstone1_lichen
+- Pay respects and move on => END
+
+~ headstone1_lichen
+You lean in to study the lichen. It appears to be a rare variant of Xanthoria parietina with unusual coloration.
+
+With proper tools, you might be able to collect a sample for research.
+
+=> END
+
+~ headstone2
+A simple granite headstone stands before you.
+
+"James Woodward, 1968-2021. Beloved teacher and environmental advocate."
+
+There's a small potted succulent placed at the base, still vibrant and healthy. Someone must visit regularly.
+
+- Read the small plaque attached to the pot => headstone2_plaque
+- Move on => END
+
+~ headstone2_plaque
+The plaque reads: "Your passion for sustainability lives on in your students. We miss you every day."
+
+Below that, someone has written in smaller letters: "The Environmental Science department continues your work."
+
+=> END
+
+~ headstone3
+This elaborate headstone features intricate carvings of local flora.
+
+"Dr. Harold & Marie Chen, Together in life (1945-2023, 1947-2023) and in death. Their research illuminated the hidden worlds beneath our feet."
+
+The stone is covered with diverse lichen species in a stunning array of colors—almost as if they were deliberately cultivated here.
+
+- Examine the lichen varieties => headstone3_lichen
+- Read the academic citation carved at the base => headstone3_citation
+- Move on => END
+
+~ headstone3_lichen
+You identify at least seven different lichen species coexisting on this single headstone. The diversity is remarkable.
+
+Some appear to be rare varieties that typically wouldn't grow in such proximity. This couldn't be a natural occurrence—someone must be cultivating them.
+
+=> END
+
+~ headstone3_citation
+The citation references a groundbreaking paper on mycorrhizal networks:
+
+"Chen, H. & Chen, M. (2018). 'Communication Pathways in Forest Ecosystems: Mycorrhizal Networks as Biological Information Highways.' Journal of Ecological Interconnectivity, 42(3), 156-178."
+
+Below it, someone has carved: "Their work continues underground."
+
+=> END
+
+~ headstone4
+A weathered stone cross stands before a small plot.
+
+"Reverend Samuel Blackwood, 1908-1978. He saw the divine in every living thing."
+
+The base of the monument is covered with a thick, dark crust of what appears to be crustose lichen.
+
+- Examine the dark lichen => headstone4_lichen
+- Look at the worn inscription on the side => headstone4_side
+- Move on => END
+
+~ headstone4_lichen
+The lichen has an unusual black coloration with small, bright red fruiting bodies. You recognize it as Caloplaca trachyphylla, a species normally found in much drier environments.
+
+How did it establish itself here? It's almost as if it was deliberately transplanted.
+
+=> END
+
+~ headstone4_side
+Though difficult to read, you make out the faded words:
+
+"The humblest lichen on stone tells us more of life's endurance than all our sciences combined."
+
+=> END
+
+~ headstone5
+A modern headstone made from polished black granite stands apart from the others.
+
+"Dr. Sophia Lin, 1989-2023. Pioneer in environmental symbiosis. 'The answers are in the connections.'"
+
+Unlike other graves, this one has no lichen growth at all—the stone surface appears to have been treated with some kind of biological deterrent.
+
+- Read the QR code etched into the corner => headstone5_qr
+- Move on => END
+
+~ headstone5_qr
+You use your phone to scan the QR code.
+
+It links to an academic database containing Dr. Lin's final published paper: "Antagonistic Properties of Novobiocin Derivatives Against Symbiotic Fungal Colonization."
+
+The paper discusses methods to prevent fungal and lichen growth on various surfaces. The irony isn't lost on you—a lichenologist who developed ways to prevent lichen growth.
+
+=> END
+
+~ headstone6
+A simple headstone, partially covered by moss.
+
+"Thomas Miller, 1952-2020. Groundskeeper of this cemetery for 40 years. He tended both the living and the memory of the dead."
+
+The stone is host to a particularly vibrant patch of star-shaped lichen.
+
+- Examine the star-shaped lichen => headstone6_lichen
+- Move on => END
+
+~ headstone6_lichen
+The lichen has a distinctive star-shaped pattern with bright yellow lobes radiating outward from the center. You recognize it as Xanthoria elegans, a species known for its ability to withstand extreme conditions.
+
+It seems fitting that such a resilient species would grow on the headstone of someone who spent his life maintaining this place through all seasons.
+
+=> END
+
+~ headstone7
+An old headstone, dates nearly worn away.
+
+You can just make out: "Prof. Jonathan... Mycologist... The forest remembers..."
+
+The stone is almost entirely covered in a thick mat of foliose lichen, making the rest of the inscription impossible to read.
+
+- Gently pull back some of the lichen => headstone7_reveal
+- Study the unusual lichen growth => headstone7_study
+- Move on => END
+
+~ headstone7_reveal
+You carefully lift a small section of the lichen. Underneath, you can see more of the inscription:
+
+"Professor Jonathan Wells, 1901-1975. Mycologist and Guardian. The forest remembers what we forget."
+
+There seems to be more text underneath, but removing more lichen might damage it, and you don't want to disturb this thriving ecosystem without good reason.
+
+=> END
+
+~ headstone7_study
+This lichen appears to be Lobaria pulmonaria, commonly known as "lung lichen," typically found in old-growth forests. Its presence here is unusual for a cemetery.
+
+The growth pattern is even more peculiar—it forms what almost appears to be intentional patterns, like symbols or letters. But that would be impossible... wouldn't it?
+
+=> END
+
+~ headstone8
+A pair of matching headstones stand side by side.
+
+"Daniel Foster, 1940-2018" and "Eleanor Foster, 1942-2019"
+"They studied the smallest things and saw the biggest picture."
+
+Both stones host complementary patterns of lichen—one predominantly blue-gray, the other with golden hues.
+
+- Examine the lichen patterns => headstone8_lichen
+- Step back and look at both headstones at once  => headstone8_both_stones 
+- Move on => END
+
+~ headstone8_both_stones 
+From this angle, you notice how the lichen patterns on both headstones seem to grow toward each other, creating what almost looks like a map or diagram when viewed together.
+
+You feel a sense of peace here, as if this place was designed for quiet contemplation of connections that transcend death.
+
+
+~ headstone8_lichen
+The lichen species are different but complementary—one acidophilic (preferring acidic conditions) and the other basophilic (preferring alkaline conditions).
+
+In nature, these species would rarely grow so close together due to their different habitat preferences. Their proximity here suggests deliberate cultivation.
+
+You wonder if this arrangement held special significance for the couple buried here—perhaps reflecting their own complementary relationship in life.
+
+=> END
+
+~ headstone9
+A simple headstone with an intricate carving of intertwined plants.
+
+"Alex Chen, 2000-2023. Computer scientist, botanist, friend to all. 'The most beautiful code creates connections, not barriers.'"
+
+Below the inscription is a small etched QR code.
+
+- Scan the QR code => headstone9_qr
+- Admire the plant carvings => headstone9_plants
+- Move on => END
+
+~ headstone9_qr
+You scan the QR code with your phone.
+
+It opens to a GitHub repository called "NatureNet" - an open-source project for tracking ecosystem health through distributed sensors and community science. The last commit was made three days ago.
+
+A pinned comment reads: "Alex's work continues through us. Contributors welcome."
+
+=> END
+
+~ headstone9_plants
+The carved plants include species that don't naturally grow together - desert cacti intertwining with rainforest ferns and Arctic flowers.
+
+You realize it's not depicting a natural ecosystem, but rather a network diagram disguised as plant life - showing how different systems connect despite physical separation.
+
+=> END
+
+~ headstone10
+A bright blue headstone that stands out among the gray and white markers.
+
+"Dr. Jamie Williams, 1975-2022. Neurodiversity advocate, geologist, and proud parent. 'Different minds see different patterns in the same rock.'"
+
+Someone has placed a small collection of colorful rocks and minerals at the base.
+
+- Examine the rock collection => headstone10_rocks
+- Read the small note tucked between the stones => headstone10_note
+- Move on => END
+
+~ headstone10_rocks
+The collection includes specimens that would make any geology enthusiast smile: a piece of iridescent labradorite, a perfect quartz crystal, a small chunk of amethyst, and several interesting fossils.
+
+Each stone has a small label with both its scientific name and a more poetic descriptor: "Quartz - SiO2 - The stone that remembers."
+
+=> END
+
+~ headstone10_note
+The handwritten note reads:
+
+"Prof, 
+I got into the grad program at MIT. You always said my 'inability to think inside the box' would be my greatest strength. You were right.
+Thanks for showing me how the rocks tell stories that most people miss.
+- Skyler"
+
+=> END
+
+~ headstone11
+A bench-style monument made from reclaimed wood rather than stone.
+
+Carved into the back: "Morgan Reed, 1980-2020. They built bridges between worlds. 'The ecosystem doesn't care about binaries.'"
+
+The wood has been treated with a natural preservative that allows small mosses to grow in the crevices.
+
+- Sit on the bench => headstone11_sit
+- Read the panel underneath => headstone11_panel
+- Move on => END
+
+~ headstone11_sit
+You sit on the bench and notice how it's positioned to face both the cemetery and the forest beyond, straddling two distinct ecosystems.
+
+The sensation of sitting on wood rather than stone gives a different energy to your moment of reflection - warmer, still connected to what was once living.
+=> END
+
+
+~ headstone11_panel
+A small metal panel underneath reads:
+
+"This bench is constructed from a fallen oak that stood in Morgan's backyard for 150 years. When storm winds took it down, Morgan requested it be repurposed rather than removed.
+
+Their published works on gender in ecological systems can be found in the university library special collection."
+
+=> END
+
+~ headstone12
+A headstone with a carved sound wave pattern across its surface.
+
+"Eliza Washington, 1995-2022. Sound ecologist. 'She taught us to listen to the voices we cannot hear.'"
+
+There's a small solar-powered device embedded in the base of the stone.
+
+- Examine the device => headstone12_device
+- Touch the carved sound wave => headstone12_wave
+- Move on => END
+
+~ headstone12_device
+The device appears to be a miniature speaker and microphone combination.
+
+When you get close, it activates, playing a soft recording of forest sounds - rustling leaves, distant bird calls, the buzz of insects.
+
+After a moment, it begins recording ambient sounds, adding them to its library. You realize it's collecting an ongoing soundscape of this place.
+
+=> END
+
+~ headstone12_wave
+As your fingers trace the sound wave, you notice small text carved within the pattern.
+
+Reading closely, you discover it's actually a visualization of bird calls from endangered species, with their names worked into the design: Kirtland's Warbler, Spotted Owl, Whooping Crane.
+
+A beautiful way to preserve what might soon be lost.
+
+=> END
+
+~ headstone13
+A pair of interlocking circular headstones.
+
+"Dr. Samira Patel, 1970-2023" and "Dr. Rebecca Patel, 1968-2023"
+"Partners in research, life, and beyond. 'What seems like an ending is just changing form.'"
+
+Plants grow through the space where the circles overlap.
+
+- Check the plants in the center => headstone13_plants
+- Read the academic citation on the base => headstone13_citation
+- Move on => END
+
+~ headstone13_plants
+In the space where the circles overlap, native wildflowers grow in carefully maintained soil.
+
+According to a small sign, these are restored prairie species the couple spent their careers preserving through seed banking.
+
+The flowers' root systems will eventually connect, creating a living network between the two markers.
+
+=> END
+
+~ headstone13_citation
+The citation reads:
+
+"Patel, S. & Patel, R. (2020). 'Preserving Biodiversity Through Community-Led Conservation: A 25-Year Longitudinal Study.' Nature Sustainability, 12(4)."
+
+Below in smaller text: "Their work saved 17 plant species from regional extinction."
+
+=> END
+
+~ headstone14
+A headstone shaped like an open book.
+
+"Franklin Jones, 1940-2022. Librarian, storyteller, keeper of knowledge. 'Every person is a library of untold stories.'"
+
+The pages of the stone book have actual text carved into them.
+
+- Read the left page => headstone14_left
+- Read the right page => headstone14_right
+- Move on => END
+
+~ headstone14_left
+The left page contains a quote:
+
+"The finest gift we can leave behind is not carved in stone but written in lives changed. The knowledge we share grows not in isolation but through connection, spreading like roots beneath the surface of our awareness."
+
+=> END
+
+~ headstone14_right
+The right page reads:
+
+"Franklin established the university's seed library, oral history collection, and tool lending program. He believed access to knowledge should never be limited by wealth or status.
+
+The libraries continue his work of connecting people to resources they need to grow."
+
+=> END
+
+~ headstone15
+A small, unassuming headstone partially hidden by wildflowers.
+
+"T.J. Wong, 2001-2022. Game design student. 'He found the Easter eggs in real life.'"
+
+Someone has left a handheld gaming console beside the stone.
+
+- Examine the gaming console => headstone15_console
+- Look closer at the stone engravings => headstone15_engravings
+- Move on => END
+
+~ headstone15_console
+The console is an older model, protected in a weatherproof case with a solar charger.
+
+The screen shows a game paused mid-level - a character standing at a crossroads in a pixelated forest that looks remarkably similar to the cemetery.
+
+A note attached to the case reads: "Still trying to beat your high score. Miss you, bro. -Kay"
+
+=> END
+
+~ headstone15_engravings
+Looking closely at what appeared to be simple decorative engravings, you realize they're actually tiny icons from classic video games: a mushroom, a triforce, a companion cube, a health potion.
+
+The symbols are arranged in a pattern that looks random at first, but might actually be a puzzle of some kind.
+
+=> END
+
+~ funny_epitaph
+A headstone with a surprisingly humorous inscription.
+
+"Walter Greene, 1950-2023. Entomologist. 'I told you I was sick of mosquitoes.'"
+
+The stone features a carving of a microscope alongside a comically large insect net.
+
+- Read the additional text => funny_epitaph_more
+- Move on => END
+
+~ funny_epitaph_more
+Below the main inscription:
+
+"Professor Greene requested that his ashes be mixed with mosquito repellent. His final hypothesis: 'Even in death, I can contribute to science by keeping these bloodsuckers away from my students during field research.'
+
+The experiment continues. Data inconclusive."
+
+=> END
+
+~ old_tree
+You approach the ancient oak tree standing sentinel in the center of the cemetery.
+
+Its massive trunk is gnarled and twisted, indicating centuries of growth. Vibrant patches of lichen and moss create a tapestry of colors and textures across its bark.
+
+This tree has witnessed countless burials and seasons of change, its roots likely intertwined with many of those resting here.
+
+- Examine the tree's bark => old_tree_bark
+- Look up into the canopy => old_tree_canopy
+- Check the base of the trunk => old_tree_base
+- Move on => END
+
+~ old_tree_bark
+The bark is a microecosystem unto itself. You identify at least a dozen different lichen species coexisting on its surface.
+
+Most notable is a patch of bright orange Xanthoria, a nitrogen-loving species that typically indicates high levels of bird activity.
+
+The diversity here is remarkable—this tree serves as a living library of lichen species.
+
+=> END
+
+~ old_tree_canopy
+Looking up, you see a complex network of branches spreading outward like an enormous umbrella.
+
+Sunlight filters through the leaves, creating dappled patterns on the ground. In some places, curtains of old man's beard lichen (Usnea) hang down like pale green tendrils.
+
+The upper reaches of the tree host several bird nests and what appears to be a small beehive.
+
+=> END
+
+~ old_tree_base
+At the base of the tree, exposed roots create natural nooks filled with moss and small flowering plants.
+
+You notice several carved initials in the bark near the ground—generations of visitors leaving their mark, some so old they've nearly been enveloped by the growing tree.
+
+Something catches your eye: a small hollow between two roots contains what looks like a weather-worn journal.
+
+- Take the journal => old_tree_journal
+- Leave it undisturbed => END
+
+~ old_tree_journal
+You carefully retrieve the journal. Its leather cover is cracked and stained, barely protecting the water-damaged pages within.
+
+Opening it reveals partial entries from what appears to be a field notebook. The most legible page contains notes about lichen cultivation experiments in the cemetery, dated 1973.
+
+One passage stands out: "The symbiosis here is stronger than expected. Something about this place—perhaps the confluence of life and death—creates ideal conditions for my specimens. They respond almost as if..."
+
+The rest of the page is too damaged to read.
+
+- Take the journal with you => old_tree_take_journal
+- Return it to its hiding place => END
+
+~ old_tree_take_journal
+You carefully place the journal in your bag. This could be valuable research material, possibly connected to one of the scientists buried here.
+
+You make a mental note to examine it more carefully later, when you have proper conservation tools.
+
+=> END
+
+~ cemetery_bench
+You approach an old stone bench positioned to overlook a quiet section of the cemetery.
+
+The bench is worn smooth from years of use, its surface hosting a thin layer of crustose lichen that adds specks of color to the gray stone.
+
+- Sit and rest for a moment => cemetery_bench_sit
+- Examine the lichen on the bench => cemetery_bench_lichen
+- Move on => END
+
+~ cemetery_bench_sit
+You sit down on the cool stone bench. From here, you have a good view of several headstones and the large oak tree.
+
+It's peaceful—the kind of quiet that invites reflection. You notice how the pathways through the cemetery form an almost deliberate pattern when viewed from this vantage point.
+
+A gentle breeze carries the scent of earth and growing things. Despite being surrounded by markers of death, there's an undeniable sense of life here.
+
+=> END
+
+~ cemetery_bench_lichen
+The lichen on the bench appears to be Caloplaca saxicola, recognizable by its bright orange-yellow color. It grows in circular patterns across the stone.
+
+What's interesting is how the lichen has colonized the areas where people typically sit, suggesting it's highly resilient to physical disturbance.
+
+Running your finger gently over the surface, you can feel the slight roughness of the lichen against the otherwise smooth stone.
+
+=> END
+
+~ broken_wall
+You examine a section of the cemetery's perimeter wall that has partially collapsed.
+
+The old stones lie scattered, some half-buried in soil. Those exposed to the elements are covered with a patchwork of different lichen species, creating a natural color gradient from dark greens to bright oranges.
+
+- Study the lichen colonization => broken_wall_lichen
+- Examine the intact portion of wall => broken_wall_intact
+- Move on => END
+
+~ broken_wall_lichen
+The lichen colonization on these stones tells a story of succession. The oldest fallen stones host mature communities of multiple species, while more recently exposed surfaces show pioneer species just beginning to establish themselves.
+
+You can almost read the timeline of the wall's collapse by observing the lichen growth patterns—like ecological carbon dating.
+
+=> END
+
+~ broken_wall_intact
+The standing portion of the wall reveals how the structure was originally built—fieldstones carefully fitted together without mortar, a traditional dry-stone technique.
+
+Thick patches of lichen grow in the crevices between stones, their rhizines penetrating micro-fissures in the rock. While this may contribute to eventual weathering, it also adds a certain stability to the structure, binding the stones together with biological material.
+
+=> END
+
+~ unusual_grave
+Unlike the other graves with traditional headstones, this burial site is marked only by a circular arrangement of stones surrounding a small mound where unusual fungi grow.
+
+There's no name or date visible, but the careful arrangement suggests deliberate design rather than neglect.
+
+- Examine the fungi => unusual_grave_fungi
+- Look for identifying markers => unusual_grave_markers
+- Move on => END
+
+~ unusual_grave_fungi
+The fungi appear to be a variety of Amanita muscaria, recognizable by their bright red caps with white spots. They form a near-perfect circle around the grave mound—a "fairy ring" pattern.
+
+These mushrooms have mycorrhizal relationships with certain tree species and are not commonly found in cemetery settings. Their presence here is unlikely to be coincidental.
+
+=> END
+
+~ unusual_grave_markers
+Upon closer inspection, you notice small symbols carved into some of the stones—simple representations of mushrooms, trees, and what appears to be lichen structures.
+
+At the head of the grave, partially hidden by grass, a small stone tablet bears a single line of text:
+
+"Bodies return to soil. Knowledge returns to mycelium."
+
+No name or date is provided, but the grave doesn't feel abandoned—rather, it seems intentionally anonymous, as if the deceased wished to be remembered only as part of the ecosystem.
+
+=> END
+
+~ fresh_flowers
+You notice a small bunch of freshly cut wildflowers placed at the base of one of the older headstones.
+
+The flowers include native species that attract pollinators—clearly selected with ecological awareness rather than just for their appearance.
+
+- Read the old headstone => fresh_flowers_headstone
+- Examine the flowers more closely => fresh_flowers_examine
+- Move on => END
+
+~ fresh_flowers_headstone
+The headstone is weathered with age, dating back to 1897.
+
+"Margaret Wilkins, Botanist and Steward. She spoke for plants when few would listen."
+
+The stone is covered with a beautiful pattern of lichen growth that seems to have been deliberately preserved despite the regular visits this grave receives.
+
+=> END
+
+~ fresh_flowers_examine
+The flower arrangement includes goldenrod, asters, and black-eyed Susans—all native species that support local pollinators. A small handwritten note is attached with twine.
+
+The note reads: "Your work continues. The conservation bill passed yesterday. -Students of Ecological History"
+
+The flowers appear to have been placed here very recently, perhaps even today.
+
+=> END
+
+~ pets_memorial
+A small area set aside with miniature headstones.
+
+A sign reads: "Campus Animal Companions Memorial Garden - They taught us as much as any professor."
+
+The tiny markers commemorate various campus animals: therapy dogs, research center cats, even a famous squirrel named "Professor Nutty" who was known for stealing students' snacks.
+
+- Look at the therapy dog memorials => pets_memorial_dogs
+- Read about Professor Nutty => pets_memorial_squirrel
+- Move on => END
+
+~ pets_memorial_dogs
+Several small stones honor therapy dogs who worked at the university's mental health center.
+
+"Barley, 2010-2018. Golden Retriever. 'Got students through more finals than any amount of coffee.'"
+
+"Luna, 2012-2021. Standard Poodle. 'She listened without judgment and loved without condition.'"
+
+Each marker includes a paw print impression unique to that animal.
+
+=> END
+
+~ pets_memorial_squirrel
+The marker for the famous campus squirrel is surprisingly elaborate:
+
+"Professor Nutty, lived in the campus quad 2015-2022. 'Campus legend, snack liberator, inadvertent participant in three dissertation studies.'
+
+According to campus lore, having Professor Nutty steal your food before an exam guaranteed a passing grade. The statistics department has found no evidence supporting this belief, but refuses to discount it entirely."
+
+=> END
+
+~ stacked_stones
+Near a quiet corner of the cemetery, someone has carefully balanced stones in impossible-looking towers.
+
+These aren't traditional grave markers, but they've clearly been placed with intention. Some reach nearly three feet tall, defying gravity with their precarious arrangements.
+
+- Try to add a stone to one of the towers => stacked_stones_add
+- Read the small plaque nearby => stacked_stones_plaque
+- Move on => END
+
+~ stacked_stones_add
+You carefully select a small flat stone and, with steady hands, attempt to add it to one of the shorter towers.
+
+After several attempts, you manage to balance it! The feeling of connection with whoever started these towers is surprisingly powerful - a conversation across time through the medium of balanced rocks.
+
+=> END
+
+~ stacked_stones_plaque
+A weather-worn plaque reads:
+
+"In honor of Dr. Mira Patel, Geology Department Chair 2010-2019.
+
+She taught us that balance is found not in stillness, but in the careful distribution of opposing forces. These stones, like scientific progress, appear impossible until achieved through patience and understanding.
+
+Add a stone. Continue the conversation."
+
+=> END
+
+~ mystery_grave
+A headstone with strange symbols and no conventional name or dates.
+
+The symbols appear to be a mixture of mathematical equations, chemical formulas, and astronomical notations, all arranged in a circular pattern.
+
+At the center is a simple message: "The pattern continues."
+
+- Examine the mathematical equations => mystery_grave_math
+- Look at the astronomical symbols => mystery_grave_astro
+- Check the chemical formulas => mystery_grave_chem
+- Move on => END
+
+~ mystery_grave_math
+The equations include advanced calculus and what appears to be quantum physics notation.
+
+You recognize parts of the Schrödinger equation and Fibonacci sequence, but other formulas are beyond your knowledge.
+
+They all seem to describe patterns, cycles, and interconnected systems.
+
+=> END
+
+~ mystery_grave_astro
+The astronomical notations show the alignments of planets and stars, with particular emphasis on celestial cycles.
+
+There's a date marked with special significance: April 8, 2024 - a total solar eclipse that would have been visible from this exact location.
+
+=> END
+
+~ mystery_grave_chem
+The chemical formulas primarily focus on carbon cycles and organic compounds.
+
+You recognize the molecular structures of DNA and chlorophyll, along with various decomposition and synthesis processes.
+
+Together, they tell the story of matter transforming but never truly disappearing.
+
+=> END
+
+~ historical_grave
+A weathered tombstone that clearly predates the college's founding.
+
+"Abigail Thornton, 1822-1876. Naturalist, mapmaker, visionary. 'She saw the connections before others had eyes to see.'"
+
+The stone is partially sunk into the earth, with roots from nearby plants curling around its base.
+
+- Examine the faded carvings on the side => historical_grave_carvings
+- Look at the unusual plants growing around it => historical_grave_plants
+- Move on => END
+
+~ historical_grave_carvings
+The side of the stone features a faded map of the local area from the mid-1800s.
+
+What's remarkable is how it marks not just human settlements, but also different ecological zones, watershed boundaries, and migration routes - concepts that weren't commonly included in maps of that era.
+
+Small notations read: "All flows together. The boundaries we draw are illusions."
+
+=> END
+
+~ historical_grave_plants
+The plants growing around this grave appear to be heritage varieties not commonly found elsewhere on campus.
+
+A small marker explains: "These plants are descendants from Abigail Thornton's original botanical collection. The seed bank she established was the foundation for what would later become the university's Environmental Science program."
+
+=> END
+
+~ artist_grave
+A striking headstone carved from pink marble, sculpted into the form of hands releasing a bird.
+
+"Maya Castillo, 1985-2023. Artist-in-Residence. 'Art is the bridge between what we observe and what we understand.'"
+
+The base of the sculpture serves as a birdbath, attracting various species throughout the day.
+
+- Read the artist's statement => artist_grave_statement
+- Look at the bird species represented => artist_grave_birds
+- Move on => END
+
+~ artist_grave_statement
+A plaque contains the artist's final statement:
+
+"My work bridges disciplines. A line drawn between ecology and art is as arbitrary as one drawn between nations. The same patterns repeat at every scale - in cells, in societies, in galaxies.
+
+This piece will change as birds visit, as water evaporates and refills, as seasons turn. The sculpture is never finished."
+
+=> END
+
+~ artist_grave_birds
+The bird taking flight from the sculpted hands is an Eastern Bluebird, native to this region.
+
+Around the base, subtle engravings show other local species: a cardinal, goldfinch, chickadee, and mourning dove.
+
+You notice that birds regularly visit this monument, as if the sculpture itself attracts them.
+
+=> END
+
+~ student_memorial
+A collaborative monument dedicated to "The Students of Green Hall, 2019."
+
+Instead of a traditional headstone, it's a circle of eight small markers surrounding a young oak tree. Each marker bears only a first name and a symbol.
+
+A plaque explains this memorializes victims of a campus accident.
+
+- Read about individual students => student_memorial_individuals
+- Read about the accident => student_memorial_accident
+- Examine the central tree => student_memorial_tree
+- Move on => END
+
+~ student_memorial_individuals
+Each marker represents a different student, with symbols that must have held personal meaning:
+
+"Jamie" - A microscope
+"Tyler" - An open book
+"Zoe" - A guitar
+"Marcus" - Basketball
+"Dev" - Circuit board design
+"Lily" - Paintbrush
+"Kai" - Chess knight
+"Sophia" - Constellation of stars
+
+Their diverse interests are unified by their shared community.
+
+=> END
+
+~ student_memorial_accident
+The plaque reads:
+
+"In memory of eight students lost in the Green Hall fire of 2019. Though their time here was brief, their impact on our community endures.
+
+The replanting of this oak represents our commitment to nurturing the connections between past, present, and future students of the Environmental Sciences program."
+
+=> END
+
+~ student_memorial_tree
+The young oak tree is clearly thriving, with strong branches reaching skyward.
+
+A small sign explains it was grown from an acorn collected from the historic oak that stood in the same spot before the fire.
+
+Students have started a tradition of tying small ribbons to its lower branches when they graduate - a way of connecting with those who never had the chance.
+
+=> END
+
+~ poet_grave
+A simple headstone with words flowing across its surface like water.
+
+"Dr. Omar Hassan, 1960-2022. Poet, Professor of Environmental Literature. 'Words are seeds that grow forests in the mind.'"
+
+The epitaph appears to change depending on the angle you view it from.
+
+- Read the poem inscribed on the stone => poet_grave_poem
+- Look at the book placed at the base => poet_grave_book
+- Move on => END
+
+~ poet_grave_poem
+From different angles, you can read fragments of a poem about ecological interconnection:
+
+"What speaks in the rustling leaf?
+The voice of the tree, the soil, the cloud, the sun...
+Nothing exists alone in this chorus of being,
+Each note dependent on every other."
+
+The full poem appears to continue, but parts are oriented so you would need to walk around the stone to read it all.
+
+=> END
+
+~ poet_grave_book
+A weatherproof case contains a published collection of poems titled "Roots & Wings: Ecological Verse" by Omar Hassan.
+
+A bookmark indicates a page with a poem called "The Student," dedicated "to all who find connection between disciplines."
+
+The book appears to be regularly replaced when weathered - a sign that his colleagues continue to maintain his memory.
+
+=> END
+
+~ janitor_grave
+A modest but well-maintained headstone.
+
+"Rosa Martinez, 1945-2023. Campus Head Custodian for 42 years. 'She knew every corner of this place and held it together.'"
+
+Fresh flowers regularly appear here, brought by faculty and students alike.
+
+- Read the handwritten notes => janitor_grave_notes
+- Look at the maintenance tools carved on the stone => janitor_grave_tools
+- Move on => END
+
+~ janitor_grave_notes
+Small laminated notes are tucked around the flowers:
+
+"Thank you for finding my thesis draft when I accidentally threw it away. You saved my career. -Prof. Williams"
+
+"You always remembered everyone's name, from president to freshman. You made this place home. -The Night Shift Crew"
+
+"That time you gave me bus fare when I was stranded. I never forgot. -Class of '97"
+
+=> END
+
+~ janitor_grave_tools
+The stone is decorated with carvings of maintenance tools around the border - keys, mop, toolbox, flashlight.
+
+But on closer inspection, each tool transforms into something unexpected: the keys become birds in flight, the mop becomes a tree, the toolbox opens to reveal a miniature campus, the flashlight beam becomes a constellation.
+
+A subtle reminder that maintenance work connects and sustains all other endeavors.
+
+=> END
+
+~ time_capsule
+This isn't a grave at all, but a granite marker for a time capsule.
+
+"Campus Time Capsule, sealed 2000, to be opened 2050. 'A conversation across generations.'"
+
+The stone is designed with a built-in bench, inviting visitors to sit and contemplate the passing of time.
+
+- Read about the contents => time_capsule_contents
+- Look at the student signatures => time_capsule_signatures
+- Sit and reflect => time_capsule_sit
+- Move on => END
+
+~ time_capsule_contents
+A plaque describes selected contents:
+
+"This capsule contains: environmental data from campus ecosystems, predictions about climate change, letters to future students, seed samples from endangered plants, a first-generation smartphone, and research papers representing each department's work at the millennium.
+
+What connections will future generations find between these items? What will they see that we could not?"
+
+=> END
+
+~ time_capsule_signatures
+The edges of the stone bear hundreds of tiny signatures from students and faculty who contributed to the time capsule.
+
+Names from diverse backgrounds, different departments, all sharing this one endeavor.
+
+One section is left blank, with a note: "Space reserved for signatures when opened, completing the circle of time."
+
+=> END
+
+~ time_capsule_sit
+You sit on the bench and contemplate the strange feeling of a message sent forward in time.
+
+From this vantage point, you notice how the time capsule marker is positioned in alignment with several older graves and the central oak tree - creating a timeline of the campus history visible from a single point.
+
+=> END
+
+~ gardener_grave
+A headstone surrounded by a perfectly maintained miniature garden.
+
+"Hiroshi Tanaka, 1938-2021. Campus Head Gardener & Bonsai Master. 'He taught patience as well as plants.'"
+
+The intricate garden includes tiny trees, moss landscapes, and carefully placed stones - a living memorial that changes with the seasons.
+
+- Examine the bonsai trees => gardener_grave_bonsai
+- Read the gardening journal => gardener_grave_journal
+- Move on => END
+
+~ gardener_grave_bonsai
+Several miniature trees grow in special containers designed to withstand the seasons.
+
+A tiny maple, pine, and elm - each decades old despite their small size, shaped by patient hands into living sculptures.
+
+A small sign explains that Hiroshi's students maintain this memorial garden, each taking shifts throughout the year to continue his practice.
+
+=> END
+
+~ gardener_grave_journal
+A waterproof box contains a logbook where visitors - primarily his former students - record their observations as they tend the memorial garden.
+
+Entries span several years, noting changes in the plants, weather conditions, and personal reflections.
+
+The most recent entry from yesterday reads: "The maple is showing fall colors early this year. I remember how you taught us to read the trees' responses to stress. The campus misses your quiet wisdom."
+
+=> END

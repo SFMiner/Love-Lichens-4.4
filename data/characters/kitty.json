@@ -1,0 +1,24 @@
+{
+	"id": "kitty",
+	"name": "Kitty (Kitomolous)",
+	"description": "Fate’s beloved emotional support cat. Small, calm, and unbothered by the strange energies of the world.",
+	"portrait_path": "res://assets/characters/kitty_portrait.png",
+	"dialogue_file": "res://data/dialogues/kitty.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["serene", "observant", "independent"],
+	"interests": ["sleeping", "judging", "being carried like royalty"],
+	"background": "Appears in dreams, laps, beds, and occasionally lecture halls without explanation.",
+	"observable_features": {
+		"bell": {
+			"description": "A tiny brass bell on a faded purple collar. Barely makes a sound.",
+			"observed": false
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Fate": {
+			"type": "emotional_anchor",
+			"description": "Kitty is Fate’s heart in feline form."
+		}
+	}
+}

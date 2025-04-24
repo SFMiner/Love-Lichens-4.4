@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://b87s1cbrfcl6g"]
+
+[ext_resource type="Script" uid="uid://dxavre0nn68yc" path="res://scripts/world/message_board.gd" id="1_abc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1234"]
+radius = 119.017
+
+[node name="MessageBoard" type="Area2D" groups=["interactable"]]
+collision_layer = 2
+script = ExtResource("1_abc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1234")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.6, 0.4, 0.2, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -80.0
+offset_top = -50.0
+offset_right = 81.0
+offset_bottom = -24.0
+text = "Bulletin Board"
+horizontal_alignment = 1
+vertical_alignment = 1

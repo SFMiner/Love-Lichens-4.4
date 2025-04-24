@@ -1,0 +1,33 @@
+{
+	"id": "professor_moss",
+	"name": "Professor Moss",
+	"description": "Absorbed, brilliant, and slightly gruff. Lives half in the world of lichens and half in the world of memory.",
+	"portrait_path": "res://assets/characters/professor_moss_portrait.png",
+	"dialogue_file": "res://data/dialogues/professor_moss.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["focused", "eccentric", "deep-thinking", "gruff-but-kind"],
+	"interests": ["lichens", "long silences", "strange fossils"],
+	"background": "Gave Adam a rare Prototaxite fragment — not as a grand gesture, but because he trusted him to appreciate it.",
+	"observable_features": {
+		"fossil_sample": {
+			"description": "Professor Moss occasionally wears a fossil shard in a leather pouch. It glints oddly when it catches the light.",
+			"observed": false,
+			"memory_tag": "moss_fossil_seen",
+			"dialogue_title": "ask_about_fossil"
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Adam": {
+			"type": "mentor",
+			"description": "Respects Adam’s attention to detail and quiet enthusiasm for strange things."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_fossil": {
+			"unlock_condition": "moss_fossil_seen",
+			"description": "Moss mentions it’s a Prototaxite — but shrugs, saying Adam seemed like the right person to carry a piece of it.",
+			"dialogue_title": "ask_about_fossil"
+		}
+	}
+}

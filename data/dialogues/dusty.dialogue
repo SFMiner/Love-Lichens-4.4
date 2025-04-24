@@ -1,0 +1,34 @@
+# Dialogue: Dusty
+
+~ start
+Dusty: Hey, you settling in alright?
+- "Yeah, getting there."
+	Dusty: Good. This place can be weird, but the people grow on you.
+	- "You're part of that, huh?" => chuckle
+	- "That bracelet looks handmade. What's the story?" [if GameState.has_tag("dusty_bracelet_seen")]
+		=> ask_about_bracelet 
+	- "Cool. I have to go now." => END!
+- "Not really."
+	Dusty: Yeah, it's a lot at first. You need anything, just yell. Not literally. Unless it's funny.
+	- "That bracelet looks handmade. What's the story?" [if GameState.has_tag("dusty_bracelet_seen")]
+		=> ask_about_bracelet 
+	- "Thanks, I'll remember that." => END!
+- "Can't really talk now. Catch you later!" => END!
+
+
+~ chuckle
+Dusty: I mean, someone has to balance out Poison's chaos.
+- "That bracelet looks handmade. What's the story?" [if GameState.has_tag("dusty_bracelet_seen")]
+	=> ask_about_bracelet 
+- "That's funny. I'll catch you later." => END!
+
+~ ask_about_bracelet
+Dusty: My little cousin made it. He said it protects me from "grown-up boredom." So far, so good.
+- "That's adorable." => grin
+- "I should get going. Talk later!" => END!
+
+~ grin
+Dusty grins.
+Dusty: Yeah. He's chaos in toddler form. But he believes in magic, and somehow, it works.
+
+=> END

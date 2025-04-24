@@ -1,0 +1,38 @@
+{
+	"id": "intro_quest",
+	"title": "First Day on Campus",
+	"description": "It's your first day on campus. Explore the area and meet Professor Moss.",
+	"objectives": [
+		{
+			"type": "explore",
+			"target": "campus_quad",
+			"description": "Explore at least 3 areas of the campus quad",
+			"progress": 0,
+			"required": 3
+		},
+		{
+			"type": "talk",
+			"target": "professor_moss",
+			"description": "Talk to Professor Moss"
+		}
+	],
+	"rewards": [
+		{
+			"type": "item",
+			"id": "common_lichen1",
+			"amount": 1
+		},
+		{
+			"type": "knowledge",
+			"id": "intro_to_lichenology"
+		},
+		{
+			"type": "relationship",
+			"character": "professor_moss",
+			"amount": 2
+		}
+	],
+	"follow_up_quests": ["lichen_research"],
+	"auto_start_follow_ups": false,
+	"completed": false
+}

@@ -1,0 +1,19 @@
+# Dialogue: Erik
+
+~ fire_alarm
+Erik: Do... anyone want to do drugs? [do GameState.set_tag("gummies_known")]
+- "Still with the fire alarm gummies?" => erik_smirk
+
+~ erik_smirk
+Erik: I like to be prepared. Chaos is a lifestyle.
+
+~ ask_about_gummies
+[if GameState.has_tag("gummies_known")]
+Adam: So, those gummies—emergency rations?
+Erik: Fire, flood, emotional breakdown, existential dread. I got you covered.
+- "How many do you even carry?" => erik_list
+
+~ erik_list
+Erik: Ten. I call them The Ten Wise Men. One’s missing. He saw too much.
+
+=> END

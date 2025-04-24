@@ -1,0 +1,88 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Love & Lichens 4.4 4-12"
+run/main_scene="res://scenes/game.tscn"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+DialogSystem="*res://scripts/autoload/dialog_system.gd"
+GameController="*res://scripts/autoload/game_controller.gd"
+InventorySystem="*res://scripts/autoload/inventory_system.gd"
+SaveLoadSystem="*res://scripts/autoload/save_load_system.gd"
+RelationshipSystem="*res://scripts/autoload/relationship_system.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+ItemEffectsSystem="*res://scripts/autoload/item_effects_system.gd"
+IconSystem="*res://scripts/autoload/icon_system.gd"
+QuestSystem="*res://scripts/autoload/quest_system.gd"
+StoryWeb="res://addons/story_web/story_web_system.gd"
+FastTravelSystem="*res://scripts/autoload/fast_travel_system.gd"
+GameState="*res://scripts/autoload/game_state.gd"
+SoundManager="*res://addons/sound_manager/sound_manager.gd"
+MemorySystem="*res://scripts/autoload/memory_system.gd"
+LookAtSystem="*res://scripts/autoload/look_at_system.gd"
+CharacterDataLoader="*res://scripts/autoload/character_data_loader.gd"
+CombatManager="*res://scripts/combat/combat_manager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+
+[input]
+
+interact={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+save={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+toggle_inventory={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
+]
+}
+toggle_quest_journal={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":74,"key_label":0,"unicode":106,"location":0,"echo":false,"script":null)
+]
+}
+mouse_interact={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(199, 16),"global_position":Vector2(203, 57),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(199, 16),"global_position":Vector2(203, 57),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+look_at={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":86,"key_label":0,"unicode":118,"location":0,"echo":false,"script":null)
+]
+}
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://data/dialogues/professor_moss.dialogue", "res://message_board.dialogue", "res://data/dialogues/headstones.dialogue", "res://data/dialogues/old_growth_forest.dialogue", "res://data/dialogues/moving_in.dialogue", "res://data/dialogues/dorm_room.dialogue", "res://data/dialogues/poison.dialogue", "res://data/dialogues/research_lab_interactables.dialogue", "res://data/dialogues/dusty.dialogue", "res://data/dialogues/erik.dialogue", "res://data/dialogues/fate.dialogue", "res://data/dialogues/kitty.dialogue", "res://data/dialogues/li.dialogue")

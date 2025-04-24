@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=3 uid="uid://b44jljh563pt"]
+
+[ext_resource type="Script" uid="uid://c8fc1w7gbdc5h" path="res://scripts/combat/combat_ui.gd" id="1_6r3ny"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vulwj"]
+bg_color = Color(0, 0, 0, 0.27451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6r3ny"]
+bg_color = Color(0, 0.415686, 0, 0.305882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwlns"]
+bg_color = Color(0.752932, 0.581898, 0.383184, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo0no"]
+bg_color = Color(0, 0.756863, 0.243137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l84v8"]
+bg_color = Color(0.752932, 0.581898, 0.383184, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bf5m"]
+bg_color = Color(0.363043, 0.64458, 0.955627, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kesfj"]
+bg_color = Color(0.360784, 0, 0, 0.227451)
+
+[node name="CombatUi" type="CanvasLayer"]
+script = ExtResource("1_6r3ny")
+
+[node name="CombatPanel" type="Panel" parent="."]
+offset_right = 701.0
+offset_bottom = 440.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_vulwj")
+
+[node name="PlayerPanel" type="Panel" parent="CombatPanel"]
+layout_mode = 0
+offset_top = 257.0
+offset_right = 455.0
+offset_bottom = 437.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6r3ny")
+
+[node name="HealthBar" type="ProgressBar" parent="CombatPanel/PlayerPanel"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 47.0
+offset_right = 112.0
+offset_bottom = 74.0
+theme_override_styles/background = SubResource("StyleBoxFlat_gwlns")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bo0no")
+
+[node name="HealthPercent" type="Label" parent="CombatPanel/PlayerPanel"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 52.0
+offset_right = 71.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0, 0.756863, 0.243137, 1)
+
+[node name="StaminaBar" type="ProgressBar" parent="CombatPanel/PlayerPanel"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 90.0
+offset_right = 112.0
+offset_bottom = 117.0
+theme_override_styles/background = SubResource("StyleBoxFlat_l84v8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8bf5m")
+
+[node name="StaminaPercent" type="Label" parent="CombatPanel/PlayerPanel"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 94.0
+offset_right = 69.0
+offset_bottom = 117.0
+theme_override_colors/font_color = Color(0.363043, 0.64458, 0.955627, 1)
+
+[node name="OpponentPanel" type="Panel" parent="CombatPanel"]
+layout_mode = 0
+offset_left = 458.0
+offset_top = -1.0
+offset_right = 696.0
+offset_bottom = 260.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kesfj")
+
+[node name="OpponentList" type="VBoxContainer" parent="CombatPanel/OpponentPanel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 20.0
+offset_right = 222.0
+offset_bottom = 246.0
+
+[node name="ActionPanel" type="Panel" parent="CombatPanel"]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 267.0
+offset_right = 699.0
+offset_bottom = 441.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6r3ny")
+
+[node name="ActionButtons" type="VBoxContainer" parent="CombatPanel/ActionPanel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 13.0
+offset_right = 216.0
+offset_bottom = 117.0
+
+[node name="RetreatButton" type="Button" parent="CombatPanel/ActionPanel"]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 127.0
+offset_right = 190.0
+offset_bottom = 155.0
+
+[node name="StatusPanel" type="Panel" parent="CombatPanel"]
+layout_mode = 0
+offset_left = 248.0
+offset_right = 455.0
+offset_bottom = 260.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6r3ny")
+
+[node name="StatusLabel" type="Label" parent="CombatPanel/StatusPanel"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 18.0
+offset_right = 194.0
+offset_bottom = 242.0

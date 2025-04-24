@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://ch1c6fp88wtgf"
+path="res://.godot/imported/dorm_room.dialogue-2358cd9d85ee4f688557dd6dba5a6f1f.tres"
+
+[deps]
+
+source_file="res://data/dialogues/dorm_room.dialogue"
+dest_files=["res://.godot/imported/dorm_room.dialogue-2358cd9d85ee4f688557dd6dba5a6f1f.tres"]
+
+[params]
+
+defaults=true

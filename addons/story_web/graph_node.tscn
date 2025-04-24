@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://do68yxjgt87ew"]
+
+[ext_resource type="Script" uid="uid://kwhxwvb541oj" path="res://addons/story_web/graph_node.gd" id="1_a4nge"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_78xhm"]
+radius = 40.0
+
+[node name="GraphNode" type="Node2D"]
+script = ExtResource("1_a4nge")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_78xhm")
+
+[connection signal="input_event" from="Area2D" to="." method="_input_event"]

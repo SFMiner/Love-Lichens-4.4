@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://yoncoow73q6s"
+path="res://.godot/imported/headstones.dialogue-1a932b620de5dbd85684d05ea3623506.tres"
+
+[deps]
+
+source_file="res://data/dialogues/headstones.dialogue"
+dest_files=["res://.godot/imported/headstones.dialogue-1a932b620de5dbd85684d05ea3623506.tres"]
+
+[params]
+
+defaults=true

@@ -1,0 +1,378 @@
+[gd_scene load_steps=46 format=3 uid="uid://dgx3ii4r3r68v"]
+
+[ext_resource type="Texture2D" uid="uid://cnbt7qq3rsqf3" path="res://assets/images/scenes/old_growth_forest.png" id="1_b0wtv"]
+[ext_resource type="Script" uid="uid://d28i8jo0n2nea" path="res://scripts/world/old_growth_forest.gd" id="1_h6ule"]
+[ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="2_h6ule"]
+[ext_resource type="Texture2D" uid="uid://bfo5uhpkcl6hl" path="res://assets/images/scenes/old_growth_forest/Log1.png" id="3_3cj0n"]
+[ext_resource type="Texture2D" uid="uid://bs8qqrrenvs76" path="res://assets/images/scenes/old_growth_forest/Log2.png" id="4_8w0n4"]
+[ext_resource type="Texture2D" uid="uid://qslone6dim3s" path="res://assets/images/scenes/old_growth_forest/Log3.png" id="5_1fa4c"]
+[ext_resource type="Texture2D" uid="uid://4noy1505ehwf" path="res://assets/images/scenes/old_growth_forest/Shrub1.png" id="6_ji6pj"]
+[ext_resource type="Texture2D" uid="uid://btbgmx3hgflxk" path="res://assets/images/scenes/old_growth_forest/Stone1.png" id="7_2dcth"]
+[ext_resource type="Texture2D" uid="uid://dmbnwt7gviw7k" path="res://assets/images/scenes/old_growth_forest/stone5.png" id="8_gk8si"]
+[ext_resource type="Texture2D" uid="uid://bxtkr8wl8cunw" path="res://assets/images/scenes/old_growth_forest/Stone2.png" id="8_xrx23"]
+[ext_resource type="Texture2D" uid="uid://cc2aahf6equp8" path="res://assets/images/scenes/old_growth_forest/Stone3.png" id="9_ydlg7"]
+[ext_resource type="Texture2D" uid="uid://bs0h2jtyemcss" path="res://assets/images/scenes/old_growth_forest/Stone4.png" id="10_2xslm"]
+[ext_resource type="Texture2D" uid="uid://kn7tfe1uucbx" path="res://assets/images/scenes/old_growth_forest/Tree1.png" id="11_corm3"]
+[ext_resource type="Texture2D" uid="uid://bchhbb3w20toh" path="res://assets/images/scenes/old_growth_forest/Tree11.png" id="12_5e1me"]
+[ext_resource type="Texture2D" uid="uid://6pduuft5n21e" path="res://assets/images/scenes/old_growth_forest/Tree2.png" id="12_n1m3p"]
+[ext_resource type="Texture2D" uid="uid://d380np1m4h6k" path="res://assets/images/scenes/old_growth_forest/Tree10.png" id="13_i2i0r"]
+[ext_resource type="Texture2D" uid="uid://8oauyqnvad4c" path="res://assets/images/scenes/old_growth_forest/Tree3.png" id="13_ufrwk"]
+[ext_resource type="Texture2D" uid="uid://bh7wk4iwf7ew1" path="res://assets/images/scenes/old_growth_forest/Tree9.png" id="14_cqtth"]
+[ext_resource type="Texture2D" uid="uid://b2r6wu6u1d2kc" path="res://assets/images/scenes/old_growth_forest/Tree4.png" id="14_tyksh"]
+[ext_resource type="Texture2D" uid="uid://ddcy7tufw47vl" path="res://assets/images/scenes/old_growth_forest/Tree8.png" id="15_60dgg"]
+[ext_resource type="Texture2D" uid="uid://x3srubf841sc" path="res://assets/images/scenes/old_growth_forest/Trree5.png" id="15_d6l55"]
+[ext_resource type="Texture2D" uid="uid://dl6qup87eysmn" path="res://assets/images/scenes/old_growth_forest/Tree7.png" id="16_jqil2"]
+[ext_resource type="Texture2D" uid="uid://bfcjadc2scckh" path="res://assets/images/scenes/old_growth_forest/Tree6.png" id="16_wro1g"]
+[ext_resource type="Texture2D" uid="uid://pcje6bqd5s4x" path="res://assets/images/scenes/old_growth_forest/Trunk1.png" id="18_1fa4c"]
+[ext_resource type="Texture2D" uid="uid://d1c2a2hywkq4q" path="res://assets/images/scenes/old_growth_forest/Log3d.png" id="21_7uava"]
+[ext_resource type="Texture2D" uid="uid://dur5432hfpnmw" path="res://assets/images/scenes/old_growth_forest/Log3b.png" id="21_lat2u"]
+[ext_resource type="Texture2D" uid="uid://dycnyj13aovx1" path="res://assets/images/scenes/old_growth_forest/Log3a.png" id="22_wnkch"]
+[ext_resource type="Texture2D" uid="uid://bls3khvcfdn1j" path="res://assets/images/scenes/old_growth_forest/Log3c.png" id="22_xnexo"]
+[ext_resource type="Texture2D" uid="uid://da2hbgupw7lb3" path="res://assets/images/scenes/old_growth_forest/Shrub0b.png" id="23_6fitg"]
+[ext_resource type="Texture2D" uid="uid://degc4hclrrv81" path="res://assets/images/scenes/old_growth_forest/Log1c.png" id="24_80r74"]
+[ext_resource type="Texture2D" uid="uid://s42s37kovbar" path="res://assets/images/scenes/old_growth_forest/Log1a.png" id="24_cqtth"]
+[ext_resource type="Texture2D" uid="uid://b0hqt88oo2mp" path="res://assets/images/scenes/old_growth_forest/Shrub0.png" id="24_gk8si"]
+[ext_resource type="Texture2D" uid="uid://dnc6tbrc8stg7" path="res://assets/images/scenes/old_growth_forest/Log1d.png" id="25_aldq8"]
+[ext_resource type="Texture2D" uid="uid://clr786epgiga1" path="res://assets/images/scenes/old_growth_forest/Shrub2.png" id="26_80r74"]
+[ext_resource type="Texture2D" uid="uid://mv88gw7xk0ru" path="res://assets/images/scenes/old_growth_forest/Log1e.png" id="26_lat2u"]
+[ext_resource type="Texture2D" uid="uid://bcoq37jhae50l" path="res://assets/images/scenes/old_growth_forest/Shrub3.png" id="27_aldq8"]
+[ext_resource type="Texture2D" uid="uid://dnskfg8xefwtp" path="res://assets/images/scenes/old_growth_forest/Log1f.png" id="27_wnkch"]
+[ext_resource type="Texture2D" uid="uid://bi1vdh4g21v2h" path="res://assets/images/scenes/old_growth_forest/Shrub6.png" id="28_lat2u"]
+[ext_resource type="Texture2D" uid="uid://tufus46wer8d" path="res://assets/images/scenes/old_growth_forest/Shrub9.png" id="29_wnkch"]
+[ext_resource type="Texture2D" uid="uid://cwvy3xoy47ghc" path="res://assets/images/scenes/old_growth_forest/Shrub8.png" id="30_7uava"]
+[ext_resource type="Texture2D" uid="uid://buonoq5fkqkll" path="res://assets/images/scenes/old_growth_forest/Shrub5.png" id="31_xnexo"]
+[ext_resource type="Texture2D" uid="uid://cu7smxh7qaou6" path="res://assets/images/scenes/old_growth_forest/Shrub4.png" id="32_nflwg"]
+[ext_resource type="Texture2D" uid="uid://c5bituy3q3rk4" path="res://assets/images/scenes/old_growth_forest/Shrub7.png" id="33_tdgfa"]
+[ext_resource type="Texture2D" uid="uid://sjnpofu11kb7" path="res://assets/images/scenes/old_growth_forest/Log1b.png" id="34_i2i0r"]
+[ext_resource type="PackedScene" uid="uid://6ah82rkxb1s2" path="res://scenes/world/Main_bug.tscn" id="44_wnkch"]
+
+[node name="OldGrowthForest" type="Node2D"]
+script = ExtResource("1_h6ule")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1017, 1015)
+scale = Vector2(2, 2)
+texture = ExtResource("1_b0wtv")
+
+[node name="nonwalkable_areas" type="StaticBody2D" parent="Sprite2D"]
+position = Vector2(-488.076, -287.103)
+scale = Vector2(0.478506, 0.478506)
+collision_layer = 3
+collision_mask = 0
+
+[node name="Col_Log2" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(3.00067, -2.00067)
+polygon = PackedVector2Array(1446, 768.999, 1420, 836.999, 1300, 798.999, 1100, 876.999, 1105, 820.999, 964.999, 812.999, 1216, 738.999, 1457, 713.999, 1530, 754.999, 1554, 770.999)
+
+[node name="Col_Trunk1" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1816, 1201, 1763, 1217, 1740, 1257, 1700, 1260, 1661, 1254, 1639, 1236, 1607, 1221, 1592, 1230, 1571, 1249, 1541, 1246, 1507, 1231, 1478, 1231, 1415, 1230, 1383, 1230, 1334, 1207, 1413, 1181, 1513, 1159, 1599, 1160, 1674, 1168, 1729, 1178, 1777, 1191)
+
+[node name="Col_Log1" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1177, 1358, 1181, 1380, 1094, 1348, 986, 1287, 864, 1241, 787, 1220, 700, 1184, 771, 1168, 813, 1163, 896, 1175, 981, 1208, 1024, 1216, 1089, 1243, 1151, 1253, 1214, 1264, 1286, 1303, 1189, 1277, 1150, 1285, 1138, 1311)
+
+[node name="Stone1" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(536, 1477, 485, 1492, 411, 1490, 349, 1483, 331, 1468, 400, 1441, 488, 1437, 527, 1448)
+
+[node name="Stone2" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(336, 1324, 236, 1347, 160.001, 1340, 131.001, 1328, 204, 1311, 274, 1299)
+
+[node name="Stone3" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(306, 1039, 237, 1063, 196, 1055, 225, 1031)
+
+[node name="Stone4" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(464, 959.998, 385, 986.998, 325, 965.998, 279, 952.998, 217, 954.998, 180, 972.998, 177.001, 997.998, 127.001, 1024, 61.0006, 1029, -15.9993, 1005, 0.000671387, 980.998, 56.0006, 962.998, 109.001, 944.998, 143.001, 901.998, 204, 883.998, 301, 877.998, 357, 905.998, 370, 925.998, 399, 930.998)
+
+[node name="Stone5" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(645, 861.999, 581, 877.998, 532, 876.998, 553, 853.999, 620, 851.999)
+
+[node name="Stone6" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1889.37, 695.086, 1813.09, 691.952, 1714.87, 697.176, 1691.88, 706.58, 1724.27, 728.524, 1813.09, 737.928, 1886.24, 732.703, 1925.94, 717.03)
+
+[node name="Log3" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(925, 521.999, 878, 526.999, 842, 528.999, 840, 558.999, 771, 578.999, 729, 565.999, 706, 553.999, 651, 555.999, 242, 647.999, 116.001, 688.999, 130.001, 665.999, 130.001, 631.999, 24.0006, 615.999, 155.001, 582.999, 798, 460.999, 851, 474.999)
+
+[node name="Tree1" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1840, 411.999, 1704, 397.999, 1571, 397.999, 1483, 407.999, 1414, 413.999, 1335, 438.999, 1389, 454.999, 1477, 449.999, 1416, 508.999, 1514, 493.999, 1550, 470.999, 1578, 470.999, 1632, 503.999, 1667, 500.999, 1681, 468.999, 1706, 464.999, 1732, 489.999, 1768, 508.999, 1826, 511.999, 1789, 452.999, 1817, 436.999)
+
+[node name="Tree2" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(772, 293.999, 698, 299.999, 654, 287.999, 638, 295.999, 656, 320.999, 654, 330.999, 594, 330.999, 552, 310.999, 489, 293.999, 470, 289.999, 424, 304.999, 354, 325.999, 313, 324.999, 322, 290.999, 302, 283.999, 235, 282.999, 265, 260.999, 329, 234.999, 370, 235.999, 467, 218.999, 554, 210.999, 624, 211.999, 684, 258.999)
+
+[node name="Tree3" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(1081, 40.9993)
+polygon = PackedVector2Array(322, 151.999, 273, 140.999, 273, 155.999, 221, 158.999, 200, 149.999, 176.001, 159.999, 151.001, 146.999, 119.001, 142.999, 101.001, 136.999, 141.001, 122.999, 208, 121.999, 276, 122.999)
+
+[node name="Tree4" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(307, 140.999, 273, 139.999, 270, 153.999, 213, 156.999, 184, 158.999, 146.001, 159.999, 109.001, 142.999, 93.0006, 139.999, 137.001, 123.999, 244, 123.999)
+
+[node name="Tree5" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(967, 111.999, 910, 110.999, 878, 95.9992, 834, 102.999, 802, 121.999, 787, 114.999, 761, 108.999, 726, 86.9992, 778, 76.9992, 838, 66.9993, 900, 76.9992)
+
+[node name="Tree6" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1971, 221.999, 1913, 213.999, 1881, 239.999, 1844, 226.999, 1799, 232.999, 1872, 194.999, 1945, 196.999)
+
+[node name="Background Limit" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+position = Vector2(-132.999, -250)
+polygon = PackedVector2Array(1328.55, 224.093, 822.999, 277, 137.337, 306.641, 123.754, -48.6316, 112.259, -264.93, 511, -281, 886.999, -247, 2342.12, -245.076, 2318.08, 2116.44, -216.89, 2112.26, -187.632, -202.235, 121.664, -268.065, 139.427, 327.539, 119.574, 1897.01, 800.861, 1866.7, 1185.39, 1938.8, 1429.9, 1886.56, 2193.74, 1892.83, 2185.38, 457.109)
+
+[node name="Tree8" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(790.117, 17.9789, 758.77, 3.35004, 706.524, 15.889, 676.221, 19.0238, 655.323, 42.012, 726.377, 43.0569, 768.174, 38.8773)
+
+[node name="Tree7" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(134.953, 61.8655, 52.4047, 73.3596, -5.0658, 80.674, -34.3235, 65.0002, -10.2904, 47.2366, 39.8657, 45.1468, 80.6176, 47.2366)
+
+[node name="Tree9" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1078.52, 49.3265, 1049.26, 61.8655, 1007.46, 62.9104, 988.652, 52.4612, 998.056, 43.0569, 1031.49, 37.8323, 1056.57, 39.9222)
+
+[node name="Tree10" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1228.98, 54.551, 1180.92, 62.9104, 1140.17, 57.6858, 1155.84, 37.8323, 1200.77, 36.7874)
+
+[node name="Tree11" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
+polygon = PackedVector2Array(1489.17, 91.1232, 1457.82, 104.707, 1420.2, 104.707, 1388.86, 96.3478, 1425.43, 79.6291, 1466.18, 77.5392)
+
+[node name="z_Objects" type="Node2D" parent="Sprite2D"]
+
+[node name="Shrub1" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-285, 51)
+texture = ExtResource("6_ji6pj")
+offset = Vector2(6.5, -27)
+
+[node name="Stone4" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-375, 169)
+texture = ExtResource("10_2xslm")
+offset = Vector2(-5.5, -34.5)
+
+[node name="Stone3" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-364.5, 219)
+texture = ExtResource("9_ydlg7")
+offset = Vector2(-0.5, -11)
+
+[node name="Stone2" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-373.5, 356)
+texture = ExtResource("8_xrx23")
+offset = Vector2(1.5, -30)
+
+[node name="Stone1" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-277, 431.5)
+texture = ExtResource("7_2dcth")
+offset = Vector2(1, -33.5)
+
+[node name="Stone5" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(381.5, 75)
+texture = ExtResource("8_gk8si")
+offset = Vector2(1.5, -40)
+
+[node name="Tree11" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(192, -212)
+texture = ExtResource("12_5e1me")
+offset = Vector2(3.5, -74.5)
+
+[node name="Tree10" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(69.5, -227.5)
+texture = ExtResource("13_i2i0r")
+offset = Vector2(-0.5, -76)
+
+[node name="Tree9" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-8.5, -252.5)
+texture = ExtResource("14_cqtth")
+offset = Vector2(0.5, -69.5)
+
+[node name="Tree8" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-132.5, -259)
+texture = ExtResource("15_60dgg")
+offset = Vector2(44, -56)
+
+[node name="Tree7" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-466, -251.5)
+texture = ExtResource("16_jqil2")
+offset = Vector2(2, -73)
+
+[node name="Tree5" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-81, -232.5)
+texture = ExtResource("15_d6l55")
+offset = Vector2(-1, -69.5)
+
+[node name="Tree6" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(416.5, -174.5)
+texture = ExtResource("16_wro1g")
+offset = Vector2(-0.5, -63)
+
+[node name="Tree4" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-385.5, -212)
+texture = ExtResource("14_tyksh")
+offset = Vector2(-1.5, -93)
+
+[node name="Tree3" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(134, -187)
+texture = ExtResource("13_ufrwk")
+offset = Vector2(1.5, -80.5)
+
+[node name="Tree2" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-251.5, -121.5)
+texture = ExtResource("12_n1m3p")
+offset = Vector2(10.5, -140)
+
+[node name="Tree1" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(296.5, -47.5)
+texture = ExtResource("11_corm3")
+offset = Vector2(-36, -146)
+
+[node name="Log3" type="Sprite2D" parent="Sprite2D/z_Objects"]
+visible = false
+position = Vector2(-398.5, 34)
+texture = ExtResource("5_1fa4c")
+offset = Vector2(174.5, -80.5)
+
+[node name="Log3d" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-72, -33)
+texture = ExtResource("21_7uava")
+offset = Vector2(36, -47)
+
+[node name="Log3c" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-142.75, -22.5)
+texture = ExtResource("22_xnexo")
+offset = Vector2(12, -45)
+
+[node name="Log3b" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-289.5, 5)
+texture = ExtResource("21_lat2u")
+offset = Vector2(0, -31.5)
+
+[node name="Log3a" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-404, 33.5)
+texture = ExtResource("22_wnkch")
+offset = Vector2(45, -64.5)
+
+[node name="Log2" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(67, 128)
+texture = ExtResource("4_8w0n4")
+offset = Vector2(46, -61)
+
+[node name="Log1" type="Sprite2D" parent="Sprite2D/z_Objects"]
+visible = false
+position = Vector2(65.5, 373.5)
+texture = ExtResource("3_3cj0n")
+offset = Vector2(-72, -84.5)
+
+[node name="Log1a" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-135.5, 293)
+texture = ExtResource("24_cqtth")
+
+[node name="Log1b" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-80.5, 307.5)
+texture = ExtResource("34_i2i0r")
+offset = Vector2(6.5, -13.5)
+
+[node name="Log1c" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-19.5, 327.5)
+texture = ExtResource("24_80r74")
+offset = Vector2(4.5, -35.5)
+
+[node name="Log1d" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(44.5, 369.5)
+texture = ExtResource("25_aldq8")
+offset = Vector2(-3.5, -76.5)
+
+[node name="Log1e" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(94.5, 345)
+texture = ExtResource("26_lat2u")
+offset = Vector2(0, -52)
+
+[node name="Log1f" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(142.5, 349.5)
+texture = ExtResource("27_wnkch")
+offset = Vector2(-3, -56.5)
+
+[node name="Shrub0b" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-419.5, 570.5)
+texture = ExtResource("23_6fitg")
+offset = Vector2(1, -135)
+
+[node name="Shrub0" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(442.5, 540)
+texture = ExtResource("24_gk8si")
+offset = Vector2(-10.5, -82)
+
+[node name="Trunk1" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(271.5, 314)
+texture = ExtResource("18_1fa4c")
+offset = Vector2(-1.5, -100)
+
+[node name="Shrub2" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(266, 257)
+texture = ExtResource("26_80r74")
+offset = Vector2(-1.5, -53.5)
+
+[node name="Shrub3" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(456, 226.5)
+texture = ExtResource("27_aldq8")
+offset = Vector2(-2.5, -62)
+
+[node name="Shrub6" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-463, 342.5)
+texture = ExtResource("28_lat2u")
+offset = Vector2(3.5, -59)
+
+[node name="Shrub9" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-471, -142)
+texture = ExtResource("29_wnkch")
+offset = Vector2(10.5, -62.5)
+
+[node name="Shrub8" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-469, -83)
+texture = ExtResource("30_7uava")
+offset = Vector2(9, -61)
+
+[node name="Shrub5" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(486, 327)
+texture = ExtResource("31_xnexo")
+offset = Vector2(-2.5, -35)
+
+[node name="Shrub4" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(433, 390)
+texture = ExtResource("32_nflwg")
+offset = Vector2(4.5, -49)
+
+[node name="Shrub7" type="Sprite2D" parent="Sprite2D/z_Objects"]
+position = Vector2(-475, 153.5)
+texture = ExtResource("33_tdgfa")
+offset = Vector2(6, -49.5)
+
+[node name="bugzones" type="Node2D" parent="Sprite2D"]
+
+[node name="BugZone1" parent="Sprite2D/bugzones" instance=ExtResource("44_wnkch")]
+z_index = 2500
+position = Vector2(203.5, 419.5)
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionPolygon2D" parent="Sprite2D/bugzones/BugZone1/Area2D" index="0"]
+polygon = PackedVector2Array(36, -34, 321, -458, 374, -343, 211, 21)
+
+[node name="BugZone2" parent="Sprite2D/bugzones" instance=ExtResource("44_wnkch")]
+z_index = 2500
+position = Vector2(-311.5, 144.5)
+scale = Vector2(0.35, 0.35)
+num_bugs = 2
+
+[node name="CollisionPolygon2D" parent="Sprite2D/bugzones/BugZone2/Area2D" index="0"]
+polygon = PackedVector2Array(36, -34, -2.85712, -245.714, 300, -52.8572, 211, 21)
+
+[node name="BugZone3" parent="Sprite2D/bugzones" instance=ExtResource("44_wnkch")]
+z_index = 2500
+position = Vector2(115, -128.5)
+scale = Vector2(0.2, 0.2)
+num_bugs = 5
+
+[node name="CollisionPolygon2D" parent="Sprite2D/bugzones/BugZone3/Area2D" index="0"]
+polygon = PackedVector2Array(7.5, -52.5, 337.5, -372.5, 565, -100, 340, 30)
+
+[node name="Player" parent="." instance=ExtResource("2_h6ule")]
+position = Vector2(1041, 2048)
+scale = Vector2(6, 6)
+
+[node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
+position = Vector2(1058, 2009)
+scale = Vector2(0.844761, 0.844761)
+
+[editable path="Sprite2D/bugzones/BugZone1"]
+[editable path="Sprite2D/bugzones/BugZone2"]
+[editable path="Sprite2D/bugzones/BugZone3"]

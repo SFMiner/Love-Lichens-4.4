@@ -1,0 +1,33 @@
+{
+	"id": "li",
+	"name": "Li",
+	"description": "Sharp and emotionally guarded. Hard to get close to, but not unfriendly.",
+	"portrait_path": "res://assets/characters/li_portrait.png",
+	"dialogue_file": "res://data/dialogues/li.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["private", "witty", "distant", "perceptive"],
+	"interests": ["comics", "dark humor", "personal autonomy"],
+	"background": "Tends to dodge emotional intimacy. Rarely appears in group photos clearly, possibly due to subtle magical phenomena.",
+	"observable_features": {
+		"double_glasses": {
+			"description": "Li is wearing two pairs of glasses — the second, broken and lensless, looks worn from childhood.",
+			"observed": false,
+			"memory_tag": "li_lucky_glasses_seen",
+			"dialogue_title": "ask_about_glasses"
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Adam": {
+			"type": "distant_friend",
+			"description": "Respects Adam, but keeps some emotional distance."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_glasses": {
+			"unlock_condition": "li_lucky_glasses_seen",
+			"description": "Li explained that the second pair of glasses is a good luck charm from childhood.",
+			"dialogue_title": "ask_about_glasses"
+		}
+	}
+}

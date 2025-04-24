@@ -1,0 +1,33 @@
+{
+	"id": "fate",
+	"name": "Fate",
+	"description": "Dreamy and intuitive. Emotionally open and deeply in tune with others.",
+	"portrait_path": "res://assets/characters/fate_portrait.png",
+	"dialogue_file": "res://data/dialogues/fate.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["mystical", "compassionate", "playful", "emotional"],
+	"interests": ["dreams", "memory theory", "spirituality", "cats"],
+	"background": "Carries a mysterious and loving presence. Maintains emotional equilibrium through their cat, Kitty.",
+	"observable_features": {
+		"kitty_collar": {
+			"description": "A small bell dangles from Fate’s wrist. It’s clearly Kitty’s collar charm.",
+			"observed": false,
+			"memory_tag": "fate_kitty_seen",
+			"dialogue_title": "ask_about_kitty"
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Adam": {
+			"type": "empathic_friend",
+			"description": "Feels an early resonance with Adam — like they’ve shared dreams before."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_kitty": {
+			"unlock_condition": "fate_kitty_seen",
+			"description": "Fate talks about Kitty — their emotional support cat — and how they saved each other.",
+			"dialogue_title": "ask_about_kitty"
+		}
+	}
+}

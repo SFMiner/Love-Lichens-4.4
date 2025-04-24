@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb2anh4kmuxp3"]
+
+[ext_resource type="Texture2D" uid="uid://b1aeuos5non1t" path="res://assets/images/scenes/permaculture_garden.png" id="1_ow6u1"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1020, 600)
+scale = Vector2(2, 2)
+texture = ExtResource("1_ow6u1")

@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://bw38pd1tt1sxa"
+path="res://.godot/imported/dusty.dialogue-65ac02061f0cf8aa984c2b08bcb73ef2.tres"
+
+[deps]
+
+source_file="res://data/dialogues/dusty.dialogue"
+dest_files=["res://.godot/imported/dusty.dialogue-65ac02061f0cf8aa984c2b08bcb73ef2.tres"]
+
+[params]
+
+defaults=true

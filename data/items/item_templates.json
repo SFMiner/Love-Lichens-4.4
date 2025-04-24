@@ -1,0 +1,111 @@
+{
+	"common_lichen1": {
+		"name": "Mossy Lichen",
+		"description": "A green lichen that grows in masses that resemble moss but are much more rugged. Plentiful in most ecosystems.",
+		"category": 2,
+		"image_path": "res://assets/images/items/common_lichen1.png",
+		"tags": ["lichen", "common_lichen", "green", "crustose"]
+	},
+	"common_lichen2": {
+		"name": "Green Scale Lichen",
+		"description": "A green lichen that forms scaled layers. Looks nice in a terrarium.",
+		"category": 2,
+		"image_path": "res://assets/images/items/common_lichen2.png",
+		"tags": ["lichen", "common_lichen", "green", "crustose"]
+	},
+	"common_lichen3": {
+		"name": "Common Gray Lichen",
+		"description": "A grayish-green lichen that grows in small patches on tree trunks. Commonly used in beginner studies.",
+		"category": 2,
+		"image_path": "res://assets/images/items/common_lichen3.png",
+		"tags": ["lichen", "common_lichen", "gray"]
+	},
+	"common_lichen4": {
+		"name": "Common Yellow Lichen",
+		"description": "A bright yellow lichen found on tree bark and rocks. Useful for basic lichenology studies.",
+		"category": 2,
+		"image_path": "res://assets/images/items/common_lichen4.png",
+		"tags": ["lichen", "common_lichen", "yellow"]
+	},
+	"rare_lichen1": {
+		"name": "Rare Magenta Lichen",
+		"description": "An uncommon purple-tinged lichen with potential scientific interest. Hard to find in the wild.",
+		"category": 2,
+		"image_path": "res://assets/images/items/rare_lichen1.png",
+		"tags": ["lichen", "rare_lichen", "blue"]
+	},
+	"rare_lichen2": {
+		"name": "Ghost Candle Lichen",
+		"description": "A pakle grey lichen with fluorescent magenta fruiting bodies, often found in unique microenvironments. Valuable for research.",
+		"category": 2,
+		"image_path": "res://assets/images/items/rare_lichen2.png",
+		"tags": ["lichen", "rare_lichen", "gray"]
+	},
+	"rare_lichen3": {
+		"name": "Giant Faeirie Cup Lichen",
+		"description": "A pakle cyan lichen in the shape of tall cups, may form a symbiotic relationship with certain trees. New research indicates potential biochemical applications.",
+		"category": 2,
+		"image_path": "res://assets/images/items/rare_lichen2.png",
+		"tags": ["lichen", "rare_lichen", "cyan"]
+	},
+	"lichenology_book": {
+		"name": "Introduction to Lichenology",
+		"description": "A textbook covering the basics of lichen classification, ecology, and research methods.",
+		"category": 0,
+		"image_path": "res://assets/images/items/lichenology_book.png",
+		"tags": ["book", "academic", "science"]
+	},
+	"energy_drink": {
+		"name": "Energy Drink",
+		"description": "Restores your energy level. Tastes like science.",
+		"category": 2,
+		"image_path": "res://assets/images/items/energy_drink.png",
+		"tags": ["consumable", "drink", "energy"]
+	},
+	"research_notes": {
+		"name": "Lichen Research Notes",
+		"description": "Your compiled notes on lichen specimens and their properties. Valuable for further research.",
+		"category": 1,
+		"image_path": "res://assets/images/items/research_notes.png",
+		"tags": ["notes", "research", "academic", "quest_item"]
+	},
+	"microscope_slide": {
+		"name": "Prepared Lichen Slide",
+		"description": "A microscope slide with a prepared lichen sample, ready for detailed study.",
+		"category": 1,
+		"image_path": "res://assets/images/items/microscope_slide.png",
+		"tags": ["lab_equipment", "science", "lichen", "quest_item"]
+	},
+	"lichen_spores": {
+		"name": "Lichen Spores",
+		"description": "Reproductive spores from various lichen species. Useful for cultivation experiments.",
+		"category": 1,
+		"image_path": "res://assets/images/items/lichen_spores.png",
+		"tags": ["lichen", "reproduction", "science", "biology"]
+	},
+	"student_id": {
+		"name": "Student ID Card",
+		"description": "Your university identification card. Grants access to campus facilities.",
+		"category": 1,
+		"stackable": false,
+		"image_path": "res://assets/images/items/student_id.png",
+		"tags": ["id", "student", "quest_item"]
+	},
+	"lucky_charm": {
+		"name": "Lucky Charm",
+		"description": "A small trinket that brings you comfort during exams.",
+		"category": 3,
+		"stackable": false,
+		"image_path": "res://assets/images/items/lucky_charm.png",
+		"tags": ["charm"]
+	},
+	"focus_tea": {
+		"name": "Focus Tea",
+		"description": "A herbal tea blend that improves concentration.",
+		"category": 2,
+		"stackable": true,
+		"max_stack": 3,
+		"image_path": "res://assets/images/items/focus_tea.png",
+		"tags": ["tea", "focus"]
+	}
+}

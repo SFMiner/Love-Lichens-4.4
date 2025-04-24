@@ -1,0 +1,140 @@
+extends Area2D
+
+# Base script for all NPCs in the game
+# Handles character data, interactions, and appearance
+
+signal interaction_started(npc_id)
+signal interaction_ended(npc_id)
+signal observed(feature_id)
+
+@export var character_id: String = ""
+@export var character_name: String = "Unknown"
+@export var portrait: Texture2D
+@export var interactable: bool = true
+@export var initial_dialogue_title: String = "start"
+@export var description: String = ""
+
+# Observable features for memory discovery
+@export var observable_features: Dictionary = {
+	# Format: "feature_id": {"description": "Feature description", "observed": false}
+}
+
+# Character data
+const scr_debug :bool = false
+var debug
+
+var character_data = {}
+var relationship_level = 0 # 0=stranger, 1=acquaintance, 2=friend, 3=close friend, 4=romantic
+var dialogue_system
+var memory_system
+
+func _ready():
+	debug = scr_debug or GameController.sys_debug 
+	print("NPC initialized: ", character_id)
+	add_to_group("interactable")
+	add_to_group("npc")
+	load_character_data()
+	
+	# Get reference to the dialogue system
+	dialogue_system = get_node_or_null("/root/DialogSystem")
+	if not dialogue_system:
+		print("WARNING: DialogSystem not found!")
+	
+	# Get reference to the memory system
+	memory_system = get_node_or_null("/root/MemorySystem")
+	if not memory_system:
+		print("WARNING: MemorySystem not found!")
+	
+	# Make sure the collision shape is enabled
+	for child in get_children():
+		if child is CollisionShape2D:
+			if not child.disabled:
+				print("Collision shape for ", character_id, " is enabled")
+			else:
+				print("Enabling collision shape for ", character_id)
+				child.disabled = false
+	
+	# Special case for Poison - add necklace feature
+	if character_id == "Poison":
+		add_observable_feature("necklace", "Poison's wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize.")
+		print("Added necklace feature to Poison")
+
+func load_character_data():
+	# This would load the character's data from a data file
+	print("Loading character data for: ", character_id)
+	# For now, set default data
+	character_data = {
+		"id": character_id,
+		"name": character_name,
+		"interests": ["ecology", "lichens", "sustainability"],
+		"relationship_level": relationship_level
+	}
+	print("Character data loaded for: ", character_name)
+
+# In npc.gd, modify the interact function:
+func interact():
+	if not interactable:
+		print(character_name, " is not interactable")
+		return
+		
+	print("Interacting with: ", character_name)
+	interaction_started.emit(character_id)
+	
+	# Start dialogue using the Dialogue Manager
+	if dialogue_system:
+		var result = dialogue_system.start_dialog(character_id, initial_dialogue_title)
+		if result:
+			print("Dialogue started successfully")
+			
+			# Notify quest system directly that dialogue has started with this NPC
+			var quest_system = get_node_or_null("/root/QuestSystem")
+			if quest_system and quest_system.has_method("_check_talk_objectives"):
+				quest_system.call_deferred("_check_talk_objectives", character_id)
+				print("Directly notified quest system about interaction with: ", character_id)
+		else:
+			print("Failed to start dialogue!")
+	else:
+		print("Dialogue system not found!")
+	
+func update_relationship(new_level):
+	relationship_level = new_level
+	print(character_name, " relationship updated to level ", relationship_level)
+	# This would trigger different dialogue options and character behaviors
+	
+func end_interaction():
+	interaction_ended.emit(character_id)
+	# Clean up any resources or states
+
+# Memory discovery system functions
+func get_look_description() -> String:
+	if description.is_empty():
+		return character_name
+	return description
+
+func observe_feature(feature_id: String) -> String:
+	if observable_features.has(feature_id) and not observable_features[feature_id].observed:
+		observable_features[feature_id].observed = true
+		observed.emit(feature_id)
+		
+		# Trigger memory system if available
+		if memory_system:
+			var target_id = character_id + "_" + feature_id
+			memory_system.trigger_look_at(target_id)
+		
+		return observable_features[feature_id].description
+	
+	return ""
+
+func has_observable_feature(feature_id: String) -> bool:
+	return observable_features.has(feature_id)
+
+func is_feature_observed(feature_id: String) -> bool:
+	if observable_features.has(feature_id):
+		return observable_features[feature_id].observed
+	return false
+
+func add_observable_feature(feature_id: String, description: String) -> void:
+	observable_features[feature_id] = {
+		"description": description,
+		"observed": false
+	}

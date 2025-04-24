@@ -1,0 +1,33 @@
+{
+	"id": "erik",
+	"name": "Erik",
+	"description": "Calm, supportive, and slightly aloof. Offers stability to the group.",
+	"portrait_path": "res://assets/characters/erik_portrait.png",
+	"dialogue_file": "res://data/dialogues/erik.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": ["reliable", "quiet", "grounded", "funny"],
+	"interests": ["camping", "survival gear", "gummies", "cloud watching"],
+	"background": "Keeps his cool in most situations. Often ends up supporting the group during chaos with an understated sense of humor.",
+	"observable_features": {
+		"gummy_pack": {
+			"description": "Erik carries a crumpled foil bag of THC gummies — an emergency stash, apparently.",
+			"observed": false,
+			"memory_tag": "erik_gummies_seen",
+			"dialogue_title": "ask_about_gummies"
+		}
+	},
+	"special_items": [],
+	"relationships": {
+		"Adam": {
+			"type": "casual_friend",
+			"description": "Supports Adam in quiet, easy ways. Not very talkative."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_gummies": {
+			"unlock_condition": "erik_gummies_seen",
+			"description": "You asked about Erik’s THC gummies — he offered one with his usual calm delivery: 'Do... anyone want to do drugs?'",
+			"dialogue_title": "ask_about_gummies"
+		}
+	}
+}

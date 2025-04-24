@@ -1,0 +1,50 @@
+{
+  "id": "lichen_collection",
+  "title": "Lichen Collection Study 2",
+  "description": "Professor Moss has asked you to collect lichen samples for his research project. He's particularly interested in studying the diversity of lichen in the campus environment. Thsi is the new one",
+  "objectives": [
+	{
+	  "type": "gather_tag",
+	  "tag": "common_lichen",
+	  "description": "Collect 3 common lichen samples (any type)",
+	  "progress": 0,
+	  "required": 3
+	},
+	{
+	  "type": "gather_tag",
+	  "tag": "rare_lichen",
+	  "description": "Find at least 1 rare lichen sample",
+	  "progress": 0,
+	  "required": 1
+	},
+	{
+	  "type": "visit",
+	  "target": "microscope",
+	  "description": "Examine the samples under the microscope"
+	},
+	{
+	  "type": "talk",
+	  "target": "professor_moss",
+	  "description": "Report your findings to Professor Moss"
+	}
+  ],
+  "rewards": [
+	{
+	  "type": "item",
+	  "id": "research_notes",
+	  "amount": 1
+	},
+	{
+	  "type": "relationship",
+	  "character": "professor_moss",
+	  "amount": 5
+	},
+	{
+	  "type": "knowledge",
+	  "id": "lichen_research_project"
+	}
+  ],
+  "follow_up_quests": ["advanced_lichen_study"],
+  "auto_start_follow_ups": false,
+  "completed": false
+}

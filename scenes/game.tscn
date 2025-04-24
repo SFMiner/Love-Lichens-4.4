@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0p7owuaem3nk"]
+
+[ext_resource type="Script" uid="uid://cqssmnrlhvthw" path="res://scripts/autoload/game_controller.gd" id="1_g3xwj"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_g3xwj")
+
+[node name="CurrentScene" type="Node" parent="."]
+
+[node name="LoadingLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -11.5
+offset_right = 49.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading scene..."

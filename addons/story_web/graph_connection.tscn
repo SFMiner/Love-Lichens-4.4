@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj4jy1ejlpx80"]
+
+[ext_resource type="Script" uid="uid://chq0cmyvop4t" path="res://addons/story_web/graph_connection.gd" id="1_f24mv"]
+
+[node name="GraphConnection" type="Node2D"]
+script = ExtResource("1_f24mv")

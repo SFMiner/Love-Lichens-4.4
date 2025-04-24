@@ -1,0 +1,30 @@
+~ start
+
+Professor Moss: Do you need to travel somewhere else for your research?
+- Yes, I'd like to go somewhere else.
+  Professor Moss: Where would you like to go?
+  set locations = FastTravelSystem.get_available_locations()
+  if locations.size() > 0:
+    - {{ locations[0].name }}: {{ locations[0].description }}
+      do FastTravelSystem.fast_travel(locations[0].id)
+      => END
+    - {{ locations[1].name if locations.size() > 1 else "No other locations available" }}: {{ locations[1].description if locations.size() > 1 else "" }}
+      do FastTravelSystem.fast_travel(locations[1].id) if locations.size() > 1
+      => END
+    - {{ locations[2].name if locations.size() > 2 else "No other locations available" }}: {{ locations[2].description if locations.size() > 2 else "" }}
+      do FastTravelSystem.fast_travel(locations[2].id) if locations.size() > 2
+      => END
+    - {{ locations[3].name if locations.size() > 3 else "No other locations available" }}: {{ locations[3].description if locations.size() > 3 else "" }}
+      do FastTravelSystem.fast_travel(locations[3].id) if locations.size() > 3
+      => END
+    - I'll stay here.
+      Professor Moss: Very well. Let me know if you change your mind.
+      => END
+  else:
+    Professor Moss: It seems you haven't discovered any other locations yet. Explore the campus a bit more.
+    => END
+- No, I'll stay here.
+  Professor Moss: Very well. Let me know if you change your mind.
+  => END
+
+=> END

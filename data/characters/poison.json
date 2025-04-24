@@ -1,0 +1,73 @@
+{
+	"id": "poison",
+	"name": "Poison",
+	"description": "Wry, sharp-tongued and funny without cruelty. Masks deeper loyalty and tenderness under sarcasm.",
+	"portrait_path": "res://assets/characters/poison_portrait.png",
+	"dialogue_file": "res://data/dialogues/poison.dialogue",
+	"initial_dialogue_title": "start",
+	"personality_traits": [
+		"sarcastic",
+		"loyal",
+		"tender",
+		"funny",
+		"sharp-tongued"
+	],
+	"interests": [
+		"music",
+		"family memories",
+		"insects"
+	],
+	"background": "Had enmity with Dusty due to dating the same manipulative ex, resolved on the last day of high school when they broke free together.",
+	"observable_features": {
+		"necklace": {
+			"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they sometimes touch it without seeming to realize.",
+			"observed": false,
+			"memory_tag": "poison_necklace_seen",
+			"dialogue_title": "ask_about_necklace"
+		},
+		"expression": {
+			"description": "Their expression shifts between sarcastic and genuinely warm, especially when talking about certain topics.",
+			"observed": false
+		}
+	},
+	"special_items": [
+		{
+			"id": "peepaw_necklace",
+			"name": "Memorial Necklace",
+			"description": "A necklace containing ashes of their grandfather (\"Pee-Paw\"). Sometimes jokes when misplacing it: \"Where's Pee-Paw?\"",
+			"memory_significance": "Deep but understated bond with family memory."
+		}
+	],
+	"relationships": {
+		"Dusty": {
+			"type": "complicated_friendship",
+			"description": "Past enmity with Dusty, caused by dating the same manipulative ex, resolved on the last day of high school."
+		},
+		"Adam": {
+			"type": "potential_friend",
+			"description": "Intrigued by Adam's earnestness, though unlikely to admit it directly."
+		}
+	},
+	"dialogue_memories": {
+		"ask_about_necklace": {
+			"unlock_condition": "poison_necklace_seen",
+			"description": "You noticed Poison's unusual necklace - a small metal vial they touch unconsciously.",
+			"dialogue_title": "ask_about_necklace"
+		},
+		"peepaw_explanation": {
+			"unlock_condition": "poison_peepaw_known",
+			"description": "Poison explained the necklace contains their grandfather's ashes - a way of keeping family close.",
+			"dialogue_title": "peepaw_explanation"
+		},
+		"peepaw_memory_mention": {
+			"unlock_condition": "poison_peepaw_memory_stirred",
+			"description": "Poison mentioned they have a story about their Pee-Paw they'd like to share with you.",
+			"dialogue_title": "peepaw_memory_mention"
+		},
+		"grandpa_goat_story": {
+			"unlock_condition": "poison_peepaw_story_shared",
+			"description": "Poison recounted sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
+			"dialogue_title": "grandpa_goat_story"
+		}
+	}
+}

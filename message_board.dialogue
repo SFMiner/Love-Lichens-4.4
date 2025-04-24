@@ -1,0 +1,32 @@
+~ start
+You examine the microscope on the table. It seems to be set up for lichen analysis.
+What would you like to do?
+
+- I'd like to examine my lichen samples. => examine_lichens
+- Nothing right now. => END
+
+~ examine_lichens
+You prepare to place your collected lichen samples under the microscope.
+
+=> check_samples
+
+~ check_samples
+# Use a custom DialogueManager condition that calls a proper function
+if InventorySystem.count_items_by_tag("common_lichen") >= 3 and InventorySystem.count_items_by_tag("rare_lichen") >= 1
+	=> success
+else
+	=> need_more_samples
+
+~ success
+You carefully examine the lichen samples under the microscope. The structures are fascinating! You can see the fungal hyphae and algal cells living together in symbiosis.
+
+The different varieties show unique structural patterns. With these samples, you should have enough data to report back to Professor Moss.
+do QuestSystem.complete_custom_objective("lichen_collection", "microscope")
+=> END
+
+~ need_more_samples
+You need more samples to complete the analysis. According to the research requirements, you need at least 3 common lichen samples and 1 rare lichen sample.
+
+You currently have {{QuestSystem.count_items_by_tag("common_lichen")}} common lichen samples and {{QuestSystem.count_items_by_tag("rare_lichen")}} rare lichen samples.
+
+=> END

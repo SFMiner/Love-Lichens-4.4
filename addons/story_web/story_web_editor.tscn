@@ -1,0 +1,649 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckhvpwd1vjs7n"]
+
+[ext_resource type="Script" uid="uid://dalf7yuijc006" path="res://addons/story_web/story_web_ui.gd" id="1_lrgbd"]
+[ext_resource type="Texture2D" uid="uid://ccn6o8gxt6wi0" path="res://addons/story_web/icons/search_icon.png" id="2_j8prh"]
+[ext_resource type="Texture2D" uid="uid://7qo5vbmb7aqi" path="res://addons/story_web/icons/filter_icon.png" id="3_f13ix"]
+
+[node name="StoryWebEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lrgbd")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 300
+
+[node name="LeftPanel" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Story Web Editor"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="SearchBar" type="HBoxContainer" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="SearchIcon" type="TextureRect" parent="HSplitContainer/LeftPanel/SearchBar"]
+layout_mode = 2
+texture = ExtResource("2_j8prh")
+stretch_mode = 3
+
+[node name="SearchInput" type="LineEdit" parent="HSplitContainer/LeftPanel/SearchBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search elements..."
+clear_button_enabled = true
+
+[node name="FilterIcon" type="TextureRect" parent="HSplitContainer/LeftPanel/SearchBar"]
+layout_mode = 2
+texture = ExtResource("3_f13ix")
+stretch_mode = 3
+
+[node name="FilterButton" type="OptionButton" parent="HSplitContainer/LeftPanel/SearchBar"]
+layout_mode = 2
+selected = 0
+item_count = 8
+popup/item_0/text = "All Types"
+popup/item_0/id = -1
+popup/item_1/text = "CHARACTER"
+popup/item_1/id = 0
+popup/item_2/text = "QUEST"
+popup/item_2/id = 1
+popup/item_3/text = "LOCATION"
+popup/item_3/id = 2
+popup/item_4/text = "ITEM"
+popup/item_4/id = 3
+popup/item_5/text = "EVENT"
+popup/item_5/id = 4
+popup/item_6/text = "KNOWLEDGE"
+popup/item_6/id = 5
+popup/item_7/text = "NOTE"
+popup/item_7/id = 6
+
+[node name="ElementList" type="ItemList" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+select_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="AddElement" type="Button" parent="HSplitContainer/LeftPanel/Buttons"]
+layout_mode = 2
+text = "Add Element"
+
+[node name="ImportButton" type="Button" parent="HSplitContainer/LeftPanel/Buttons"]
+layout_mode = 2
+text = "Import"
+
+[node name="ExportButton" type="Button" parent="HSplitContainer/LeftPanel/Buttons"]
+layout_mode = 2
+text = "Export"
+
+[node name="RightPanel" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="HSplitContainer/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Details" type="Control" parent="HSplitContainer/RightPanel/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/RightPanel/TabContainer/Details"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="ElementDetails" type="VBoxContainer" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Element Title"
+horizontal_alignment = 1
+
+[node name="Type" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+text = "Element Type"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+text = "Description:"
+
+[node name="Description" type="TextEdit" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="TagsLabel" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+text = "Tags:"
+
+[node name="Tags" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+text = "Tag1, Tag2, Tag3"
+
+[node name="HSeparator2" type="HSeparator" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+
+[node name="Connections" type="VBoxContainer" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+
+[node name="OutgoingLabel" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/Connections"]
+layout_mode = 2
+text = "Affects:"
+
+[node name="OutgoingList" type="ItemList" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/Connections"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="IncomingLabel" type="Label" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/Connections"]
+layout_mode = 2
+text = "Affected by:"
+
+[node name="IncomingList" type="ItemList" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/Connections"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails"]
+layout_mode = 2
+alignment = 1
+
+[node name="EditElement" type="Button" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel"]
+layout_mode = 2
+text = "Edit"
+
+[node name="DeleteElement" type="Button" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel"]
+layout_mode = 2
+text = "Delete"
+
+[node name="AddConnection" type="Button" parent="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel"]
+layout_mode = 2
+text = "Add Connection"
+
+[node name="GraphView" type="Control" parent="HSplitContainer/RightPanel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="InstructionsLabel" type="Label" parent="HSplitContainer/RightPanel/TabContainer/GraphView"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Click an element to see its connections. Drag elements to rearrange."
+
+[node name="AddElementPopup" type="Window" parent="."]
+title = "Add New Element"
+position = Vector2i(100, 100)
+size = Vector2i(400, 400)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AddElementPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Title:"
+
+[node name="TitleInput" type="LineEdit" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter element title..."
+
+[node name="TypeLabel" type="Label" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Type:"
+
+[node name="TypeOption" type="OptionButton" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "CHARACTER"
+popup/item_0/id = 0
+popup/item_1/text = "QUEST"
+popup/item_1/id = 1
+popup/item_2/text = "LOCATION"
+popup/item_2/id = 2
+popup/item_3/text = "ITEM"
+popup/item_3/id = 3
+popup/item_4/text = "EVENT"
+popup/item_4/id = 4
+popup/item_5/text = "KNOWLEDGE"
+popup/item_5/id = 5
+popup/item_6/text = "NOTE"
+popup/item_6/id = 6
+
+[node name="DescriptionLabel" type="Label" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+
+[node name="DescriptionInput" type="TextEdit" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Enter description..."
+wrap_mode = 1
+
+[node name="TagsLabel" type="Label" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Tags (comma separated):"
+
+[node name="TagsInput" type="LineEdit" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "tag1, tag2, tag3..."
+
+[node name="HSeparator" type="HSeparator" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="AddElementPopup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AddButton" type="Button" parent="AddElementPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Add"
+
+[node name="CancelButton" type="Button" parent="AddElementPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="EditElementPopup" type="Window" parent="."]
+title = "Edit Element"
+position = Vector2i(100, 100)
+size = Vector2i(400, 400)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditElementPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Title:"
+
+[node name="TitleInput" type="LineEdit" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter element title..."
+
+[node name="TypeLabel" type="Label" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Type:"
+
+[node name="TypeOption" type="OptionButton" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "CHARACTER"
+popup/item_0/id = 0
+popup/item_1/text = "QUEST"
+popup/item_1/id = 1
+popup/item_2/text = "LOCATION"
+popup/item_2/id = 2
+popup/item_3/text = "ITEM"
+popup/item_3/id = 3
+popup/item_4/text = "EVENT"
+popup/item_4/id = 4
+popup/item_5/text = "KNOWLEDGE"
+popup/item_5/id = 5
+popup/item_6/text = "NOTE"
+popup/item_6/id = 6
+
+[node name="DescriptionLabel" type="Label" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+
+[node name="DescriptionInput" type="TextEdit" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Enter description..."
+wrap_mode = 1
+
+[node name="TagsLabel" type="Label" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+text = "Tags (comma separated):"
+
+[node name="TagsInput" type="LineEdit" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "tag1, tag2, tag3..."
+
+[node name="HSeparator" type="HSeparator" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="EditElementPopup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="EditElementPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Save"
+
+[node name="CancelButton" type="Button" parent="EditElementPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="AddConnectionPopup" type="Window" parent="."]
+title = "Add Connection"
+position = Vector2i(100, 100)
+size = Vector2i(400, 300)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AddConnectionPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FromLabel" type="Label" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "From: Element Title"
+
+[node name="ToLabel" type="Label" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "To:"
+
+[node name="ToDropdown" type="OptionButton" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="TypeLabel" type="Label" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "Connection Type:"
+
+[node name="TypeOption" type="OptionButton" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 6
+popup/item_0/text = "AFFECTS"
+popup/item_0/id = 0
+popup/item_1/text = "DEPENDS_ON"
+popup/item_1/id = 1
+popup/item_2/text = "REVEALS"
+popup/item_2/id = 2
+popup/item_3/text = "FORESHADOWS"
+popup/item_3/id = 3
+popup/item_4/text = "CONTRADICTS"
+popup/item_4/id = 4
+popup/item_5/text = "RELATED_TO"
+popup/item_5/id = 5
+
+[node name="DescriptionLabel" type="Label" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+
+[node name="DescriptionInput" type="TextEdit" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Describe how they connect..."
+wrap_mode = 1
+
+[node name="HSeparator" type="HSeparator" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="AddConnectionPopup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AddButton" type="Button" parent="AddConnectionPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Add Connection"
+
+[node name="CancelButton" type="Button" parent="AddConnectionPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="EditConnectionPopup" type="Window" parent="."]
+title = "Edit Connection"
+position = Vector2i(100, 100)
+size = Vector2i(400, 300)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditConnectionPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FromLabel" type="Label" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "From: Element Title"
+
+[node name="ToLabel" type="Label" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "To: Element Title"
+
+[node name="TypeLabel" type="Label" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "Connection Type:"
+
+[node name="TypeOption" type="OptionButton" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 6
+popup/item_0/text = "AFFECTS"
+popup/item_0/id = 0
+popup/item_1/text = "DEPENDS_ON"
+popup/item_1/id = 1
+popup/item_2/text = "REVEALS"
+popup/item_2/id = 2
+popup/item_3/text = "FORESHADOWS"
+popup/item_3/id = 3
+popup/item_4/text = "CONTRADICTS"
+popup/item_4/id = 4
+popup/item_5/text = "RELATED_TO"
+popup/item_5/id = 5
+
+[node name="DescriptionLabel" type="Label" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+
+[node name="DescriptionInput" type="TextEdit" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Describe how they connect..."
+wrap_mode = 1
+
+[node name="HSeparator" type="HSeparator" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="EditConnectionPopup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="EditConnectionPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Save"
+
+[node name="CancelButton" type="Button" parent="EditConnectionPopup/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmDialog" type="Window" parent="."]
+title = "Confirm"
+position = Vector2i(100, 100)
+size = Vector2i(400, 150)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ConfirmDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Are you sure you want to delete this element?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="ConfirmDialog/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="DeleteButton" type="Button" parent="ConfirmDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Delete"
+
+[node name="CancelButton" type="Button" parent="ConfirmDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ExportDialog" type="Window" parent="."]
+title = "Export Story Web"
+position = Vector2i(100, 100)
+size = Vector2i(400, 200)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ExportDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FormatLabel" type="Label" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+text = "Export Format:"
+
+[node name="FormatOption" type="OptionButton" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "JSON"
+popup/item_0/id = 0
+popup/item_1/text = "Markdown"
+popup/item_1/id = 1
+
+[node name="FilePathLabel" type="Label" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+text = "File Path:"
+
+[node name="FilePathInput" type="LineEdit" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "user://love_and_lichens_story_web.json"
+
+[node name="HSeparator" type="HSeparator" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="ExportDialog/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ExportButton" type="Button" parent="ExportDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Export"
+
+[node name="CancelButton" type="Button" parent="ExportDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ImportDialog" type="Window" parent="."]
+title = "Import Story Web"
+position = Vector2i(100, 100)
+size = Vector2i(400, 200)
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ImportDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FilePathLabel" type="Label" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+text = "File Path:"
+
+[node name="FilePathInput" type="LineEdit" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "user://love_and_lichens_story_web.json"
+
+[node name="WarningLabel" type="Label" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+text = "Warning: Importing will overwrite all existing story web data!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ImportButton" type="Button" parent="ImportDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Import"
+
+[node name="CancelButton" type="Button" parent="ImportDialog/VBoxContainer/ButtonsPanel"]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="item_selected" from="HSplitContainer/LeftPanel/ElementList" to="." method="_on_element_list_item_selected"]
+[connection signal="pressed" from="HSplitContainer/LeftPanel/Buttons/AddElement" to="." method="_on_add_element_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/LeftPanel/Buttons/ImportButton" to="." method="_on_import_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/LeftPanel/Buttons/ExportButton" to="." method="_on_export_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel/EditElement" to="." method="_on_edit_element_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel/DeleteElement" to="." method="_on_delete_element_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/RightPanel/TabContainer/Details/ScrollContainer/ElementDetails/ButtonsPanel/AddConnection" to="." method="_on_add_connection_button_pressed"]
+[connection signal="close_requested" from="AddElementPopup" to="AddElementPopup" method="hide"]
+[connection signal="pressed" from="AddElementPopup/VBoxContainer/ButtonsPanel/AddButton" to="." method="_on_add_element_confirmed"]
+[connection signal="pressed" from="AddElementPopup/VBoxContainer/ButtonsPanel/CancelButton" to="AddElementPopup" method="hide"]
+[connection signal="close_requested" from="EditElementPopup" to="EditElementPopup" method="hide"]
+[connection signal="pressed" from="EditElementPopup/VBoxContainer/ButtonsPanel/SaveButton" to="." method="_on_edit_element_confirmed"]
+[connection signal="pressed" from="EditElementPopup/VBoxContainer/ButtonsPanel/CancelButton" to="EditElementPopup" method="hide"]
+[connection signal="close_requested" from="AddConnectionPopup" to="AddConnectionPopup" method="hide"]
+[connection signal="pressed" from="AddConnectionPopup/VBoxContainer/ButtonsPanel/AddButton" to="." method="_on_add_connection_confirmed"]
+[connection signal="pressed" from="AddConnectionPopup/VBoxContainer/ButtonsPanel/CancelButton" to="AddConnectionPopup" method="hide"]
+[connection signal="close_requested" from="EditConnectionPopup" to="EditConnectionPopup" method="hide"]
+[connection signal="pressed" from="EditConnectionPopup/VBoxContainer/ButtonsPanel/SaveButton" to="." method="_on_edit_connection_confirmed"]
+[connection signal="pressed" from="EditConnectionPopup/VBoxContainer/ButtonsPanel/CancelButton" to="EditConnectionPopup" method="hide"]
+[connection signal="close_requested" from="ConfirmDialog" to="ConfirmDialog" method="hide"]
+[connection signal="pressed" from="ConfirmDialog/VBoxContainer/ButtonsPanel/CancelButton" to="ConfirmDialog" method="hide"]
+[connection signal="close_requested" from="ExportDialog" to="ExportDialog" method="hide"]
+[connection signal="pressed" from="ExportDialog/VBoxContainer/ButtonsPanel/ExportButton" to="." method="_on_export_confirmed"]
+[connection signal="pressed" from="ExportDialog/VBoxContainer/ButtonsPanel/CancelButton" to="ExportDialog" method="hide"]
+[connection signal="close_requested" from="ImportDialog" to="ImportDialog" method="hide"]
+[connection signal="pressed" from="ImportDialog/VBoxContainer/ButtonsPanel/ImportButton" to="." method="_on_import_confirmed"]
+[connection signal="pressed" from="ImportDialog/VBoxContainer/ButtonsPanel/CancelButton" to="ImportDialog" method="hide"]

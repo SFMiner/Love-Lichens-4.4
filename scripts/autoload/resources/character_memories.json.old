@@ -1,0 +1,258 @@
+[
+	{
+		"id": "poison_necklace_chain",
+		"character_id": "Poison",
+		"relationship_reward": 5,
+		"completed_tag": "poison_memory_chain_completed",
+		"steps": [
+			{
+				"id": "necklace_discovery",
+				"trigger_type": 0,
+				"target_id": "Poison_necklace",
+				"unlock_tag": "poison_necklace_seen",
+				"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize.",
+				"dialogue_title": "ask_about_necklace"
+			},
+			{
+				"id": "peepaw_known",
+				"trigger_type": 3,
+				"target_id": "ask_poison_necklace",
+				"unlock_tag": "poison_peepaw_known",
+				"description": "Poison laughs awkwardly, explaining it holds some of Pee-Paw's ashes. A way of keeping family close, even now.",
+				"dialogue_title": "peepaw_explanation",
+				"condition_tags": ["poison_necklace_seen"]
+			},
+			{
+				"id": "family_conversation",
+				"trigger_type": 3,
+				"target_id": "dusty_family_talk",
+				"unlock_tag": "poison_peepaw_memory_stirred",
+				"description": "Poison offers, quietly: \"Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.\"",
+				"dialogue_title": "peepaw_memory_mention",
+				"condition_tags": ["poison_peepaw_known"]
+			},
+			{
+				"id": "final_memory",
+				"trigger_type": 3,
+				"target_id": "ask_poison_peepaw_story",
+				"unlock_tag": "poison_peepaw_story_shared",
+				"description": "Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
+				"dialogue_title": "grandpa_goat_story",
+				"condition_tags": ["poison_peepaw_memory_stirred"]
+			}
+		]
+	},
+	{
+		"id": "poison_dusty_history_chain",
+		"character_id": "Poison",
+		"relationship_reward": 3,
+		"completed_tag": "poison_dusty_history_completed",
+		"steps": [
+			{
+				"id": "poison_dusty_interaction",
+				"trigger_type": 2,
+				"target_id": "dusty_encounter",
+				"unlock_tag": "poison_dusty_awkward_noticed",
+				"description": "There's a strange tension between Poison and Dusty that you can't quite place.",
+				"dialogue_title": "observe_poison_dusty"
+			},
+			{
+				"id": "past_mention",
+				"trigger_type": 3,
+				"target_id": "ask_about_dusty",
+				"unlock_tag": "poison_dusty_hint",
+				"description": "Poison makes a vague comment about them both dating the same terrible person in high school.",
+				"dialogue_title": "dusty_history_hint",
+				"condition_tags": ["poison_dusty_awkward_noticed"]
+			},
+			{
+				"id": "full_history",
+				"trigger_type": 3,
+				"target_id": "ask_about_ex",
+				"unlock_tag": "poison_dusty_resolution",
+				"description": "Poison reveals that they and Dusty were once enemies because of dating the same manipulative ex, but they resolved their issues on the last day of high school when they broke free together.",
+				"dialogue_title": "dusty_history_full",
+				"condition_tags": ["poison_dusty_hint"]
+			}
+		]
+	},
+	{
+		"id": "fate_kitty_chain",
+		"character_id": "Fate",
+		"relationship_reward": 4,
+		"completed_tag": "fate_kitty_chain_completed",
+		"steps": [
+			{
+				"id": "cat_photo",
+				"trigger_type": 0,
+				"target_id": "Fate_phone",
+				"unlock_tag": "fate_cat_photo_seen",
+				"description": "Fate has a photo of a fluffy white cat as their phone background.",
+				"dialogue_title": "ask_about_phone"
+			},
+			{
+				"id": "cat_name",
+				"trigger_type": 3,
+				"target_id": "ask_about_cat",
+				"unlock_tag": "fate_cat_name_known",
+				"description": "\"That's Kitty! Well, Kitomolous is their full name. My emotional support cat and the best friend anyone could ask for.\"",
+				"dialogue_title": "kitty_introduction",
+				"condition_tags": ["fate_cat_photo_seen"]
+			},
+			{
+				"id": "cat_importance",
+				"trigger_type": 3,
+				"target_id": "ask_about_kitty_importance",
+				"unlock_tag": "fate_cat_significance_known",
+				"description": "Fate's expression turns serious. \"Kitty was there during some really hard times. They're more than just a pet - they're family.\"",
+				"dialogue_title": "kitty_importance",
+				"condition_tags": ["fate_cat_name_known"]
+			}
+		]
+	},
+	{
+		"id": "erik_gummies_chain",
+		"character_id": "Erik",
+		"relationship_reward": 3,
+		"completed_tag": "erik_gummies_chain_completed",
+		"steps": [
+			{
+				"id": "gummies_spotted",
+				"trigger_type": 0,
+				"target_id": "Erik_backpack",
+				"unlock_tag": "erik_gummies_seen",
+				"description": "You notice a colorful pack of gummies peeking out of Erik's backpack.",
+				"dialogue_title": "ask_about_backpack"
+			},
+			{
+				"id": "gummies_explanation",
+				"trigger_type": 3,
+				"target_id": "ask_about_gummies",
+				"unlock_tag": "erik_gummies_explained",
+				"description": "Erik grins and whispers, \"Emergency THC gummies. For... emergencies.\" He winks.",
+				"dialogue_title": "gummies_secret",
+				"condition_tags": ["erik_gummies_seen"]
+			},
+			{
+				"id": "gummies_tradition",
+				"trigger_type": 4,
+				"target_id": "dorm_fire_drill",
+				"unlock_tag": "erik_gummies_tradition",
+				"description": "During the dorm evacuation, Erik calmly approaches the group: \"Do... anyone want to do drugs?\" offering his gummies with endearing broken grammar.",
+				"dialogue_title": "emergency_gummies",
+				"condition_tags": ["erik_gummies_explained"]
+			}
+		]
+	},
+	{
+		"id": "li_glasses_chain",
+		"character_id": "Li",
+		"relationship_reward": 6,
+		"completed_tag": "li_glasses_chain_completed",
+		"steps": [
+			{
+				"id": "extra_glasses",
+				"trigger_type": 0,
+				"target_id": "Li_glasses",
+				"unlock_tag": "li_double_glasses_noticed",
+				"description": "Looking closely, you notice Li seems to be wearing two pairs of glasses - one functional pair and beneath them, what looks like a broken pair without lenses.",
+				"dialogue_title": "ask_about_glasses"
+			},
+			{
+				"id": "glasses_explanation",
+				"trigger_type": 3,
+				"target_id": "ask_about_glasses",
+				"unlock_tag": "li_glasses_explained",
+				"description": "Li hesitates before explaining that the broken pair are their childhood glasses, kept as a lucky charm and a reminder of earlier resilience.",
+				"dialogue_title": "glasses_story",
+				"condition_tags": ["li_double_glasses_noticed"]
+			},
+			{
+				"id": "photo_anomaly",
+				"trigger_type": 1,
+				"target_id": "group_photo",
+				"unlock_tag": "li_photo_anomaly",
+				"description": "In the group photo, everyone appears clearly except Li, who seems slightly blurred as if in motion, despite standing still during the shot.",
+				"dialogue_title": "notice_photo_blur",
+				"condition_tags": ["li_glasses_explained"]
+			},
+			{
+				"id": "photo_pattern",
+				"trigger_type": 3,
+				"target_id": "ask_about_photo_blur",
+				"unlock_tag": "li_photo_pattern_revealed",
+				"description": "\"It happens a lot,\" Li admits quietly. \"Cameras never quite capture me clearly. I don't really understand why.\"",
+				"dialogue_title": "photo_phenomenon",
+				"condition_tags": ["li_photo_anomaly"]
+			}
+		]
+	},
+	{
+		"id": "professor_moss_pendant_chain",
+		"character_id": "Professor_Moss",
+		"relationship_reward": 5,
+		"completed_tag": "moss_pendant_chain_completed",
+		"steps": [
+			{
+				"id": "fossil_lecture",
+				"trigger_type": 3,
+				"target_id": "moss_lecture_prototaxite",
+				"unlock_tag": "moss_prototaxite_interest",
+				"description": "Professor Moss speaks with unusual passion about Prototaxite fossils during the lecture, describing them as \"memory threads of the ancient world.\"",
+				"dialogue_title": "prototaxite_lecture"
+			},
+			{
+				"id": "lab_fossil",
+				"trigger_type": 0,
+				"target_id": "moss_lab_cabinet",
+				"unlock_tag": "moss_fossil_collection_seen",
+				"description": "In Professor Moss's lab cabinet, you spot a collection of iridescent fossil fragments that seem to shift colors in the light.",
+				"dialogue_title": "ask_about_cabinet",
+				"condition_tags": ["moss_prototaxite_interest"]
+			},
+			{
+				"id": "fossil_gift",
+				"trigger_type": 3,
+				"target_id": "ask_about_fossils",
+				"unlock_tag": "moss_pendant_gifted",
+				"description": "Professor Moss studies you for a moment, then unlocks the cabinet and hands you a polished pendant of fossilized Prototaxite. \"I think this one belongs with you,\" he says with unusual conviction.",
+				"dialogue_title": "pendant_gift",
+				"condition_tags": ["moss_fossil_collection_seen"]
+			}
+		]
+	},
+	{
+		"id": "adam_pendant_chain",
+		"character_id": "Adam",
+		"relationship_reward": 0,
+		"completed_tag": "adam_pendant_chain_completed",
+		"steps": [
+			{
+				"id": "pendant_observation",
+				"trigger_type": 1,
+				"target_id": "prototaxite_pendant",
+				"unlock_tag": "adam_pendant_fascination",
+				"description": "You find yourself unconsciously gazing at the pendant, mesmerized by the way its colors seem to shift and change in different light.",
+				"dialogue_title": "pendant_reflection"
+			},
+			{
+				"id": "pendant_dreams",
+				"trigger_type": 3,
+				"target_id": "sleep_with_pendant",
+				"unlock_tag": "adam_pendant_dreams",
+				"description": "After sleeping with the pendant nearby, you dream of ancient forests and vast networks of living threads beneath the soil, pulsing with memory and connection.",
+				"dialogue_title": "pendant_dreams",
+				"condition_tags": ["adam_pendant_fascination"]
+			},
+			{
+				"id": "pendant_connection",
+				"trigger_type": 2,
+				"target_id": "lichen_spring",
+				"unlock_tag": "adam_pendant_purpose",
+				"description": "Standing near the Lichen Spring, you feel the pendant grow warm against your skin, and a strange certainty forms in your mind about what must be done.",
+				"dialogue_title": "pendant_spring_reaction",
+				"condition_tags": ["adam_pendant_dreams"]
+			}
+		]
+	}
+]

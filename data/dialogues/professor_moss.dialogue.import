@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://fi1wka1jjghk"
+path="res://.godot/imported/professor_moss.dialogue-944238067d03978407c24ce11241c0a0.tres"
+
+[deps]
+
+source_file="res://data/dialogues/professor_moss.dialogue"
+dest_files=["res://.godot/imported/professor_moss.dialogue-944238067d03978407c24ce11241c0a0.tres"]
+
+[params]
+
+defaults=true

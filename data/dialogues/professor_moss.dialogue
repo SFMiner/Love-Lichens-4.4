@@ -1,0 +1,78 @@
+~ start
+
+Professor Moss: Hello there! Welcome to the College of Environmental Science and Forestry. I'm Professor Moss, I teach Lichenology 101.
+
+- Can you tell me about lichens?
+  Professor Moss: Lichens are fascinating composite organisms that arise from algae or cyanobacteria living among filaments of multiple fungi species! They form a symbiotic relationship where fungi provide protection and minerals while algae provide food through photosynthesis. Did you know there are over 20,000 species of lichens?
+  - That's amazing! Tell me more.
+    Professor Moss: Lichens are incredibly resilient! They can survive in the harshest environments on Earth - from scorching deserts to frozen tundra. They're also important environmental indicators because they're sensitive to air pollution. Some species are even being studied for potential medical applications! In our class, you'll learn all about their biology, ecology, and practical applications.
+    - Your class sounds interesting! => class_interested
+    - How long have you been at this campus? => campus
+    - This is fascinating! I'll talk to you later. => farewell_positive
+  - What will I learn in your class? => class
+  - Interesting, but I need to go now. => farewell
+
+- What will I learn in your class? => class
+
+- How long have you been at this campus? => campus
+
+- Nice to meet you, but I need to go. => farewell
+
+~ class
+Professor Moss: In Lichenology 101, you'll learn about lichen biology, diversity, and ecological importance. We'll have field trips to identify specimens, lab work to study their structure, and a research project where you'll investigate a lichen-related environmental question. It's a hands-on course that many students find unexpectedly engaging!
+
+- That sounds really interesting! => class_interested
+- Can you tell me more about lichens first? => start
+- I'll think about it. See you later. => farewell
+
+~ class_interested
+Professor Moss: I'm delighted to hear that! Students who approach the subject with enthusiasm always get the most out of the class. If you decide to enroll, come by my office hours anytime - I'm always happy to discuss lichens and help students with their research projects. The natural world has so many wonders to discover!
+
+- How long have you been teaching here? => campus
+- I'll definitely consider your class! See you around. => farewell_positive
+
+~ campus
+Professor Moss: I've been at the College of Environmental Science and Forestry for nearly 15 years now. I started as a post-doctoral researcher and eventually became a full professor. The campus has changed quite a bit over the years, but the community's passion for environmental studies has remained constant. It's a wonderful place to work and teach.
+
+- Let's talk more about lichens. => start
+- Tell me more about your class. => class
+- It was nice meeting you, Professor. => farewell
+
+~ farewell
+Professor Moss: Of course, I understand you have a busy schedule. Feel free to stop by my office if you have any questions about lichens or the environmental sciences. Have a good day!
+
+=> END
+
+~ farewell_positive
+Professor Moss: Wonderful! I'm always excited to meet students who show interest in the natural world. My office door is always open if you have questions. I hope to see you in class soon!
+
+=> END
+
+
+~ see_again
+Moss: Mm. You're here. Good. The lichen samples didn’t sort themselves overnight.
+- "Good morning to you too." => moss_gruff
+- "Want help with the samples?" => moss_help_offer
+
+~ moss_gruff
+Moss: Morning is a colonial construct. But sure. Morning.
+
+~ moss_help_offer
+Moss: Hm. If you're going to contaminate them, do it with intent.
+
+~ ask_about_fossil
+[if GameState.has_tag("moss_fossil_seen")]
+Adam: That pouch you wear—it’s got a fossil, right?
+Moss: Ah. Yes. Prototaxites. Prehistoric mystery. Fungus-adjacent. Disregarded by those with no poetry in them.
+- "Why carry it?" => moss_reason
+
+~ moss_reason
+Moss: Because it reminds me that everything we know is temporary. And because I had two. You have the other.
+
+~ memory_stirred
+[if GameState.has_tag("moss_fossil_seen")]
+Moss: That fossil. It remembers things no one ever saw. You ever feel that?
+- "Sometimes." => moss_close
+
+~ moss_close
+Moss: Good. Keep listening. Sometimes memory is more useful than foresight.
