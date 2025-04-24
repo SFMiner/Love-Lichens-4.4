@@ -55,7 +55,13 @@ func _connect_ui_signals(combat_ui, combat_manager):
 func _on_action_selected(action, combat_ui, combat_manager):
 	print("Combat initializer: Player selected action - " + action.type)
 	
-	# Ensure we only process player actions when it's actually the player's turn
+	# Ensure we're in the correct state to process player actions
+	if combat_manager.current_combat_state != combat_manager.CombatState.PLAYER_TURN_ACTIVE:
+		print("Combat initializer: ERROR - Received player action in invalid state: " + 
+			str(combat_manager.current_combat_state))
+		return
+		
+	# Verify it's actually the player's turn
 	var player = combat_manager.current_combatants[0]
 	var current_character = combat_manager.turn_order[combat_manager.current_turn_index]
 	
@@ -63,10 +69,10 @@ func _on_action_selected(action, combat_ui, combat_manager):
 		print("Combat initializer: ERROR - Received player action but it's not player's turn!")
 		return
 		
-	if not combat_manager.waiting_for_player_action:
-		print("Combat initializer: ERROR - Received player action but not waiting for player action!")
-		return
-		
+	# Transition to action processing state
+	combat_manager.current_combat_state = combat_manager.CombatState.PLAYER_ACTION_PROCESSING
+	print("Combat initializer: State changed to PLAYER_ACTION_PROCESSING")
+	
 	# Process player action visually
 	combat_ui.process_player_action(action)
 	
@@ -76,11 +82,12 @@ func _on_action_selected(action, combat_ui, combat_manager):
 	
 	print("Combat initializer: Action processing complete, ending player turn")
 	
-	# End the turn after action is processed and only if we're still waiting for player action
-	if combat_manager.waiting_for_player_action:
+	# End the turn after action is processed
+	if combat_manager.current_combat_state == combat_manager.CombatState.PLAYER_ACTION_PROCESSING:
 		combat_manager.end_turn()
 	else:
-		print("Combat initializer: WARNING - Not ending turn, waiting_for_player_action is already false")
+		print("Combat initializer: WARNING - Not ending turn, state has already changed to: " + 
+			str(combat_manager.current_combat_state))
 
 func _on_retreat_requested(combat_manager):
 	# Try to retreat
