@@ -33,7 +33,6 @@ func _ready():
 	combat_panel.visible = false
 	
 	# Connect to combat manager signals
-	var combat_manager = get_node_or_null("/root/CombatManager")
 	if combat_manager:
 		combat_manager.combat_started.connect(_on_combat_started)
 		combat_manager.combat_ended.connect(_on_combat_ended)
@@ -207,7 +206,6 @@ func cancel_target_selection():
 		child.disabled = false
 	
 	# Reset retreat button state
-	var combat_manager = get_node_or_null("/root/CombatManager")
 	if combat_manager:
 		retreat_button.disabled = not combat_manager.allow_retreat
 
@@ -314,7 +312,6 @@ func _on_turn_started(character):
 			child.disabled = false
 		
 		# Enable retreat if allowed
-		var combat_manager = get_node_or_null("/root/CombatManager")
 		if combat_manager:
 			retreat_button.disabled = not combat_manager.allow_retreat
 		
@@ -367,7 +364,6 @@ func _on_retreat_button_pressed():
 func process_player_action(action):
 	ui_state = State.RESOLVING_ACTION
 
-	var combat_manager = get_node_or_null("/root/CombatManager")
 	if combat_manager and current_player:
 		match action.type:
 			"attack":

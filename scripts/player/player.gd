@@ -9,6 +9,7 @@ signal interaction_triggered(object)
 @export var base_speed = 250.0
 #var speed
 @export var character_name = "Adam Young"
+@export var character_id = "erik"
 @export var interaction_range = 150.0  # Maximum distance for basic interaction
 @export var max_interaction_distance = 150.0  # Maximum distance for mouse clicks
 
@@ -16,13 +17,19 @@ signal interaction_triggered(object)
 const scr_debug :bool = false
 var debug
 
+
 # Interaction variables
 var interactable_object = null
 var in_dialog = false
 var last_direction = Vector2(0, 1) # Default facing down
+
+var is_moving = false
+var anim_direction = "down"  # for animation strings
+
 @onready var last_position = position
 @onready var label : Label = $Label
 @onready var camera = $Camera2D
+@onready var animator = $CharacterAnimator
 
 # Mouse interaction variables
 var interactables_in_range = []
@@ -62,6 +69,7 @@ func perform_attack(target, action):
 
 func _ready():
 	initialize_stats()
+
 	GameState.set_player(self)
 	speed = base_speed
 	debug = scr_debug or GameController.sys_debug 
@@ -184,6 +192,19 @@ func _physics_process(delta):
 	# Handle movement
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	
+	is_moving = input_vector.length() > 0.1
+	
+	if is_moving:
+		last_direction = input_vector.normalized()
+		update_anim_direction()
+		animator.set_animation("walk_" + anim_direction)
+	else:
+		animator.set_animation("idle_" + anim_direction)
+	
 	# If no input from UI, try direct WASD inputs
 	if input_dir == Vector2.ZERO:
 		var x_input = 0
@@ -204,12 +225,15 @@ func _physics_process(delta):
 	# Set velocity
 	velocity = input_dir * speed
 	
-	# Update animation based on movement direction
-	update_animation(input_dir)
-	
-	# Save the last non-zero direction for the interaction ray
+
 	if input_dir != Vector2.ZERO:
 		last_direction = input_dir
+		update_anim_direction()
+		animator.set_animation("walk", anim_direction)
+	else:
+		animator.set_animation("idle", anim_direction)
+
+
 	
 	# Check for interactable objects in range
 	check_for_interactable()
@@ -221,45 +245,11 @@ func _physics_process(delta):
 		z_index = int(global_position.y)
 		label.text = str(global_position)
 
-func update_animation(input_dir):
-	if input_dir == Vector2.ZERO:
-		# Player is not moving, play idle animation
-		if abs(last_direction.x) > abs(last_direction.y):
-			if last_direction.x > 0:
-				play_animation("idle_right")
-			else:
-				play_animation("idle_left")
-		else:
-			if last_direction.y > 0:
-				play_animation("idle_down")
-			else:
-				play_animation("idle_up")
+func update_anim_direction():
+	if abs(last_direction.x) > abs(last_direction.y):
+		anim_direction = "right" if last_direction.x > 0 else "left"
 	else:
-		# Determine the dominant direction for diagonal movement
-		var abs_x = abs(input_dir.x)
-		var abs_y = abs(input_dir.y)
-		
-		if abs_x > abs_y:
-			# Horizontal movement is dominant
-			if input_dir.x > 0:
-				play_animation("walk_right")
-			else:
-				play_animation("walk_left")
-		else:
-			# Vertical movement is dominant
-			if input_dir.y < 0:
-				play_animation("walk_up")
-#				# For upward diagonal, prioritize left/right animations as specified
-#				if input_dir.x != 0:
-#					if input_dir.x > 0:
-#						play_animation("walk_right")
-#					else:
-#						play_animation("walk_left")
-#				else:
-#					play_animation("walk_up")
-			else:
-#				# Walking down or downward diagonal
-				play_animation("walk_down")
+		anim_direction = "down" if last_direction.y > 0 else "up"
 
 func play_animation(anim_name):
 	var anim_player = get_node_or_null("AnimationPlayer")

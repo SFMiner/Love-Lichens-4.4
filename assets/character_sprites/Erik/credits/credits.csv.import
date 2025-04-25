@@ -6,10 +6,10 @@ uid="uid://bpenfxy8wnh0o"
 
 [deps]
 
-files=["res://assets/character_sprites/Erik/credits/credits.notes.translation", "res://assets/character_sprites/Erik/credits/credits.authors.translation", "res://assets/character_sprites/Erik/credits/credits.licenses.translation", "res://assets/character_sprites/Erik/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/erik/credits/credits.notes.translation", "res://assets/character_sprites/erik/credits/credits.authors.translation", "res://assets/character_sprites/erik/credits/credits.licenses.translation", "res://assets/character_sprites/erik/credits/credits.urls.translation"]
 
-source_file="res://assets/character_sprites/Erik/credits/credits.csv"
-dest_files=["res://assets/character_sprites/Erik/credits/credits.notes.translation", "res://assets/character_sprites/Erik/credits/credits.authors.translation", "res://assets/character_sprites/Erik/credits/credits.licenses.translation", "res://assets/character_sprites/Erik/credits/credits.urls.translation"]
+source_file="res://assets/character_sprites/erik/credits/credits.csv"
+dest_files=["res://assets/character_sprites/erik/credits/credits.notes.translation", "res://assets/character_sprites/erik/credits/credits.authors.translation", "res://assets/character_sprites/erik/credits/credits.licenses.translation", "res://assets/character_sprites/erik/credits/credits.urls.translation"]
 
 [params]
 

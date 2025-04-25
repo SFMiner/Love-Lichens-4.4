@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bvb20kbggr188"]
+[gd_scene load_steps=16 format=3 uid="uid://bvb20kbggr188"]
 
 [ext_resource type="Script" uid="uid://c8ht8uc5k24eb" path="res://scripts/player/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://cvgakjwvlsjn8" path="res://assets/character_sprites/Adam/standard/walk.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://cvgakjwvlsjn8" path="res://assets/character_sprites/adam/standard/walk.png" id="2_g2els"]
+[ext_resource type="Script" uid="uid://cjtctlf6h32pl" path="res://scripts/world/character_animator.gd" id="3_qhqgy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3kf1"]
 size = Vector2(21, 8)
@@ -10,6 +11,7 @@ size = Vector2(21, 8)
 radius = 30.0
 
 [sub_resource type="Animation" id="Animation_qhqgy"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -21,7 +23,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [18]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -206,6 +208,7 @@ scale = Vector2(1.095, 1.095)
 texture = ExtResource("2_g2els")
 hframes = 9
 vframes = 4
+frame = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -4)
@@ -233,6 +236,9 @@ offset_top = -38.0
 offset_right = 53.0
 offset_bottom = -15.0
 theme_override_font_sizes/font_size = 11
+
+[node name="CharacterAnimator" type="Node" parent="."]
+script = ExtResource("3_qhqgy")
 
 [connection signal="area_entered" from="InteractionArea" to="." method="_on_interaction_area_area_entered"]
 [connection signal="area_exited" from="InteractionArea" to="." method="_on_interaction_area_area_exited"]

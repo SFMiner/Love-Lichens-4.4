@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0jeykpxlxnt5"
-path="res://.godot/imported/shoot.png-668b645a175ef5f4da9caa8afa6ae359.ctex"
+path="res://.godot/imported/shoot.png-8a11457dde70f847373d895218be29a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Erik/standard/shoot.png"
-dest_files=["res://.godot/imported/shoot.png-668b645a175ef5f4da9caa8afa6ae359.ctex"]
+source_file="res://assets/character_sprites/erik/standard/shoot.png"
+dest_files=["res://.godot/imported/shoot.png-8a11457dde70f847373d895218be29a7.ctex"]
 
 [params]
 
