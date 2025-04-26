@@ -9,9 +9,16 @@ signal interaction_triggered(object)
 @export var base_speed = 250.0
 #var speed
 @export var character_name = "Adam Young"
-@export var character_id = "erik"
+@export var character_id = "adam"
 @export var interaction_range = 150.0  # Maximum distance for basic interaction
 @export var max_interaction_distance = 150.0  # Maximum distance for mouse clicks
+var anim = get_node_or_null("AnimationPlayer")
+var sprite = get_node_or_null("Sprite2D")
+		
+# Jumping
+var is_jumping = false
+var jump_timer = 0.0
+const JUMP_DURATION = 1.2  # Seconds - match this to animation length
 
 
 const scr_debug :bool = false
@@ -22,9 +29,11 @@ var debug
 var interactable_object = null
 var in_dialog = false
 var last_direction = Vector2(0, 1) # Default facing down
+var last_animation = "idle" # Default facing down
 
 var is_moving = false
 var anim_direction = "down"  # for animation strings
+@export var curr_animation_frame : int = 0
 
 @onready var last_position = position
 @onready var label : Label = $Label
@@ -34,38 +43,6 @@ var anim_direction = "down"  # for animation strings
 # Mouse interaction variables
 var interactables_in_range = []
 signal interaction_requested(object)
-
-func get_initiative():
-	return speed + randi() % 5
-
-func take_damage(amount, is_nonlethal=true):
-	var damage_reduction = defense / 100.0
-	var actual_damage = amount * (1 - damage_reduction)
-	actual_damage = max(1, int(actual_damage))
-	
-	current_health = max(0, current_health - actual_damage)
-	health_changed.emit(current_health, max_health)
-	
-	if current_health <= 0:
-		# Handle defeat
-		pass
-	
-	return actual_damage
-	
-	
-# Attack implementation
-func perform_attack(target, action):
-	var base_damage = strength
-	var actual_damage = target.take_damage(base_damage, true)
-	
-	current_stamina = max(0, current_stamina - 5)
-	stamina_changed.emit(current_stamina, max_stamina)
-	
-	return {
-		"success": true,
-		"damage": actual_damage
-	}
-
 
 func _ready():
 	initialize_stats()
@@ -127,6 +104,46 @@ func _ready():
 	print("PLAYER: Setting up mouse interaction debug")
 	get_viewport().set_input_as_handled()
 
+func begin_jump():
+	is_jumping = true
+	jump_timer = JUMP_DURATION
+	update_anim_direction()
+	animator.set_animation("jump", anim_direction)
+	# (Optional) you could also add a small velocity boost here if you want "momentum"
+
+func get_initiative():
+	return speed + randi() % 5
+
+func take_damage(amount, is_nonlethal=true):
+	var damage_reduction = defense / 100.0
+	var actual_damage = amount * (1 - damage_reduction)
+	actual_damage = max(1, int(actual_damage))
+	
+	current_health = max(0, current_health - actual_damage)
+	health_changed.emit(current_health, max_health)
+	
+	if current_health <= 0:
+		# Handle defeat
+		pass
+	
+	return actual_damage
+	
+
+# Attack implementation
+func perform_attack(target, action):
+	var base_damage = strength
+	var actual_damage = target.take_damage(base_damage, true)
+	
+	current_stamina = max(0, current_stamina - 5)
+	stamina_changed.emit(current_stamina, max_stamina)
+	
+	return {
+		"success": true,
+		"damage": actual_damage
+	}
+
+
+
 # Placeholder for skills data - replace with actual skills
 func get_available_skills():
 	# Return some basic combat skills
@@ -164,7 +181,8 @@ func get_combat_usable_items():
 	return []
 
 func _physics_process(delta):
-	# Check dialog system nodes directly to detect if dialogue has ended
+
+		# Check dialog system nodes directly to detect if dialogue has ended
 	if in_dialog:
 		# First check if our dialog system is even reporting it's still active
 		var dialog_system = get_node_or_null("/root/DialogSystem")
@@ -185,10 +203,6 @@ func _physics_process(delta):
 		if Engine.get_process_frames() % 60 == 0:  # Check once a second
 			if debug: print("DEBUG: Still in dialog mode with character: ", dialog_system.current_character_id)
 	
-	if in_dialog:
-		# Don't allow movement during dialog
-		return
-		
 	# Handle movement
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
@@ -198,42 +212,50 @@ func _physics_process(delta):
 	
 	is_moving = input_vector.length() > 0.1
 	
-	if is_moving:
-		last_direction = input_vector.normalized()
-		update_anim_direction()
-		animator.set_animation("walk_" + anim_direction)
+	if is_jumping:
+		jump_timer -= delta
+		if jump_timer <= 0:
+			is_jumping = false
+			last_animation = ""  # Reset animation state when jump ends
+		# We don't want to keep setting the animation repeatedly
+		# This animation was already set in begin_jump()
 	else:
-		animator.set_animation("idle_" + anim_direction)
-	
-	# If no input from UI, try direct WASD inputs
-	if input_dir == Vector2.ZERO:
-		var x_input = 0
-		var y_input = 0
-		
-		# Check WASD keys directly
-		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
-			y_input -= 1
-		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
-			y_input += 1
-		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
-			x_input -= 1
-		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
-			x_input += 1
+		# If no input from UI, try direct WASD inputs
+		if input_dir == Vector2.ZERO:
+			var x_input = 0
+			var y_input = 0
 			
-		input_dir = Vector2(x_input, y_input).normalized()
-	
-	# Set velocity
-	velocity = input_dir * speed
-	
-
-	if input_dir != Vector2.ZERO:
-		last_direction = input_dir
-		update_anim_direction()
-		animator.set_animation("walk", anim_direction)
-	else:
-		animator.set_animation("idle", anim_direction)
-
-
+			# Check WASD keys directly
+			if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+				y_input -= 1
+			if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+				y_input += 1
+			if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+				x_input -= 1
+			if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+				x_input += 1
+				
+			input_dir = Vector2(x_input, y_input).normalized()
+		
+		# Set velocity
+		velocity = input_dir * speed
+		
+		# CONSOLIDATED ANIMATION HANDLING
+		if input_dir != Vector2.ZERO:
+			var old_direction = anim_direction
+			last_direction = input_dir
+			update_anim_direction()
+			
+			# Only update animation if the direction has changed or animation type changed
+			if old_direction != anim_direction or last_animation != "walk":
+				print("Setting walk animation - dir: " + anim_direction + ", old_dir: " + old_direction + ", last_anim: " + last_animation)
+				animator.set_animation("walk", anim_direction)
+				last_animation = "walk"
+		elif last_animation != "idle":
+			# Only set idle if we're not already idle
+			print("Setting idle animation - current anim: " + last_animation)
+			animator.set_animation("idle", anim_direction)
+			last_animation = "idle"
 	
 	# Check for interactable objects in range
 	check_for_interactable()
@@ -311,6 +333,9 @@ func update_closest_interactable():
 
 func _unhandled_input(event):
 	# Handle clicks globally - this will interact with the closest object
+	if event.is_action_pressed("jump") and !in_dialog:
+		print("JUMP pressed.")
+		begin_jump()
 	if event.is_action_pressed("click") and !in_dialog:
 		print("GLOBAL CLICK DETECTED!")
 		
@@ -359,14 +384,7 @@ func _unhandled_input(event):
 					notification_system.show_notification("Too far away to interact with " + display_name)
 				else:
 					print("Too far away to interact with " + closest_obj.name)
-		# Fallback to E-key style interaction if no object was clicked
-#		elif interactable_object:
-#			print("No clicked object, using closest interactable: " + interactable_object.name)
-#			if global_position.distance_to(interactable_object.global_position) <= 30 * scale.y:
-#				print("Distance to interactable = " + str(global_position.distance_to(interactable_object.global_position)))
-#				interactable_object.interact()
-		
-	# Regular E key interaction
+
 	elif event.is_action_pressed("interact"): 
 		print("Interact button pressed")
 		
