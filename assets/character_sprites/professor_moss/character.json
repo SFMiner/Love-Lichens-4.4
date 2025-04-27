@@ -1,0 +1,161 @@
+{
+  "bodyTypeName": "male",
+  "url": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/#?body=Body_color_light&head=Human_male_elderly_light&beard=Basic_Beard_chestnut&hair=Page2_chestnut&wrinkes=none_Wrinkles&facial_eyes=Halfmoon_Glasses_bluegray&clothes=Longsleeve_white&jacket=Collared_coat_bluegray&legs=Cuffed_Pants_gray&shoes=Sandals_lavender&jacket_pockets=Jacket_pockets_bluegray",
+  "spritesheets": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/spritesheets/",
+  "version": 1,
+  "datetime": "4/20/2025, 9:18:28 PM",
+  "credits": [
+    {
+      "fileName": "body/bodies/male/light.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "bluecarrot16,JaidynReiman,Benjamin K. Smith (BenCreating),Evert,Eliza Wyatt (ElizaWy),TheraHedwig,MuffinElZangano,Durrani,Johannes Sjölund (wulax),Stephen Challener (Redshrike)",
+      "urls": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles,https://opengameart.org/content/lpc-medieval-fantasy-character-sprites,https://opengameart.org/content/lpc-male-jumping-animation-by-durrani,https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle,https://opengameart.org/content/lpc-revised-character-basics,https://opengameart.org/content/lpc-be-seated,https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads,https://opengameart.org/content/lpc-jump-expanded,https://opengameart.org/content/lpc-character-bases",
+      "notes": "see details at https://opengameart.org/content/lpc-character-bases; 'Thick' Male Revised Run/Climb by JaidynReiman (based on ElizaWy's LPC Revised)"
+    },
+    {
+      "fileName": "head/heads/human/male_elderly/light.png",
+      "licenses": "OGA-BY 3.0,CC-BY 3.0",
+      "authors": "Benjamin K. Smith (BenCreating),Eliza Wyatt (ElizaWy),Stephen Challener (Redshrike)",
+      "urls": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles,https://opengameart.org/content/lpc-revised-elders,https://opengameart.org/content/lpc-character-bases",
+      "notes": ""
+    },
+    {
+      "fileName": "beards/beard/basic/chestnut.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "JaidynReiman,Carlo Enrico Victoria (Nemisys)",
+      "urls": "https://opengameart.org/content/lpc-white-beard",
+      "notes": "Original by Nemisys, repositioning by JaidynReiman."
+    },
+    {
+      "fileName": "hair/page2/adult/chestnut.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "ElizaWy,Johannes Sjölund (wulax)",
+      "urls": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites,https://github.com/ElizaWy/LPC/tree/main/Characters/Hair,https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+      "notes": "Original by Johannes Sjölund (wulax). Edited, animated, and recolored by ElizaWy."
+    },
+    {
+      "fileName": "facial/glasses/halfmoon/adult/bluegray.png",
+      "licenses": "OGA-BY 3.0",
+      "authors": "ElizaWy",
+      "urls": "https://github.com/ElizaWy/LPC/tree/main/Characters/Head%20Accessories,https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+      "notes": ""
+    },
+    {
+      "fileName": "torso/clothes/longsleeve/longsleeve/male/white.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "JaidynReiman,Johannes Sjölund (wulax)",
+      "urls": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites,http://opengameart.org/content/lpc-clothing-updates",
+      "notes": "original by wulax, recolors and cleanup by JaidynReiman, further recolors by bluecarrot16"
+    },
+    {
+      "fileName": "torso/jacket/collared/male/bluegray.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "bluecarrot16",
+      "urls": "https://opengameart.org/content/lpc-gentleman,https://opengameart.org/content/lpc-pirates",
+      "notes": ""
+    },
+    {
+      "fileName": "torso/jacket/trim/jacket_pockets/bluegray.png",
+      "licenses": "OGA-BY 3.0",
+      "authors": "bluecarrot16",
+      "urls": "https://opengameart.org/content/lpc-pirates",
+      "notes": ""
+    },
+    {
+      "fileName": "legs/cuffed/male/gray.png",
+      "licenses": "OGA-BY 3.0,GPL 3.0",
+      "authors": "JaidynReiman,ElizaWy,Bluecarrot16,Johannes Sjölund (wulax),Stephen Challener (Redshrike)",
+      "urls": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing,https://opengameart.org/content/lpc-expanded-sit-run-jump-more,https://opengameart.org/content/lpc-expanded-pants",
+      "notes": "Original bases by Redshrike, thrust/shoot bases by Wulax, original overalls by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, pants by JaidynReiman"
+    },
+    {
+      "fileName": "feet/sandals/male/lavender.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 2.0,GPL 3.0",
+      "authors": "Nila122,JaidynReiman,Matthew Krohn (makrohn),Johannes Sjölund (wulax)",
+      "urls": "https://opengameart.org/content/lpc-roman-armor,http://opengameart.org/content/lpc-clothing-updates,https://opengameart.org/content/lpc-expanded-socks-shoes",
+      "notes": "edited for v3 bases by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman"
+    }
+  ],
+  "layers": [
+    {
+      "fileName": "body/bodies/male/light.png",
+      "zPos": 10,
+      "parentName": "body",
+      "name": "Body_color",
+      "variant": "light",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "feet/sandals/male/lavender.png",
+      "zPos": 15,
+      "parentName": "shoes",
+      "name": "Sandals",
+      "variant": "lavender",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "legs/cuffed/male/gray.png",
+      "zPos": 20,
+      "parentName": "legs",
+      "name": "Cuffed_Pants",
+      "variant": "gray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "torso/clothes/longsleeve/longsleeve/male/white.png",
+      "zPos": 35,
+      "parentName": "clothes",
+      "name": "Longsleeve",
+      "variant": "white",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "torso/jacket/collared/male/bluegray.png",
+      "zPos": 55,
+      "parentName": "jacket",
+      "name": "Collared_coat",
+      "variant": "bluegray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "torso/jacket/trim/jacket_pockets/bluegray.png",
+      "zPos": 59,
+      "parentName": "jacket_pockets",
+      "name": "Jacket_pockets",
+      "variant": "bluegray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "head/heads/human/male_elderly/light.png",
+      "zPos": 100,
+      "parentName": "head",
+      "name": "Human_male_elderly",
+      "variant": "light",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "beards/beard/basic/chestnut.png",
+      "zPos": 110,
+      "parentName": "beard",
+      "name": "Basic_Beard",
+      "variant": "chestnut",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "facial/glasses/halfmoon/adult/bluegray.png",
+      "zPos": 115,
+      "parentName": "facial_eyes",
+      "name": "Halfmoon_Glasses",
+      "variant": "bluegray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "hair/page2/adult/chestnut.png",
+      "zPos": 120,
+      "parentName": "hair",
+      "name": "Page2",
+      "variant": "chestnut",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    }
+  ]
+}
