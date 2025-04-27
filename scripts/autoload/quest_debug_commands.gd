@@ -4,7 +4,7 @@ extends Node
 
 # This script provides console commands to test quest system functionality
 
-const debug = true
+const debug = false
 
 func _ready():
 	# Register console commands if using a console system

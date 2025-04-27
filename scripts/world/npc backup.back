@@ -219,7 +219,7 @@ func is_feature_observed(feature_id: String) -> bool:
 	return false
 
 func add_observable_feature(feature_id: String, description: String, memory_tag: String = "") -> void:
-	if debug: print("Adding obser5vable features for " + character_id)
+	if debug: print("Adding observable features for " + character_id)
 	observable_features[feature_id] = {
 		"description": description,
 		"observed": false,

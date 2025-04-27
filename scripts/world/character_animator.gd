@@ -2,59 +2,11 @@ extends Node
 
 @export var sprite_path: NodePath = NodePath("Sprite2D")
 @onready var sprite: Sprite2D = get_parent().get_node_or_null("Sprite2D")
-@onready var spritesheets = "res://assets/character_sprites/" + get_parent().character_id + "/standard/"
 @onready var AP = get_parent().get_node_or_null("AnimationPlayer")
-@onready var player = get_parent()
-@onready var animation_data : Dictionary = {
-	"walk": {
-		"path": spritesheets + "walk.png", 
-		"hframes": 9, 
-		"vframes": 4, 
-		"total_frames": 36, 
-		"frame_time": 0.1,
-		# You can specify different timing for each frame in the animation
-		"frame_times": {
-			# Format: "direction": [time_for_frame0, time_for_frame1, ...]
-			"down": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-			"left": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-			"right": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-			"up": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
-		}
-	},
-	"climb": {"path": spritesheets + "climb.png", "hframes": 6, "vframes": 1, "total_frames": 6, "frame_time": 0.1},
-	"emote": {"path": spritesheets + "emote.png", "hframes": 3, "vframes": 4, "total_frames": 12, "frame_time": 0.1},
-	"hurt":  {"path": spritesheets + "hurt.png",  "hframes": 6, "vframes": 1, "total_frames": 6, "frame_time": 0.1},
-	"idle":  {"path": spritesheets + "idle.png",  "hframes": 2, "vframes": 4, "total_frames": 8, "frame_time": 0.4},
-	"jump":  {
-		"path": spritesheets + "jump.png", 
-		"hframes": 6, 
-		"vframes": 4, 
-		"total_frames": 24, 
-		"frame_time": 0.3,
-		# Custom frame timing for each direction's jump animation
-		"frame_times": {
-			"down": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15],  # Total: 1.2 seconds
-			"left": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15],  # Total: 1.2 seconds
-			"right": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15], # Total: 1.2 seconds
-			"up": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15]     # Total: 1.2 seconds
-		}
-	},
-	"run":  {
-		"path": spritesheets + "run.png",  
-		"hframes": 8, 
-		"vframes": 4, 
-		"total_frames": 32, 
-		"frame_time": 0.08,  # Run animation should be faster than walk
-		# Add frame timing for run animation
-		"frame_times": {
-			"down": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
-			"left": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
-			"right": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
-			"up": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08]
-		}
-	},
-}
+#@onready var player = get_parent()
 
+var animation_data : Dictionary
+var sheets_path : String 
 var current_anim = "idle"
 var current_frame : int = 0
 var current_direction = 0
@@ -99,7 +51,65 @@ func _ready():
 	else:
 		print("WARNING: Could not play initial animation")
 
-func set_animation(anim_name: String, direction: String = player.last_direction):
+
+func set_animation_data():
+	animation_data = {
+		"walk": {
+			"path": sheets_path + "walk.png", 
+			"hframes": 9, 
+			"vframes": 4, 
+			"total_frames": 36, 
+			"frame_time": 0.1,
+			# You can specify different timing for each frame in the animation
+			"frame_times": {
+				# Format: "direction": [time_for_frame0, time_for_frame1, ...]
+				"down": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+				"left": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+				"right": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+				"up": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+			}
+		},
+		"climb": {"path": sheets_path + "climb.png", "hframes": 6, "vframes": 1, "total_frames": 6, "frame_time": 0.1},
+		"emote": {"path": sheets_path + "emote.png", "hframes": 3, "vframes": 4, "total_frames": 12, "frame_time": 0.1},
+		"hurt":  {"path": sheets_path + "hurt.png",  "hframes": 6, "vframes": 1, "total_frames": 6, "frame_time": 0.1},
+		"idle":  {"path": sheets_path + "idle.png",  "hframes": 2, "vframes": 4, "total_frames": 8, "frame_time": 0.4},
+		"jump":  {
+			"path": sheets_path + "jump.png", 
+			"hframes": 6, 
+			"vframes": 4, 
+			"total_frames": 24, 
+			"frame_time": 0.3,
+			# Custom frame timing for each direction's jump animation
+			"frame_times": {
+				"down": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15],  # Total: 1.2 seconds
+				"left": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15],  # Total: 1.2 seconds
+				"right": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15], # Total: 1.2 seconds
+				"up": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15]     # Total: 1.2 seconds
+			}
+		},
+		"run":  {
+			"path": sheets_path + "run.png",  
+			"hframes": 8, 
+			"vframes": 4, 
+			"total_frames": 32, 
+			"frame_time": 0.08,  # Run animation should be faster than walk
+			# Add frame timing for run animation
+			"frame_times": {
+				"down": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+				"left": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+				"right": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+				"up": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08]
+			}
+		},
+	}
+
+func set_sheets_path(char_id : String):
+	sheets_path = "res://assets/character_sprites/" + char_id + "/standard/"
+	set_animation_data()
+
+func set_animation(anim_name: String, direction: String, character_id: String):
+	set_sheets_path(character_id)
+	print( "sheets_path = " + sheets_path) 
 	# Generate the full animation name
 	var new_animation_name = anim_name + "_" + direction
 	
@@ -123,9 +133,9 @@ func set_animation(anim_name: String, direction: String = player.last_direction)
 		if anim_name in animation_data:
 			var anim = animation_data[anim_name]
 			print("Changing spritesheet to: " + anim.path + " for animation: " + anim_name)
-			print("Sprite settings BEFORE change: texture=" + str(sprite.texture) + 
-				", hframes=" + str(sprite.hframes) + 
-				", vframes=" + str(sprite.vframes))
+#			print("Sprite settings BEFORE change: texture=" + str(sprite.texture) + 
+#				", hframes=" + str(sprite.hframes) + 
+#				", vframes=" + str(sprite.vframes))
 			
 			var tex = load(anim.path)
 			sprite.texture = tex

@@ -17,7 +17,7 @@ signal memory_chain_completed(character_id: String, chain_id: String)
 signal dialogue_option_unlocked(character_id: String, dialogue_title: String, memory_tag: String)
 
 # Debug flag
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 
 func _ready() -> void:

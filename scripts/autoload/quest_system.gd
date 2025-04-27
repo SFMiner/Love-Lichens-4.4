@@ -6,7 +6,7 @@ signal quest_updated(quest_id)
 signal quest_completed(quest_id)
 signal objective_updated(quest_id, objective_index, progress, required)
 
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 
 var visited_areas = {}

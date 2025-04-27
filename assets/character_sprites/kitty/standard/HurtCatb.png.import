@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1pq568y63uys"
-path="res://.godot/imported/Sittingb.png-90c593952c1fdd343e1214e14fcd9aff.ctex"
+uid="uid://bdfkgbjf4d57w"
+path="res://.godot/imported/HurtCatb.png-cac66051ebe30bbdf1cac9bf38931363.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/Sittingb.png"
-dest_files=["res://.godot/imported/Sittingb.png-90c593952c1fdd343e1214e14fcd9aff.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/HurtCatb.png"
+dest_files=["res://.godot/imported/HurtCatb.png-cac66051ebe30bbdf1cac9bf38931363.ctex"]
 
 [params]
 

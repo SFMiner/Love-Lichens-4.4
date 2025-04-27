@@ -20,15 +20,112 @@ var current_health: int
 var current_stamina: int
 var is_retreating := false
 var status_effects := {}
+var debug
+
+var is_moving = false
+var was_moving : bool
+var is_running = false
+var is_jumping = false
+var jump_timer = 0.0
+var last_direction = Vector2(0, 1) # Default facing down
+var last_animation = "idle" # Default facing down
+var anim_direction = "down"  # for animation strings
+var animator = null
+var base_speed = 250.0
+var run_speed_multiplier = 1.5  # Player moves faster when running
+var last_position = Vector2.ZERO
+
+func _ready():
+	# Common initialization
+	current_health = max_health
+	current_stamina = max_stamina
+	animator = get_node_or_null("CharacterAnimator")
+	print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
+	last_position = position
+	
+
+func get_character_id():
+	pass
+	# overridden in descendents
+
+func update_anim_direction():
+	if abs(last_direction.x) > abs(last_direction.y):
+		if last_direction.x > 0:
+			anim_direction = "right" 
+		else:
+			anim_direction = "left"
+	else:
+		if last_direction.y > 0:
+			anim_direction = "down" 
+		else:
+			anim_direction = "up"
+			
+			
+func process_jumping(delta):
+	if is_jumping:
+		jump_timer -= delta
+		if jump_timer <= 0:
+			is_jumping = false
+			last_animation = ""  # Reset animation state when jump ends
+
+func face_target(target):
+	var direction = get_direction_to_target(target.position)
+	change_facing(direction)
+
+
+func get_direction_to_target(target_position: Vector2) -> String:
+	var to_target = (target_position - global_position).normalized()
+	
+	if abs(to_target.x) > abs(to_target.y):
+		return "right" if to_target.x > 0 else "left"
+	else:
+		return "down" if to_target.y > 0 else "up"
+
+func change_facing(direction):
+	pass #stun overridden in descendents
+
+func update_animation(input_vector):
+	if is_jumping:
+		# Jump animation already set in begin_jump()
+		return
+		
+	if input_vector != Vector2.ZERO:
+		var old_direction = anim_direction
+		update_anim_direction()
+		
+		# Choose animation type based on running state
+		var anim_type = ""
+		if is_running:
+			anim_type = "run"
+		else:
+			anim_type = "walk"
+		
+		# Only update animation if direction changed or animation type changed
+		if old_direction != anim_direction or last_animation != anim_type or !was_moving:
+			if debug: print("Setting " + anim_type + " animation - dir: " + anim_direction)
+			animator.set_animation(anim_type, anim_direction, get_character_id())
+			last_animation = anim_type
+	elif last_animation != "idle":
+		# Only set idle if we're not already idle
+		if debug: print("Setting idle animation - current anim: " + last_animation)
+		animator.set_animation("idle", anim_direction, get_character_id())
+		last_animation = "idle"
+
+func update_position_tracking():
+	if position != last_position:
+		last_position = position
+		z_index = int(global_position.y)
+
+func begin_jump():
+	is_jumping = true
+	jump_timer = 1.2  # JUMP_DURATION 
+	update_anim_direction()
+	animator.set_animation("jump", anim_direction, get_character_id())
 
 # Combat type - override in subclasses
 func get_combatant_type():
 	return CombatManager.CombatantType.NPC
 
-func _ready():
-	# Initialize stats
-	current_health = max_health
-	current_stamina = max_stamina
 
 # Get calculated initiative for combat turn order
 func get_initiative():

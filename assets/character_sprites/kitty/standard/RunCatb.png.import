@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oe2ybv5vydxo"
-path="res://.godot/imported/AttackCatb.png-751477eb293e3f3435f8bc3f59fa40fa.ctex"
+uid="uid://ddouiosoh5na0"
+path="res://.godot/imported/RunCatb.png-345845f08f3de7be52504602ea686e0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/AttackCatb.png"
-dest_files=["res://.godot/imported/AttackCatb.png-751477eb293e3f3435f8bc3f59fa40fa.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/RunCatb.png"
+dest_files=["res://.godot/imported/RunCatb.png-345845f08f3de7be52504602ea686e0e.ctex"]
 
 [params]
 

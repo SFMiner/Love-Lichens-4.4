@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xrxhi0a21djv"
-path="res://.godot/imported/IdleCatb.png-e256595c6655067cc0b3f95195a1df71.ctex"
+uid="uid://oe2ybv5vydxo"
+path="res://.godot/imported/AttackCatb.png-07a6f92b9ceaf5f399e22e213b18d223.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/IdleCatb.png"
-dest_files=["res://.godot/imported/IdleCatb.png-e256595c6655067cc0b3f95195a1df71.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/AttackCatb.png"
+dest_files=["res://.godot/imported/AttackCatb.png-07a6f92b9ceaf5f399e22e213b18d223.ctex"]
 
 [params]
 

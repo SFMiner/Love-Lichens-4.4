@@ -10,6 +10,7 @@ signal location_changed(old_location, new_location)
 
 const sys_debug : bool = false
 var debug 
+var active_scene
 
 # Current scene tracking
 var current_scene_node
@@ -414,6 +415,7 @@ func change_scene(new_scene_path):
 		if scene_resource:
 			var scene_instance = scene_resource.instantiate()
 			current_scene_container.add_child(scene_instance)
+			active_scene = scene_instance
 			current_scene_path = new_scene_path
 			if debug: print("Scene changed to: ", new_scene_path)
 		else:

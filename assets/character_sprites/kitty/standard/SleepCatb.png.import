@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daq0wq8sj7c60"
-path="res://.godot/imported/Idle2Catb.png-d1838293eed386f44a10e309bc5389f1.ctex"
+uid="uid://bscim43qstw7a"
+path="res://.godot/imported/SleepCatb.png-0c00a21ca16421dc71a4d497143fe1fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/Idle2Catb.png"
-dest_files=["res://.godot/imported/Idle2Catb.png-d1838293eed386f44a10e309bc5389f1.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/SleepCatb.png"
+dest_files=["res://.godot/imported/SleepCatb.png-0c00a21ca16421dc71a4d497143fe1fa.ctex"]
 
 [params]
 

@@ -49,14 +49,14 @@ func _ready():
 # Load item templates from JSON file
 func _load_item_templates():
 	if item_templates_loaded:
-		print("Templates already loaded, skipping.")
+		if debug: print("Templates already loaded, skipping.")
 		return
 		
 	var file_path = "res://data/items/item_templates.json"
-	print("Attempting to load item templates from: ", file_path)
+	if debug: print("Attempting to load item templates from: ", file_path)
 	
 	if not FileAccess.file_exists(file_path):
-		print("ERROR: Item templates file not found at path: ", file_path)
+		if debug: print("ERROR: Item templates file not found at path: ", file_path)
 		# Try alternate paths
 		var alternate_paths = [
 			"res://item_templates.json",
@@ -65,19 +65,19 @@ func _load_item_templates():
 		]
 		
 		for alt_path in alternate_paths:
-			print("Trying alternate path: ", alt_path)
+			if debug: print("Trying alternate path: ", alt_path)
 			if FileAccess.file_exists(alt_path):
 				file_path = alt_path
 				print("Found item templates at: ", file_path)
 				break
 		
 		if not FileAccess.file_exists(file_path):
-			print("ERROR: Could not find item templates file in any location")
+			if debug: print("ERROR: Could not find item templates file in any location")
 			return
 	
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if not file:
-		print("ERROR: Could not open item templates file")
+		if debug: print("ERROR: Could not open item templates file")
 		return
 		
 	var json_string = file.get_as_text()
@@ -86,38 +86,38 @@ func _load_item_templates():
 	var json = JSON.new()
 	var parse_result = json.parse(json_string)
 	if parse_result != OK:
-		print("ERROR: Failed to parse item templates JSON: ", json.get_error_message())
+		if debug: print("ERROR: Failed to parse item templates JSON: ", json.get_error_message())
 		return
 		
 	var data = json.data
 	if typeof(data) != TYPE_DICTIONARY:
-		print("ERROR: Item templates JSON is not a dictionary")
+		if debug: print("ERROR: Item templates JSON is not a dictionary")
 		return
 		
 	item_templates = data
 	item_templates_loaded = true
-	print("Loaded ", item_templates.size(), " item templates")
+	if debug: print("Loaded ", item_templates.size(), " item templates")
 	
 	# Print template info for debugging
-	print("Available templates: ", item_templates.keys())
+	if debug: print("Available templates: ", item_templates.keys())
 	for item_id in item_templates:
 		var template = item_templates[item_id]
 		if template.has("image_path"):
-			print("Item: ", item_id, " has image path: ", template.image_path)
+			if debug: print("Item: ", item_id, " has image path: ", template.image_path)
 			# Check if the image exists
 			if ResourceLoader.exists(template.image_path):
-				print("  Image exists at path")
+				if debug: print("  Image exists at path")
 			else:
-				print("  WARNING: Image does not exist at path: ", template.image_path)
+				if debug: print("  WARNING: Image does not exist at path: ", template.image_path)
 		else:
-			print("Item: ", item_id, " has no image path")
+			if debug: print("Item: ", item_id, " has no image path")
 			
 		# Debug print for tags
 		if template.has("tags"):
-			print("Item: ", item_id, " has tags: ", template.tags)
+			if debug: print("Item: ", item_id, " has tags: ", template.tags)
 
 func add_item(item_id, amount = 1, custom_data = null):
-	print("Attempting to add item: ", item_id)
+	if debug: print("Attempting to add item: ", item_id)
 	if not item_id:
 		return false
 		
@@ -126,7 +126,7 @@ func add_item(item_id, amount = 1, custom_data = null):
 		# Get item data from templates
 		var item_data = get_item_data(item_id)
 		if not item_data:
-			print("Error: Item data not found for ", item_id)
+			if debug: print("Error: Item data not found for ", item_id)
 			return false
 			
 		item_data["amount"] = amount
@@ -144,7 +144,7 @@ func add_item(item_id, amount = 1, custom_data = null):
 		# Increase amount for existing item
 		inventory[item_id]["amount"] += amount
 	
-	print("Added ", amount, "x ", item_id, " to inventory")
+	if debug: print("Added ", amount, "x ", item_id, " to inventory")
 	item_added.emit(item_id, inventory[item_id])
 	return true
 	
@@ -289,31 +289,31 @@ func get_item_data(item_id):
 # Get item template data from the loaded templates
 func _load_item_template(item_id):
 	if not item_templates_loaded:
-		print("Loading item templates for: " + item_id)
+		if debug: print("Loading item templates for: " + item_id)
 		_load_item_templates()
 	
 	if item_templates.has(item_id):
-		print("Found template for: " + item_id)
+		if debug: print("Found template for: " + item_id)
 		return item_templates[item_id]
 	else:
-		print("WARNING: No template found for item: " + item_id)
+		if debug: print("WARNING: No template found for item: " + item_id)
 		return null
 
 # Public method that calls the private method
 func get_item_template(item_id):
-	print("get_item_template called for: ", item_id)
+	if debug: print("get_item_template called for: ", item_id)
 	
 	if not item_templates_loaded:
 		print("Templates not loaded, loading now...")
 		_load_item_templates()
 	
-	print("Available templates after loading: ", item_templates.keys())
+	if debug: print("Available templates after loading: ", item_templates.keys())
 	
 	if item_templates.has(item_id):
-		print("Found template for: ", item_id)
+		if debug: print("Found template for: ", item_id)
 		return item_templates[item_id]
 	else:
-		print("WARNING: No template found for item: ", item_id)
+		if debug: print("WARNING: No template found for item: ", item_id)
 		return null
 		
 # Clear all items from inventory

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdfkgbjf4d57w"
-path="res://.godot/imported/HurtCatb.png-e64661ce6aeff9198e0ea5f2be456ec8.ctex"
+uid="uid://xrxhi0a21djv"
+path="res://.godot/imported/IdleCatb.png-06b59e829f515d55adcfa63301e6c859.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/HurtCatb.png"
-dest_files=["res://.godot/imported/HurtCatb.png-e64661ce6aeff9198e0ea5f2be456ec8.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/IdleCatb.png"
+dest_files=["res://.godot/imported/IdleCatb.png-06b59e829f515d55adcfa63301e6c859.ctex"]
 
 [params]
 

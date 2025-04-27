@@ -12,7 +12,7 @@ var notification_system: Node
 var game_state: Node
 
 # Debug flags
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 
 func _ready() -> void:

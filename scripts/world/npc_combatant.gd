@@ -10,6 +10,10 @@ class_name NPCCombatant
 @export var can_be_pacified := true  # Can be talked down instead of fought
 @export var relationship_change_on_defeat := -10  # How relationship changes if player defeats this NPC
 @onready var combat_manager = get_node_or_null("/root/CombatManager")
+var movement_target = null
+var path_to_target = []
+var pathfinding_enabled = false
+
 # Override combat type
 func get_combatant_type():
 	# Default is NPC, override in subclasses for creatures/constructs
@@ -271,3 +275,69 @@ func spawn_item_drop(item_id, amount):
 		if inventory_system.has_method("create_item_in_world"):
 			inventory_system.create_item_in_world(get_parent(), global_position, item_id, {"amount": amount})
 			
+func get_movement_input():
+	var input_vector = Vector2.ZERO
+	
+	# If we have AI movement, calculate direction
+	if movement_target != null:
+		if pathfinding_enabled and path_to_target.size() > 0:
+			# Move along pathfinding path
+			var next_point = path_to_target[0]
+			input_vector = (next_point - global_position).normalized()
+			
+			# Check if we reached the next point
+			if global_position.distance_to(next_point) < 10:
+				path_to_target.remove_at(0)
+		else:
+			# Direct movement toward target
+			input_vector = (movement_target - global_position).normalized()
+	
+	return input_vector
+
+func handle_movement_state(input_vector):
+	# NPCs generally walk unless they're in combat
+	is_running = false  # Can be set by AI behaviors
+	
+	# Set appropriate speed
+	if is_running:
+		speed = base_speed * run_speed_multiplier
+	else:
+		speed = base_speed
+	
+	# Update movement state tracking
+	was_moving = is_moving
+	is_moving = input_vector.length() > 0.1
+	
+	if is_moving and input_vector != Vector2.ZERO:
+		last_direction = input_vector
+
+func move_to_position(target_position, run = false):
+	movement_target = target_position
+	is_running = run
+
+func stop_movement():
+	movement_target = null
+	is_moving = false
+	
+	
+func _physics_process(delta):
+	# NPC movement processing
+	
+	# Get AI-determined movement input
+	var input_vector = get_movement_input()
+	handle_movement_state(input_vector)
+	
+	# Process jumping if active (unlikely for NPCs but supported)
+	process_jumping(delta)
+	
+	# Set velocity based on input and speed
+	velocity = input_vector * speed
+	
+	# Update animation based on movement state
+	update_animation(input_vector)
+	
+	# Apply movement
+	move_and_slide()
+	
+	# Update position tracking and z-index
+	update_position_tracking()

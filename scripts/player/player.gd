@@ -6,57 +6,44 @@ extends PlayerCombatant
 # Player movement and interaction signals
 signal interaction_triggered(object)
 
-@export var base_speed = 250.0
 #var speed
 @export var character_name = "Adam Young"
-@export var character_id = "adam"
-@export var interaction_range = 150.0  # Maximum distance for basic interaction
-@export var max_interaction_distance = 150.0  # Maximum distance for mouse clicks
+@export var character_id: String = ""
+var interaction_range : int
+@onready var max_interaction_distance : int= interaction_range  # Maximum distance for mouse clicks
 
 @onready var AP = get_node_or_null("AnimationPlayer")
 @onready var sprite = get_node_or_null("Sprite2D")
-var is_running = false
-var run_speed_multiplier = 1.5  # Player moves faster when running
-var run_toggle = false  # For CapsLock toggle functionality
-var current_speed_mod = 1
 		
 # Jumping
-var is_jumping = false
-var jump_timer = 0.0
+var run_toggle = false  # For CapsLock toggle functionality
+var current_speed_mod = 1
 const JUMP_DURATION = 1.2  # Seconds - match this to animation length
-
-
-const scr_debug :bool = false
-var debug
-
 
 # Interaction variables
 var interactable_object = null
 var in_dialog = false
-var last_direction = Vector2(0, 1) # Default facing down
-var last_animation = "idle" # Default facing down
-
-var is_moving = false
-var anim_direction = "down"  # for animation strings
 @export var curr_animation_frame : int = 0
 
-@onready var last_position = position
 @onready var label : Label = $Label
 @onready var camera = $Camera2D
-@onready var animator = $CharacterAnimator
+
 
 # Mouse interaction variables
 var interactables_in_range = []
 signal interaction_requested(object)
+const scr_debug = false
 
 func _ready():
-	initialize_stats()
+	super._ready()
 
-	GameState.set_player(self)
+	initialize_stats()
+	interaction_range = 30 * scale.y
+#	GameState.set_player(self)
 	speed = base_speed
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print("Player initialized: ", character_name)
-	add_visual_health_bar()
+#	add_visual_health_bar()
 	
 	# Set up interaction area if it doesn't exist
 	if not has_node("InteractionArea"):
@@ -106,12 +93,8 @@ func _ready():
 	# Initialize with idle animation
 	play_animation("idle")
 
-func begin_jump():
-	is_jumping = true
-	jump_timer = JUMP_DURATION
-	update_anim_direction()
-	animator.set_animation("jump", anim_direction)
-	# (Optional) you could also add a small velocity boost here if you want "momentum"
+func get_character_id():
+	return character_id
 
 func get_initiative():
 	return speed + randi() % 5
@@ -183,15 +166,35 @@ func get_combat_usable_items():
 	return []
 
 func _physics_process(delta):
+	# Check dialogue system state
+	handle_dialogue_state()
 	
-	is_running = Input.is_key_pressed(KEY_SHIFT) or run_toggle
-	if is_running:
-		speed = base_speed * run_speed_multiplier
-	else:
-		speed = base_speed
-	# Check dialog system nodes directly to detect if dialogue has ended
+	# Get input and update movement state
+	var input_vector = get_movement_input()
+	handle_movement_state(input_vector)
+	
+	# Process jumping if active
+	process_jumping(delta)
+	
+	# Set velocity based on input and speed
+	velocity = input_vector * speed
+	
+	# Update animation based on movement state
+	update_animation(input_vector)
+	
+	# Check for interactable objects in range
+	check_for_interactable()
+	
+	# Apply movement
+	move_and_slide()
+	
+	# Update position tracking and z-index
+	update_position_tracking()
+	
+	
+func handle_dialogue_state():
 	if in_dialog:
-		# First check if our dialog system is even reporting it's still active
+		# Check if dialogue system reports it's still active
 		var dialog_system = get_node_or_null("/root/DialogSystem")
 		if dialog_system and dialog_system.current_character_id == "":
 			if debug: print("Dialog ended detection: Fixing stuck dialog state (empty character ID)")
@@ -205,83 +208,59 @@ func _physics_process(delta):
 			in_dialog = false
 			return
 			
-		# If it's been more than 5 seconds since we entered dialogue with no end signal,
-		# force exit dialogue mode as a failsafe
-		if Engine.get_process_frames() % 60 == 0:  # Check once a second
-			if debug: print("DEBUG: Still in dialog mode with character: ", dialog_system.current_character_id)
-	
-	# Handle movement
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	
+		# Periodic debug check
+		if Engine.get_process_frames() % 60 == 0 and debug:  # Check once a second
+			print("DEBUG: Still in dialog mode with character: ", dialog_system.current_character_id)
+
+func get_movement_input():
 	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
-	var was_moving = is_moving
+	# First try using the built-in input actions
+	input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	# If no input from UI actions, try direct WASD inputs
+	if input_vector == Vector2.ZERO:
+		var x_input = 0
+		var y_input = 0
+		
+		# Check WASD keys directly
+		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+			y_input -= 1
+		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+			y_input += 1
+		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+			x_input -= 1
+		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+			x_input += 1
+			
+		input_vector = Vector2(x_input, y_input).normalized()
+	
+	return input_vector
+	
+	
+func handle_movement_state(input_vector):
+	# Update running state
+	is_running = Input.is_key_pressed(KEY_SHIFT) or run_toggle
+	
+	# Set appropriate speed
+	if is_running:
+		speed = base_speed * run_speed_multiplier
+	else:
+		speed = base_speed
+	
+	# Update movement state tracking
+	was_moving = is_moving
 	is_moving = input_vector.length() > 0.1
 	
+	if is_moving and input_vector != Vector2.ZERO:
+		last_direction = input_vector
+
+func process_jumping(delta):
 	if is_jumping:
 		jump_timer -= delta
 		if jump_timer <= 0:
 			is_jumping = false
 			last_animation = ""  # Reset animation state when jump ends
-		# We don't want to keep setting the animation repeatedly
-		# This animation was already set in begin_jump()
-	else:
-		# If no input from UI, try direct WASD inputs
-		if input_dir == Vector2.ZERO:
-			var x_input = 0
-			var y_input = 0
-			
-			# Check WASD keys directly
-			if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
-				y_input -= 1
-			if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
-				y_input += 1
-			if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
-				x_input -= 1
-			if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
-				x_input += 1
-				
-			input_dir = Vector2(x_input, y_input).normalized()
-		
-		# Set velocity
-		velocity = input_dir * speed
-		
-		# Handle animation changes
-		if input_dir != Vector2.ZERO:
-			var old_direction = anim_direction
-			last_direction = input_dir
-			update_anim_direction()
-			
-			# Choose animation type based on running state
-			var anim_type = ""
-			if is_running:
-				anim_type = "run"
-			else:
-				anim_type = "walk"
-			
-			# Only update animation if the direction has changed or animation type changed
-			if old_direction != anim_direction or last_animation != anim_type or !was_moving:
-				print("Setting " + anim_type + " animation - dir: " + anim_direction)
-				animator.set_animation(anim_type, anim_direction)
-				last_animation = anim_type
-		elif last_animation != "idle":
-			# Only set idle if we're not already idle
-			print("Setting idle animation - current anim: " + last_animation)
-			animator.set_animation("idle", anim_direction)
-			last_animation = "idle"
-	
-	# Check for interactable objects in range
-	check_for_interactable()
-	
-	# Apply movement
-	move_and_slide()
-	if position != last_position:
-		last_position = position
-		z_index = int(global_position.y)
-		label.text = str(global_position)
-
 
 func update_anim_direction():
 	if abs(last_direction.x) > abs(last_direction.y):
@@ -583,3 +562,6 @@ func _input(event):
 				interactable_object.interact()
 		else:
 			print("DEBUG: No interactable object in range")
+
+#func _on_sprite_2d_frame_changed() -> void:
+#	print(str(sprite.texture) + " frame " + str(sprite.frame))

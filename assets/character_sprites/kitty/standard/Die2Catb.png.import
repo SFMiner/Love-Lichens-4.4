@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh7xn2c6iua0q"
-path="res://.godot/imported/DieCatb.png-c0a0c0a67224418084e6f7aa39b3c15a.ctex"
+uid="uid://bchlvjo11y0he"
+path="res://.godot/imported/Die2Catb.png-0ceacc1a86176b44461a94e04cddc826.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/kitty/DieCatb.png"
-dest_files=["res://.godot/imported/DieCatb.png-c0a0c0a67224418084e6f7aa39b3c15a.ctex"]
+source_file="res://assets/character_sprites/kitty/standard/Die2Catb.png"
+dest_files=["res://.godot/imported/Die2Catb.png-0ceacc1a86176b44461a94e04cddc826.ctex"]
 
 [params]
 

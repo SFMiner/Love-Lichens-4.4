@@ -41,7 +41,7 @@ var available_locations = {
 }
 
 var visited_locations = {}
-const scr_debug :bool = true
+const scr_debug :bool = false
 var debug
 
 func _ready():

@@ -234,13 +234,6 @@ func set_interaction_range(num):
 func get_interaction_range():
 	return interaction_range
 
-func set_player(obj):
-	print("player set to " + str(player))
-	player = obj
-	
-func get_player():
-	return player
-	
 # Tag system functions
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
@@ -258,3 +251,6 @@ func get_tag_value(tag: String, default_value: Variant = null) -> Variant:
 	if tags.has(tag):
 		return tags[tag]
 	return default_value
+
+func get_player():
+	return 	get_tree().get_first_node_in_group("player")

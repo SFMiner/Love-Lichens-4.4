@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctau6p7yl63eb"]
+
+[ext_resource type="Script" uid="uid://c8uqx8l2qviyw" path="res://scripts/world/combat_trigger.gd" id="1_37itc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dyyn2"]
+radius = 161.012
+
+[node name="Combat Trigger" type="Area2D"]
+script = ExtResource("1_37itc")
+npc_combatants = [NodePath(""), NodePath("")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dyyn2")
