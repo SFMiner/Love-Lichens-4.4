@@ -12,8 +12,13 @@ signal interaction_triggered(object)
 @export var character_id = "adam"
 @export var interaction_range = 150.0  # Maximum distance for basic interaction
 @export var max_interaction_distance = 150.0  # Maximum distance for mouse clicks
-var anim = get_node_or_null("AnimationPlayer")
-var sprite = get_node_or_null("Sprite2D")
+
+@onready var AP = get_node_or_null("AnimationPlayer")
+@onready var sprite = get_node_or_null("Sprite2D")
+var is_running = false
+var run_speed_multiplier = 1.5  # Player moves faster when running
+var run_toggle = false  # For CapsLock toggle functionality
+var current_speed_mod = 1
 		
 # Jumping
 var is_jumping = false
@@ -52,6 +57,7 @@ func _ready():
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print("Player initialized: ", character_name)
 	add_visual_health_bar()
+	
 	# Set up interaction area if it doesn't exist
 	if not has_node("InteractionArea"):
 		var area = Area2D.new()
@@ -99,10 +105,6 @@ func _ready():
 	connect_to_pickup_signals()
 	# Initialize with idle animation
 	play_animation("idle")
-	
-	# Add debugging function for mouse interactions
-	print("PLAYER: Setting up mouse interaction debug")
-	get_viewport().set_input_as_handled()
 
 func begin_jump():
 	is_jumping = true
@@ -181,8 +183,13 @@ func get_combat_usable_items():
 	return []
 
 func _physics_process(delta):
-
-		# Check dialog system nodes directly to detect if dialogue has ended
+	
+	is_running = Input.is_key_pressed(KEY_SHIFT) or run_toggle
+	if is_running:
+		speed = base_speed * run_speed_multiplier
+	else:
+		speed = base_speed
+	# Check dialog system nodes directly to detect if dialogue has ended
 	if in_dialog:
 		# First check if our dialog system is even reporting it's still active
 		var dialog_system = get_node_or_null("/root/DialogSystem")
@@ -210,6 +217,7 @@ func _physics_process(delta):
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
+	var was_moving = is_moving
 	is_moving = input_vector.length() > 0.1
 	
 	if is_jumping:
@@ -240,17 +248,24 @@ func _physics_process(delta):
 		# Set velocity
 		velocity = input_dir * speed
 		
-		# CONSOLIDATED ANIMATION HANDLING
+		# Handle animation changes
 		if input_dir != Vector2.ZERO:
 			var old_direction = anim_direction
 			last_direction = input_dir
 			update_anim_direction()
 			
+			# Choose animation type based on running state
+			var anim_type = ""
+			if is_running:
+				anim_type = "run"
+			else:
+				anim_type = "walk"
+			
 			# Only update animation if the direction has changed or animation type changed
-			if old_direction != anim_direction or last_animation != "walk":
-				print("Setting walk animation - dir: " + anim_direction + ", old_dir: " + old_direction + ", last_anim: " + last_animation)
-				animator.set_animation("walk", anim_direction)
-				last_animation = "walk"
+			if old_direction != anim_direction or last_animation != anim_type or !was_moving:
+				print("Setting " + anim_type + " animation - dir: " + anim_direction)
+				animator.set_animation(anim_type, anim_direction)
+				last_animation = anim_type
 		elif last_animation != "idle":
 			# Only set idle if we're not already idle
 			print("Setting idle animation - current anim: " + last_animation)
@@ -267,11 +282,18 @@ func _physics_process(delta):
 		z_index = int(global_position.y)
 		label.text = str(global_position)
 
+
 func update_anim_direction():
 	if abs(last_direction.x) > abs(last_direction.y):
-		anim_direction = "right" if last_direction.x > 0 else "left"
+		if last_direction.x > 0:
+			anim_direction = "right" 
+		else:
+			anim_direction = "left"
 	else:
-		anim_direction = "down" if last_direction.y > 0 else "up"
+		if last_direction.y > 0:
+			anim_direction = "down" 
+		else:
+			anim_direction = "up"
 
 func play_animation(anim_name):
 	var anim_player = get_node_or_null("AnimationPlayer")
@@ -331,11 +353,42 @@ func update_closest_interactable():
 		else:
 			print("No interactable objects in range")
 
+func update_running_state():
+	# Update speed based on running state
+	if is_running:
+		speed = base_speed * run_speed_multiplier  
+	else:
+		speed = base_speed  
+	print ("is_running = " + str(is_running) + ": speed set to " + str(speed))
+
+	# Update animation if the character is already moving
+	var anim_name : String = ""
+	if is_moving and !is_jumping and last_animation != "idle":
+		if is_running:
+			anim_name = "run"
+		else: 
+			anim_name = "walk"
+		if last_animation != anim_name:
+			if AP:
+				var new_anim = anim_name + "_" + anim_direction
+				print("Updating to animation: " + new_anim)
+				AP.stop()
+				AP.play(new_anim)
+				last_animation = anim_name
+			else:
+				print("AnimationPlayer reference not found")
+
 func _unhandled_input(event):
-	# Handle clicks globally - this will interact with the closest object
+	# Handle CapsLock toggle - this needs to be first
+	if event is InputEventKey and event.keycode == KEY_CAPSLOCK and event.pressed:
+		run_toggle = !run_toggle
+		print("Run toggle is now: ", run_toggle)
+
+	# Jump handling (existing code)
 	if event.is_action_pressed("jump") and !in_dialog:
 		print("JUMP pressed.")
 		begin_jump()
+		
 	if event.is_action_pressed("click") and !in_dialog:
 		print("GLOBAL CLICK DETECTED!")
 		
@@ -380,7 +433,11 @@ func _unhandled_input(event):
 				var notification_system = get_node_or_null("/root/NotificationSystem")
 				if notification_system and notification_system.has_method("show_notification"):
 					# Safely get display name
-					var display_name = closest_obj.display_name if "display_name" in closest_obj else closest_obj.name
+					var display_name : String = ""
+					if "display_name" in closest_obj:
+						display_name = closest_obj.display_name
+					else:
+						closest_obj.name
 					notification_system.show_notification("Too far away to interact with " + display_name)
 				else:
 					print("Too far away to interact with " + closest_obj.name)
@@ -463,8 +520,6 @@ func connect_to_pickup_signals():
 
 func _on_item_picked_up(item_id, item_data):
 	if debug: print("Player received item: ", item_id)
-	# You could show a notification here
-	# show_pickup_notification(item_data.name if item_data.has("name") else "Unknown Item")
 	
 	
 func handle_interaction():

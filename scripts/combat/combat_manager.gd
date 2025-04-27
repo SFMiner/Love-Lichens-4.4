@@ -140,8 +140,8 @@ func end_turn():
 	
 	# Change to TURN_ENDING state
 	current_combat_state = CombatState.TURN_ENDING
-	print("Combat Manager: State changed to TURN_ENDING")
-	print("Combat Manager: Ending turn for " + current_character.name)
+#	print("Combat Manager: State changed to TURN_ENDING")
+#	print("Combat Manager: Ending turn for " + current_character.name)
 	
 	# Reset the waiting flag when turn actually ends
 	waiting_for_player_action = false

@@ -39,7 +39,20 @@ extends Node
 			"up": [0.05, 0.2, 0.2, 0.4, 0.2, 0.15]     # Total: 1.2 seconds
 		}
 	},
-	"run":  {"path": spritesheets + "run.png",  "hframes": 8, "vframes": 4, "total_frames": 32, "frame_time": 0.1},
+	"run":  {
+		"path": spritesheets + "run.png",  
+		"hframes": 8, 
+		"vframes": 4, 
+		"total_frames": 32, 
+		"frame_time": 0.08,  # Run animation should be faster than walk
+		# Add frame timing for run animation
+		"frame_times": {
+			"down": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+			"left": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+			"right": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08],
+			"up": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08]
+		}
+	},
 }
 
 var current_anim = "idle"
@@ -131,9 +144,30 @@ func set_animation(anim_name: String, direction: String = player.last_direction)
 		current_animation_name = new_animation_name
 		print("PLAYING ANIMATION: " + new_animation_name)
 		
-		# Let the AnimationPlayer handle the animation timing
-		AP.stop() # Force stop any previous animation
-		AP.play(new_animation_name)
+		# Special handling for run animation to ensure it starts correctly
+		if anim_name == "run":
+			print("SPECIAL HANDLING FOR RUN ANIMATION")
+			AP.stop()  # Force stop any previous animation
+			
+			# Make sure the frame is reset properly for run animation
+			# This is critical if we're seeing only the first frame
+			if direction == "down":
+				sprite.frame = 16  # Starting frame for run_down
+			elif direction == "left":
+				sprite.frame = 8   # Starting frame for run_left
+			elif direction == "right":
+				sprite.frame = 24  # Starting frame for run_right
+			elif direction == "up":
+				sprite.frame = 0   # Starting frame for run_up
+				
+			print("Set initial run frame to: " + str(sprite.frame) + " for direction: " + direction)
+			
+			# Now play the animation
+			AP.play(new_animation_name)
+		else:
+			# Normal animation handling for non-run animations
+			AP.stop() # Force stop any previous animation
+			AP.play(new_animation_name)
 		
 		# Debug animation properties
 		print("Animation properties: frames=" + str(sprite.frame) + 

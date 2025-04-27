@@ -15,6 +15,7 @@ var zoom_factor = 1
 @onready var player = $Player
 @onready var construct_spawner = $ConstructSpawner
 @onready var combat_manager = get_node_or_null("/root/CombatManager")
+@onready var camera = get_node_or_null("Camerad2D")
 	 
 
 func _ready():
@@ -26,6 +27,7 @@ func _ready():
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nCan interact with: " + player.interactable_object.name
 		else:
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
+			
 	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
 
 
@@ -70,7 +72,6 @@ func _ready():
 		quest_system.on_location_entered("campus_quad")
 		print("Notified quest system of location: campus_quad")
 
-# Updated _input function for campus_quad.gd that preserves your existing logic
 
 func _input(event):
 	# Debug key to force start combat (press F2)
