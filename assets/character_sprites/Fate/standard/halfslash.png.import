@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4kh6ur0urp8p"
-path="res://.godot/imported/halfslash.png-abd0ef77bec7592d98b52264781b79a5.ctex"
+path="res://.godot/imported/halfslash.png-82139c03cdde957f1c140182299eef82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Fate/standard/halfslash.png"
-dest_files=["res://.godot/imported/halfslash.png-abd0ef77bec7592d98b52264781b79a5.ctex"]
+source_file="res://assets/character_sprites/fate/standard/halfslash.png"
+dest_files=["res://.godot/imported/halfslash.png-82139c03cdde957f1c140182299eef82.ctex"]
 
 [params]
 

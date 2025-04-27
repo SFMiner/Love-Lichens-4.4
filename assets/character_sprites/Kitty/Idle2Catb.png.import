@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://daq0wq8sj7c60"
-path="res://.godot/imported/Idle2Catb.png-4655cca63437b36b4ecfa8f1c2eac85b.ctex"
+path="res://.godot/imported/Idle2Catb.png-d1838293eed386f44a10e309bc5389f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Kitty/Idle2Catb.png"
-dest_files=["res://.godot/imported/Idle2Catb.png-4655cca63437b36b4ecfa8f1c2eac85b.ctex"]
+source_file="res://assets/character_sprites/kitty/Idle2Catb.png"
+dest_files=["res://.godot/imported/Idle2Catb.png-d1838293eed386f44a10e309bc5389f1.ctex"]
 
 [params]
 

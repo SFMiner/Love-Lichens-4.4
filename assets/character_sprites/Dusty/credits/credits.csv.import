@@ -6,10 +6,10 @@ uid="uid://d3niaw8abo8sy"
 
 [deps]
 
-files=["res://assets/character_sprites/Dusty/credits/credits.notes.translation", "res://assets/character_sprites/Dusty/credits/credits.authors.translation", "res://assets/character_sprites/Dusty/credits/credits.licenses.translation", "res://assets/character_sprites/Dusty/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/dusty/credits/credits.notes.translation", "res://assets/character_sprites/dusty/credits/credits.authors.translation", "res://assets/character_sprites/dusty/credits/credits.licenses.translation", "res://assets/character_sprites/dusty/credits/credits.urls.translation"]
 
-source_file="res://assets/character_sprites/Dusty/credits/credits.csv"
-dest_files=["res://assets/character_sprites/Dusty/credits/credits.notes.translation", "res://assets/character_sprites/Dusty/credits/credits.authors.translation", "res://assets/character_sprites/Dusty/credits/credits.licenses.translation", "res://assets/character_sprites/Dusty/credits/credits.urls.translation"]
+source_file="res://assets/character_sprites/dusty/credits/credits.csv"
+dest_files=["res://assets/character_sprites/dusty/credits/credits.notes.translation", "res://assets/character_sprites/dusty/credits/credits.authors.translation", "res://assets/character_sprites/dusty/credits/credits.licenses.translation", "res://assets/character_sprites/dusty/credits/credits.urls.translation"]
 
 [params]
 

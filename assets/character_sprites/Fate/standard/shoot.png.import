@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btygwqckc5myg"
-path="res://.godot/imported/shoot.png-4316b1a9c7c0f67a77a63795b39203ec.ctex"
+path="res://.godot/imported/shoot.png-250b34a6fe220fd4463300f15e39cde6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Fate/standard/shoot.png"
-dest_files=["res://.godot/imported/shoot.png-4316b1a9c7c0f67a77a63795b39203ec.ctex"]
+source_file="res://assets/character_sprites/fate/standard/shoot.png"
+dest_files=["res://.godot/imported/shoot.png-250b34a6fe220fd4463300f15e39cde6.ctex"]
 
 [params]
 

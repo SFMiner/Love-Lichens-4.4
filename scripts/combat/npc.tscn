@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://by56nppcy6bhp"]
+
+[ext_resource type="Script" uid="uid://cjtctlf6h32pl" path="res://scripts/world/character_animator.gd" id="1_6eakx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_54to2"]
+size = Vector2(21, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6eakx"]
+radius = 30.0
+
+[node name="NPC" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -4)
+shape = SubResource("RectangleShape2D_54to2")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+position = Vector2(0, -24.91)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_6eakx")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 13.0
+offset_top = -38.0
+offset_right = 53.0
+offset_bottom = -15.0
+theme_override_font_sizes/font_size = 11
+
+[node name="CharacterAnimator" type="Node" parent="."]
+script = ExtResource("1_6eakx")

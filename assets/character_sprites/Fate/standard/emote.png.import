@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cytyp15hej6ch"
-path="res://.godot/imported/emote.png-496a002d1011e617d0643b6edec9028b.ctex"
+path="res://.godot/imported/emote.png-d308cc2881ad4433c0ea859445a9c7af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Fate/standard/emote.png"
-dest_files=["res://.godot/imported/emote.png-496a002d1011e617d0643b6edec9028b.ctex"]
+source_file="res://assets/character_sprites/fate/standard/emote.png"
+dest_files=["res://.godot/imported/emote.png-d308cc2881ad4433c0ea859445a9c7af.ctex"]
 
 [params]
 

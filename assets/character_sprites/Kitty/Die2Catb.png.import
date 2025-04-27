@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bchlvjo11y0he"
-path="res://.godot/imported/Die2Catb.png-8b2226c254f12209b174e2f86d96b806.ctex"
+path="res://.godot/imported/Die2Catb.png-8b030ff2bcc7a2acc56f26ec33423b5b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/Kitty/Die2Catb.png"
-dest_files=["res://.godot/imported/Die2Catb.png-8b2226c254f12209b174e2f86d96b806.ctex"]
+source_file="res://assets/character_sprites/kitty/Die2Catb.png"
+dest_files=["res://.godot/imported/Die2Catb.png-8b030ff2bcc7a2acc56f26ec33423b5b.ctex"]
 
 [params]
 
