@@ -1,4 +1,4 @@
-# Love & Lichens
+0# Love & Lichens
 
 A whimsical RPG/Visual Novel set in a college of environmental science, where understanding nature grants magical abilities.
 
@@ -71,14 +71,13 @@ love_and_lichens/
 - [x] Dialog system
 - [x] Relationship system
 - [x] Inventory system
-- [ ] Basic player movement and camera
-- [ ] NPC interaction
+- [x] Basic player movement and camera
+- [x] NPC interaction
 
 ### Phase 2: Content Development
 - [ ] Campus locations
 - [ ] Character development
 - [ ] Quest system
-- [ ] Environmental debate system
 
 ### Phase 3: Polish
 - [ ] UI refinement
@@ -88,4 +87,4 @@ love_and_lichens/
 
 ## Credits
 
-Developed as a solo project by [Your Name]
+Developed as a solo project by S3an Miner
