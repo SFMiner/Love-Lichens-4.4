@@ -6,12 +6,13 @@ const scr_debug :bool = false
 var debug
 var visit_areas = {}
 var all_areas_visited = false
-@onready var z_objects = $Sprite2D/z_Objects
-var camera_limit_right = 2840
-var camera_limit_bottom = 1885
-var camera_limit_left = 0
+@onready var z_objects = $Node2D/z_Objects
+var camera_limit_right = 2030
+var camera_limit_bottom = 1000
+var camera_limit_left = 150
 var camera_limit_top = 0
-var zoom_factor = 0.68
+var zoom_factor = 1.0
+
 @onready var player = $Player
 
 func _ready():
@@ -119,10 +120,10 @@ func initialize_systems():
 		print("WARNING: Relationship System not found")
 
 # Optional function to update debug info on screen
-func _process(delta):
-	var p_scale = player.position.y / 125
-	player.scale = Vector2(p_scale, p_scale)
-	pass
+#func _process(delta):
+	#var p_scale = player.position.y / 125
+	#player.scale = Vector2(p_scale, p_scale)
+	#pass
 	
 
 

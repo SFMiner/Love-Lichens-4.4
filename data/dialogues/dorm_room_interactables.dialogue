@@ -1,0 +1,414 @@
+~ adams_desk
+You examine your desk. Several textbooks are stacked neatly beside a laptop, and there's a small desk lamp with an adjustable arm. The desktop is relatively organized.
+
+- Look through drawers => adams_desk_drawers
+- Check the laptop => adams_desk_laptop
+- Examine the textbooks => adams_desk_textbooks
+- Step away => END
+
+~ adams_desk_drawers
+You open the desk drawers one by one.
+
+The top drawer contains basic supplies - pens, pencils, highlighters, and a small notebook with "Mushroom Field Journal" written on the cover.
+
+The middle drawer has a collection of small fungus and lichen samples in labeled containers. Each one has a date, location, and species name carefully written on it.
+
+The bottom drawer seems to be for snacks - there's a package of energy bars, some dried fruit, and tea bags.
+
+- Check the laptop => adams_desk_laptop
+- Examine the textbooks => adams_desk_textbooks
+- Close the drawers => adams_desk
+
+~ adams_desk_laptop
+The laptop is in sleep mode. A sticker on the top says "No Lichens, No Life" with a stylized illustration of various lichen types.
+
+There's a sticky note with a password hint: "FavoriteSpecies2023"
+
+- Look through drawers => adams_desk_drawers
+- Examine the textbooks => adams_desk_textbooks
+- Use your laptop => logon_adams_laptop
+- Step away => END
+
+~ logon_adams_laptop
+You realize that this poart of the game hasn't been written!
+- Close laptop => END
+
+
+~ adams_desk_textbooks
+You look through Adam's textbooks:
+
+"Advanced Mycology & Lichenology"
+"Ecological Symbiosis: Theory and Applications"
+"Soundwaves in Biological Systems"
+"Biorhythms and Growth Patterns in Composite Organisms"
+
+The last book has several colorful tabs marking different pages.
+
+- Look through drawers => adams_desk_drawers
+- Check the laptop => adams_desk_laptop
+- Step away => END
+
+~ adams_bed
+You look at Adam's bed. It's neatly made with a dark blue comforter and a couple of pillows. There's a small window above it with a view of the campus quad.
+
+- Check under the bed => adams_bed_under
+- Look at the window view => adams_bed_window
+- Examine the bedside table => adams_bed_table
+- Step away => END
+
+~ adams_bed_under
+You peer under the bed. It's surprisingly clean - just a storage container with what appears to be extra bedding and a tennis racket that looks like it hasn't been used in a while.
+
+- Look at the window view => adams_bed_window
+- Examine the bedside table => adams_bed_table
+- Step back => adams_bed
+
+~ adams_bed_window
+Through the window, you can see a portion of the campus quad. Some students are walking between classes, and a squirrel is running up one of the large oak trees.
+
+The window has a small plant shelf with a few small potted lichens growing under a specialized light.
+
+- Check under the bed => adams_bed_under
+- Examine the bedside table => adams_bed_table
+- Step back => adams_bed
+
+~ adams_bed_table
+On the bedside table, there's a small lamp, a book titled "The Lichen Chronicles: Fiction Inspired by Science," and a glass of water. 
+
+There's also a framed photo of Adam with a group of students in hiking gear, all smiling with a forested mountain in the background. A handwritten caption reads "First Field Research Team - Adirondack Mountains."
+
+- Check under the bed => adams_bed_under
+- Look at the window view => adams_bed_window
+- Step back => adams_bed
+
+~ poisons_desk
+You examine Poison's desk. Unlike Adam's, this workspace has a more... eclectic organization system. Papers and notebooks are stacked in seemingly random piles, and various strange objects are scattered across the surface.
+
+The centerpiece is a large glass terrarium on one side of the desk.
+
+- Look in the terrarium [if "centipede_seen" in GameState.knowledge]
+=> poisons_desk_centipede
+- Look in Pumpkin's terrarium [if "centipede_seen" in GameState.knowledge == false]
+=> poisons_desk_pumpkin
+- Look in the terrarium => poisons_desk_centipede
+- Check desk drawers => poisons_desk_drawers
+- Examine desk items => poisons_desk_items
+- Step back => poisons_desk
+- Step away => END
+
+~ poisons_desk_centipede
+You approach the glass terrarium cautiously.
+
+Inside, you see a massive black centipede with vibrant orange legs and menacing pincers, nearly 9 inches long. It's currently wrapped around a piece of driftwood, motionless except for the occasional twitch of her pincers.
+
+The habitat is meticulously maintained with proper substrate, humidity levels, and decorative elements. A small label on the tank reads "Scolopendra subspinipes 'Pumpkin' - Feeding Day\: Fridays."
+
+Despite being terrifying, there's something fascinating about watching it behind the safety of glass.
+
+- Check desk drawers => poisons_desk_drawers
+- Examine desk items => poisons_desk_items
+- Step back => poisons_desk
+
+~ poisons_desk_pumpkin
+Pumpkin's terrifying yet fascinating segmented 9 inch length currently is wrapped around her favorite piece of driftwood, motionless except for the occasional twitch of her pincers.
+
+The habitat is meticulously maintained with proper substrate, humidity levels, and decorative elements.
+
+Despite being terrifying, there's something fascinating about watching it behind the safety of glass.
+
+- Check desk drawers => poisons_desk_drawers
+- Examine desk items => poisons_desk_items
+- Step back => poisons_desk
+
+
+~ poisons_desk_drawers
+You cautiously open Poison's desk drawers.
+
+The top drawer contains surprisingly mundane items - notebooks, pens, and a calculator. Nothing particularly interesting.
+
+The middle drawer has some basic lab supplies - small containers, tweezers, a magnifying glass, and what appear to be collection bags.
+
+The bottom drawer is locked with a small padlock. Probably for the best.
+
+- Look in the terrarium => poisons_desk_centipede
+- Examine desk items => poisons_desk_items
+- Close the drawers => poisons_desk
+
+~ poisons_desk_items
+You look at the items scattered across Poison's desk:
+
+A stack of scientific journals with titles like "Arthropod Biology" and "Venomous Species Quarterly."
+
+A small collection of preserved insects pinned to a display board.
+
+A coffee mug that says "If you can read this, you're within striking distance."
+
+A detailed sketch of what appears to be a modified centipede enclosure with notes scribbled around it.
+
+- Look in the terrarium => poisons_desk_centipede
+- Check desk drawers => poisons_desk_drawers
+- Step back => poisons_desk
+
+~ poisons_bed
+You look at Poison's bed. The sheets and blankets are rumpled and unmade. The pillow has an indentation where someone recently slept.
+
+- Look under the bed => poisons_bed_under
+- Look at the bedside items => poisons_bed_items
+- Step away => END
+
+~ poisons_bed_under
+You peer under Poison's bed and immediately regret it. There's a collection of empty energy drink cans, some dusty socks, and what might be the remains of a sandwich that's been there far too long.
+
+Better to pretend you didn't see that.
+
+- Look at the bedside items => poisons_bed_items
+- Step back quickly => poisons_bed
+
+~ poisons_bed_items
+On the bedside table next to Poison's bed, you see:
+
+An alarm clock showing the wrong time.
+A small stack of sci-fi novels with titles like "The Arthropod Chronicles" and "Venomous Intent."
+A worn notebook with "Species Observations" written on the cover.
+A water glass with what looks like tiny bite marks along the rim.
+
+- Look under the bed => poisons_bed_under
+- Step back => poisons_bed
+
+~ microwave
+You examine the microwave on the shelf next to Poison's bed. It's surprisingly clean on the outside, though a faint smell suggests not all past cooking experiments were successful.
+
+A sticky note on the door reads: "DO NOT MICROWAVE EXPERIMENTS - This means YOU, Poison."
+
+- Open the microwave => microwave_open
+- Read the note more closely => microwave_note
+- Step away => END
+
+~ microwave_open
+You cautiously open the microwave door. The inside is remarkably clean, though there's a faint smell you can't quite identify.
+
+In the center of the turntable is a mug of what appears to be coffee, possibly abandoned mid-heating.
+
+- Read the note more closely => microwave_note
+- Close the microwave => microwave
+
+~ microwave_note
+You look more closely at the note on the microwave.
+
+The main warning about not microwaving experiments is written in what looks like Adam's neat handwriting.
+
+Below that, in different handwriting: "But how else will I know if radiation affects growth patterns? -P"
+
+And below that, in a third handwriting: "BY USING THE LAB EQUIPMENT LIKE A NORMAL PERSON! -E"
+
+- Open the microwave => microwave_open
+- Step away => END
+
+~ plate
+You look at a seemingly random plate sitting on the counter with what appears to be soil on it.
+
+Upon closer inspection, you realize it's not just soil - there are small green sprouts growing from it, along with patches of what might be moss or lichen beginning to form.
+
+A small label stuck to the plate reads "Day 14 - Mixed growth culture #3"
+
+- Examine the growths more closely => plate_examine
+- Look for other plates => plate_others
+- Step away => END
+
+~ plate_examine
+Leaning in for a closer look (but not too close), you can see several distinct organisms growing in the soil:
+
+A few tiny seedlings of some kind of plant.
+Patches of what appears to be moss growing in a circular pattern.
+Small disk-shaped lichens beginning to spread across one section.
+What might be some kind of mushroom just beginning to form.
+
+The whole ecosystem seems deliberately cultivated rather than accidental.
+
+- Look for other plates => plate_others
+- Step back => plate
+
+~ plate_others
+Looking around, you notice a few other plates in various locations around the room:
+
+One on the windowsill with much more advanced growth.
+One that appears to be completely dried out on a bookshelf.
+What looks like a sealed container under Adam's desk with a more controlled experiment.
+
+This appears to be an ongoing experiment tracking growth in different conditions.
+
+- Examine the growths more closely => plate_examine
+- Step back => plate
+
+~ fates_desk
+You examine Fate's desk. Unlike the others, this desk is remarkably organized. Books and papers are stacked in precise piles, and everything seems to have its place.
+
+The only disruption to the perfect order is a collection of dirty dishes with food remnants in varying states of decay.
+
+- Look at the dishes => fates_desk_dishes
+- Examine desk contents => fates_desk_contents
+- Check desk drawers => fates_desk_drawers
+- Step away => END
+
+~ fates_desk_dishes
+You look at the collection of dishes on Fate's desk, carefully avoiding breathing through your nose.
+
+There's a concerning progression from "recently used" to "developing its own ecosystem." Some of the older plates have what might actually be interesting mold cultures growing on them, though you're pretty sure this isn't an intentional experiment.
+
+A sticky note nearby reads "Will clean this weekend! -Fate" though the paper looks yellowed with age.
+
+- Examine desk contents => fates_desk_contents
+- Check desk drawers => fates_desk_drawers
+- Step back quickly => fates_desk
+
+~ fates_desk_contents
+The organized portion of Fate's desk contains:
+
+A laptop with several ecological modeling programs open.
+A detailed calendar with color-coded entries for classes, lab work, and social events.
+A notebook with immaculate handwriting detailing what looks like research observations.
+Several academic journals about ecology and forest management.
+
+Everything is arranged at perfect right angles.
+
+- Look at the dishes => fates_desk_dishes
+- Check desk drawers => fates_desk_drawers
+- Step back => fates_desk
+
+~ fates_desk_drawers
+You open Fate's desk drawers to find them as organized as expected:
+
+The top drawer contains perfectly arranged stationery supplies, with dividers keeping everything in its proper place.
+
+The middle drawer has a collection of field notebooks, each labeled by date and location, arranged chronologically.
+
+The bottom drawer contains snacks - all healthy options like nuts, dried fruit, and protein bars, arranged by expiration date.
+
+- Look at the dishes => fates_desk_dishes
+- Examine desk contents => fates_desk_contents
+- Close the drawers => fates_desk_dishes
+
+
+~ fates_bed
+You look at Fate's bed. It's immaculately made with hospital corners and a neutral beige comforter. The pillows are perfectly fluffed and centered.
+
+In the center of the bed lies a fluffy orange cat, curled up and sleeping soundly.
+
+- Check under the bed => fates_bed_under
+- Look at the bedside table => fates_bed_table
+- Examine the bed closely => fates_bed_examine
+- Check the sleeping cat => fates_bed_cat
+- Step away => END
+
+
+~ fates_bed_cat
+The cat - who must be Kitty - is an orange tabby with thick, fluffy fur. It's curled into a perfect circle, breathing softly in its sleep.
+As you watch, one eye cracks open to assess you, then closes again with apparent disinterest.
+A small tag on its collar reads "Kitty - If found, return to Erik's chariot. (Fate says I'm his, but he's wrong.)"
+- Leave the cat to sleep => fates_bed
+
+~ fates_bed_under
+You peek under Fate's bed and find... absolutely nothing. It's completely spotless, without even a dust bunny. The floor under the bed might actually be cleaner than the visible parts of the room.
+
+- Look at the bedside table => fates_bed_table
+- Examine the bed closely => fates_bed_examine
+- Step back => fates_bed
+- Step away => END
+
+~ fates_bed_table
+On the bedside table, you see:
+
+A small lamp with an adjustable neck.
+A digital clock showing the exact time.
+A neat stack of books with titles on environmental science and fiction.
+A coaster (no drinks directly on the wood).
+A small plant in a perfectly sized pot.
+
+Everything is arranged at precise angles and with exact spacing.
+
+- Check under the bed => fates_bed_under
+- Examine the bed closely => fates_bed_examine
+- Step back => fates_bed
+
+~ fates_bed_examine
+Looking at the bed more closely, you notice a small stuffed animal partially hidden behind the pillows - a worn but well-loved plush turtle.
+
+It's the only thing in Fate's area that isn't perfectly arranged, as if it was hastily hidden when someone came in.
+
+- Check under the bed => fates_bed_under
+- Look at the bedside table => fates_bed_table
+- Step back => fates_bed
+
+
+~ poisons_tarantula
+This enclosure is larger and more elaborate than the centipede tank. Inside is an impressive tarantula with velvety black legs and a rusty red abdomen.
+
+The spider is currently perched on a small piece of cork bark, completely motionless except for the subtle movement of its palps. Its habitat includes various climbing structures, a water dish, and what appears to be a small hide.
+
+A label reads "Grammostola pulchra 'Morticia' - Do NOT tap on glass."
+
+Someone (likely Poison) has added "She gets performance anxiety" in smaller text below.
+
+~ bug_area
+if "empty" in GameState.poison_bugs:
+	 => no_bugs
+=> has_bugs
+
+~ no_bugs
+This desk in poison's area seems to be waiting for something.
+=> END!
+
+~ has_bugs
+- Examine tarantula enclosure [if "tarantula" in GameState.poison_bugs]
+=> poisons_tarantula
+- Check out mantis habitat  [if "mantis" in GameState.poison_bugs]
+=> poisons_mantis
+- Look at stick insect terrarium [if "stick insects" in GameState.poison_bugs] 
+=> poisons_sticks 
+- Investigate beetle enclosure [if "beetle" in GameState.poison_bugs]
+=> poisons_beetle 
+- Investigate beetle enclosure  [if "beetle" in GameState.poison_bugs]
+ => poisons_beetle
+- Peek at the caterpillar container [if "caterpillars" in GameState.poison_bugs]
+=> poisons_caterpillars  
+- Check moth emergence chamber [if "moths" in GameState.poison_bugs]
+=> poisons_moths 
+
+
+~ poisons_mantis
+This tall, narrow terrarium contains a large praying mantis with a vibrant green body. It's perched on a thin branch, head swiveling with alien precision as it surveys its domain.
+The enclosure is set up like a miniature jungle with various plants and climbing surfaces. You notice several small containers labeled "feeder crickets" nearby.
+The label reads "Hierodula membranacea 'Scyther' - Molting soon, do not disturb."
+Below, in red marker: "Seriously Erik, I don't care how cute you think she is."
+- Step back => bug_area
+
+~ poisons_sticks
+This large, planted terrarium contains what appears to be nothing at first glance. After a moment, you realize it's not empty - there are several stick insects perfectly camouflaged among the branches.
+They're so convincing that you struggle to tell where plant ends and insect begins. One particularly large specimen near the top must be at least 8 inches long.\
+A neat label reads "Phasmatodea collection - 'The Twiglets' - Count: 12"
+Below that, in different handwriting: "I can only find 11! Where's the missing one?!" followed by "RIGHT WHERE I WANT IT TO BE. -P"
+
+- Step back => bug_area
+
+~ poisons_beetle
+This smaller enclosure houses an impressive rhinoceros beetle with a massive horn protruding from its head. The beetle is currently bulldozing its way through the substrate, seemingly on an important mission.
+The habitat is filled with decomposing wood and plant matter. A small dish contains what looks like fruit pieces.
+The label reads "Dynastes hercules 'Atlas' - The strongest creature on Earth (relative to size)"
+A note below adds "Can lift 850x its body weight. For comparison, you can probably lift 0.5x yours. Pathetic. -P"
+- Step back => bug_area
+
+~ poisons_caterpillars
+This series of smaller containers houses several enormous caterpillars of different species. They're munching contentedly on various plant leaves, growing fatter by the minute.
+The most striking specimen is a massive green caterpillar with turquoise spots and small horn-like projections. It must be at least 4 inches long.
+Each container is meticulously labeled with species names, collection dates, and expected pupation timeframes.
+A whiteboard nearby tracks their growth with surprising precision and includes a countdown: "Atlas emergence: 17 days!"
+
+- Step back => bug_area
+
+~ poisons_moths
+This larger mesh enclosure stands empty except for several cocoons and chrysalides attached to branches. Each is labeled with a species name and expected emergence date.
+The largest cocoon is the size of your thumb and wrapped in a silken envelope. A label beneath it reads "Attacus atlas - Handle with EXTREME care."
+A handwritten note is attached to the enclosure: "Erik - if you're reading this, absolutely NO opening this chamber until I'm present. The last time you 'helped' an emergence, we had to evacuate the floor. -P"
+
+
+Step back => bug_area

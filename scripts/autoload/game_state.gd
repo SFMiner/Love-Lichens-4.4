@@ -8,6 +8,7 @@ signal game_ended()
 signal tag_added(tag)
 signal tag_removed(tag)
 
+
 # Core game state 
 var current_game_id = ""
 var is_new_game = false
@@ -20,6 +21,7 @@ var player : CharacterBody2D = null
 # Tag system for memory and game state tracking
 var tags: Dictionary = {}
 
+var poison_bugs = ["empty"]
 
 # Game metadata
 var game_data = {

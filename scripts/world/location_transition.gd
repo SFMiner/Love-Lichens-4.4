@@ -12,7 +12,7 @@ signal transition_triggered(target_location, spawn_point)
 @export var enabled: bool = true # Whether this transition is currently usable
 @export var require_item: String = "" # Optional item required to use this transition
 @export var consume_item: bool = false # Whether to remove the item after use
-
+@export var rect_color : Color
 # Optional hint text shown when player is near but cannot use transition
 @export_multiline var locked_hint: String = "This door is locked."
 
@@ -32,6 +32,7 @@ func _ready():
 		collision.shape = shape
 		add_child(collision)
 	label.text = transition_name
+	$ColorRect.color = rect_color
 	# Make sure we're in the interactable group
 	add_to_group("interactable")
 	

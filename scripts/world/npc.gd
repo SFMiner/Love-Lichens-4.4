@@ -209,22 +209,28 @@ func _physics_process(delta):
 	
 	# Get AI-determined movement input
 	var input_vector = get_movement_input()
-	handle_movement_state(input_vector)
-	
-	# Process jumping if active (unlikely for NPCs but supported)
-	process_jumping(delta)
-	
-	# Set velocity based on input and speed
-	velocity = input_vector * speed
-	
-	# Update animation based on movement state
-	update_animation(input_vector)
-	
-	# Apply movement
-	move_and_slide()
-	
-	# Update position tracking and z-index
-	update_position_tracking()
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Only respond to specific interaction types, ignore physics pushes
+		if collider.is_in_group("player") and collider.is_interacting_with(self):
+			handle_movement_state(input_vector)
+			
+			# Process jumping if active (unlikely for NPCs but supported)
+			process_jumping(delta)
+			
+			# Set velocity based on input and speed
+			velocity = input_vector * speed
+			
+			# Update animation based on movement state
+			update_animation(input_vector)
+			
+			# Apply movement
+			move_and_slide()
+			
+			# Update position tracking and z-index
+			update_position_tracking()
 	
 	
 

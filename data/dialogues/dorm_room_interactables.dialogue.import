@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://52k3domico1s"
+path="res://.godot/imported/dorm_room_interactables.dialogue-d2e75229450e20141f4d4842456e842c.tres"
+
+[deps]
+
+source_file="res://data/dialogues/dorm_room_interactables.dialogue"
+dest_files=["res://.godot/imported/dorm_room_interactables.dialogue-d2e75229450e20141f4d4842456e842c.tres"]
+
+[params]
+
+defaults=true

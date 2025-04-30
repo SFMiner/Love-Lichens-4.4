@@ -100,4 +100,10 @@ run={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://data/dialogues/professor_moss.dialogue", "res://message_board.dialogue", "res://data/dialogues/headstones.dialogue", "res://data/dialogues/old_growth_forest.dialogue", "res://data/dialogues/moving_in.dialogue", "res://data/dialogues/dorm_room.dialogue", "res://data/dialogues/poison.dialogue", "res://data/dialogues/research_lab_interactables.dialogue", "res://data/dialogues/dusty.dialogue", "res://data/dialogues/erik.dialogue", "res://data/dialogues/fate.dialogue", "res://data/dialogues/kitty.dialogue", "res://data/dialogues/li.dialogue")
+locale/translations_pot_files=PackedStringArray("res://data/dialogues/professor_moss.dialogue", "res://message_board.dialogue", "res://data/dialogues/headstones.dialogue", "res://data/dialogues/old_growth_forest.dialogue", "res://data/dialogues/moving_in.dialogue", "res://data/dialogues/dorm_room.dialogue", "res://data/dialogues/poison.dialogue", "res://data/dialogues/research_lab_interactables.dialogue", "res://data/dialogues/dusty.dialogue", "res://data/dialogues/erik.dialogue", "res://data/dialogues/fate.dialogue", "res://data/dialogues/kitty.dialogue", "res://data/dialogues/li.dialogue", "res://data/dialogues/dorm_room_interactables.dialogue")
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="interaction"
+2d_physics/layer_3="npc"
