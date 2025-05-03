@@ -666,7 +666,7 @@ func _on_drag_started(item_id, item_data, source_slot):
 	set_process_input(true)
 
 # This is now only used if the slot itself emits the signal - our main handling is in _input
-func _on_drag_ended(target_slot):
+func _on_drag_ended():#   target_slot):
 	# Most drag ending is now handled in _input and _handle_drag_end
 	# This is just a fallback
 	if debug: print("_on_drag_ended called directly - should not happen normally")

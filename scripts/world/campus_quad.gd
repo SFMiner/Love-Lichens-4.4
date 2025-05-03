@@ -60,9 +60,10 @@ func _ready():
 	
 	# Initialize necessary systems
 	initialize_systems()
-	for child in get_children():
-		if child.is_in_group('z_Objects'):
-			child.z_index = child.position.y
+	for child in get_node_or_null('z_Objects').get_children():
+		if "z_index" in child:
+			child.add_to_group('z_Objects')
+			child.z_index = child.global_position.y
 	
 	# Find and set up visitable areas
 	setup_visit_areas()

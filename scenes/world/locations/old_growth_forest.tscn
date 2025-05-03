@@ -44,7 +44,7 @@
 [ext_resource type="Texture2D" uid="uid://cu7smxh7qaou6" path="res://assets/images/scenes/old_growth_forest/Shrub4.png" id="32_nflwg"]
 [ext_resource type="Texture2D" uid="uid://c5bituy3q3rk4" path="res://assets/images/scenes/old_growth_forest/Shrub7.png" id="33_tdgfa"]
 [ext_resource type="Texture2D" uid="uid://sjnpofu11kb7" path="res://assets/images/scenes/old_growth_forest/Log1b.png" id="34_i2i0r"]
-[ext_resource type="PackedScene" uid="uid://6ah82rkxb1s2" path="res://scenes/world/Main_bug.tscn" id="44_wnkch"]
+[ext_resource type="PackedScene" uid="uid://qxo0y753fkjj" path="res://scenes/world/insect_manager.tscn" id="44_wnkch"]
 
 [node name="OldGrowthForest" type="Node2D"]
 script = ExtResource("1_h6ule")
@@ -351,7 +351,6 @@ polygon = PackedVector2Array(36, -34, 321, -458, 374, -343, 211, 21)
 z_index = 2500
 position = Vector2(-311.5, 144.5)
 scale = Vector2(0.35, 0.35)
-num_bugs = 2
 
 [node name="CollisionPolygon2D" parent="Sprite2D/bugzones/BugZone2/Area2D" index="0"]
 polygon = PackedVector2Array(36, -34, -2.85712, -245.714, 300, -52.8572, 211, 21)
@@ -360,7 +359,6 @@ polygon = PackedVector2Array(36, -34, -2.85712, -245.714, 300, -52.8572, 211, 21
 z_index = 2500
 position = Vector2(115, -128.5)
 scale = Vector2(0.2, 0.2)
-num_bugs = 5
 
 [node name="CollisionPolygon2D" parent="Sprite2D/bugzones/BugZone3/Area2D" index="0"]
 polygon = PackedVector2Array(7.5, -52.5, 337.5, -372.5, 565, -100, 340, 30)

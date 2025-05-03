@@ -17,9 +17,7 @@ var interaction_range : int
 		
 # Jumping
 var run_toggle = false  # For CapsLock toggle functionality
-var current_speed_mod = 1
 const JUMP_DURATION = 1.2  # Seconds - match this to animation length
-
 # Interaction variables
 var interactable_object = null
 var in_dialog = false
@@ -27,6 +25,12 @@ var in_dialog = false
 
 @onready var label : Label = $Label
 @onready var camera = $Camera2D
+
+# Sleep interface reference
+var sleep_interface_scene
+var sleep_interface
+
+var jump_speed
 
 
 # Mouse interaction variables
@@ -83,6 +87,9 @@ func _ready():
 	else:
 		if debug: print("DialogSystem not found")
 	
+	if ResourceLoader.exists("res://scenes/ui/sleep_interface.tscn"):
+		sleep_interface_scene = load("res://scenes/ui/sleep_interface.tscn")
+	
 	# Force reset dialog state on initialization
 	in_dialog = false
 	add_to_group("player")
@@ -126,8 +133,6 @@ func perform_attack(target, action):
 		"success": true,
 		"damage": actual_damage
 	}
-
-
 
 # Placeholder for skills data - replace with actual skills
 func get_available_skills():
@@ -336,6 +341,8 @@ func update_running_state():
 	# Update speed based on running state
 	if is_running:
 		speed = base_speed * run_speed_multiplier  
+	elif is_jumping:
+		speed = jump_speed
 	else:
 		speed = base_speed  
 	print ("is_running = " + str(is_running) + ": speed set to " + str(speed))
@@ -362,6 +369,10 @@ func _unhandled_input(event):
 	if event is InputEventKey and event.keycode == KEY_CAPSLOCK and event.pressed:
 		run_toggle = !run_toggle
 		print("Run toggle is now: ", run_toggle)
+
+	# Add sleep key (press H to sleep/rest)
+	if event is InputEventKey and event.keycode == KEY_H and event.pressed and not in_dialog:
+		sleep()
 
 	# Jump handling (existing code)
 	if event.is_action_pressed("jump") and !in_dialog:
@@ -467,6 +478,19 @@ func _unhandled_input(event):
 			else:
 				print("No interactable objects in range to look at")
 
+func begin_jump():
+	if is_running:
+		jump_speed = base_speed * run_speed_multiplier
+	else:
+		jump_speed = base_speed
+	is_jumping = true
+	
+	
+	jump_timer = 1.2  # JUMP_DURATION 
+	update_anim_direction()
+	animator.set_animation("jump", anim_direction, get_character_id())
+
+
 func _on_dialog_started(character_id):
 	if debug: print("Dialog started with: ", character_id)
 	in_dialog = true
@@ -565,3 +589,49 @@ func _input(event):
 
 #func _on_sprite_2d_frame_changed() -> void:
 #	print(str(sprite.texture) + " frame " + str(sprite.frame))
+
+func sleep():
+	if sleep_interface_scene and not is_instance_valid(sleep_interface):
+		# Create a CanvasLayer for the sleep interface
+		var canvas = CanvasLayer.new()
+		canvas.layer = 100
+		canvas.add_to_group("ui_layer")
+		get_tree().root.add_child(canvas)
+		
+		# Create the sleep interface
+		sleep_interface = sleep_interface_scene.instantiate()
+		canvas.add_child(sleep_interface)
+		
+		# Connect sleep completed signal
+		sleep_interface.sleep_completed.connect(_on_sleep_completed)
+		
+		# Pause the game
+		get_tree().paused = true
+		
+	elif is_instance_valid(sleep_interface):
+		# Show the existing interface
+		sleep_interface.visible = true
+		sleep_interface.update_buttons()
+		get_tree().paused = true
+
+func _on_sleep_completed(time_periods):
+	# Restore player health/energy
+	if current_health < max_health:
+		current_health = max_health
+		health_changed.emit(current_health, max_health)
+	
+	if current_stamina < max_stamina:
+		current_stamina = max_stamina
+		stamina_changed.emit(current_stamina, max_stamina)
+	
+	# Unpause the game
+	get_tree().paused = false
+	
+	# Add any additional effects from sleeping (status effects, etc.)
+	for effect_id in status_effects.keys():
+		remove_status_effect(effect_id)
+	
+	# Optional notification
+	var notification_system = get_node_or_null("/root/NotificationSystem")
+	if notification_system and notification_system.has_method("show_notification"):
+		notification_system.show_notification("You feel refreshed after sleeping")

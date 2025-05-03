@@ -50,7 +50,6 @@ func _ready():
 
 
 func setup_player():
-	var player = $Player
 	if player:
 		print("Player found in scene")
 		var col2d = player.get_node("CollisionShape2D")

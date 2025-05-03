@@ -53,6 +53,11 @@ func _ready():
 	if debug: print("Game Controller initialized")
 	quest_system = QuestSystem
 	
+	var time_system = get_node_or_null("/root/TimeSystem")
+	if time_system:
+		time_system.day_changed.connect(_on_day_changed)
+		time_system.time_of_day_changed.connect(_on_time_of_day_changed)
+		if debug: print("Connected to TimeSystem signals")
 	_ensure_input_actions()
 	
 	# Get reference to the current scene node
@@ -130,7 +135,18 @@ func _ready():
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
 	
+# Add these new methods
+func _on_day_changed(old_day, new_day):
+	if debug: print("Day changed from %d to %d" % [old_day, new_day])
+	day_advanced.emit()
 	
+	# Additional day change logic here
+	
+func _on_time_of_day_changed(old_time, new_time):
+	if debug: print("Time of day changed")
+	turn_completed.emit()
+	
+
 # Modified _unhandled_input function for game_controller.gd
 func _ensure_input_actions():
 	# Clear existing mappings to avoid duplicates

@@ -1,5 +1,9 @@
 extends Node
 
+const scr_debug :bool = false
+var debug
+
+
 @export var sprite_path: NodePath = NodePath("Sprite2D")
 @onready var sprite: Sprite2D = get_parent().get_node_or_null("Sprite2D")
 @onready var AP = get_parent().get_node_or_null("AnimationPlayer")
@@ -25,6 +29,7 @@ var current_animation_name = ""
 var current_base_anim = ""
 
 func _ready():
+	debug = scr_debug or GameController.sys_debug 
 	# Initialize the sprite properties
 	if not animation_data.is_empty() and "idle" in animation_data:
 		var anim = animation_data["idle"]
@@ -156,9 +161,9 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 		
 		# Special handling for run animation to ensure it starts correctly
 		if anim_name == "run":
-			print("SPECIAL HANDLING FOR RUN ANIMATION")
+			print("SPECIAL HANDLING FOR RUN ANIMATION. h_frame = ")
+			AP.play("run_" + direction)
 			AP.stop()  # Force stop any previous animation
-			
 			# Make sure the frame is reset properly for run animation
 			# This is critical if we're seeing only the first frame
 			if direction == "down":
@@ -171,12 +176,14 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 				sprite.frame = 0   # Starting frame for run_up
 				
 			print("Set initial run frame to: " + str(sprite.frame) + " for direction: " + direction)
-			
+			 
 			# Now play the animation
 			AP.play(new_animation_name)
 		else:
 			# Normal animation handling for non-run animations
-			AP.stop() # Force stop any previous animation
+			AP.stop(true) # Force stop any previous animation
+			sprite.frame = 0   # Starting frame for run_up
+
 			AP.play(new_animation_name)
 		
 		# Debug animation properties

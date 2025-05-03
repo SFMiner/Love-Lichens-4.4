@@ -40,7 +40,6 @@ func _ready():
 		print("Child node: " + child.name + ", class: " + child.get_class())
 	
 	# Debug CharacterAnimator specifically
-	var animator = get_node_or_null("CharacterAnimator")
 	if animator:
 		print("Found CharacterAnimator")
 		
@@ -304,6 +303,7 @@ func _set_default_character_data():
 	if debug: print("Using default data for: ", character_name)
 
 func change_facing(dir):
+	print("Changing facing toward: ", dir)
 	animator.set_animation(last_animation, dir, character_id)
 
 func interact():

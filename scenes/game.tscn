@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0p7owuaem3nk"]
+[gd_scene load_steps=3 format=3 uid="uid://c0p7owuaem3nk"]
 
 [ext_resource type="Script" uid="uid://cqssmnrlhvthw" path="res://scripts/autoload/game_controller.gd" id="1_g3xwj"]
+[ext_resource type="PackedScene" uid="uid://co0t5m2qa8e1n" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_g3xwj")
@@ -21,3 +22,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Loading scene..."
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TimeDisplay" parent="CanvasLayer" instance=ExtResource("2_yqjtg")]

@@ -6,8 +6,8 @@ var debug
 var visit_areas = {}
 var curr_scale : float = 1.0
 var all_areas_visited = false
-@onready var z_objects = $Sprite2D/z_Objects
-@onready var bugzones = $Sprite2D/bugzones
+@onready var z_objects = $Node2D/z_Objects
+@onready var bugzones = $Node2D/bugzones
 @onready var player = $Player
 @onready var entrance = $entrance
 var camera_limit_right = 4780
@@ -20,7 +20,6 @@ func _ready():
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
 	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
 	if debug_label:
-		var player = $Player
 		if player and player.interactable_object:
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nCan interact with: " + player.interactable_object.name
 		else:

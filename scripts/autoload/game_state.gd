@@ -8,7 +8,6 @@ signal game_ended()
 signal tag_added(tag)
 signal tag_removed(tag)
 
-
 # Core game state 
 var current_game_id = ""
 var is_new_game = false
@@ -17,11 +16,12 @@ var play_time = 0
 var last_save_time = 0
 var interaction_range = 0
 var player : CharacterBody2D = null
-
 # Tag system for memory and game state tracking
 var tags: Dictionary = {}
-
-var poison_bugs = ["empty"]
+var looking_at_adam_desk = false
+var poison_bugs = ["tarantula"]
+var atlas_emergence : int = 28
+var current_day : float = 0
 
 # Game metadata
 var game_data = {
@@ -65,6 +65,8 @@ func start_new_game():
 		"current_turn": 0,
 		"turns_per_day": 8
 	}
+	
+	
 	
 	# Add starting items
 	var inventory_system = get_node_or_null("/root/InventorySystem")
@@ -184,6 +186,10 @@ func _collect_save_data():
 		"tags": tags.duplicate(true)
 	}
 	
+	var time_system = get_node_or_null("/root/TimeSystem")
+	if time_system:
+		save_data["time_system"] = time_system.save_data()
+	
 	return save_data
 
 # Apply loaded data to restore game state
@@ -202,6 +208,12 @@ func _apply_save_data(save_data):
 	
 	if save_data.has("tags"):
 		tags = save_data.tags.duplicate(true)
+	
+	# Load time system data
+	if save_data.has("time_system"):
+		var time_system = get_node_or_null("/root/TimeSystem")
+		if time_system:
+			time_system.load_data(save_data.time_system)
 	
 	# Reset start time to now
 	start_time = Time.get_unix_time_from_system()
@@ -256,3 +268,24 @@ func get_tag_value(tag: String, default_value: Variant = null) -> Variant:
 
 func get_player():
 	return 	get_tree().get_first_node_in_group("player")
+	
+var knowledge : Array[String]= []
+
+func add_knowledge(tag):
+	if is_known(tag):
+		print(tag + " is already known.")
+	else:
+		knowledge.append(tag)
+
+func is_known(tag: String):
+	if tag in knowledge:
+		return true
+	return false
+	
+func set_looking_at_adam_desk(tf : bool):
+	looking_at_adam_desk = tf
+
+func has_in_it(array : Array, tag : String):
+	if tag in array:
+		return true
+	return false

@@ -16,6 +16,7 @@ transition_name = "Cemetery Entrance"
 shape = SubResource("CircleShape2D_6tb1a")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -24.0
 offset_top = -24.0
 offset_right = 24.0

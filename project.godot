@@ -34,6 +34,11 @@ MemorySystem="*res://scripts/autoload/memory_system.gd"
 LookAtSystem="*res://scripts/autoload/look_at_system.gd"
 CharacterDataLoader="*res://scripts/autoload/character_data_loader.gd"
 CombatManager="*res://scripts/combat/combat_manager.gd"
+TimeSystem="*res://scripts/autoload/time_system.gd"
+
+[dialogue_manager]
+
+editor/wrap_long_lines=true
 
 [display]
 
@@ -44,6 +49,10 @@ window/stretch/mode="viewport"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+
+[global_group]
+
+z_Objects=""
 
 [input]
 

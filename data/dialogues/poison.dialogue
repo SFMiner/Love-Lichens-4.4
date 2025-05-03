@@ -18,7 +18,7 @@ Poison: So... biology major, huh? Must be fun to stare at moss all day.
 	Poison: [#amused] Oh, excuse my botanical faux pas. Lichens, not moss. Got it, Professor.
 	Poison: [#genuine] For real though, what made you pick that specific field?
 - What are you studying?
-	Poison: Environmental policy. Someone's gotta clean up all the messes, right? 
+	Poison: Entomology. Someone's gotta eat up all out=r messes, right? 
 	Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.
 	do GameState.set_tag("poison_peepaw_mentioned")
  

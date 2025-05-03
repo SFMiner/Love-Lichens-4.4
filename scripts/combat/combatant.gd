@@ -14,6 +14,7 @@ signal status_effect_removed(effect)
 @export var strength := 10
 @export var defense := 10
 @export var willpower := 10
+var current_speed_mod = 1
 
 # Current state
 var current_health: int
