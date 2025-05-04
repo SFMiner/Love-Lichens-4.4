@@ -393,10 +393,10 @@ func is_feature_observed(feature_id: String) -> bool:
 		return observable_features[feature_id].observed
 	return false
 
-func add_observable_feature(feature_id: String, description: String, memory_tag: String = "") -> void:
+func add_observable_feature(feature_id: String, obs_description: String, memory_tag: String = "") -> void:
 	if debug: print("Adding obser5vable features for " + character_id)
 	observable_features[feature_id] = {
-		"description": description,
+		"description": obs_description,
 		"observed": false,
 		"memory_tag": memory_tag
 	}

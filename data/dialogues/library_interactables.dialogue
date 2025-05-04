@@ -1,0 +1,786 @@
+~ start
+# This is the default interaction that happens when approaching any library element
+# without specific dialogue
+
+You look around the Hemlock Library. The space feels peaceful and well-organized.
+
+=> END
+
+~ research_computer_west
+You approach the western research computer desk. The screen displays a colorful illustration of the school's maple seed mascot spinning in the center of a desktop showing various environmental research databases.
+
+- Use the research computer => research_computer_interface
+- Look at the computer's decorations => computer_decor_west
+- Check the desk area => desk_area_west
+- Step away => END
+
+~ research_computer_interface
+The research interface loads, showing access to various academic databases and journals. The maple seed mascot spins cheerfully in the corner while system icons populate the desktop.
+
+// Note: This will connect to separate research dialogue tree to be created later
+do QuestSystem.open_research_interface()
+
+=> END
+
+~ computer_decor_west
+The desktop background features an elegant watercolor painting of the campus maple trees through different seasons. Small potted succulents sit on either side of the monitor, and there's a note taped to the side: "Clean workspace = clear thinking!"
+
+=> END
+
+~ desk_area_west
+The desk area is well-maintained. You notice:
+A small dish of wrapped peppermints for stressed researchers
+Several reference guides for proper citation formatting
+A collection of pens in a cup that resembles a tree trunk
+Some highlighters and color-coded tabs for marking texts
+
+=> END
+
+~ research_computer_central
+You approach the central research computer station. It's identical to the others, with the maple seed mascot cheerfully spinning on the desktop background.
+
+- Use the research computer => research_computer_interface
+- Look at the computer's decorations => computer_decor_central  
+- Check the desk area => desk_area_central
+- Step away => END
+
+~ computer_decor_central
+This computer has a desktop background showing a time-lapse sequence of a maple seed germinating and growing. Small library materials are neatly organized nearby, including citation style guides and research method handbooks.
+
+=> END
+
+~ desk_area_central
+The central station desk contains:
+A small digital clock showing library hours
+Noise-canceling headphones on a stand
+Quick reference cards for database access
+A USB hub with multiple ports for personal devices
+
+=> END
+
+~ research_computer_east
+The eastern research computer awaits your attention. Like the others, it displays the maple seed mascot on a desktop filled with academic resources.
+
+- Use the research computer => research_computer_interface
+- Look at the computer's decorations => computer_decor_east
+- Check the desk area => desk_area_east  
+- Step away => END
+
+~ computer_decor_east
+The background shows an artistic representation of the maple seed mascot interacting with various environmental elements - wind, water, soil. A small calendar marks upcoming research deadlines and library events.
+
+=> END
+
+~ desk_area_east
+You find at this station:
+A standing desk converter for ergonomic research sessions
+Specialty keyboard with environmental science symbols
+Power strips for charging personal devices
+A small collection of mint tea bags and herbal teas
+
+=> END
+
+~ bookshelf_top_left
+You examine the uppermost left bookshelf. It contains an impressive collection of environmental science texts.
+
+- Look at the shelf contents => bookshelf_top_left_contents
+- Read some book titles => bookshelf_top_left_titles
+- Check the shelf organization => bookshelf_top_left_organization
+- Step away => END
+
+~ bookshelf_top_left_contents
+This section houses:
+Advanced ecological modeling texts
+Climate change research compilations  
+Rare editions of classic environmental works
+Recent publications on sustainable development
+International environmental law references
+
+=> END
+
+~ bookshelf_top_left_titles
+Notable titles include\:
+- "Systems Thinking for Environmental Challenges"
+	Introduction:
+	"Consider the humble wasp. It pollinates your figs, controls aphid populations, decomposes organic matter, and serves as food for countless birds. Yet many gardeners see only a pest. This book argues that such narrow thinking—viewing each element in isolation—is perhaps our greatest environmental challenge. Systems thinking asks not 'What does this organism do?' but 'What would collapse without it?'"
+- "The Mycelial Network\: Understanding Forest Communication"
+	Chapter 7, "Eavesdropping on Trees":
+	"Using acoustic sensors buried six inches deep, researchers detected rhythmic pulses traveling through fungal networks—what they termed 'mycelial morse code.' Trees under stress emitted rapid bursts, while healthy specimens maintained a steady rhythm. Most remarkably, trees receiving distress signals redistributed their resources before the danger reached them."
+- "Biodiversity Metrics\: Theory and Practice"
+	Appendix B:
+	"The Meadowbrook Paradox remains the most cited example of why species counts alone are insufficient measures of ecosystem health. Despite having 15% higher species diversity than the adjacent old-growth forest, the meadow supported significantly less biomass and showed unstable population cycles. As Dr. Patel noted\: 'We were counting actors but ignoring the play.'"
+- "Watershed Management in the Anthropocene"
+	Chapter 4, "The Living Dam":
+	"Traditional concrete dams last 50-100 years. The experimental 'living dam' at Clearwater Creek—a precisely engineered arrangement of willow plantings, beaver lodges, and stone weirs—has functioned perfectly for 23 years and grows stronger with time. Local fish populations increased 300%. The beavers, initially skeptical of the stone foundations, now proudly maintain their part of the structure."
+- "Indigenous Knowledge and Modern Conservation"
+	Page 162:
+	"The Haudenosaunee concept of considering the impact of decisions on seven generations ahead revolutionized the park's management plan. Rangers began asking\: 'What will these trees say to the children of my children's children's children?' The apparently simple shift in perspective prompted entirely new approaches to everything from trail placement to invasive species management."
+
+=> END
+
+~ bookshelf_top_left_organization
+The books are meticulously organized by subject matter, with color-coded labels indicating different environmental disciplines. Each shelf has a small card explaining the classification system, making navigation intuitive despite the complexity of the subject matter.
+
+=> END
+
+~ bookshelf_middle_left
+You approach a mid-level bookshelf containing practical guides and field references.
+
+- Look at the shelf contents => bookshelf_middle_left_contents
+- Browse the field guides => bookshelf_middle_left_guides
+- Check for recent additions => bookshelf_middle_left_recent
+- Step away => END
+
+~ bookshelf_middle_left_contents
+This collection includes\:
+Regional flora and fauna identification guides
+Soil science practical handbooks  
+Water quality testing manuals
+Sustainable agriculture methods
+Urban ecology resources
+=> END
+
+~ bookshelf_middle_left_guides
+You find detailed field guides for\:
+Native tree species of NY State
+Common lichen identification
+Mushroom foraging (safely)
+Bird species migration patterns
+Local watershed systems
+=> END
+
+~ bookshelf_middle_left_recent
+A small "Recent Acquisitions" sign marks newer additions\:
+- "Fungal Networks and Climate Resilience"
+	Opening paragraph:
+	"In the spring of 2019, Dr. Maya Fernandez discovered that the ancient oak grove behind her research station wasn't just surviving the drought—it was thriving. The secret lay beneath the soil, where a complex fungal network had created what her team called 'moisture highways,' redirecting precious water to vulnerable trees. When she pressed her ear to the forest floor, she swore she could hear them humming."
+- "Microplastics\: A Growing Concern"
+	Page 47 excerpt:
+	"The research team found microplastics in 100% of the lake sediment samples. Most disturbing were the findings from Site 7—the pristine waterfall everyone assumed was untouched by human influence. Dr. Chen noted in her field journal\: 'Even paradise has plastic confetti.' The photograph of a mayfly larva wrapped in a microscopic fishing line thread became the paper's most shared image."
+- "Green Infrastructure Planning Guide"
+	Chapter 3, "Living Roofs in Action":
+	"The university's botany building proved that green roofs could be more than aesthetic. During the summer of 2021, while surrounding buildings reached 95°F, the living roof maintained a steady 78°F. Student volunteers named the roof garden 'Skymeadow' and documented 47 species of insects thriving there—including one previously thought extinct in the region."
+- "Restoration Ecology Best Practices"
+	Case Study 12:
+	"The abandoned quarry seemed hopeless—bare rock, toxic soil, no topsoil for miles. But the restoration team had a secret weapon\: time. They introduced pioneer lichens and waited. Fourteen months later, microscopic soil particles began collecting in lichen crevices. Three years later, moss grew. By year five, the first blade of grass sprouted. The quarry now hosts rare wildflowers that refuse to grow anywhere else."
+- Step Away => END
+=> bookshelf_middle_left_recent
+
+~ bookshelf_bottom_left
+The lower shelf contains more accessible materials and special collections.
+
+- Look at the collection => bookshelf_bottom_left_contents
+- Check the environmental journals => bookshelf_bottom_left_journals
+- Browse student resources => bookshelf_bottom_left_student
+- Step away => END
+
+~ bookshelf_bottom_left_contents
+This section features: 	Environmental science textbooks\nLab procedure manuals\nGraduate thesis collections\nIndustry certification study guides\nPractice exam materials
+=> END
+
+~ bookshelf_bottom_left_journals
+You find bound collections of academic journals:
+- "Journal of Sustainable Agriculture"
+	Abstract of lead article: "Perennial Grains and the Lichen Connection\: Preliminary findings suggest that intercropping perennial wheat with specifically selected lichen assemblages increases soil nitrogen by 23% without fertilizer input. Test plots showed remarkable drought resistance, with lichen-associated crops yielding 40% more during the 2023 drought compared to conventional plantings."
+- "Ecological Restoration Quarterly" 
+	Editor's note: "This issue features groundbreaking work from the Great Basin Restoration Project, where researchers successfully reintroduced extinct soil crusts using 'fossil resurrection'—cultivating spores from 3,000-year-old packrat middens. The resulting biological soil crusts established 300% faster than contemporary species, suggesting ancient genetics may hold keys to modern restoration challenges."
+- "Environmental Ethics Today"
+	Featured essay excerpt: "When my six-year-old daughter asked why we don't have rights for mushrooms, I initially dismissed it as a child's fancy. Yet the question haunted me. If fungi can teach, heal, and communicate—if they literally hold the forest together—have we been operating under a profoundly limited definition of personhood?"
+- "Mycological Studies Annual"
+	Research highlight: "The discovery of Cryptococcus aureus within the sealed chambers of the abandoned Blackthorn Mine represents more than a new species—it challenges our understanding of fungal evolution. Living in complete darkness for an estimated 340 years, this golden-pigmented yeast has developed unique melanin structures that appear to feed on background radiation."
+- "Water Conservation Review"
+	Featured study: "Rain Gardens of the Mind\: Our spatial memory study demonstrated that households maintaining rain gardens used 47% less water overall—not just in irrigation but in total household consumption. Participants reported increased 'water consciousness' in all daily activities, suggesting that relationship with water extends beyond utility into identity."
+- Step Away => END
+=> bookshelf_bottom_left_journals
+
+~ bookshelf_bottom_left_student
+Resources for students include: Writing guides for environmental papers\nResearch methodology in ecological studies\nStatistics for environmental scientists\n
+Career paths in environmental science\nInternship and job listings board
+=> END
+
+~ bookshelf_top_right
+The uppermost right shelf focuses on interdisciplinary connections.
+
+- Examine the collection => bookshelf_top_right_contents
+- Look at policy materials => bookshelf_top_right_policy
+- Check conservation resources => bookshelf_top_right_conservation
+- Step away => END
+
+~ bookshelf_top_right_contents
+This section emphasizes environmental policy and governance: International environmental agreements\nPolicy implementation case studies\nEnvironmental economics texts\nResource management strategies\nClimate policy analysis
+
+=> END 
+
+~ bookshelf_top_right_policy
+Key policy resources include\:
+- "Global Sustainability Accords\: Analysis and Progress"
+	Executive summary excerpt: "Five years post-implementation, the 2025 Biodiversity Accords show surprising success in unexpected areas. While protected area targets lagged at 68% achievement, the 'Neighbor Forest' initiative—where nations adopt adjacent countries' endangered species—led to grassroots conservation movements that exceeded all projections. Costa Rica's protection of Panama's golden frogs sparked a phenomenon."
+- "Environmental Justice Framework"
+	Case study:
+	"The Riverside Community's fight against toxic waste disposal revealed a new model of environmental justice that transcends traditional boundaries. When contamination threatened the local river, the community didn't just protest—they purchased the upstream woodland using a community land trust. Five years later, the aquifer is recovering and the community operates a profitable maple syrup cooperative."
+- "Local Government and Green Initiatives"
+	Chapter 8, "Policy in Practice": "When Springfield declared itself a 'City of Refuge for Displaced Species,' critics called it symbolic politics. Yet the initiative generated 68 concrete policy changes, from wildlife corridors under highways to 'dark zones' for migrating birds. Most unexpected\: teenage skateboarders began documenting urban wildlife, creating the city's most comprehensive biodiversity database."
+- "Public Engagement in Environmental Decision Making"
+	Best practices guide: "'Council of All Beings' sessions, adapted from Joanna Macy's work, transformed Brookfield's watershed planning. Residents role-played as river, eagle, and wetland. While some officials initially balked, the resulting watershed protection plan—incorporating these 'non-human' perspectives—passed with 94% public approval and successfully defended against three lawsuits."
+- "Regulatory Compliance in Conservation"
+	Implementation note: "The 'Three Generations Rule' emerged from a small Vermont town but now influences federal policy\: no development project requiring environmental impact statements can be approved without consulting affected community members aged 6-12, 30-50, and 65+. Children's perspectives often highlight impacts professionals miss, while elders provide historical context. The middle generation bridges both."
+- Step Away => END
+=> bookshelf_top_right_policy
+
+~ bookshelf_top_right_conservation
+Conservation-focused materials comprise:\nHabitat restoration guidelines\nSpecies protection protocols\nConservation biology principles\nEcosystem management plans\nProtected area design
+=> END
+
+~ bookshelf_middle_right
+The middle right shelf features research methodologies and documentation.
+
+- Browse the methodology texts => bookshelf_middle_right_methods
+- Check research tools => bookshelf_middle_right_tools
+- Look at data resources => bookshelf_middle_right_data
+- Step away => END
+
+~ bookshelf_middle_right_methods
+Research methodology collection:\nField study design principles\nExperimental protocols in ecology\nStatistical analysis for environmental data\nQualitative research in nature\nMixed methods approaches
+=> END
+
+~ bookshelf_middle_right_tools
+You find guides for research tools:\nGIS applications in environmental science\nRemote sensing techniques\nData visualization for ecologists\nEnvironmental modeling software\nDigital mapping resources
+=> END
+
+~ bookshelf_middle_right_data
+Data resources available:\nEnvironmental datasets catalogs\nLong-term ecological research archives\nClimate data repositories\nBiodiversity databases\nWater quality monitoring records
+=> END
+
+
+~ bookshelf_bottom_right
+The lower right shelf contains reference materials and specialized topics.
+
+- Check the reference section => bookshelf_bottom_right_reference
+- Browse special topics => bookshelf_bottom_right_special
+- Look at historical perspectives => bookshelf_bottom_right_history
+- Step away => END
+
+~ bookshelf_bottom_right_reference
+Reference materials include:\nEnvironmental terminology dictionary\n
+Scientific names quick reference\nMeasurement conversion tables\nEnvironmental regulations handbook\nProfessional association directories
+=> END
+
+
+~ bookshelf_bottom_right_special
+Special topic collections:\nBiomimicry and sustainable design\nCircular economy principles\nGreen chemistry fundamentals\nRenewable energy systems\nEnvironmental psychology studies
+=> END
+
+~ bookshelf_bottom_right_history
+Historical perspectives section:\nEarly environmental movement texts\nConservation history of the region\nIndigenous environmental knowledge\nEvolution of ecological thought\nHistorical ecological data\n
+=> END
+
+~ workspace_tables
+You approach the workspace tables in the center of the library. Several tables are arranged to accommodate collaborative study groups.
+
+- Check table availability => workspace_tables_availability
+- Look at table resources => workspace_tables_resources
+- Read collaboration guidelines => workspace_tables_guidelines
+- Step away => END
+
+~ workspace_tables_availability
+Tables are arranged for different group sizes:\nSmall tables for 2-3 people\nLarger tables for group projects\nStanding height tables for presentations\nQuiet study sections marked clearly\nMost tables have power outlets and good lighting. Several have rolled paper or whiteboards attached for brainstorming.
+
+=> END
+
+~ workspace_tables_resources
+Each table area includes:\nTable lamps with adjustable brightness\nExtension cords and power strips\nWhiteboard markers and erasers\nReference material quick guides\nLost and found box (for small items)
+=> END
+
+~ workspace_tables_guidelines
+A friendly sign explains:
+"Collaborative Work Guidelines\:\nKeep voices at conversational level\nClean up materials when finished\nReturn library resources to proper places\nShare tables during busy study periods\nElectronics on silent mode please"
+
+=> END
+
+~ librarian_desk
+You approach the librarian's desk. It's currently unattended but well-organized, with helpful signage.
+- Check for librarian assistance => librarian_assistance
+- Read information notices => librarian_notices
+- Look at available forms => librarian_forms
+- Step away => END
+
+~ librarian_assistance
+A digital display shows: "Librarian Schedule\:\nMon-Thu: 8am-8pm\nFriday: 8am-6pm\nSaturday: 10am-4pm\n\nCurrent librarian\: Away - returning shortly\n\nFor immediate questions, check our digital catalogue or ask at the Environmental Science office."
+
+=> END
+
+~ librarian_notices
+Various notices are posted:\nLibrary hours changes during finals week\nNew database access instructions\nUpcoming research skills workshop\nBook donation guidelines\nStudy room reservation system updates\n
+
+=> END
+
+~ librarian_forms
+Available forms include:\nInterlibrary loan requests\nPurchase suggestions\nEquipment checkout forms\nStudy room reservation sheets\nResearch assistance request cards
+
+=> END
+
+~ floor_pattern
+You notice the intricate herringbone pattern of the library floor.
+
+- Examine pattern details => floor_pattern_details
+- Consider acoustics => floor_pattern_acoustics
+- Think about maintenance => floor_pattern_maintenance
+- Step away => END
+
+~ floor_pattern_details
+The herringbone hardwood flooring creates a sophisticated pattern throughout the library. The varying wood grain orientations create a subtle visual texture that complements the scholarly atmosphere.\nDifferent wood species appear to be used, creating natural variation in color and grain pattern.
+
+=> END
+
+~ floor_pattern_acoustics
+You realize the flooring choice isn't just aesthetic - the hardwood construction helps manage acoustics in the space. The pattern seems designed to reduce echo while maintaining the quiet atmosphere appropriate for study.\nAreas near the computer stations have slight carpet padding to dampen keyboard noise.
+
+=> END
+
+~ floor_pattern_maintenance
+The flooring shows signs of careful maintenance. High-traffic areas have protective treatments, and the pattern makes scratches less visible than traditional flooring would.\nYou notice some areas have been recently refinished, showing the library staff takes pride in preserving this beautiful feature.
+
+=> END
+
+~ maple_artifact
+Above the librarian's desk, you notice a beautifully displayed artifact that catches your eye.
+
+- Examine the display more closely => maple_artifact_examine
+- Read the information plaque => maple_artifact_plaque
+- Consider its significance => maple_artifact_significance
+- Step away => END
+
+~ maple_artifact_examine
+Mounted in a place of honor is an intricate wooden sculpture of the college's maple seed mascot, crafted from what appears to be actual maple wood. The piece captures both the scientific detail of the samara's structure and an artistic stylization that makes it almost seem capable of taking flight.
+
+=> END
+
+~ maple_artifact_plaque
+The brass plaque beneath reads: "The Soaring Scholar"\nArtist: Class of 1978\nMaterial: Silver Maple (Acer saccharinum)\nGifted to the Sustainability Library in honor of our founding commitment to environmental education."
+
+=> END
+
+~ maple_artifact_significance
+This sculpture represents more than school spirit - it embodies the library's mission. The maple seed, like a student researcher, must take flight to spread knowledge. The craftsmanship suggests it was created by someone deeply familiar with both the biological form and artistic representation of nature.
+
+=> END
+
+~ special_collections_area
+A small sign indicates a special collections area near the librarian's desk.
+
+- Read about the collections => special_collections_info
+- Check access requirements => special_collections_access
+- Browse available materials => special_collections_browse
+- Step away => END
+
+~ special_collections_info
+The sign describes special collections: "Rare books and manuscripts focusing on:\n- Early New York State ecology texts\n- Historical land use records\n- Native plant cultivation guides\n- Original field research notes\n- Environmental artist portfolios"
+
+=> END
+
+~ special_collections_access
+Access guidelines state: Special collections viewing requires:\n- Librarian assistance\n- Appointment for rare books\n- White gloves provided\n- No photography without permission\n- Materials remain in designated area
+
+=> END
+
+~ special_collections_browse
+While full access requires appointment, a display case shows selected items: A 19th-century botanical illustration book\nOriginal correspondence between early conservationists\nHand-drawn maps of local watersheds\nStudent thesis from the college's first graduating class
+
+=> END
+
+~ environmental_art_display
+Near the entrance, an environmental art display catches the eye.
+
+- View current exhibition => art_display_current
+- Read artist statement => art_display_statement
+- Learn about the program => art_display_program
+- Step away => END
+
+~ art_display_current
+The current exhibition titled "Symbiosis in Science" features:
+- Microscopic photography of lichen formations
+	"Miniature Landscapes" by Dr. Eliza Chen": Through electron microscopy, Dr. Chen reveals lichen not as mere crusts on rocks, but as miniature forests. Each photograph captures symbiotic algae and fungi at 1000x magnification, rendered in striking color-coded clarity. Viewers often mistake these alien terrains for satellite imagery of undiscovered continents—until reading the scale bar showing each "mountain range" measures mere micrometers.
+- Digital art incorporating climate data
+	"The Pulse of the Planet" by Alex Winters: This generative art installation translates 50 years of atmospheric CO2 readings into abstract visual compositions. Each spike in carbon levels triggers new organic shapes that bloom across the screen—beautiful yet unsettling. The piece runs on a 24-hour cycle, with subtle changes occurring as real-world weather affects the gallery's environmental sensors.
+- Sculptures made from reclaimed materials: 
+	"Second Nature" by Jade Rivera: Rivera's sculptures transform discarded scientific equipment—broken microscopes, abandoned research apparatus, obsolete computers—into new organisms. A particularly striking piece resembles a giant mushroom constructed entirely from old laboratory glassware. Labels explain how each reclaimed object once served science, now serving art that serves science again.
+- Interactive piece about mycelial networks
+	"Walking the Web" by Morgan Technologies Collective: This floor installation features pressure-sensitive panels that illuminate a network of LED threads mimicking fungal hyphae. As viewers step, their footfalls trigger sound samples of forest recordings and data sonifications. The more people engage, the more complex the network becomes—visualizing how every organism in a forest community affects every other.
+= Step Away => END
+=>art_display_current
+
+~ art_display_statement
+Artist statement reads:
+"This exhibition explores the intersection of scientific observation and artistic interpretation. Each piece translates ecological relationships into visual form, making the invisible connections in nature more tangible for viewers."
+
+=> END
+
+~ art_display_program
+Information about the art program:
+"The Sustainability Library's Art & Science collaboration features monthly rotating exhibits. Local artists are invited to create work inspired by environmental science research. Submissions welcome through the library's art program coordinator."
+
+=> END
+
+~ window_view
+You pause at one of the library windows to look outside.
+
+- Observe the campus view => window_view_campus
+- Notice the weather => window_view_weather
+- Spot wildlife => window_view_wildlife
+- Return to your research => END
+
+~ window_view_campus
+Through the large windows, you can see a portion of the campus quad. The carefully maintained grounds feature native plantings rather than traditional lawn, demonstrating the college's commitment to sustainable landscaping.
+
+Several study groups have gathered outside under the trees, taking advantage of the natural setting for their discussions.
+
+=> END
+
+~ window_view_weather
+The current conditions affect how you perceive the campus. Perhaps the morning light creates interesting shadows on the sustainable building designs, or afternoon rain highlights the rain garden features collecting runoff.
+
+The weather influences which areas of campus are being used and how nature responds to the changing conditions.
+
+=> END
+
+~ window_view_wildlife
+If you watch carefully, you might spot:
+- Birds visiting the native plantings
+- Squirrels going about their business
+- Butterflies or bees if flowers are in bloom
+- Faculty or students engaged in outdoor research
+
+The window provides insight into the living laboratory that is the campus ecosystem.
+
+=> END
+
+~ stairs_to_special_collections
+You approach the stairs leading to the Special Collections floor. A small sign reads "Special Collections & Archives - 2nd Floor - Appointment Required for Rare Materials"
+
+- Go upstairs => special_collections_entrance
+- Return to main library => END
+
+~ special_collections_entrance
+You enter the Special Collections floor. The atmosphere here is different - quieter, more controlled, with muted lighting to protect delicate materials.
+
+Ahead you see: Climate-controlled rare books vault\nManuscript reading room\nDigital archives station\nHistorical map collection\nSpecial acquisitions desk
+
+- Visit the rare books vault => rare_books_vault
+- Enter the manuscript reading room => manuscript_room
+- Check the digital archives => digital_archives
+- Browse the map collection => map_collection
+- Speak with special collections librarian => special_librarian
+- Return downstairs => END
+
+~ rare_books_vault
+You approach the climate-controlled vault housing the library's rarest materials. Through a viewing window, you can see temperature and humidity monitoring equipment.
+
+- Look through the viewing window => vault_viewing
+- Read about preservation methods => vault_preservation
+- Check the vault directory => vault_directory
+- Learn about appointment process => vault_appointments
+- Return to entrance => special_collections_entrance
+
+~ vault_viewing
+Through the window, you glimpse rows of protected volumes: First editions of groundbreaking environmental texts\n field journals from early naturalists\nHand-illustrated botanical compendiums\nLeather-bound research logs from the 1800s\n\nThe materials appear to be organized by both age and environmental sensitivity.
+
+=> END
+
+~ vault_preservation
+A display explains preservation methods: Climate Control: 68°F, 45% humidity
+\nUV-filtered lighting\n\nAcid-free storage materials\nRegular condition assessments\nDigital backup for fragile items\n\nA note adds\: "These conditions help preserve paper materials that could otherwise deteriorate rapidly."
+
+=> END
+
+~ vault_directory
+The directory lists notable collections: Adirondack Conservation Archive (1820-1950)
+- Indigenous Land Management Practices\nEarly Forestry Research Collection  \nRare Species Documentation\nClimate Data Historical Records\nFounding Faculty Research Papers
+=> END
+
+~ vault_appointments
+Appointment information:
+"To view materials from the vault: 1. Submit request form 48 hours in advance\n2. Specify materials needed\n3. Research purpose required\n4. Librarian supervises all viewing\n5. No food, drinks, or ink pens allowed"
+
+=> END
+
+~ manuscript_room
+You enter the manuscript reading room, designed for careful examination of delicate materials. 
+
+- Check available manuscripts => manuscript_catalog
+- Learn handling procedures => manuscript_handling
+- Review current displays => manuscript_displays
+- Examine reading tables => manuscript_tables
+- Return to entrance => special_collections_entrance
+
+~ manuscript_catalog
+Current manuscript selections include: Original correspondence from Rachel Carson\nField notebooks from local naturalists\nIndigenous ecological knowledge records\nEarly environmental policy drafts\nStudent research papers (1900-1950)
+
+=> END
+
+~ manuscript_handling
+Handling guidelines are posted:
+Required Procedures: - Wear provided cotton gloves\n- Support materials on book cradle\n- Turn pages from top corner\n- No photocopying - request digital scan\n- Librarian must be present\n- Clean hands before handling
+
+=> END
+
+~ manuscript_displays
+Current exhibits: Each display has minimal light exposure and explanatory text nearby.
+- "Voices of Early Conservation" - Letters between conservationists
+	April 15, 1876: My Dearest Louie,\nThe valley grows more sacred to me with each footstep. Yesterday I discovered a tiny orchid hiding between the granite cracks - Goodyera oblongifolia, the rattlesnake plantain. Its delicate green leaves reminded me of lace Mother used to keep in her cedar chest.
+	President Grant's delegation arrives tomorrow to assess the valley's worthiness for federal protection. I fear they see only timber and grazing land where you and I see cathedrals of stone. Please send prayers that their eyes might be opened to its true value.\nYour wandering John
+"Sketches from the Field" - Scientific illustrations
+	Field Journal of Elizabeth Blackwell, 1926: Northeast Wetlands Expedition\n[[Detailed pen-and-ink drawing of a pitcher plant with annotations]]\nSarracenia purpurea - Purple Pitcher Plant\nHeight: 8-10 inches observed\nLocation: Cranberry bog, mile marker 14
+	Note\: Found containing preserved remains of 17 different insect species. Local children claim these plants "eat fairies" - more scientific education needed. The enzymatic breakdown appears accelerated in morning specimens. Must investigate further. [[Small sketch of a fairy with wings caught in pitcher rim, marked "As described by Tommy Wilson, age 7"]]
+"Policy Evolution" - Handwritten environmental legislation drafts
+	Wilderness Protection Act - Draft 6: Theodore Roosevelt's personal annotations, 1904\nSection 4: Protected Area Classifications\n[[Original text crossed out, with marginal notes]]\n"All regions larger than 5,000 acres showing minimal human impact..."
+\nTR's handwriting in red\: "Too restrictive! Include smaller sacred spaces - a single ancient tree can be worth protecting."\n"...shall be preserved inviolate for future generations..."\nTR's addition\: "in their natural condition, allowing nature's own healing processes to predominate over man's interference"\nAt bottom of page\: "Gifford disagrees but a nation's conscience cannot always be measured in acres - TR"
+=> END
+
+~ manuscript_tables
+The reading tables are specially designed:
+- Angled book cradles to protect spines
+- Magnifying lamps with UV filters
+- Weighted page holders  
+- Clean surfaces for examination
+- Comfortable seating for extended study
+
+=> END
+
+~ digital_archives
+You approach the digital archives station where historical materials have been scanned and preserved.
+
+- Browse digital collections => digital_collections
+- Learn about scanning process => digital_scanning
+- Access databases => digital_databases
+- Review copyright policies => digital_copyright
+- Return to entrance => special_collections_entrance
+
+~ digital_collections
+Available digital collections: Scanned historical photographs (1870-1970)\nDigitized research journals\nAudio recordings of lectures\nRare book reproductions\nHistorical weather data\nStudent newspaper archives
+=> END
+
+~ digital_scanning
+The scanning process ensures preservation: "High-resolution scans capture every detail\nColor profiles matched to originals\nMultiple backups stored securely\nOriginal materials handled minimally\nOngoing scanning of at-risk materials"\n
+=> END
+
+~ digital_databases
+
+Access to specialized databases:Early New York State ecological surveys\nHistoric land use records\nWildlife population studies  - Water quality data (1920-present)\nAlumni research publications\nCorrespondence archives
+Search interface requires special permission for some collections.
+=> END
+
+~ digital_copyright
+Copyright information: Digital access policies:Search interface requires special permission for some collections.\n-Many materials in public domain\n- Some require permission to reproduce\n- Educational use generally permitted\n- Commercial use restricted\n- Citation guidelines provided\n- Contact librarian for clarification
+
+=> END
+
+~ map_collection
+You enter the historical map collection, where cartographic records trace the region's environmental and developmental history.
+
+- Browse general collection => map_general_collection
+- View rare maps => map_rare_collection
+- Learn about map preservation => map_preservation
+- Examine map catalog => map_catalog
+- Return to entrance => special_collections_entrance
+
+~ map_general_collection
+The general collection includes: - Topographic maps (1900-present)\n- Watershed boundary maps\n- Forest coverage changes\n- Urban development progression\n- Natural resource distribution\n- Native American territory maps
+
+=> END
+
+~ map_rare_collection
+Rare cartographic materials: - Hand-drawn surveys from the 1700s\n- Original county formation maps\n- Early railroad and waterway plans\n- Indigenous land management maps\n- Pre-settlement vegetation maps
+Special viewing conditions apply to these materials.
+
+=> END
+
+~ map_preservation
+Map preservation techniques: "Large format storage: flat in acid-free folders\nRolled maps stored in tubes\nTemperature and humidity controlled\nRegular condition checks\nDigital scanning reduces handling\nRepair performed only by specialists
+=> END
+
+~ map_catalog
+Catalog organization: Maps arranged by:- Geographic region\n\n- Time period\n- Survey type\n- Scale\n- Condition/fragility\n- Digital availability
+Search system helps locate specific maps quickly.
+
+=> END
+
+~ special_librarian
+You approach the special collections librarian's desk. The librarian greets you with a professional smile.
+- Ask about access requirements => librarian_access_info
+- Inquire about recent acquisitions => librarian_acquisitions
+- Request research assistance => librarian_research_help
+- Learn about donation process => librarian_donations
+- Return to entrance => special_collections_entrance
+
+~ librarian_access_info
+The librarian explains:
+"Access levels vary by material type:
+- Open access: digital archives
+- Supervised access: manuscripts
+- Appointment only: rare books
+- Grad student/faculty: expanded privileges
+- Public: guided tours available
+
+All visitors must sign in and follow preservation protocols."
+
+=> END
+
+~ librarian_acquisitions
+Recent acquisitions include:
+"We've just received the entire Adirondack Wilderness Society archives - correspondence, maps, and photographs from their founding in 1935 through 1980.
+
+Also, a collection of student field journals from the 1960s, documenting early environmental activism on campus."
+
+=> END
+
+~ librarian_research_help
+Research assistance available:
+"I can help you:
+- Locate relevant collections
+- Navigate finding aids
+- Suggest related materials
+- Arrange viewing appointments
+- Order digital reproductions
+- Understand historical context"
+
+=> END
+
+~ librarian_donations
+The donation process:
+"We accept:
+- Environmental science research materials
+- Faculty/staff papers
+- Alumnus personal collections
+- Local environmental organization records
+
+Materials are evaluated for:
+- Historical significance
+- Research value
+- Connection to our mission
+- Preservation needs
+- Storage capacity"
+
+=> END
+
+~ faculty_archives
+A separate section houses faculty research archives, organized by department and era.
+
+- Browse by department => faculty_by_department
+- View notable collections => faculty_notable
+- Learn about access policies => faculty_access
+- Return to entrance => special_collections_entrance
+
+~ faculty_by_department
+Archives organized by department:
+- Environmental Biology
+- Forest Management  
+- Water Resources
+- Ecology
+- Policy Studies
+- Chemistry
+- Engineering
+
+Each section contains research papers, grant applications, and field notes.
+
+=> END
+
+~ faculty_notable
+Notable faculty collections:
+"Dr. Elizabeth Thorne - Pioneer in lichen symbiosis research
+Prof. Jonathan Wells - Early mycological network theories  
+Dr. Sophia Lin - Environmental bioengineering
+Dr. Margaret Wilkins - Native plant conservation
+Prof. Harold Chen - Mycorrhizal network studies"
+
+=> END
+
+~ faculty_access
+Access policies for faculty archives: "- General research files: open access\n- Unpublished research: permission required\n- Personal correspondence: restricted\n- - Grant records: admin approval needed\n- Recent faculty work: 10-year embargo\nContact department heads for specific permissions."
+
+=> END
+
+~ environmental_timeline
+An environmental history timeline display runs along one wall of the special collections floor.
+
+- Examine early conservation efforts => timeline_early
+- Learn about campus history => timeline_campus
+- Review environmental legislation => timeline_legislation
+- Study ecological discoveries => timeline_discoveries
+- Return to entrance => special_collections_entrance
+
+~ timeline_early
+Early conservation in the region:
+"1792 - First forest survey of the area
+1832 - Opposition to clear-cutting practices
+1865 - Formation of local naturalist society
+1885 - First state nature preserve established
+1903 - College founded with conservation mission"
+
+=> END
+
+~ timeline_campus
+Campus development timeline: 1903 - College established\n1915 - First greenhouse constructed\n1934 - Sustainability practices implemented\n1952 - Research forest acquired\n1976 - Environmental laboratory built\n2000 - Green energy initiatives begun\n
+
+=> END
+
+~ timeline_legislation
+Environmental legislation milestones: "1916 - First state park system\n1935 - Wilderness Protection Act\n1965 - Clean Water legislation\n1972 - Environmental Protection Agency\n1980 - Acid rain monitoring begins\n1995 - Climate action planning initiated
+
+=> END
+
+~ timeline_discoveries
+Ecological discoveries from the region: 1889 - New lichen species identified\n1923 - Mycelial communication discovered
+1945 - DDT impact documented\n1967 - Wetland ecosystem mapping\n1982 - Biodiversity crisis recognition\n2001 - Climate change indicators found
+
+=> END
+
+~ graduate_thesis_archives
+A dedicated area for graduate thesis collection, representing decades of environmental research.
+
+- Browse by decade => thesis_by_decade
+- Search by topic => thesis_by_topic
+- Read notable works => thesis_notable
+- Access guidelines => thesis_access
+- Return to entrance => special_collections_entrance
+
+~ thesis_by_decade
+Theses organized chronologically: 1920s-1940s: Early conservation studies\n1950s-1960s: Resource management focus\n1970s-1980s: Pollution and preservation\n1990s-2000s: Sustainability science\n2010s-present: Climate adaptation"\n
+
+=> END
+
+~ thesis_by_topic
+Theses categorized by subject: - Forest ecology\n- Water resources\n- Wildlife management\n- Soil science\n - Environmental policy\n- Urban sustainability\n- Climate science\n- Renewable energy
+
+=> END
+
+~ thesis_notable
+Groundbreaking graduate research: 1938 - First ecological impact assessment\n 1967 - Local watershed contamination study\n 1984 - Acid rain forest damage documentation\n 1999 - Sustainable campus design proposal\n 2015 - Climate resilience strategy
+=> END
+
+~ thesis_access
+Access information: Graduate theses available for:\n- Research purposes\n- Interlibrary loan\n- Digital access for recent works\n- Print copies for older materials\nCitation required for all use.\nSome embargoed for patent reasons."
+
+=> END
+
+~ emergency_protocols
+Near the stairs, you notice emergency protocols specific to special collections.
+
+- Read evacuation procedures => emergency_evacuation  
+- Learn about material protection => emergency_protection
+- Review fire suppression => emergency_fire_suppression
+- Return to entrance => special_collections_entrance
+
+~ emergency_evacuation
+Evacuation procedures: "Priority Order:\n1. Human safety first\n 2. Evacuate rare book vault\n 3. Secure manuscript room\n 4. Preserve digital backups\n 5. Follow standard evacuation route\n
+Materials to grab if time permits marked with red tags."
+
+=> END
+
+~ emergency_protection
+Material protection protocols: Immediate actions:\n- Activate climate control backup\n- Seal rare materials containers\n- Deploy protective covers\n- Monitor environmental conditions\n- Document any exposure
+Recovery procedures available in office.
+=> END
+
+~ emergency_fire_suppression
+Fire suppression systems: Special features:\n- Oxygen displacement system (rare books)\n- Water-free suppression options\n- Early detection sensors\n- Isolated ventilation s1ystem\n- Emergency dehumidification\n\nDesigned to minimize damage to collections."
+=> END

@@ -9,6 +9,7 @@ signal interaction_triggered(object)
 #var speed
 @export var character_name = "Adam Young"
 @export var character_id: String = ""
+@export var portrait: Texture2D = preload("res://assets/images/portraits/adam_portrait.png")
 var interaction_range : int
 @onready var max_interaction_distance : int= interaction_range  # Maximum distance for mouse clicks
 
@@ -133,7 +134,7 @@ func perform_attack(target, action):
 		"success": true,
 		"damage": actual_damage
 	}
-
+	
 # Placeholder for skills data - replace with actual skills
 func get_available_skills():
 	# Return some basic combat skills

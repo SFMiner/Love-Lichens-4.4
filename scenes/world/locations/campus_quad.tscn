@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://bdmcytf16gdh6"]
+[gd_scene load_steps=45 format=4 uid="uid://bdmcytf16gdh6"]
 
 [ext_resource type="Script" uid="uid://gq7aml27ux5u" path="res://scripts/world/campus_quad.gd" id="1_hybx1"]
 [ext_resource type="Texture2D" uid="uid://dcj7q18fp13ul" path="res://assets/images/scenes/CampusQuad_big.png" id="2_exl3o"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://j8kvu4h6hec0" path="res://assets/images/items/nature/Bush03.png" id="12_26bnk"]
 [ext_resource type="Texture2D" uid="uid://dv8yit8nb8u0y" path="res://assets/images/items/nature/bush02-a.png" id="14_8ijrc"]
 [ext_resource type="Script" uid="uid://cvlk3govikcf7" path="res://scripts/combat/combat_initializer.gd" id="14_nbbw3"]
+[ext_resource type="Texture2D" uid="uid://blpefqdaqbv2v" path="res://assets/images/scenes/park_bench.png" id="14_sapw3"]
 [ext_resource type="Texture2D" uid="uid://bafp4hhklmdd0" path="res://assets/images/items/nature/bush02-b.png" id="15_kwj1o"]
 [ext_resource type="Script" uid="uid://u6pjvq7fn1fg" path="res://scripts/combat/construct_spawner.gd" id="15_ttvvx"]
 [ext_resource type="Texture2D" uid="uid://d10ydfib2yiqp" path="res://assets/images/items/nature/Bush03a.png" id="16_26bnk"]
@@ -762,6 +763,12 @@ initial_dialogue_title = "start"
 description = "professor_moss"
 character_id = "professor_moss"
 
+[node name="ParkBench" type="Sprite2D" parent="z_Objects"]
+position = Vector2(931, 937)
+scale = Vector2(2, 2)
+texture = ExtResource("14_sapw3")
+offset = Vector2(-1, -15.5)
+
 [node name="Bush16" type="Sprite2D" parent="z_Objects"]
 position = Vector2(724, 2095)
 scale = Vector2(3.67187, 3.67187)
@@ -966,7 +973,7 @@ texture = ExtResource("30_t30kj")
 offset = Vector2(-0.712158, -14.7184)
 
 [node name="LowBush01b4" type="Sprite2D" parent="z_Objects"]
-position = Vector2(991, 960)
+position = Vector2(601, 982)
 scale = Vector2(4.12752, 4.93898)
 texture = ExtResource("30_t30kj")
 offset = Vector2(-0.712158, -14.7184)
@@ -1158,6 +1165,13 @@ item_id = "rare_lichen2"
 position = Vector2(1169, 1112)
 scale = Vector2(2.53736, 2.53736)
 
+[node name="DormEntrance" parent="." instance=ExtResource("8_6tb1a")]
+position = Vector2(2394, 774)
+scale = Vector2(1.66489, 1.66489)
+target_location = "dorm_room"
+target_scene = "uid://cexat8mt4n8pk"
+transition_name = "Research Lab Entrance"
+
 [node name="CampusQuadSpawn" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(1168, 1113)
 
@@ -1176,15 +1190,18 @@ scale = Vector2(1.66489, 1.66489)
 target_location = "research_lab"
 transition_name = "Research Lab Entrance"
 
-[node name="ResearchlabEntrance2" parent="." instance=ExtResource("8_6tb1a")]
-position = Vector2(2394, 774)
-scale = Vector2(1.66489, 1.66489)
-target_location = "dorm_room"
-target_scene = "uid://cexat8mt4n8pk"
-transition_name = "Research Lab Entrance"
-
-[node name="lab_entrance" type="Marker2D" parent="." groups=["spawn_point"]]
+[node name="lab_exit" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(2578, 1925)
+scale = Vector2(0.85348, 0.85348)
+
+[node name="LibraryEntrance" parent="." instance=ExtResource("8_6tb1a")]
+position = Vector2(2436.53, 2954)
+scale = Vector2(1.66489, 1.66489)
+target_location = "library"
+transition_name = "Library"
+
+[node name="library_exit" type="Marker2D" parent="." groups=["spawn_point"]]
+position = Vector2(2436.53, 2999)
 scale = Vector2(0.85348, 0.85348)
 
 [node name="ForestEntrance2" parent="." instance=ExtResource("9_75lav")]

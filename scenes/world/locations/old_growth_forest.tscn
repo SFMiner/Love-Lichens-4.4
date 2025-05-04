@@ -364,7 +364,7 @@ scale = Vector2(0.2, 0.2)
 polygon = PackedVector2Array(7.5, -52.5, 337.5, -372.5, 565, -100, 340, 30)
 
 [node name="Player" parent="." instance=ExtResource("2_h6ule")]
-position = Vector2(1041, 2048)
+position = Vector2(995, 1803)
 scale = Vector2(6, 6)
 
 [node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]

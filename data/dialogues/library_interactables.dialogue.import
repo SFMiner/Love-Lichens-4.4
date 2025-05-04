@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_14"
+type="Resource"
+uid="uid://ooenj7gvgccl"
+path="res://.godot/imported/library_interactables.dialogue-027246ccc19e2e4e728b31b185171fb3.tres"
+
+[deps]
+
+source_file="res://data/dialogues/library_interactables.dialogue"
+dest_files=["res://.godot/imported/library_interactables.dialogue-027246ccc19e2e4e728b31b185171fb3.tres"]
+
+[params]
+
+defaults=true

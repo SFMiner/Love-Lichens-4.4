@@ -20,7 +20,7 @@ The bottom drawer seems to be for snacks - there's a package of energy bars, som
 ~ adams_desk_desktop
 The desktop is in sleep mode. A sticker on the top says "No Lichens, No Life" with a stylized illustration of various lichen types.
 
-There's a sticky note with a password hint: "FavoriteSpecies2023"
+There's a sticky note with a password hint\: "FavoriteSpecies2023"
 
 - Use your desktop => logon_adams_desktop
 - Step back => adams_desk
@@ -32,10 +32,10 @@ You realize that this poart of the game hasn't been written!
 - Step away => END
 
 ~ adams_desk_textbooks
-You look through your textbooks:
+You look through your textbooks\:
 
 "Advanced Mycology & Lichenology"
-"Ecological Symbiosis: Theory and Applications"
+"Ecological Symbiosis\: Theory and Applications"
 "Soundwaves in Biological Systems"
 "Good Night Moon"
 "Biorhythms and Growth Patterns in Composite Organisms"
@@ -68,7 +68,7 @@ The window has a small plant shelf.
 - Step away => END
 
 ~ adams_bookshelf
-On the bookshelf, one sheld acts as s  nightstand: there's's a small lamp, a book titled "The Lichen Chronicles: Fiction Inspired by Science," and a glass of water. 
+On the bookshelf, one sheld acts as s  nightstand\: there's's a small lamp, a book titled "The Lichen Chronicles\: Fiction Inspired by Science," and a glass of water. 
 
 There's also a framed photo of Adam with a group of students in hiking gear, all smiling with a forested mountain in the background. A handwritten caption reads "First Field Research Team - Bug Hunt at the Cemetery!"
 
@@ -76,7 +76,7 @@ There's also a framed photo of Adam with a group of students in hiking gear, all
 - Step away => END
 
 ~ poisons_desk
-You examine Poison's desk. Unlike Adam's, this workspace has a more... eclectic organization system. Papers and notebooks are stacked in seemingly random piles, and various strange objects are scattered across the surface.
+You examine Poison's desk. Unlike yours, this workspace has a more... eclectic organization system. Papers and notebooks are stacked in seemingly random piles, and various strange objects are scattered across the surface.
 
 The centerpiece is a large glass terrarium on one side of the desk.
 
@@ -129,7 +129,7 @@ The bottom drawer is locked with a small padlock. Probably for the best.
 - Close the drawers => poisons_desk
 
 ~ poisons_desk_items
-You look at the items scattered across Poison's desk:
+You look at the items scattered across Poison's desk\:
 
 A stack of scientific journals with titles like "Arthropod Biology" and "Venomous Species Quarterly."
 
@@ -159,7 +159,7 @@ Better to pretend you didn't see that.
 - Step back quickly => poisons_bed
 
 ~ poisons_bed_items
-On the bedside table next to Poison's bed, you see:
+On the bedside table next to Poison's bed, you see\:
 
 An alarm clock showing the wrong time.
 A small stack of sci-fi novels with titles like "The Arthropod Chronicles" and "Venomous Intent."
@@ -174,7 +174,7 @@ A water glass with what looks like tiny bite marks along the rim.
 ~ microwave
 You examine the microwave on the shelf next to Poison's bed. It's surprisingly clean on the outside, though a faint smell suggests not all past cooking experiments were successful.
 
-A sticky note on the door reads: "DO NOT MICROWAVE EXPERIMENTS - This means YOU, Poison."
+A sticky note on the door reads\: "DO NOT MICROWAVE EXPERIMENTS - This means YOU, Poison."
 
 - Open the microwave => microwave_open
 - Read the note more closely => microwave_note
@@ -191,11 +191,7 @@ In the center of the turntable is a mug of what appears to be coffee, possibly a
 ~ microwave_note
 You look more closely at the note on the microwave.
 
-The main warning about not microwaving experiments is written in what looks like Adam's neat handwriting.
-
-Below that, in different handwriting: "But how else will I know if radiation affects growth patterns? -P"
-
-And below that, in a third handwriting: "BY USING THE LAB EQUIPMENT LIKE A NORMAL PERSON! -E"
+The main warning about not microwaving experiments is written in what looks like your  handwriting\: \n"But how else will I know if radiation affects growth patterns? -P"\nAnd below that, in a third handwriting\: "BY USING THE LAB EQUIPMENT LIKE A NORMAL PERSON! -E"
 
 - Open the microwave => microwave_open
 - Step away => END
@@ -212,7 +208,7 @@ A small label stuck to the plate reads "Day 14 - Mixed growth culture #3"
 - Step away => END
 
 ~ plate_examine
-Leaning in for a closer look (but not too close), you can see several distinct organisms growing in the soil:
+Leaning in for a closer look (but not too close), you can see several distinct organisms growing in the soil\:
 
 A few tiny seedlings of some kind of plant.
 Patches of what appears to be moss growing in a circular pattern.
@@ -225,7 +221,7 @@ The whole ecosystem seems deliberately cultivated rather than accidental.
 - Step back => plate
 
 ~ plate_others
-Looking around, you notice a few other plates in various locations around the room:
+Looking around, you notice a few other plates in various locations around the room\:
 
 One on the windowsill with much more advanced growth.
 One that appears to be completely dried out on a bookshelf.
@@ -257,7 +253,7 @@ A sticky note nearby reads "Will clean this weekend! -Fate" though the paper loo
 - Step away => END
 
 ~ fates_desk_contents
-The organized portion of Fate's desk contains:
+The organized portion of Fate's desk contains\:
 
 A laptop with several ecological modeling programs open.
 A detailed calendar with color-coded entries for classes, lab work, and social events.
@@ -273,7 +269,7 @@ Everything is arranged at perfect right angles.
 
 
 ~ fates_desk_drawers
-You open Fate's desk drawers to find them as organized as expected:
+You open Fate's desk drawers to find them as organized as expected\:
 
 The top drawer contains perfectly arranged stationery supplies, with dividers keeping everything in its proper place.
 
@@ -310,7 +306,7 @@ You peek under Fate's bed and find... absolutely nothing. It's completely spotle
 - Step away => END
 
 ~ fates_bed_table
-On the bedside table, you see:
+On the bedside table, you see\:
 
 A small lamp with an adjustable neck.
 A digital clock showing the exact time.
@@ -373,15 +369,15 @@ Someone (likely Poison) has added "She gets performance anxiety" in smaller text
 This tall, narrow terrarium contains a large praying mantis with a vibrant green body. It's perched on a thin branch, head swiveling with alien precision as it surveys its domain.
 The enclosure is set up like a miniature jungle with various plants and climbing surfaces. You notice several small containers labeled "feeder crickets" nearby.
 The label reads "Hierodula membranacea 'Scyther' - Molting soon, do not disturb."
-Below, in red marker: "Seriously Erik, I don't care how cute you think she is."
+Below, in red marker\: "Seriously Erik, I don't care how cute you think she is."
 - Step back => bug_area
 - Step away => END
 
 ~ poisons_sticks
 This large, planted terrarium contains what appears to be nothing at first glance. After a moment, you realize it's not empty - there are several stick insects perfectly camouflaged among the branches.
 They're so convincing that you struggle to tell where plant ends and insect begins. One particularly large specimen near the top must be at least 8 inches long.\
-A neat label reads "Phasmatodea collection - 'The Twiglets' - Count: 12"
-Below that, in different handwriting: "I can only find 11! Where's the missing one?!" followed by "RIGHT WHERE I WANT IT TO BE. -P"
+A neat label reads "Phasmatodea collection - 'The Twiglets' - Count\: 12"
+Below that, in different handwriting\: "I can only find 11! Where's the missing one?!" followed by "RIGHT WHERE I WANT IT TO BE. -P"
 - Step back => bug_area
 - Step away => END
 
@@ -397,14 +393,14 @@ A note below adds "Can lift 850x its body weight. For comparison, you can probab
 This series of smaller containers houses several enormous caterpillars of different species. They're munching contentedly on various plant leaves, growing fatter by the minute.
 The most striking specimen is a massive green caterpillar with turquoise spots and small horn-like projections. It must be at least 4 inches long.
 Each container is meticulously labeled with species names, collection dates, and expected pupation timeframes.
-A whiteboard nearby tracks their growth with surprising precision and includes a countdown: "Atlas emergence: 17 days!"
+A whiteboard nearby tracks their growth with surprising precision and includes a countdown\: "Atlas emergence: 17 days!"
 - Step back => bug_area
 - Step away => END
 
 ~ poisons_moths
 This larger mesh enclosure stands empty except for several cocoons and chrysalides attached to branches. Each is labeled with a species name and expected emergence date.
 The largest cocoon is the size of your thumb and wrapped in a silken envelope. A label beneath it reads "Attacus atlas - Handle with EXTREME care."
-A handwritten note is attached to the enclosure: "Erik - if you're reading this, absolutely NO opening this chamber until I'm present. The last time you 'helped' an emergence, we had to evacuate the floor. -P"
+A handwritten note is attached to the enclosure\: "Erik - if you're reading this, absolutely NO opening this chamber until I'm present. The last time you 'helped' an emergence, we had to evacuate the floor. -P"
 
 
 Step back => bug_area
@@ -424,28 +420,28 @@ Upon closer inspection, you notice each rat has been named. There's "Professor W
 
 Someone has written scientific names beneath each one too, though you're pretty sure "Rattus adorabilis" isn't a real species.
 
-A sticky note nearby reads: "Update for Valentine's Day: hearts or tiny cupid bows? - Adam"
+A sticky note nearby reads\: "Update for Valentine's Day: hearts or tiny cupid bows? - Adam"
 
 Return to rat display => paper_rats
 
 ~ paper_rats_hallway
 Peering into the hallway, you see the rat colony continues outside the room. Several paper rats appear to be "escaping" along the corridor walls.
 
-One particularly ambitious rat has made it all the way to the stairwell door, prompting a note from the RA: "Cute but please keep your rodents contained to your section of the hall."
+One particularly ambitious rat has made it all the way to the stairwell door, prompting a note from the RA\: "Cute but please keep your rodents contained to your section of the hall."
 
 Return to room rats => paper_rats
 
 ~ condiment_council
-You examine what appears to be a ceremonial display on one of the shelves: a row of 10-12 condiment packets from various fast food restaurants and the campus cafeteria, arranged in a neat line.
+You examine what appears to be a ceremonial display on one of the shelves\: a row of 10-12 condiment packets from various fast food restaurants and the campus cafeteria, arranged in a neat line.
 
-A small handwritten placard reads "The Council of Condiments: Deciding the Flavor Fate of Nations Since 2024"
+A small handwritten placard reads "The Council of Condiments\: Deciding the Flavor Fate of Nations Since 2024"
 
 Examine the council members => condiment_council_members
 Look for the plastic centipede => condiment_council_centipede
 Step away => END
 
 ~ condiment_council_members
-You look at the individual "council members":
+You look at the individual "council members"\:
 
 A ketchup packet with a drawn-on crown labeled "High King Tomato"
 A soy sauce packet with a tiny wizard hat labeled "The Salty Sorcerer"
@@ -462,7 +458,7 @@ To the right of the condiment display, you spot one of the many plastic centiped
 
 This one has been positioned to look like it's crawling toward the condiments. Someone has added a tiny speech bubble saying "I demand representation on the council!"
 
-A note below reads: "Thanks Aunt Margaret for the Halloween decorations that now haunt us year-round. -Poison"
+A note below reads\: "Thanks Aunt Margaret for the Halloween decorations that now haunt us year-round. -Poison"
 
 Return to condiment display => condiment_council
 
@@ -482,7 +478,7 @@ A photo tucked into the flag's edge shows the roommates at what appears to be a 
 Return to flag => mets_flag
 
 ~ plant_corner
-You examine the collection of items on one of the shelves. From left to right: a struggling houseplant, a clear terrarium containing small creatures, what appears to be a dead plant, and a mysterious blue orb on a stand.
+You examine the collection of items on one of the shelves. From left to right\: a struggling houseplant, a clear terrarium containing small creatures, what appears to be a dead plant, and a mysterious blue orb on a stand.
 
 Look at the dying plant => plant_corner_dying
 Examine isopod terrarium => plant_corner_isopods
@@ -493,7 +489,7 @@ Step away => END
 ~ plant_corner_dying
 This houseplant is clearly fighting for its life. Several leaves have bite marks and others are drooping sadly. Someone has constructed a protective cage around it using mesh and wire, though it doesn't seem to be completely effective.
 
-A sign taped to the pot reads: "KITTY - THIS IS NOT FOOD" with several exclamation points.
+A sign taped to the pot reads\: "KITTY - THIS IS NOT FOOD" with several exclamation points.
 
 A water tracking chart nearby suggests someone is making valiant efforts to keep it alive despite the challenges.
 
@@ -538,7 +534,7 @@ The "gullible" note appears to be part of an ongoing joke in the room. It's been
 
 Beneath it, a tally chart shows how many people have fallen for the joke. There are currently seventeen marks.
 
-A note below the tally in a different handwriting reads: "Let's get to 50 by finals week! -Adam"
+A note below the tally in a different handwriting reads\: "Let's get to 50 by finals week! -Adam"
 
 Return to ceiling => ceiling_gullible
 
@@ -547,6 +543,6 @@ In another corner of the ceiling, you spot what appears to be a small, crudely-m
 
 It hangs from a barely visible thread, likely to give the impression of floating when there's a breeze.
 
-A sticky note nearby reads: "Halloween decor by Poison. Classy as always."
+A sticky note nearby reads\: "Halloween decor by Poison. Classy as always."
 
 Return to ceiling => ceiling_gullible

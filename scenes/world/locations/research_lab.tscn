@@ -1613,16 +1613,17 @@ texture = ExtResource("15_7jjgu")
 position = Vector2(2045, -311.25)
 
 [node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
-position = Vector2(2417, 1431)
+position = Vector2(2261, 1408)
 scale = Vector2(0.85348, 0.85348)
 
 [node name="Player" parent="." instance=ExtResource("45_y3l2i")]
-position = Vector2(2255, 1499)
+position = Vector2(2259, 1425)
 scale = Vector2(6, 6)
 
-[node name="ResearchlabEntrance" parent="." instance=ExtResource("39_pb8ne")]
+[node name="ResearchLabExit" parent="." instance=ExtResource("39_pb8ne")]
 position = Vector2(2261, 1383)
 scale = Vector2(1.66489, 1.66489)
 target_location = "campus_quad"
-spawn_point = "lab_entrance"
+spawn_point = "lab_exit"
 transition_name = "Lab Exit"
+require_interaction = false

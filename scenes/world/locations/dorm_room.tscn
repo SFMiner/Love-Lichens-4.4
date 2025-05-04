@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://bhfkcl6u6ldi0" path="res://scripts/world/location_transition.gd" id="40_dy7y6"]
 [ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="41_xy0uw"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_385yi"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j5xem"]
 texture = ExtResource("4_117n6")
 1:0/0 = 0
 2:0/0 = 0
@@ -179,7 +179,7 @@ texture = ExtResource("4_117n6")
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.941176, 0.25098, 1)
-sources/0 = SubResource("TileSetAtlasSource_385yi")
+sources/0 = SubResource("TileSetAtlasSource_j5xem")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7jqhf"]
 texture = ExtResource("6_csjam")
@@ -756,7 +756,6 @@ interaction_id = "poisons_desk"
 display_name = "Poison's Desk"
 dialog_id = "dorm_room_interactables"
 dialog_title = "poisons_desk"
-object_type = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Poison\'s Desk interactable3"]
 position = Vector2(-2.86769, -94.6336)
