@@ -54,6 +54,7 @@ func look_at(target: Node) -> void:
 func _handle_npc_observation(npc: Node) -> void:
 	if debug: print("_handle_npc_observation called")
 	# Basic NPC description
+	if debug: print("Showing basic description.")
 	var basic_description = _get_npc_description(npc)
 	show_description(basic_description)
 	
@@ -68,7 +69,9 @@ func _handle_npc_observation(npc: Node) -> void:
 	var has_observable_features = false
 	
 	if npc.has_method("has_observable_feature"):
-		if debug: print(npc.character_id + " has observable feature.")
+		if debug: 
+			print("Showing observable features.")
+			print(npc.character_id + " has observable feature.")
 		# If we have character data, use its features
 		if character_data and not character_data.observable_features.is_empty():
 			for feature_id in character_data.observable_features:
@@ -86,7 +89,7 @@ func _handle_npc_observation(npc: Node) -> void:
 		if debug: print(npc.character_id + "has no observable feature.")
 
 	if not has_observable_features and debug:
-		print("NPC has no observable features: ", npc.name)
+		if debug: print("NPC has no observable features: ", npc.name)
 		
 
 # Observe a specific feature on an NPC

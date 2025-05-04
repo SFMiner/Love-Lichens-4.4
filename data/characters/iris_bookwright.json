@@ -1,0 +1,105 @@
+{
+	"id": "iris_bookwright",
+	"name": "Ms. Iris Bookwright",
+	"description": "A middle-aged woman with graying auburn hair in a bob that's just tidy enough while not seeming like it's paid a lot of attention. She wears a blouse and a skirt that clearly has multiple pockets stuffed with index cards and a magnifying glass. Her thoughtful eyes peer over half-moon reading glasses that dangle from a beaded chain.",
+	"portrait_path": "res://assets/characters/iris_bookwright_portrait.png",
+	"dialogue_file": "res://data/dialogues/iris_bookwright.dialogue",
+	"initial_dialogue_title": "librarian_greeting",
+	"personality_traits": ["whimsical", "organized", "knowledgeable", "eccentric"],
+	"interests": ["living libraries", "mycological literature", "environmental history", "symbiotic relationships"],
+	"background": "Head librarian of the Environmental Science Library. Organizes books by their 'preferred habitat' and believes in bibliofungal symbiosis.",
+	"observable_features": {
+		"library_map": {
+			"description": "A folded paper sticking out of her jacket pocket, covered in her distinctive purple ink.",
+			"observed": false,
+			"memory_tag": "received_library_map",
+			"dialogue_title": "back_to_fungi_books"
+		},
+		"mycelial_tea": {
+			"description": "A steaming earthenware mug with small mushroom designs etched into it sits on her desk.",
+			"observed": false,
+			"memory_tag": "librarian_tea_seen",
+			"dialogue_title": "librarian_social_visit"
+		},
+		"rare_books_key": {
+			"description": "An ornate brass key hanging from a chain on her belt, alongside several index cards bound with rubber bands.",
+			"observed": false,
+			"memory_tag": "rare_collection_key_seen",
+			"dialogue_title": "librarian_hidden_collection"
+		}
+	},
+	"special_items": [
+		{
+			"id": "library_map",
+			"name": "Hand-drawn Library Map",
+			"description": "A map with moisture warnings, showing how book sections shift with humidity"
+		},
+		{
+			"id": "rare_books_request_form",
+			"name": "Rare Books Request Form",
+			"description": "Required 48 hours in advance to view special collection materials"
+		},
+		{
+			"id": "aquatic_book",
+			"name": "Ripples Through Time",
+			"description": "A book that leaves your hands slightly damp"
+		}
+	],
+	"relationships": {
+		"Professor Moss": {
+			"type": "colleague",
+			"description": "They discuss fungal literature and share similar quirky worldviews about nature's intelligence."
+		},
+		"Students": {
+			"type": "mentor",
+			"description": "Helps students navigate both the library and the interconnected web of environmental knowledge."
+		}
+	},
+	"dialogue_memories": {
+		"rare_collection_access": {
+			"unlock_condition": "relationship_level >= 1",
+			"description": "Trusted enough to see the rare collection and hear about the Great Spore Incident.",
+			"dialogue_title": "librarian_hidden_collection"
+		},
+		"enhanced_reading": {
+			"unlock_condition": "shared_mycological_tea",
+			"description": "Experienced the mild hallucination effects of mushroom tea, seeing shimmering text.",
+			"dialogue_title": "librarian_tea_effects"
+		},
+		"storm_responsive_texts": {
+			"unlock_condition": "relationship_level >= 2",
+			"description": "Learned about books that change during thunderstorms and the student who tried to read them.",
+			"dialogue_title": "librarian_profound_response"
+		}
+	},
+	"daily_patterns": {
+		"morning": {
+			"location": "main desk",
+			"activity": "checking library environmental conditions",
+			"mood": "alert"
+		},
+		"afternoon": {
+			"location": "special collections",
+			"activity": "tending to rare books",
+			"mood": "focused"
+		},
+		"evening": {
+			"location": "patrolling stacks",
+			"activity": "listening to book conversations",
+			"mood": "contemplative"
+		}
+	},
+	"quest_triggers": {
+		"arrange_rare_book_viewing": {
+			"requirement": "relationship_level >= 1",
+			"reward": "access to rare book vault",
+			"dialogue_title": "librarian_appointment_setup"
+		}
+	},
+	"ambient_behaviors": [
+		"adjusts books that are 'arguing' with each other",
+		"checks humidity levels with hand-held sensor",
+		"whispers to books while shelving them",
+		"traces spore dispersal patterns in the air"
+	]
+}

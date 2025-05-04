@@ -21,7 +21,7 @@ var current_health: int
 var current_stamina: int
 var is_retreating := false
 var status_effects := {}
-var debug
+var debug = false
 
 var is_moving = false
 var was_moving : bool
@@ -41,7 +41,7 @@ func _ready():
 	current_health = max_health
 	current_stamina = max_stamina
 	animator = get_node_or_null("CharacterAnimator")
-	print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
+	if debug: print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
 	last_position = position
 	
 
@@ -143,7 +143,7 @@ func get_initiative():
 # Check if combatant is defeated
 func is_defeated():
 	var defeated = current_health <= 0 or is_retreating
-	print(name, " is_defeated? ", defeated, " | HP: ", current_health)
+	if debug: print(name, " is_defeated? ", defeated, " | HP: ", current_health)
 	return defeated
 	
 # Take damage with nonlethal option
@@ -258,7 +258,7 @@ func remove_status_effect(effect_id):
 
 # Perform a combat action on a target
 func perform_combat_action(target, action):
-	print(name + " attacked ", target.name)
+	if debug: print(name + " attacked ", target.name)
 	match action.type:
 		"attack":
 			return perform_attack(target, action)
@@ -390,7 +390,7 @@ func take_combat_turn():
 func add_visual_health_bar():
 	# Check if health bar already exists
 	if has_node("HealthBar"):
-		print("Health bar already exists")
+		if debug: print("Health bar already exists")
 		return
 		
 	# Create a ProgressBar for health
@@ -428,7 +428,7 @@ func add_visual_health_bar():
 	if item_effects_system and item_effects_system.has_signal("health_changed"):
 		item_effects_system.health_changed.connect(_on_health_changed)
 	
-	print("Added health bar to " + name)
+	if debug: print("Added health bar to " + name)
 	
 # Add this function to player.gd as well
 func _on_health_changed(current, maximum):

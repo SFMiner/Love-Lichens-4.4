@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://bo31lr7ap86m1"]
+[gd_scene load_steps=35 format=4 uid="uid://bo31lr7ap86m1"]
 
 [ext_resource type="Script" uid="uid://b31hm284o47i" path="res://scripts/world/library.gd" id="1_jyrkq"]
 [ext_resource type="Texture2D" uid="uid://ci2p11or3sxg5" path="res://assets/images/scenes/library/parquet1.png" id="1_varv3"]
@@ -17,11 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://s6uvg4tw404y" path="res://assets/images/scenes/library/table_vertical.png" id="13_vwlt3"]
 [ext_resource type="Texture2D" uid="uid://bs20blbvcfiow" path="res://assets/images/scenes/library/research_computer_back.png" id="15_12qbq"]
 [ext_resource type="Texture2D" uid="uid://c6fjihq5cd3v" path="res://assets/images/scenes/library/research_computer.png" id="16_wtert"]
+[ext_resource type="Texture2D" uid="uid://b3qvh6qfax18t" path="res://assets/images/scenes/library/librarian_desk.png" id="18_mbogy"]
 [ext_resource type="Script" uid="uid://b0vt1wx861dgx" path="res://scripts/world/interactable.gd" id="18_us8l7"]
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_us8l7"]
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_wtert"]
+[ext_resource type="PackedScene" uid="uid://by56nppcy6bhp" path="res://scripts/combat/npc.tscn" id="18_x5p3v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mbogy"]
 texture = ExtResource("2_wtert")
@@ -190,8 +188,6 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.941176, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_mbogy")
-pattern_0 = SubResource("TileMapPattern_us8l7")
-pattern_1 = SubResource("TileMapPattern_wtert")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_us8l7"]
 texture = ExtResource("1_varv3")
@@ -231,6 +227,8 @@ size = Vector2(132.937, 48.9651)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fht0c"]
 size = Vector2(56.5, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3v7kx"]
 
 [node name="Library" type="Node2D"]
 script = ExtResource("1_jyrkq")
@@ -409,7 +407,7 @@ texture = ExtResource("10_vwlt3")
 offset = Vector2(-1, -34)
 
 [node name="Research Computer Interactable" type="Area2D" parent="z_Objects" groups=["interactable"]]
-position = Vector2(107, 356)
+position = Vector2(104, 350.5)
 scale = Vector2(0.512151, 0.512151)
 script = ExtResource("18_us8l7")
 int_id = "research_computer_west"
@@ -680,6 +678,14 @@ dialog_title = "research_computer_west"
 position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_mbogy")
 
+[node name="Iris Boowkright" parent="z_Objects" instance=ExtResource("18_x5p3v")]
+position = Vector2(28.5, 438.5)
+scale = Vector2(1.5, 1.5)
+character_name = "Iris Bookwright"
+initial_dialogue_title = "librarian_greeting"
+description = "iris_bookwright"
+character_id = "iris_bookwright"
+
 [node name="Bottom Right Bookshelf Interactable7" type="Area2D" parent="z_Objects" groups=["interactable"]]
 position = Vector2(336.5, 289.5)
 scale = Vector2(0.512151, 0.512151)
@@ -697,8 +703,80 @@ dialog_title = "research_computer_west"
 position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_mbogy")
 
+[node name="LibrarianDesk" type="Sprite2D" parent="z_Objects"]
+position = Vector2(60, 507)
+texture = ExtResource("18_mbogy")
+offset = Vector2(-1.5, -68.5)
+
+[node name="Librarian Desk1" type="Area2D" parent="z_Objects" groups=["interactable"]]
+position = Vector2(38, 511.5)
+scale = Vector2(0.512151, 0.512151)
+script = ExtResource("18_us8l7")
+int_id = "librarian_desk"
+dis_name = "Librarian Desk"
+dia_id = "iris_bookwright"
+dia_tit = "librarian_greeting"
+interaction_id = "research_computer_west"
+display_name = "Research"
+dialog_id = "library_interactables"
+dialog_title = "research_computer_west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="z_Objects/Librarian Desk1"]
+position = Vector2(-2.86769, -94.6336)
+shape = SubResource("CircleShape2D_mbogy")
+
+[node name="Librarian Desk2" type="Area2D" parent="z_Objects" groups=["interactable"]]
+position = Vector2(93, 511)
+scale = Vector2(0.512151, 0.512151)
+script = ExtResource("18_us8l7")
+int_id = "librarian_desk"
+dis_name = "Librarian Desk"
+dia_id = "iris_bookwright"
+dia_tit = "librarian_greeting"
+interaction_id = "research_computer_west"
+display_name = "Research"
+dialog_id = "library_interactables"
+dialog_title = "research_computer_west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="z_Objects/Librarian Desk2"]
+position = Vector2(-2.86769, -94.6336)
+shape = SubResource("CircleShape2D_mbogy")
+
+[node name="Librarian Desk3" type="Area2D" parent="z_Objects" groups=["interactable"]]
+position = Vector2(125.5, 468.5)
+scale = Vector2(0.512151, 0.512151)
+script = ExtResource("18_us8l7")
+int_id = "librarian_desk"
+dis_name = "Librarian Desk"
+dia_id = "iris_bookwright"
+dia_tit = "librarian_greeting"
+interaction_id = "research_computer_west"
+display_name = "Research"
+dialog_id = "library_interactables"
+dialog_title = "research_computer_west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="z_Objects/Librarian Desk3"]
+position = Vector2(-2.86769, -94.6336)
+shape = SubResource("CircleShape2D_mbogy")
+
+[node name="Librarian Desk4" type="Area2D" parent="z_Objects" groups=["interactable"]]
+position = Vector2(121, 428)
+scale = Vector2(0.512151, 0.512151)
+script = ExtResource("18_us8l7")
+int_id = "librarian_desk"
+dis_name = "Librarian Desk"
+dia_id = "iris_bookwright"
+dia_tit = "librarian_greeting"
+interaction_id = "research_computer_west"
+display_name = "Research"
+dialog_id = "library_interactables"
+dialog_title = "research_computer_west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="z_Objects/Librarian Desk4"]
+position = Vector2(-2.86769, -94.6336)
+shape = SubResource("CircleShape2D_mbogy")
+
 [node name="nonwalkable_areas" type="StaticBody2D" parent="z_Objects"]
-visible = false
 position = Vector2(-2.00003, 1.49994)
 scale = Vector2(1.19981, 1.19981)
 collision_layer = 3
@@ -706,37 +784,30 @@ collision_mask = 0
 
 [node name="Shelves1" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(251.904, 140.022)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wtert")
 
 [node name="Shelves2" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(615.304, 141.689)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xmarw")
 
 [node name="Shelves3" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(485.492, 272.542)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wtert")
 
 [node name="Shelves4" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(722.612, 274.209)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wtert")
 
 [node name="Shelves5" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(483.409, 406.313)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wtert")
 
 [node name="Shelves6" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(720.945, 406.313)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wtert")
 
 [node name="NorthWall" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(443.808, 107.934)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_us8l7")
 
 [node name="SouthWall" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
@@ -749,22 +820,18 @@ shape = SubResource("RectangleShape2D_mfuax")
 
 [node name="EastWall" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(893.907, 226.282)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_mfuax")
 
 [node name="Table1" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(90.6392, 244.413)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_mbogy")
 
 [node name="Table2" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(254.623, 228.89)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_pt0mv")
 
 [node name="Table3" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
 position = Vector2(254.415, 347.137)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_pt0mv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
@@ -817,6 +884,15 @@ position = Vector2(283.377, 383.393)
 scale = Vector2(0.416732, 0.416732)
 shape = SubResource("RectangleShape2D_fht0c")
 
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="z_Objects/nonwalkable_areas"]
+position = Vector2(23.3214, 414.249)
+shape = SubResource("RectangleShape2D_3v7kx")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="z_Objects/nonwalkable_areas"]
+position = Vector2(50.7783, 365.982)
+scale = Vector2(4.84038, 6.3852)
+polygon = PackedVector2Array(-9.8879, 8.99217, 8.96686, 8.9269, 9.13905, -4.06087, -1.88108, -4.06087, -1.79499, 3.24883, -9.71571, 3.1183)
+
 [node name="Library Exit" parent="." instance=ExtResource("10_mo8sp")]
 position = Vector2(822, 1059)
 scale = Vector2(0.83779, 0.83779)
@@ -829,7 +905,7 @@ offset_top = 2.67029e-05
 offset_bottom = 26.0
 text = "Exit"
 
-[node name="Library_entrance" type="Marker2D" parent="." groups=["spawn_point"]]
+[node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(819, 1069)
 scale = Vector2(1.70696, 1.70696)
 

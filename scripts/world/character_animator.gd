@@ -33,13 +33,13 @@ func _ready():
 	# Initialize the sprite properties
 	if not animation_data.is_empty() and "idle" in animation_data:
 		var anim = animation_data["idle"]
-		print("INITIALIZING CharacterAnimator with sprite: " + anim.path)
+		if debug: print("INITIALIZING CharacterAnimator with sprite: " + anim.path)
 		var texture = load(anim.path)
 		if texture:
 			sprite.texture = texture
 			sprite.hframes = anim.hframes
 			sprite.vframes = anim.vframes
-			print("Sprite initialized successfully with: texture=" + str(sprite.texture) + 
+			if debug: print("Sprite initialized successfully with: texture=" + str(sprite.texture) + 
 				", hframes=" + str(sprite.hframes) + 
 				", vframes=" + str(sprite.vframes))
 		else:
@@ -52,9 +52,9 @@ func _ready():
 	# Play initial animation
 	if AP and AP.has_animation("idle_down"):
 		AP.play("idle_down")
-		print("Playing initial idle_down animation")
+		if debug: print("Playing initial idle_down animation")
 	else:
-		print("WARNING: Could not play initial animation")
+		if debug: print("WARNING: Could not play initial animation")
 
 
 func set_animation_data():
@@ -114,18 +114,18 @@ func set_sheets_path(char_id : String):
 
 func set_animation(anim_name: String, direction: String, character_id: String):
 	set_sheets_path(character_id)
-	print( "sheets_path = " + sheets_path) 
+	if debug: print( "sheets_path = " + sheets_path) 
 	# Generate the full animation name
 	var new_animation_name = anim_name + "_" + direction
 	
-	print("REQUEST TO PLAY: " + new_animation_name + 
+	if debug: print("REQUEST TO PLAY: " + new_animation_name + 
 		", Current: " + current_animation_name + 
 		", Current Base: " + current_base_anim)
 	
 	# Check if the AnimationPlayer has the animation
 	if not AP.has_animation(new_animation_name):
-		print("ERROR: Animation not found in AnimationPlayer: " + new_animation_name)
-		print("Available animations: " + str(AP.get_animation_list()))
+		if debug: print("ERROR: Animation not found in AnimationPlayer: " + new_animation_name)
+		if debug: print("Available animations: " + str(AP.get_animation_list()))
 		return
 		
 	# Update spritesheet if animation type has changed
@@ -137,7 +137,7 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 		# Load the new spritesheet texture
 		if anim_name in animation_data:
 			var anim = animation_data[anim_name]
-			print("Changing spritesheet to: " + anim.path + " for animation: " + anim_name)
+			if debug: print("Changing spritesheet to: " + anim.path + " for animation: " + anim_name)
 #			print("Sprite settings BEFORE change: texture=" + str(sprite.texture) + 
 #				", hframes=" + str(sprite.hframes) + 
 #				", vframes=" + str(sprite.vframes))
@@ -147,21 +147,21 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 			sprite.hframes = anim.hframes
 			sprite.vframes = anim.vframes
 			
-			print("Sprite settings AFTER change: texture=" + str(sprite.texture) + 
+			if debug: print("Sprite settings AFTER change: texture=" + str(sprite.texture) + 
 				", hframes=" + str(sprite.hframes) + 
 				", vframes=" + str(sprite.vframes))
 		else:
-			print("WARNING: Animation data not found for: " + anim_name)
+			if debug: print("WARNING: Animation data not found for: " + anim_name)
 	
 	# Only change animation if it's actually different or we changed spritesheets
 	if new_animation_name != current_animation_name or spritesheet_changed:
 		# Update the current animation name
 		current_animation_name = new_animation_name
-		print("PLAYING ANIMATION: " + new_animation_name)
+		if debug: print("PLAYING ANIMATION: " + new_animation_name)
 		
 		# Special handling for run animation to ensure it starts correctly
 		if anim_name == "run":
-			print("SPECIAL HANDLING FOR RUN ANIMATION. h_frame = ")
+			if debug: print("SPECIAL HANDLING FOR RUN ANIMATION. h_frame = ")
 			AP.play("run_" + direction)
 			AP.stop()  # Force stop any previous animation
 			# Make sure the frame is reset properly for run animation
@@ -175,7 +175,7 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 			elif direction == "up":
 				sprite.frame = 0   # Starting frame for run_up
 				
-			print("Set initial run frame to: " + str(sprite.frame) + " for direction: " + direction)
+			if debug: print("Set initial run frame to: " + str(sprite.frame) + " for direction: " + direction)
 			 
 			# Now play the animation
 			AP.play(new_animation_name)
@@ -187,12 +187,12 @@ func set_animation(anim_name: String, direction: String, character_id: String):
 			AP.play(new_animation_name)
 		
 		# Debug animation properties
-		print("Animation properties: frames=" + str(sprite.frame) + 
+		if debug: print("Animation properties: frames=" + str(sprite.frame) + 
 			", animation_name=" + str(AP.current_animation) + 
 			", is_playing=" + str(AP.is_playing()) + 
 			", texture_path=" + str(sprite.texture.resource_path if sprite.texture else "None"))
 	else:
-		print("Animation " + new_animation_name + " is already playing, skipping")
+		if debug: print("Animation " + new_animation_name + " is already playing, skipping")
 		
 	# Verify that the animation is actually playing
-	print("AnimationPlayer current animation: " + AP.current_animation)
+	if debug: print("AnimationPlayer current animation: " + AP.current_animation)

@@ -109,6 +109,10 @@ func _ready():
 	memory_system = MemorySystem
 	if debug: print("Memory system reference obtained: ", memory_system != null)
 	# Load our custom balloon scene
+	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_baloon.tscn"):
+	#	balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
+	#	if debug: print("Loaded enhanced dialogue balloon scene")
+	#elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
 		if debug: print("Loaded custom dialogue balloon scene")

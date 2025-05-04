@@ -45,6 +45,10 @@ func _ready():
 	initialize_stats()
 	interaction_range = 30 * scale.y
 #	GameState.set_player(self)
+	if "scene_speed_mod" in get_parent():
+		var original_speed = base_speed
+		base_speed *= get_parent().scene_speed_mod
+		print("speed was " + str(original_speed) + " but was multipliesd by " + str(get_parent().scene_speed_mod) + " and is now " + str(base_speed) )
 	speed = base_speed
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print("Player initialized: ", character_name)
@@ -253,7 +257,7 @@ func handle_movement_state(input_vector):
 		speed = base_speed * run_speed_multiplier
 	else:
 		speed = base_speed
-	
+	if debug: print("base_speed = " + str(base_speed))
 	# Update movement state tracking
 	was_moving = is_moving
 	is_moving = input_vector.length() > 0.1

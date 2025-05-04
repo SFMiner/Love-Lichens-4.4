@@ -203,11 +203,11 @@ You can use conditional blocks to further branch your dialogue. Start a conditio
 Additional conditions use "elif" and you can use "else" to catch any other cases.
 
 if SomeGlobal.some\_property \>= 10  
-    Nathan: That property is greater than or equal to 10  
+	Nathan: That property is greater than or equal to 10  
 elif SomeGlobal.some\_other\_property \== "some value"  
-    Nathan: Or we might be in here.  
+	Nathan: Or we might be in here.  
 else  
-    Nathan: If neither are true, I'll say this.
+	Nathan: If neither are true, I'll say this.
 
 *Note: To escape a condition line (i.e. if you wanted to start a dialogue line with "if"), you can prefix the condition keyword with a "".*
 
@@ -215,7 +215,7 @@ Responses can also have "if" conditions. Wrap these in "\[" and "\]".
 
 Nathan: What would you like?  
 \- This one \[if SomeGlobal.some\_property \== 0 or SomeGlobal.some\_other\_property \== false\]  
-    Nathan: Ah, so you want this one?  
+	Nathan: Ah, so you want this one?  
 \- Another one \[if SomeGlobal.some\_method()\] \=\> another\_title  
 \- Nothing \=\> END
 
@@ -240,20 +240,20 @@ Randomised lines and randomised jump lines can also have conditions. Conditions 
 To shortcut some if/elif/elif/elif chains you use a match line:
 
 match SomeGlobal.some\_property  
-    when 1  
-        Nathan: It is 1\.  
-    when \> 5  
-        Nathan: It is less than 5 (but not 1).  
-    else  
-        Nathan: It was something else.
+	when 1  
+		Nathan: It is 1\.  
+	when \> 5  
+		Nathan: It is less than 5 (but not 1).  
+	else  
+		Nathan: It was something else.
 
 ### **While**
 
 You can also start a conditional block with "while". These blocks will loop as long as the condition is true.
 
 while SomeGlobal.some\_property \< 10  
-    Nathan: The property is still less than 10 \- specifically, it is {{SomeGlobal.some\_property}}.  
-    do SomeGlobal.some\_property \+= 1  
+	Nathan: The property is still less than 10 \- specifically, it is {{SomeGlobal.some\_property}}.  
+	do SomeGlobal.some\_property \+= 1  
 Nathan: Now, we can move on.
 
 ## **Mutations**
@@ -261,9 +261,9 @@ Nathan: Now, we can move on.
 You can affect state with either a "set" or a "do" line.
 
 if SomeGlobal.has\_met\_nathan \== false  
-    do SomeGlobal.animate("Nathan", "Wave")  
-    Nathan: Hi, I'm Nathan.  
-    set SomeGlobal.has\_met\_nathan \= true  
+	do SomeGlobal.animate("Nathan", "Wave")  
+	Nathan: Hi, I'm Nathan.  
+	set SomeGlobal.has\_met\_nathan \= true  
 Nathan: What can I do for you?  
 \- Tell me more about this dialogue editor
 
@@ -291,7 +291,7 @@ do SomeGlobal.some\_signal.emit("some argument")
 In some cases you might want to refer to properties of an object that may or may not be defined. This is where you can make use of null coalescing:
 
 if some\_node\_reference?.name \== "SomeNode"  
-    Nathan: Notice the "?." syntax?
+	Nathan: Notice the "?." syntax?
 
 If some\_node\_reference is null then the whole left side of the comparison will be null and, therefore, not be equal to "SomeNode" and fail. If the null coalescing isn't used here and some\_node\_reference is null then the game will crash.
 

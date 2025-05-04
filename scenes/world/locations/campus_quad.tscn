@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://bdmcytf16gdh6"]
+[gd_scene load_steps=44 format=4 uid="uid://bdmcytf16gdh6"]
 
 [ext_resource type="Script" uid="uid://gq7aml27ux5u" path="res://scripts/world/campus_quad.gd" id="1_hybx1"]
 [ext_resource type="Texture2D" uid="uid://dcj7q18fp13ul" path="res://assets/images/scenes/CampusQuad_big.png" id="2_exl3o"]
@@ -477,8 +477,6 @@ tile_data = PackedInt32Array(262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0
 [sub_resource type="TileMapPattern" id="TileMapPattern_163tt"]
 tile_data = PackedInt32Array(0, 131072, 3, 65536, 0, 3, 131072, 0, 2, 196608, 0, 0, 262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 524288, 0, 0, 589824, 0, 0, 655360, 0, 1, 1, 0, 4, 65537, 196608, 4, 131073, 65536, 2, 196609, 65536, 0, 262145, 65536, 0, 327681, 65536, 0, 393217, 65536, 0, 458753, 65536, 0, 524289, 65536, 0, 589825, 65536, 0, 655361, 65536, 1, 2, 131072, 5, 65538, 131072, 5, 131074, 131072, 2, 196610, 131072, 0, 262146, 131072, 0, 327682, 131072, 0, 393218, 131072, 0, 458754, 131072, 0, 524290, 131072, 0, 589826, 131072, 0, 655362, 131072, 1, 3, 131072, 5, 65539, 131072, 5, 131075, 196608, 2, 196611, 196608, 0, 262147, 196608, 0, 327683, 196608, 0, 393219, 196608, 0, 458755, 196608, 0, 524291, 196608, 0, 589827, 196608, 0, 655363, 196608, 1, 4, 131072, 5, 65540, 131072, 5, 131076, 0, 2, 196612, 0, 0, 262148, 0, 0, 327684, 0, 0, 393220, 0, 0, 458756, 0, 0, 524292, 0, 0, 589828, 0, 0, 655364, 0, 1, 5, 131072, 5, 65541, 131072, 5, 131077, 65536, 2, 196613, 65536, 0, 262149, 65536, 0, 327685, 65536, 0, 393221, 65536, 0, 458757, 65536, 0, 524293, 65536, 0, 589829, 65536, 0, 655365, 65536, 1, 6, 131072, 5, 65542, 131072, 5, 131078, 131072, 2, 196614, 131072, 0, 262150, 131072, 0, 327686, 131072, 0, 393222, 131072, 0, 458758, 131072, 0, 524294, 131072, 0, 589830, 131072, 0, 655366, 131072, 1, 7, 131072, 5, 65543, 131072, 5, 131079, 196608, 2, 196615, 196608, 0, 262151, 196608, 0, 327687, 196608, 0, 393223, 196608, 0, 458759, 196608, 0, 524295, 196608, 0, 589831, 196608, 0, 655367, 196608, 1, 8, 131072, 5, 65544, 131072, 5, 131080, 0, 2, 196616, 0, 0, 262152, 0, 0, 327688, 0, 0, 393224, 0, 0, 458760, 0, 0, 524296, 0, 0, 589832, 0, 0, 655368, 0, 1, 9, 131072, 5, 65545, 131072, 5, 131081, 65536, 2, 196617, 65536, 0, 262153, 65536, 0, 327689, 65536, 0, 393225, 65536, 0, 458761, 65536, 0, 524297, 65536, 0, 589833, 65536, 0, 655369, 65536, 1, 10, 131072, 5, 65546, 131072, 5, 131082, 131072, 2, 196618, 131072, 0, 262154, 131072, 0, 327690, 131072, 0, 393226, 131072, 0, 458762, 131072, 0, 524298, 131072, 0, 589834, 131072, 0, 655370, 131072, 1, 11, 131072, 5, 65547, 131072, 5, 131083, 196608, 2, 196619, 196608, 0, 262155, 196608, 0, 327691, 196608, 0, 393227, 196608, 0, 458763, 196608, 0, 524299, 196608, 0, 589835, 196608, 0, 655371, 196608, 1, 12, 131072, 5, 65548, 131072, 5, 131084, 0, 2, 196620, 0, 0, 262156, 0, 0, 327692, 0, 0, 393228, 0, 0, 458764, 0, 0, 524300, 0, 0, 589836, 0, 0, 655372, 0, 1, 13, 65536, 4, 65549, 131072, 5, 131085, 65536, 2, 196621, 65536, 0, 262157, 65536, 0, 327693, 65536, 0, 393229, 65536, 0, 458765, 65536, 0, 524301, 65536, 0, 589837, 65536, 0, 655373, 65536, 1, 14, 196608, 3, 65550, 65536, 3, 131086, 131072, 2, 196622, 131072, 0, 262158, 131072, 0, 327694, 131072, 0, 393230, 131072, 0, 458766, 131072, 0, 524302, 131072, 0, 589838, 131072, 0, 655374, 131072, 1, 786448, 131072, 5)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_ttvvx"]
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ttvvx"]
 texture = ExtResource("5_163tt")
 texture_region_size = Vector2i(33, 36)
@@ -524,7 +522,6 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/1 = SubResource("TileSetAtlasSource_ttvvx")
 pattern_0 = SubResource("TileMapPattern_nbbw3")
 pattern_1 = SubResource("TileMapPattern_163tt")
-pattern_2 = SubResource("TileMapPattern_ttvvx")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_48pq8"]
 size = Vector2(389.5, 239)
@@ -755,7 +752,7 @@ initial_dialogue_title = "start"
 description = "li"
 character_id = "li"
 
-[node name="Professor Moss" parent="z_Objects" instance=ExtResource("7_e0xc3")]
+[node name="ProfessorMoss" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(926, 956)
 scale = Vector2(2.537, 2.537)
 character_name = "Professor Moss"
@@ -1170,7 +1167,7 @@ position = Vector2(2394, 774)
 scale = Vector2(1.66489, 1.66489)
 target_location = "dorm_room"
 target_scene = "uid://cexat8mt4n8pk"
-transition_name = "Research Lab Entrance"
+transition_name = "DoormRoom"
 
 [node name="CampusQuadSpawn" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(1168, 1113)
@@ -1184,18 +1181,18 @@ position = Vector2(2387, 787)
 [node name="CemeteryEntrance" parent="." instance=ExtResource("8_6tb1a")]
 position = Vector2(3025, 134)
 
-[node name="ResearchlabEntrance" parent="." instance=ExtResource("8_6tb1a")]
-position = Vector2(2578, 1880)
+[node name="LabEntrance" parent="." instance=ExtResource("8_6tb1a")]
+position = Vector2(2568, 1914)
 scale = Vector2(1.66489, 1.66489)
 target_location = "research_lab"
-transition_name = "Research Lab Entrance"
+transition_name = "Research Lab"
 
 [node name="lab_exit" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(2578, 1925)
 scale = Vector2(0.85348, 0.85348)
 
 [node name="LibraryEntrance" parent="." instance=ExtResource("8_6tb1a")]
-position = Vector2(2436.53, 2954)
+position = Vector2(2439, 2951)
 scale = Vector2(1.66489, 1.66489)
 target_location = "library"
 transition_name = "Library"

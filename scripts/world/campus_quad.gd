@@ -217,7 +217,7 @@ func setup_npcs():
 		if debug: print("Professor Moss found in scene")
 		# Ensure Professor Moss has the correct collision settings
 		if professor_moss.get_collision_layer() != 2:
-			print("Setting Professor Moss collision layer to 2")
+			if debug: print("Setting Professor Moss collision layer to 2")
 			professor_moss.set_collision_layer(2)
 	else:
 		if debug: print("ERROR: Professor Moss not found in scene!")

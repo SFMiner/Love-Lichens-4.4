@@ -21,6 +21,7 @@ var debug
 var player_in_area: bool = false
 @onready var label : Label = $Label
 
+
 func _ready():
 	debug = scr_debug or GameController.sys_debug
 	# Set up collision if one doesn't exist
@@ -154,3 +155,5 @@ func _show_locked_hint():
 	var notification_system = get_node_or_null("/root/NotificationSystem")
 	if notification_system and notification_system.has_method("show_notification"):
 		notification_system.show_notification(locked_hint)
+		
+# As a final fallback: try to find node by name anywhere in scene

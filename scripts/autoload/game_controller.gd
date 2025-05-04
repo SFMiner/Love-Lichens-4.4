@@ -493,6 +493,8 @@ func change_location(new_scene_path, spawn_point="default"):
 	print("DEBUG: Transitioning to location: ", location_name)
 	
 	# Use basic scene change
+	
+	
 	change_scene(new_scene_path)
 	
 	# Wait a frame to ensure scene is fully loaded
