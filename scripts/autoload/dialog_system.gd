@@ -109,7 +109,11 @@ func _ready():
 	memory_system = MemorySystem
 	if debug: print("Memory system reference obtained: ", memory_system != null)
 	# Load our custom balloon scene
-	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
+	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn"):
+		balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
+		if debug: print("Loaded enhanced dialogue balloon scene")
+	elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
+	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
 		if debug: print("Loaded custom dialogue balloon scene")
 	else:
@@ -287,3 +291,151 @@ func get_unlocked_memories_for_character(character_id: String) -> Array:
 				unlocked_memories.append(tag)
 	
 	return unlocked_memories
+
+# Add to dialog_system.gd
+func _on_mutated(mutation):
+	if debug: print("Handling mutation: ", mutation.name)
+	
+	if mutation.name == "move_character":
+		# Forward the call directly to CutsceneManager
+		var cutscene_manager = get_node_or_null("/root/CutsceneManager")
+		if cutscene_manager:
+			# Pass all arguments directly to the cutscene manager
+			if mutation.arguments.size() >= 2:
+				var character_id = mutation.arguments[0]
+				var target = mutation.arguments[1]
+				
+				# Set default values for optional parameters
+				var animation = "walk"
+				var speed = null
+				var stop_distance = 0
+				var time = null
+				
+				# Check for additional parameters
+				if mutation.arguments.size() >= 3:
+					animation = mutation.arguments[2]
+				if mutation.arguments.size() >= 4:
+					# Try to convert to number, otherwise pass as is
+					var speed_val = mutation.arguments[3]
+					if speed_val is String and speed_val.is_valid_float():
+						speed = float(speed_val)
+					else:
+						speed = speed_val
+				if mutation.arguments.size() >= 5:
+					# Try to convert to number, otherwise pass as is
+					var stop_val = mutation.arguments[4]
+					if stop_val is String and stop_val.is_valid_float():
+						stop_distance = float(stop_val)
+					else:
+						stop_distance = stop_val
+				if mutation.arguments.size() >= 6:
+					# Try to convert to number, otherwise pass as is
+					var time_val = mutation.arguments[5]
+					if time_val is String and time_val.is_valid_float():
+						time = float(time_val)
+					else:
+						time = time_val
+				
+				cutscene_manager.move_character(character_id, target, animation, speed, stop_distance, time)
+			else:
+				if debug: print("ERROR: move_character requires at least character_id and target")
+		else:
+			if debug: print("ERROR: CutsceneManager not found")
+		return null
+	
+	elif mutation.name == "play_animation":
+		var cutscene_manager = get_node_or_null("/root/CutsceneManager")
+		if cutscene_manager and mutation.arguments.size() >= 2:
+			cutscene_manager.play_animation(mutation.arguments[0], mutation.arguments[1])
+		return null
+	
+	elif mutation.name == "wait_for_movements":
+		var cutscene_manager = get_node_or_null("/root/CutsceneManager")
+		if not cutscene_manager:
+			if debug: print("ERROR: CutsceneManager not found")
+			return null
+		
+		# If no movements are active, return immediately
+		if cutscene_manager.active_movements.size() == 0:
+			return true
+		
+		# Return a coroutine waiting for the movement_completed signal
+		return cutscene_manager.movement_completed
+	
+	return null
+
+func _handle_wait_for_movements_mutation():
+	var cutscene_manager = get_node_or_null("/root/CutsceneManager")
+	if not cutscene_manager:
+		if debug: print("ERROR: CutsceneManager not found")
+		return
+	
+	# This will pause the dialogue until all movements complete
+	await cutscene_manager.movement_completed
+	
+	# Check if more movements are still happening
+	while not cutscene_manager.wait_for_all_movements():
+		await cutscene_manager.movement_completed
+	
+	return true
+
+func _handle_move_character_mutation(mutation):
+	var cutscene_manager = get_node_or_null("/root/CutsceneManager")
+	if not cutscene_manager:
+		if debug: print("ERROR: CutsceneManager not found")
+		return
+	
+	# Check for minimum required arguments
+	if mutation.arguments.size() < 2:
+		if debug: print("ERROR: move_character requires at least character_id and target")
+		return
+	
+	var character_id = mutation.arguments[0]
+	var target = mutation.arguments[1]
+	
+	# Create a params dictionary for additional arguments
+	var params = {}
+	
+	# Process pairs of parameter name and value
+	for i in range(2, mutation.arguments.size(), 2):
+		if i + 1 < mutation.arguments.size():
+			var param_name = str(mutation.arguments[i])
+			var param_value = mutation.arguments[i + 1]
+			
+			# Convert numeric strings to actual numbers
+			if param_value is String and param_value.is_valid_float():
+				param_value = float(param_value)
+			
+			params[param_name] = param_value
+	
+	# Start the movement
+	cutscene_manager.move_character(character_id, target, params)
+
+func _handle_play_animation_mutation(mutation):
+	var character_id = mutation.arguments.get(0, null)
+	var animation_name = mutation.arguments.get(1, null)
+	
+	if not character_id or not animation_name:
+		if debug: print("ERROR: Missing character ID or animation in play_animation mutation")
+		return
+	
+	# Find character
+	var character
+	if character_id == "player":
+		var game_state = get_node_or_null("/root/GameState")
+		if game_state and game_state.has_method("get_player"):
+			character = game_state.get_player()
+	else:
+		character = get_tree().get_first_node_in_group(character_id)
+		if not character:
+			# Try by node path
+			character = get_tree().current_scene.get_node_or_null(character_id)
+	
+	if character:
+		# Try different animation methods
+		if character.has_method("play_animation"):
+			character.play_animation(animation_name)
+		elif character.has_node("AnimationPlayer"):
+			var anim_player = character.get_node("AnimationPlayer")
+			if anim_player.has_animation(animation_name):
+				anim_player.play(animation_name)

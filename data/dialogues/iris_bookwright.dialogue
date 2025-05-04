@@ -1,0 +1,253 @@
+# librarian.dialogue - UPDATED WITH PROPER FLOW
+
+~ librarian_greeting
+Iris Bookwright: [#happy, #professional] Welcome to the Environmental Science Library! I'm Ms. Bookwright. \n \nI've cataloged every book here by their preferred habitat - it's the only logical system, really.
+~ librarian_main_menu
+- Ask about fungi books => librarian_fungi_books
+- Ask about rare collections => librarian_rare_collection
+- Just browse around => librarian_browse
+- I need help finding something => librarian_general_help
+- About your organization system => librarian_philosophy
+- Goodbye => END
+
+~ librarian_fungi_books
+Iris Bookwright: [#enthusiastic] Ah, fungi! My favorite section. \n \nDid you know I arrange these books by their spore dispersal patterns? \n \nThe puffball section tends to... well, let's just say don't sneeze near them.
+~ fungi_submenu
+- "Can you recommend something specific?" => librarian_fungi_recommendation
+- "That's... unique." => librarian_organization_quirk
+- "Ask about something else" => librarian_main_menu
+- "Thanks, I'll check them out" => END
+
+~ librarian_fungi_recommendation
+
+if 0>1:
+	do books_recommended += 1
+Iris Bookwright: [#thoughtful] For a beginning mycology student, I'd suggest "Whispers from the Underground." \n \nThe author claims the book was dictated to them by actual mycelial networks. \n \nI can't verify that, but the information is surprisingly accurate!
+- "Sounds fascinating!" => librarian_excited_response
+- "Is it... scientifically accurate?" => librarian_scientific_inquiry
+- "Where can I find it?" => librarian_book_location
+
+~ librarian_excited_response
+Iris Bookwright: [#pleased] I knew you'd appreciate it! Section 579.5, third shelf, between the glowing mushroom field guide and... [wait = 2] \n \n...actually, that section sometimes reorganizes itself overnight.  \n \nThe fungi books seem to prefer different neighbors depending on the season.
+=> librarian_book_location
+
+~ librarian_scientific_inquiry
+if 0>1:
+	//if Gamestate.relationship_level(adam, iris_bookwright) >= 1:
+Iris Bookwright: [#impressed] A critical thinker! I like that. [wait = 1] \n \nThe mycological data is impeccable. The narration style is... unconventional.\n \nLet's just say the fungi have their own ways of communicating.
+if 0>1:
+	//if Gamestate.relationship_level(adam, iris_bookwright) < 1:
+Iris Bookwright: [#diplomatic] The information aligns with established mycological research. \nProfessor Moss verified it himself, actually.
+=> librarian_book_location
+
+~ librarian_book_location
+Iris Bookwright: [#helpful] I'll write down the location... though the decimal system tends to migrate during humid weather. \n \nJust follow your nose - the fungal literature section has a distinct earthy aroma.
+do InventorySystem.add_item("library_map", 1)
+Iris Bookwright: [#quirky] And if you find any books growing actual fruiting bodies, please let me know immediately!
+- "Thanks! I'll go look now" => END
+- "I have another question about fungi books" => fungi_submenu
+- "Actually, I wanted to ask about something else" => librarian_main_menu
+
+~ librarian_organization_quirk
+Iris Bookwright: [#proud] I've revolutionized the Dewey Decimal System! \n \nEach book's placement corresponds to its optimal humidity, light exposure, and proximity to compatible texts. \n \n[#conspiratorial] Water conservation texts refuse to shelve next to fire ecology - sibling rivalry, you understand.
+=> librarian_philosophy
+
+~ librarian_philosophy
+Iris Bookwright: [#philosophical] Libraries aren't just repositories of knowledge, my dear. \n \nThey're living ecosystems where ideas cross-pollinate like... well, like complex fungal networks!
+- "That's beautiful" => librarian_beautiful_response
+- "Do you ever have pest problems?" => librarian_pest_problems
+- "Ask about something else" => librarian_main_menu
+- "I should let you get back to work" => END
+
+~ librarian_beautiful_response
+Iris Bookwright: [#pleased] You understand! So few do. \n \n[#inspired] When two complementary texts are shelved nearby, sometimes new ideas literally sprout between them. \n \n[#mysterious] I've found hand-written notes that weren't there yesterday - the books talking to each other, perhaps?
+if 0>1:
+	do relationship_level += 1
+- "That's amazing!" => librarian_philosophy_continued
+- "I'd love to see that happen" => librarian_philosophy_continued
+- "Ask about something else" => librarian_main_menu
+
+~ librarian_philosophy_continued
+Iris Bookwright: [#thoughtful] The library breathes with its readers, you know. \n \n[#whimsical] Morning light activates the botanical texts, while evening awakens the astronomy collection. \n \n[#warm] Your appreciation suggests you might be a true bibliofungal enthusiast!
+- "What else can you tell me?" => librarian_main_menu
+- "I should go explore those sections" => END
+
+~ librarian_pest_problems
+Iris Bookwright: [#amused] Pest problems? In a way... \n \nThe silverfish have formed a symbiotic relationship with certain textbooks. \n \nThey only eat outdated information, you see. Very helpful for keeping our collection current. \n \nThough I do have to maintain the "No Eating Wikipedia Printouts" rule.
+- "That's... convenient?" => librarian_pest_solution
+- "Ask about something else" => librarian_main_menu
+- "That's... a lot to think about" => END
+
+~ librarian_pest_solution
+Iris Bookwright: [#pragmatic] Quite! Though I had to negotiate boundaries with them. \n \n[#business-like] Outdated medical texts? Fair game. Rare first editions? Absolutely not. \n \nWe reached a détente. They get the old almanacs, I get to keep my manuscripts.
+=> librarian_main_menu
+
+~ librarian_rare_collection
+if 0>1:
+	//if relationship_level < 1:
+	Iris Bookwright: [#secretive] The rare collection? Oh my, that requires special privileges. \n[#encouraging] Get to know our library better first, dear.
+	=> librarian_main_menu
+else:
+	Iris Bookwright: [#excited] The rare collection! Come, let me show you something special...
+	=> librarian_hidden_collection
+
+~ librarian_hidden_collection
+Iris Bookwright: [#mysterious] This way... watch your step, the floorboards remember grudges. \n \n[#proud] Behold! The Mycological Manuscripts of the 1800s! \nThese were thought lost in the Great Spore Incident of 1894.
+- "What was the Great Spore Incident?" => librarian_spore_incident
+- "These look ancient..." => librarian_ancient_books
+- "Can I touch them?" => librarian_handling_books
+
+~ librarian_spore_incident
+Iris Bookwright: [#dramatic] Ah, you don't know? Sit down, this is quite the tale... \n \nIn 1894, a misguided mycologist tried to cultivate Amanita reading toadstools. \n \n[#ominous] He theorized they could absorb and share the knowledge from multiple books simultaneously.
+Iris Bookwright: The resulting spore cloud covered three counties and caused temporary ecological enlightenment. \nFor one week, the local wildlife achieved perfect biodiversity balance. Briefly.
+=> librarian_aftermath
+
+~ librarian_aftermath
+Iris Bookwright: [#thoughtful] These books survived by being sealed in a lead-lined vault.
+Iris Bookwright: Some say you can still hear them whispering mycelial secrets if you listen closely at night.
+Iris Bookwright: [#practical] I keep them here for "research purposes."
+if 0 > 1:
+	do QuestSystem.unlock_location("Hidden Archive")
+- "What happened to the mycologist?" => librarian_mycologist_fate
+- "Can we look at them?" => librarian_viewing_rare_books
+- "That's incredible" => librarian_main_menu
+
+~ librarian_mycologist_fate
+Iris Bookwright: [#mysterious] Dr. Spore? He was last seen wandering into the woods, muttering about underground libraries. \n\n[#conspiratorial] Local farmers say that wherever he walks now, the most perfect mushrooms sprout.\n\nThe mycorrhizal network has its own librarians, apparently.
+- "Can we see the rare books now?" => librarian_viewing_rare_books
+- "Ask about something else" => librarian_main_menu
+
+~ librarian_browse
+Iris Bookwright: [#cheerful] By all means! The library loves curious browsers. \n\nJust remember - some books in the herbarium section prefer to remain... private.
+Iris Bookwright: [#warning] If you hear whispers coming from the field guides, it's best to move along quickly.
+- "Ask about something else" => librarian_main_menu
+- "Thanks for the advice" => END
+
+~ librarian_general_help
+Iris Bookwright: [#helpful] Back for more knowledge? The books have missed you.\n\n [#observant] Your aura suggests you need something about... water systems?
+- "How did you know?" => librarian_aura_reading
+- "Actually, I need help with..." => librarian_specific_help
+- "Just visiting" => librarian_social_visit
+
+~ librarian_aura_reading
+Iris Bookwright: [#knowing] Dear, when you work with living books for long enough, you develop certain... sensitivities.\n\nThe library books recognize fellow seekers of knowledge.
+Iris Bookwright: [#practical] Plus, you have a slight leafy smell. Definitely been in the wetlands section.
+=> librarian_specific_help
+
+~ librarian_specific_help
+Iris Bookwright: [#attentive] What knowledge do you seek today?
+- "Water ecology" => librarian_water_ecology
+- "Rare species" => librarian_rare_species
+- "Old campus history" => librarian_campus_history
+- "Actually, let me ask about something else" => librarian_main_menu
+
+~ librarian_water_ecology
+Iris Bookwright: [#enthusiastic] Water ecology! Our aquatic texts are particularly lively. \n\nActually, Dr. River Stone just returned a fascinating study on riparian systems.
+Iris Bookwright: [#warning] Be careful with "Ripples Through Time" - the pages literally flow like water during full moons.
+if 0>1:
+	do QuestSystem.add_item("aquatic_book", "A book that leaves your hands slightly damp")
+=> librarian_water_warning
+
+~ librarian_ancient_books
+Iris Bookwright: [#reverent] Indeed they are! You can feel the weight of time in these pages.
+Iris Bookwright: [#educational] Some are bound in vellum - that's treated animal skin. Much more durable than paper.\n\nThese particular volumes contain observations of species long before modern taxonomy existed.
+- "What's inside them?" => librarian_ancient_contents
+- "Can I still not touch them?" => librarian_handling_books
+- "Maybe show me something else?" => librarian_main_menu
+
+~ librarian_ancient_contents
+Iris Bookwright: [#excited] Oh, wonderful descriptions! Early naturalists had such poetic language.\n\nThere's a 1723 description of moss sporophytes as "tiny sentinels wearing soldier's caps."
+Iris Bookwright: [#amused] And lichens were often called "poverty plants" because they could grow on bare rock.
+=> librarian_viewing_rare_books
+
+~ librarian_handling_books
+Iris Bookwright: [#apologetic] I wish you could! But these volumes are quite fragile. \n\n[#practical] The oils from our hands accelerate deterioration. Even cotton gloves leave fibers.
+Iris Bookwright: The best I can offer is viewing under my supervision - I'll turn the pages for you.
+=> librarian_viewing_rare_books
+
+~ librarian_viewing_rare_books
+Iris Bookwright: [#helpful] I can prepare a viewing session during library hours.\n\n[#instructive] White gloves provided. No note-taking with regular pens - pencil only.\n\n[#conspiratorial] Some pages still smell of pine tar and wood smoke from 1800s preservation methods.
+do QuestSystem.add_quest("arrange_rare_book_viewing")
+- "I'd love to set up a viewing" => librarian_appointment_setup
+- "What other rare books do you have?" => librarian_rare_species
+- "Maybe another time" => librarian_main_menu
+
+~ librarian_appointment_setup
+Iris Bookwright: [#pleased] Excellent! I'll need 48 hours notice to prepare the materials.\n\nThe manuscripts prefer time to acclimate to visitors.
+Iris Bookwright: [#practical] Fill out the request form at the desk. Specify which texts you'd like to examine.
+do QuestSystem.add_item("rare_books_request_form")
+=> librarian_main_menu
+
+~ librarian_water_warning
+Iris Bookwright: [#serious] One warning about aquatic literature...\n\nNever, ever read underwater texts during a thunderstorm.
+Iris Bookwright: [#mysterious] The last student who tried reported seeing every raindrop that ever fell simultaneously.
+- "I'll be careful" => librarian_main_menu
+- "That's... terrifying and beautiful" => librarian_profound_response
+- "I need that book for research" => END
+
+~ librarian_profound_response
+Iris Bookwright: [#impressed] You grasp the duality! Most people only see the warning, not the wonder.
+Iris Bookwright: [#thoughtful] Perhaps when you're more experienced, I'll show you my collection of storm-responsive texts.
+do relationship_level += 1
+=> librarian_main_menu
+
+~ librarian_rare_species
+Iris Bookwright: [#knowledgeable] We have extensive documentation on endangered species!\n\n[#concerned] Some of which no longer exist. Their last descriptions are preserved here.\n\n [#hopeful] Though occasionally, students discover "extinct" species still surviving in hidden places.
+- "Like what?" => librarian_lost_species_examples
+- "That's sad but hopeful" => librarian_conservation_role
+- "Ask about something else" => librarian_main_menu
+
+~ librarian_lost_species_examples
+Iris Bookwright: [#storytelling] The Adirondack Velvet Moss - thought extinct for 80 years!\n\n A graduate student found it in 2019, growing on a single boulder.\n\n [#whimsical] It had been hiding, waiting for someone to look in the right place.
+=> librarian_conservation_role
+
+~ librarian_conservation_role
+Iris Bookwright: [#passionate] This is why libraries matter! We preserve knowledge of what was, so future generations can restore what is lost.\n\nEvery extinct species we document could hold keys to ecological recovery.\n\n[#encouraging] Perhaps you'll be the one to find something everyone thinks is lost forever.
+=> librarian_main_menu
+
+~ librarian_campus_history
+Iris Bookwright: [#nostalgic] The college archives! A treasure trove of academic evolution.\n\nFrom its founding in 1911 to today, every major environmental movement has left its mark here.
+Iris Bookwright: [#interesting] We have the original blueprints for the building's sustainable design. It was revolutionary for its time!
+- "Tell me more about early sustainability" => librarian_early_green_building
+- "Any interesting stories?" => librarian_campus_legends
+- "Where can I find these archives?" => librarian_archive_location
+
+~ librarian_early_green_building
+Iris Bookwright: [#educational] This building was one of the first with passive solar design in 1911!\n\nThe architects oriented it to maximize natural light and minimize heating needs.
+Iris Bookwright: [#proud] They even planned the landscape to work with seasonal winds. Ahead of their time!
+=> librarian_archive_location
+
+~ librarian_campus_legends
+Iris Bookwright: [#amused] Oh, there are stories! Like the time in 1965 when students protested by planting guerilla gardens.\n\nThe dean came to campus one morning to find native wildflowers in every parking space.
+Iris Bookwright: [#pleased] They couldn't remove them - it was protected native habitat. That's how we got our current green spaces!
+=> librarian_archive_location
+
+~ librarian_archive_location
+Iris Bookwright: [#helpful] The campus archives are in Special Collections, second floor.\n\nYearbooks, faculty records, construction documents - it's all preserved up there.\n\n[#encouraging] The old photographs are fascinating. You can see how the landscape has changed - or hasn't!
+=> librarian_main_menu
+
+~ librarian_social_visit
+Iris Bookwright: [#pleased] Social visits are the best! The books appreciate company.\n\nWould you like some mycological tea? I brew it myself.\n\nIt's entirely safe, despite what Professor Moss says about the "minor consciousness expansion effects."
+- "Yes, please!" => librarian_tea_time
+- "Maybe later" => librarian_decline_tea
+
+~ librarian_tea_time
+Iris Bookwright: [#delighted] Wonderful! Let me steep a fresh pot...\n\n[#chatty] You know, I've been experimenting with adding adaptogenic mushrooms.\n\nThe reading comprehension boost is remarkable, though it does make the books more chatty.
+do relationship_level += 1
+do QuestSystem.add_buff("enhanced_reading", 60)
+=> librarian_tea_effects
+
+~ librarian_tea_effects
+Iris Bookwright: [#observant] How do you feel? Any enhanced bibliophilic tendencies?\n\nSome people report their reading speed doubling, but books occasionally read back. [wait=1]\n\n[#reassuring] It wears off in about an hour. Usually.
+- "It's quite pleasant!" => librarian_main_menu
+- "The words are... shimmering" => librarian_tea_concerns
+- "I should go study while I can" => END
+
+~ librarian_tea_concerns
+Iris Bookwright: [#concerned] Shimmering? Interesting! That usually only happens with advanced readers.\n\n[#practical] If the books start asking personal questions, just compliment their binding. They like that.
+=> librarian_main_menu
+
+~ librarian_decline_tea
+Iris Bookwright: [#understanding] Of course! Not everyone's ready for enhanced bibliographic perception.
+Iris Bookwright: [#mysterious] Though the offer stands. The fungi remember patience.
+=> librarian_main_menu

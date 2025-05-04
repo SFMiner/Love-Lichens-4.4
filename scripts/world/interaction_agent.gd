@@ -76,12 +76,12 @@ func _ready():
 func find_player():
 	# Wait a frame to make sure the scene is fully loaded
 	await get_tree().process_frame
-	
+	GameState.get_player()
 	# Find the player in the scene
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		player_node = players[0]
-		print(name + ": Found player node at " + str(player_node.global_position))
+#	var players = get_tree().get_nodes_in_group("player")
+#	if players.size() > 0:
+#		player_node = players[0]
+#		print(name + ": Found player node at " + str(player_node.global_position))
 
 
 
@@ -102,6 +102,9 @@ func interact():
 func process_interaction():
 	var dialog_system = get_node_or_null("/root/DialogSystem")
 	var quest_system = get_node_or_null("/root/QuestSystem")
+
+	GameState.set_current_npcs()
+	GameState.set_current_markers()
 	
 	# Let quest system determine if this interaction completes objectives
 	var processed_by_quest = false

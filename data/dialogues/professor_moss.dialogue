@@ -58,21 +58,21 @@ Moss: Mm. You're here. Good. The lichen samples didn’t sort themselves overnig
 Moss: Morning is a colonial construct. But sure. Morning.
 
 ~ moss_help_offer
-Moss: Hm. If you're going to contaminate them, do it with intent.
+Professor Moss: Hm. If you're going to contaminate them, do it with intent.
 
 ~ ask_about_fossil
 [if GameState.has_tag("moss_fossil_seen")]
 Adam: That pouch you wear—it’s got a fossil, right?
-Moss: Ah. Yes. Prototaxites. Prehistoric mystery. Fungus-adjacent. Disregarded by those with no poetry in them.
+Professor Moss: Ah. Yes. Prototaxites. Prehistoric mystery. Fungus-adjacent. Disregarded by those with no poetry in them.
 - "Why carry it?" => moss_reason
 
 ~ moss_reason
-Moss: Because it reminds me that everything we know is temporary. And because I had two. You have the other.
+Professor Moss: Because it reminds me that everything we know is temporary. And because I had two. You have the other.
 
 ~ memory_stirred
 [if GameState.has_tag("moss_fossil_seen")]
-Moss: That fossil. It remembers things no one ever saw. You ever feel that?
+Professor Moss: That fossil. It remembers things no one ever saw. You ever feel that?
 - "Sometimes." => moss_close
 
 ~ moss_close
-Moss: Good. Keep listening. Sometimes memory is more useful than foresight.
+Professor Moss: Good. Keep listening. Sometimes memory is more useful than foresight.

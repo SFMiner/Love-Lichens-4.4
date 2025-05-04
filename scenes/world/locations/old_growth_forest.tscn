@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dgx3ii4r3r68v"]
+[gd_scene load_steps=47 format=3 uid="uid://dgx3ii4r3r68v"]
 
 [ext_resource type="Texture2D" uid="uid://cnbt7qq3rsqf3" path="res://assets/images/scenes/old_growth_forest.png" id="1_b0wtv"]
 [ext_resource type="Script" uid="uid://d28i8jo0n2nea" path="res://scripts/world/old_growth_forest.gd" id="1_h6ule"]
@@ -45,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://c5bituy3q3rk4" path="res://assets/images/scenes/old_growth_forest/Shrub7.png" id="33_tdgfa"]
 [ext_resource type="Texture2D" uid="uid://sjnpofu11kb7" path="res://assets/images/scenes/old_growth_forest/Log1b.png" id="34_i2i0r"]
 [ext_resource type="PackedScene" uid="uid://qxo0y753fkjj" path="res://scenes/world/insect_manager.tscn" id="44_wnkch"]
+[ext_resource type="PackedScene" uid="uid://bx2qv4ojlhjbp" path="res://scenes/transitions/campus_to_cemetery.tscn" id="46_xnexo"]
 
 [node name="OldGrowthForest" type="Node2D"]
 script = ExtResource("1_h6ule")
@@ -371,6 +372,19 @@ scale = Vector2(6, 6)
 position = Vector2(1058, 2009)
 scale = Vector2(0.844761, 0.844761)
 
+[node name="Forest Exit" parent="." instance=ExtResource("46_xnexo")]
+position = Vector2(1048, 1969)
+scale = Vector2(2.00211, 2.00211)
+target_location = "campus_quad"
+spawn_point = "forest_exit"
+transition_name = "Foerst Exit"
+
+[node name="Label" parent="Forest Exit" index="2"]
+offset_top = 2.67029e-05
+offset_bottom = 26.0
+text = "Exit"
+
 [editable path="Sprite2D/bugzones/BugZone1"]
 [editable path="Sprite2D/bugzones/BugZone2"]
 [editable path="Sprite2D/bugzones/BugZone3"]
+[editable path="Forest Exit"]

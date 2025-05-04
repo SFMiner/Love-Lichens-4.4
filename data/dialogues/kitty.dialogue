@@ -8,7 +8,7 @@ Kitty: Mrrrp.
 ~ mrrp2
 Kitty: (sits and blinks slowly.)
 
-[if GameState.has_tag("dusty_bracelet_seen")]
+if GameState.has_tag("dusty_bracelet_seen")
 	Kitty: Mrrrrp. (Batting at the bell on her collar.)
 	"...Did she just give me a quest?"
 	(Kitty looks extremely proud. Nothing happens. Or does it?)

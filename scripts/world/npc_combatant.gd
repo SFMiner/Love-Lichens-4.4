@@ -1,7 +1,7 @@
 # npc_combatant.gd
 extends Combatant
 class_name NPCCombatant
-
+var in_dialogue : bool = false
 # NPC-specific properties
 @export var aggression := 0.5  # 0.0 to 1.0 - how likely to attack vs defend/retreat
 @export var combat_rewards := {"experience": 10, "money": 20}
@@ -325,19 +325,26 @@ func _physics_process(delta):
 	
 	# Get AI-determined movement input
 	var input_vector = get_movement_input()
+	
+	# Process collisions - this is where the error is happening
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Fix this line to avoid the is_interacting_with error
+		# Change from:
+		# if collider.is_in_group("player") and collider.is_interacting_with(self):
+		
+		# To:
+		if collider.is_in_group("player"):
+			# Handle player collision if needed
+			pass
+	
 	handle_movement_state(input_vector)
 	
-	# Process jumping if active (unlikely for NPCs but supported)
+	# Continue with the rest of the method
 	process_jumping(delta)
-	
-	# Set velocity based on input and speed
 	velocity = input_vector * speed
-	
-	# Update animation based on movement state
 	update_animation(input_vector)
-	
-	# Apply movement
 	move_and_slide()
-	
-	# Update position tracking and z-index
 	update_position_tracking()

@@ -8,6 +8,7 @@ signal interaction_ended(npc_id)
 signal observed(feature_id)
 
 @export var character_name: String = "Unknown"
+@export var initial_animation: String = "idle_down"
 @export var portrait: Texture2D
 @export var interactable: bool = true
 @export var initial_dialogue_title: String = ""
@@ -19,6 +20,9 @@ signal observed(feature_id)
 }
 
 @onready var sprite = get_node_or_null("Sprite2D")
+@onready var nav_agent : NavigationAgent2D = get_node_or_null("NavigationAgent2D")
+@onready var interaction_area = get_node_or_null("InteractionArea")
+
 
 
 # Character data
@@ -27,7 +31,9 @@ var relationship_level = 0 # 0=stranger, 1=acquaintance, 2=friend, 3=close frien
 var dialogue_system
 var memory_system
 var game_state
-const scr_debug :bool = true
+var ap = get_node_or_null("AnimationPlayer")
+
+const scr_debug : bool = false
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
@@ -35,74 +41,73 @@ func _ready():
 	
 	super._ready()
 	
-	print("--- NPC NODE HIERARCHY DEBUG ---")
+	if debug: print("--- NPC NODE HIERARCHY DEBUG ---")
 	for child in get_children():
-		print("Child node: " + child.name + ", class: " + child.get_class())
+		if debug: print("Child node: " + child.name + ", class: " + child.get_class())
 	
 	# Debug CharacterAnimator specifically
 	if animator:
-		print("Found CharacterAnimator")
+		if debug: print("Found CharacterAnimator")
 		
 		# Check if the animator has the required functionality
 		if animator.has_method("set_animation"):
 			print("CharacterAnimator has set_animation method")
 		else:
-			print("ERROR: CharacterAnimator missing set_animation method")
+			if debug: print("ERROR: CharacterAnimator missing set_animation method")
 		
 		# Check if the animator has found its sprite
 		if "sprite" in animator:
-			print("CharacterAnimator has sprite reference: " + str(animator.sprite != null))
+			if debug: print("CharacterAnimator has sprite reference: " + str(animator.sprite != null))
 		else:
-			print("ERROR: CharacterAnimator has no sprite property")
+			if debug: print("ERROR: CharacterAnimator has no sprite property")
 			
 		# Check for AnimationPlayer
-		var ap = get_node_or_null("AnimationPlayer")
 		if ap:
-			print("Found AnimationPlayer, animations: " + str(ap.get_animation_list()))
+			if debug: print("Found AnimationPlayer, animations: " + str(ap.get_animation_list()))
 		else:
-			print("ERROR: No AnimationPlayer found for animations")
+			if debug: print("ERROR: No AnimationPlayer found for animations")
 	
 	if sprite:
-		print("Found Sprite2D node for " + character_id)
+		if debug: print("Found Sprite2D node for " + character_id)
 	else:
-		print("ERROR: Sprite2D node not found for " + character_id)
+		if debug: print("ERROR: Sprite2D node not found for " + character_id)
 		# Try to create it if missing
 		sprite = Sprite2D.new()
 		sprite.name = "Sprite2D"
 		add_child(sprite)
-		print("Created new Sprite2D node for " + character_id)
+		if debug: print("Created new Sprite2D node for " + character_id)
 		
 	var texture_path = "res://assets/character_sprites/" + character_id + "/standard/idle.png"
-	print("Loading texture from: " + texture_path)
+	if debug: print("Loading texture from: " + texture_path)
 	
 	var texture = load(texture_path)
 	if texture:
-		print("Successfully loaded texture")
+		if debug: print("Successfully loaded texture")
 		sprite.texture = texture
 		sprite.hframes = 2
 		sprite.vframes = 4
-		print("Applied texture to sprite: " + str(texture.get_path()))
+		if debug: print("Applied texture to sprite: " + str(texture.get_path()))
 	else:
-		print("ERROR: Failed to load texture from " + texture_path)
+		if debug: print("ERROR: Failed to load texture from " + texture_path)
 		
 		# Try with a hardcoded path as fallback
 		var fallback_path = "res://assets/character_sprites/kitty/standard/idle.png" 
-		print("Trying fallback texture: " + fallback_path)
+		if debug: print("Trying fallback texture: " + fallback_path)
 		texture = load(fallback_path)
 		
 		if texture:
-			print("Fallback texture loaded successfully")
+			if debug: print("Fallback texture loaded successfully")
 			sprite.texture = texture
 			sprite.hframes = 2
 			sprite.vframes = 4
 		else:
-			print("ERROR: Even fallback texture failed to load")
+			if debug: print("ERROR: Even fallback texture failed to load")
 			
 	# Additional debug - verify texture is set
 	if sprite.texture:
-		print("Sprite texture is set: " + str(sprite.texture.get_path()))
+		if debug: print("Sprite texture is set: " + str(sprite.texture.get_path()))
 	else:
-		print("WARNING: Sprite texture is still null after setup")
+		if debug: print("WARNING: Sprite texture is still null after setup")
 		
 	# Ensure the sprite is visible and properly positioned
 	sprite.visible = true
@@ -116,9 +121,13 @@ func _ready():
 #	sprite.texture = texture
 	add_to_group("interactable")
 	add_to_group("npc")
-	
+	add_to_group("navigator")
+
+#	GameState.set_current_npcs()
+#	get_tree().get_node_or_null("root").label1.text = GameState.set_current_npcs()
+#	get_tree().get_node_or_null("root").label2.text = get_tree().get_nodes_in_group("npc")
 	# Load character data
-	load_character_data()
+#	load_character_data()
 	
 	# Get reference to the dialogue system
 	dialogue_system = get_node_or_null("/root/DialogSystem")
@@ -144,7 +153,12 @@ func _ready():
 				if debug: print("Enabling collision shape for ", character_id)
 				child.disabled = false
 
+	nav_agent.avoidance_enabled = true
+	nav_agent.radius = 8.0
+	nav_agent.neighbor_distance = 32.0
+
 	call_deferred("setup_sprite_deferred")
+	get_node_or_null("AnimationPlayer").play(initial_animation)
 #	var debug_rect = ColorRect.new()
 #	debug_rect.color = Color(1, 0, 0, 0.5)  # Semi-transparent red
 #	debug_rect.size = Vector2(50, 50)
@@ -152,6 +166,9 @@ func _ready():
 #	add_child(debug_rect)
 	
 #	print("Added debug rectangle to show character position")
+
+func move_to(target: Vector2):
+	nav_agent.target_position = target
 	
 func get_character_id():
 	return character_id
@@ -175,7 +192,11 @@ func get_movement_input():
 	
 	return input_vector
 	
-	
+func _unhandled_input(event):
+	if event is InputEventKey and event.keycode == KEY_T and event.pressed and not event.echo:
+		test_all_animations()
+		if debug: print("Started animation test sequence")
+		
 func handle_movement_state(input_vector):
 	# NPCs generally walk unless they're in combat
 	is_running = false  # Can be set by AI behaviors
@@ -205,6 +226,33 @@ func stop_movement():
 
 func _physics_process(delta):
 	# NPC movement processing
+	var should_wait := false
+	var push_vector := Vector2.ZERO
+	var MIN_SEPARATION := 16.0
+	var REPULSION_STRENGTH := 50.0
+	var next_position = nav_agent.get_next_path_position()
+	var direction = (next_position - global_position).normalized()
+	#var speed = 100.0  # Example speed
+	var velocity = direction * speed
+	
+	if is_navigating:
+		process_navigation(delta)
+		return
+
+	if nav_agent.is_navigation_finished():
+		return  # Reached goal
+
+
+	for other in get_tree().get_nodes_in_group("navigators"):
+		if other == self:
+			continue
+		var distance := global_position.distance_to(other.global_position)
+		if distance < MIN_SEPARATION and distance > 0:
+			var away = (global_position - other.global_position).normalized()
+			push_vector += away * ((MIN_SEPARATION - distance) / MIN_SEPARATION)
+
+	nav_agent.set_velocity(velocity)
+
 	
 	# Get AI-determined movement input
 	var input_vector = get_movement_input()
@@ -231,8 +279,71 @@ func _physics_process(delta):
 			# Update position tracking and z-index
 			update_position_tracking()
 	
-	
 
+func update_animation(input_vector):
+	if is_jumping:
+		# Jump animation already set in begin_jump()
+		return
+		
+	if input_vector != Vector2.ZERO:
+		var old_direction = anim_direction
+		update_anim_direction()
+		
+		# Choose animation type based on running state
+		var anim_type = ""
+		if is_running:
+			anim_type = "run"
+		else:
+			anim_type = "walk"
+		
+		# Only update animation if direction changed or animation type changed
+		if old_direction != anim_direction or last_animation != anim_type or !was_moving:
+			if debug: print("Setting " + anim_type + " animation - dir: " + anim_direction)
+			animator.set_animation(anim_type, anim_direction, get_character_id())
+			last_animation = anim_type
+	elif last_animation != "idle":
+		# Only set idle if we're not already idle
+		if debug: print("Setting idle animation - current anim: " + last_animation)
+		animator.set_animation("idle", anim_direction, get_character_id())
+		last_animation = "idle"
+	
+func play_animation(anim_name: String):
+	if debug: print("Trying to call animation " + anim_name + " for " + character_id)
+	
+	# Check if this is a jump animation
+	var is_jump_anim = anim_name.begins_with("jump")
+	
+	# If we're jumping and this isn't the end of a jump, don't interrupt
+	if is_jumping and !is_jump_anim and jump_timer > 0.2:
+		if debug: print("Ignoring animation during jump: " + anim_name)
+		return
+	
+	# Start jump if this is a jump animation
+	if is_jump_anim and !is_jumping:
+		is_jumping = true
+		jump_timer = JUMP_DURATION 
+		if debug: print("Starting jump animation, duration: ", JUMP_DURATION)
+	
+	# First update the texture through the character animator
+	if animator and animator.has_method("set_animation"):
+		animator.set_animation(anim_name, null, character_id)
+	
+	# Then play the animation through the AnimationPlayer
+	var anim_player = get_node_or_null("AnimationPlayer")
+	if anim_player and anim_player.has_animation(anim_name):
+		if debug: print("Playing animation " + anim_name + " using AnimationPlayer")
+		anim_player.play(anim_name)
+	else:
+		if debug: print("ERROR: Animation not found: " + anim_name)
+		
+		
+func _is_near_interaction_zone() -> bool:
+	for area in interaction_area.get_overlapping_areas():
+		if area.get_parent() != self:
+			return true
+	return false
+	
+	
 func load_character_data():
 	# First try to use the CharacterDataLoader if available
 	var character_loader = get_node_or_null("/root/CharacterDataLoader")
@@ -250,12 +361,12 @@ func load_character_data():
 			if loaded_data.initial_dialogue_title and loaded_data.initial_dialogue_title != "":
 				if initial_dialogue_title == "":
 					initial_dialogue_title = loaded_data.initial_dialogue_title
-					print("Setting initial dialogue title to: ", initial_dialogue_title)
+					if debug: print("Setting initial dialogue title to: ", initial_dialogue_title)
 				else:
-					print("Keeping scene-defined initial dialogue title: ", initial_dialogue_title)
+					if debug: print("Keeping scene-defined initial dialogue title: ", initial_dialogue_title)
 			
 			# Debug print to verify initial dialogue title
-			print(character_id, " initial dialogue title: ", initial_dialogue_title)
+			if debug: print(character_id, " initial dialogue title: ", initial_dialogue_title)
 			
 			# Load portrait if available
 			if ResourceLoader.exists(loaded_data.portrait_path):
@@ -276,10 +387,10 @@ func load_character_data():
 				"initial_dialogue_title": initial_dialogue_title  # Store for reference
 			}
 			
-			print("Character data loaded for: ", character_name)
+			if debug: print("Character data loaded for: ", character_name)
 			return
 	
-	print("Using fallback character data loading for: ", character_id)
+	if debug: print("Using fallback character data loading for: ", character_id)
 	# For now, set default data
 	character_data = {
 		"id": character_id,
@@ -288,7 +399,7 @@ func load_character_data():
 		"relationship_level": relationship_level,
 		"initial_dialogue_title": initial_dialogue_title  # Store for reference
 	}
-	print("Character data loaded for: ", character_name)
+	if debug: print("Character data loaded for: ", character_name)
 	
 
 # Set default data if no file is found
@@ -318,12 +429,15 @@ func interact():
 	
 	# Start dialogue using the Dialogue Manager
 	if dialogue_system:
+		# Update NPC and marker lists
+		GameState.set_current_npcs()
+		GameState.set_current_markers()
 		# BUGFIX: Use default "start" title if none is specified
 		var dialogue_title = "start"
 		if initial_dialogue_title != null and initial_dialogue_title != "":
 			dialogue_title = initial_dialogue_title
 		
-		print(str(character_id) + " is speaking from title '" + str(dialogue_title) + "'")
+		if debug: print(str(character_id) + " is speaking from title '" + str(dialogue_title) + "'")
 		
 		var result = dialogue_system.start_dialog(character_id, dialogue_title)
 		if result:
@@ -428,4 +542,66 @@ func setup_sprite_deferred():
 		sprite.texture = texture
 		sprite.hframes = 2
 		sprite.vframes = 4
-		print("Deferred sprite setup complete")
+		if debug: print("Deferred sprite setup complete")
+
+
+func test_all_animations():
+	# Make sure animator is loaded
+	if self.character_id == "poison":
+		if not animator:
+			if debug: print("No animator found for NPC: ", character_id)
+			return
+		
+		if debug: print("Testing all animations for NPC: ", character_id)
+		
+		# Test sequence of animations with different directions
+		var test_sequence = [
+			{"anim": "idle", "dir": "down"},
+			{"anim": "walk", "dir": "down"},
+			{"anim": "run", "dir": "down"},
+			{"anim": "jump", "dir": "down"},
+			{"anim": "idle", "dir": "up"},
+			{"anim": "walk", "dir": "left"},
+			{"anim": "run", "dir": "right"}
+		]
+		
+		# Create a timer to space out the animations
+		var timer = get_tree().create_timer(0.5)
+		await timer.timeout
+		
+		# Run through each animation
+		for i in range(test_sequence.size()):
+			var test = test_sequence[i]
+			var anim_name = test.anim
+			var direction = test.dir
+			
+			if debug: print("\nTesting animation: ", anim_name, "_", direction)
+			
+			# Print texture before animation
+			if sprite and sprite.texture:
+				if debug: print("BEFORE - Texture: ", sprite.texture.resource_path)
+				if debug: print("BEFORE - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
+			
+			# Play the animation
+			if animator.has_method("set_animation"):
+				animator.set_animation(anim_name, direction, character_id)
+			else:
+				if debug: print("ERROR: set_animation method not found!")
+				return
+			
+			# Print texture after animation
+			if sprite and sprite.texture:
+				if debug: print("AFTER - Texture: ", sprite.texture.resource_path)
+				if debug: print("AFTER - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
+			
+			# Wait before the next animation
+			timer = get_tree().create_timer(1.6)
+			await timer.timeout
+	animator.set_animation("idle", "down", "poison")
+
+func _on_sprite_2d_frame_changed() -> void:
+	if sprite:
+		if debug: print("Playing NPC Frame " + str(sprite.frame))
+func _on_sprite_2d_texture_changed() -> void:
+	if sprite:
+		if debug: print("NPC Texture = ", str(sprite.texture))

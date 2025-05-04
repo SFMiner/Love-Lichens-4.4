@@ -17,8 +17,9 @@ You approach the western research computer desk. The screen displays a colorful 
 ~ research_computer_interface
 The research interface loads, showing access to various academic databases and journals. The maple seed mascot spins cheerfully in the corner while system icons populate the desktop.
 
-// Note: This will connect to separate research dialogue tree to be created later
-do QuestSystem.open_research_interface()
+Note: This will connect to separate research dialogue tree to be created later
+if 0 > 1:
+	//do QuestSystem.open_research_interface()
 
 => END
 
@@ -28,11 +29,7 @@ The desktop background features an elegant watercolor painting of the campus map
 => END
 
 ~ desk_area_west
-The desk area is well-maintained. You notice:
-A small dish of wrapped peppermints for stressed researchers
-Several reference guides for proper citation formatting
-A collection of pens in a cup that resembles a tree trunk
-Some highlighters and color-coded tabs for marking texts
+The desk area is well-maintained. You notice: \nA small dish of wrapped peppermints for stressed researchers \nSeveral reference guides for proper citation formatting \nA collection of pens in a cup that resembles a tree trunk \nSome highlighters and color-coded tabs for marking texts
 
 => END
 
@@ -51,10 +48,7 @@ This computer has a desktop background showing a time-lapse sequence of a maple 
 
 ~ desk_area_central
 The central station desk contains:
-A small digital clock showing library hours
-Noise-canceling headphones on a stand
-Quick reference cards for database access
-A USB hub with multiple ports for personal devices
+A small digital clock showing library hours \nNoise-canceling headphones on a stand \nQuick reference cards for database access \nA USB hub with multiple ports for personal devices
 
 => END
 
@@ -73,10 +67,7 @@ The background shows an artistic representation of the maple seed mascot interac
 
 ~ desk_area_east
 You find at this station:
-A standing desk converter for ergonomic research sessions
-Specialty keyboard with environmental science symbols
-Power strips for charging personal devices
-A small collection of mint tea bags and herbal teas
+A standing desk converter for ergonomic research sessions \nSpecialty keyboard with environmental science symbols \nPower strips for charging personal devices \nA small collection of mint tea bags and herbal teas
 
 => END
 
@@ -90,11 +81,7 @@ You examine the uppermost left bookshelf. It contains an impressive collection o
 
 ~ bookshelf_top_left_contents
 This section houses:
-Advanced ecological modeling texts
-Climate change research compilations  
-Rare editions of classic environmental works
-Recent publications on sustainable development
-International environmental law references
+Advanced ecological modeling texts \nClimate change research compilations \nRare editions of classic environmental works \nRecent publications on sustainable development \nInternational environmental law references
 
 => END
 
@@ -132,21 +119,11 @@ You approach a mid-level bookshelf containing practical guides and field referen
 - Step away => END
 
 ~ bookshelf_middle_left_contents
-This collection includes\:
-Regional flora and fauna identification guides
-Soil science practical handbooks  
-Water quality testing manuals
-Sustainable agriculture methods
-Urban ecology resources
+This collection includes\: \nRegional flora and fauna identification guides \nSoil science practical handbooks  \nWater quality testing manuals \nSustainable agriculture methods \nUrban ecology resources \n
 => END
 
 ~ bookshelf_middle_left_guides
-You find detailed field guides for\:
-Native tree species of NY State
-Common lichen identification
-Mushroom foraging (safely)
-Bird species migration patterns
-Local watershed systems
+You find detailed field guides for: Native tree species of NY State \nCommon lichen identification \nMushroom foraging (safely) \nBird species migration patterns \nLocal watershed systems
 => END
 
 ~ bookshelf_middle_left_recent
@@ -176,7 +153,8 @@ The lower shelf contains more accessible materials and special collections.
 
 ~ bookshelf_bottom_left_contents
 This section features: 	Environmental science textbooks\nLab procedure manuals\nGraduate thesis collections\nIndustry certification study guides\nPractice exam materials
-=> END
+- Step away => END
+=> bookshelf_bottom_left
 
 ~ bookshelf_bottom_left_journals
 You find bound collections of academic journals:
@@ -190,13 +168,16 @@ You find bound collections of academic journals:
 	Research highlight: "The discovery of Cryptococcus aureus within the sealed chambers of the abandoned Blackthorn Mine represents more than a new species—it challenges our understanding of fungal evolution. Living in complete darkness for an estimated 340 years, this golden-pigmented yeast has developed unique melanin structures that appear to feed on background radiation."
 - "Water Conservation Review"
 	Featured study: "Rain Gardens of the Mind\: Our spatial memory study demonstrated that households maintaining rain gardens used 47% less water overall—not just in irrigation but in total household consumption. Participants reported increased 'water consciousness' in all daily activities, suggesting that relationship with water extends beyond utility into identity."
+- Step Back => bookshelf_bottom_left
 - Step Away => END
 => bookshelf_bottom_left_journals
 
 ~ bookshelf_bottom_left_student
 Resources for students include: Writing guides for environmental papers\nResearch methodology in ecological studies\nStatistics for environmental scientists\n
 Career paths in environmental science\nInternship and job listings board
-=> END
+- Step Back => bookshelf_bottom_left
+- Step Away => END
+=> bookshelf_bottom_left_student
 
 ~ bookshelf_top_right
 The uppermost right shelf focuses on interdisciplinary connections.
@@ -208,8 +189,8 @@ The uppermost right shelf focuses on interdisciplinary connections.
 
 ~ bookshelf_top_right_contents
 This section emphasizes environmental policy and governance: International environmental agreements\nPolicy implementation case studies\nEnvironmental economics texts\nResource management strategies\nClimate policy analysis
-
-=> END 
+- Step Back => bookshelf_top_right
+- Step Away => END
 
 ~ bookshelf_top_right_policy
 Key policy resources include\:
@@ -224,6 +205,7 @@ Key policy resources include\:
 	Best practices guide: "'Council of All Beings' sessions, adapted from Joanna Macy's work, transformed Brookfield's watershed planning. Residents role-played as river, eagle, and wetland. While some officials initially balked, the resulting watershed protection plan—incorporating these 'non-human' perspectives—passed with 94% public approval and successfully defended against three lawsuits."
 - "Regulatory Compliance in Conservation"
 	Implementation note: "The 'Three Generations Rule' emerged from a small Vermont town but now influences federal policy\: no development project requiring environmental impact statements can be approved without consulting affected community members aged 6-12, 30-50, and 65+. Children's perspectives often highlight impacts professionals miss, while elders provide historical context. The middle generation bridges both."
+- Step Back => bookshelf_top_right
 - Step Away => END
 => bookshelf_top_right_policy
 
@@ -241,20 +223,22 @@ The middle right shelf features research methodologies and documentation.
 
 ~ bookshelf_middle_right_methods
 Research methodology collection:\nField study design principles\nExperimental protocols in ecology\nStatistical analysis for environmental data\nQualitative research in nature\nMixed methods approaches
-=> END
+- Step Back => bookshelf_middle_right
+- Step Away => END
 
 ~ bookshelf_middle_right_tools
 You find guides for research tools:\nGIS applications in environmental science\nRemote sensing techniques\nData visualization for ecologists\nEnvironmental modeling software\nDigital mapping resources
-=> END
+- Step Back => bookshelf_middle_right
+- Step Away => END
+
 
 ~ bookshelf_middle_right_data
 Data resources available:\nEnvironmental datasets catalogs\nLong-term ecological research archives\nClimate data repositories\nBiodiversity databases\nWater quality monitoring records
-=> END
-
+- Step Back => bookshelf_middle_right
+- Step Away => END
 
 ~ bookshelf_bottom_right
 The lower right shelf contains reference materials and specialized topics.
-
 - Check the reference section => bookshelf_bottom_right_reference
 - Browse special topics => bookshelf_bottom_right_special
 - Look at historical perspectives => bookshelf_bottom_right_history
@@ -263,20 +247,22 @@ The lower right shelf contains reference materials and specialized topics.
 ~ bookshelf_bottom_right_reference
 Reference materials include:\nEnvironmental terminology dictionary\n
 Scientific names quick reference\nMeasurement conversion tables\nEnvironmental regulations handbook\nProfessional association directories
-=> END
+- Step Back => bookshelf_bottom_right
+- Step Away => END
 
 
 ~ bookshelf_bottom_right_special
 Special topic collections:\nBiomimicry and sustainable design\nCircular economy principles\nGreen chemistry fundamentals\nRenewable energy systems\nEnvironmental psychology studies
-=> END
+- Step Back => bookshelf_bottom_right
+- Step Away => END
 
 ~ bookshelf_bottom_right_history
 Historical perspectives section:\nEarly environmental movement texts\nConservation history of the region\nIndigenous environmental knowledge\nEvolution of ecological thought\nHistorical ecological data\n
-=> END
+- Step Back => bookshelf_bottom_right
+- Step Away => END
 
 ~ workspace_tables
 You approach the workspace tables in the center of the library. Several tables are arranged to accommodate collaborative study groups.
-
 - Check table availability => workspace_tables_availability
 - Look at table resources => workspace_tables_resources
 - Read collaboration guidelines => workspace_tables_guidelines
@@ -284,18 +270,19 @@ You approach the workspace tables in the center of the library. Several tables a
 
 ~ workspace_tables_availability
 Tables are arranged for different group sizes:\nSmall tables for 2-3 people\nLarger tables for group projects\nStanding height tables for presentations\nQuiet study sections marked clearly\nMost tables have power outlets and good lighting. Several have rolled paper or whiteboards attached for brainstorming.
-
-=> END
+- Step Back => workspace_tables
+- Step Away => END
 
 ~ workspace_tables_resources
 Each table area includes:\nTable lamps with adjustable brightness\nExtension cords and power strips\nWhiteboard markers and erasers\nReference material quick guides\nLost and found box (for small items)
-=> END
+- Step Back => workspace_tables
+- Step Away => END
 
 ~ workspace_tables_guidelines
 A friendly sign explains:
 "Collaborative Work Guidelines\:\nKeep voices at conversational level\nClean up materials when finished\nReturn library resources to proper places\nShare tables during busy study periods\nElectronics on silent mode please"
-
-=> END
+- Step Back => workspace_tables
+- Step Away => END
 
 ~ librarian_desk
 You approach the librarian's desk. It's currently unattended but well-organized, with helpful signage.
@@ -444,13 +431,7 @@ The weather influences which areas of campus are being used and how nature respo
 => END
 
 ~ window_view_wildlife
-If you watch carefully, you might spot:
-- Birds visiting the native plantings
-- Squirrels going about their business
-- Butterflies or bees if flowers are in bloom
-- Faculty or students engaged in outdoor research
-
-The window provides insight into the living laboratory that is the campus ecosystem.
+The window provides insight into the living laboratory that is the campus ecosystem. If you watch carefully, you might spot\:\n\- Birds visiting the native plantings \n\- Squirrels going about their business \n\- Butterflies or bees if flowers are in bloom \n\- Faculty or students engaged in outdoor research
 
 => END
 
@@ -537,13 +518,7 @@ Current exhibits: Each display has minimal light exposure and explanatory text n
 => END
 
 ~ manuscript_tables
-The reading tables are specially designed:
-- Angled book cradles to protect spines
-- Magnifying lamps with UV filters
-- Weighted page holders  
-- Clean surfaces for examination
-- Comfortable seating for extended study
-
+The reading tables are specially designed\: \nAngled book cradles to protect spines \nMagnifying lamps with UV filters \nWeighted page holders \nClean surfaces for examination \nComfortable seating for extended study
 => END
 
 ~ digital_archives
@@ -601,7 +576,6 @@ Map preservation techniques: "Large format storage: flat in acid-free folders\nR
 ~ map_catalog
 Catalog organization: Maps arranged by:- Geographic region\n\n- Time period\n- Survey type\n- Scale\n- Condition/fragility\n- Digital availability
 Search system helps locate specific maps quickly.
-
 => END
 
 ~ special_librarian
@@ -614,14 +588,7 @@ You approach the special collections librarian's desk. The librarian greets you 
 
 ~ librarian_access_info
 The librarian explains:
-"Access levels vary by material type:
-- Open access: digital archives
-- Supervised access: manuscripts
-- Appointment only: rare books
-- Grad student/faculty: expanded privileges
-- Public: guided tours available
-
-All visitors must sign in and follow preservation protocols."
+"Access levels vary by material type: \n\- Open access: digital archives \n\- Supervised access: manuscripts \n\- Appointment only: rare books \n\- Grad student/faculty: expanded privileges \n\- Public: guided tours available \nAll visitors must sign in and follow preservation protocols."
 
 => END
 

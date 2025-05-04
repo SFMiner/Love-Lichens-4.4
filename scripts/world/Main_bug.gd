@@ -3,7 +3,11 @@ extends Node2D
 @onready var area_polygon: CollisionPolygon2D = $Area2D/CollisionPolygon2D
 @onready var butterfly_scene = preload("res://scenes/world/Butterfly.tscn")
 
+const scr_debug = false
+var debug 
+
 func _ready():
+	debug = scr_debug or GameController.sys_debug
 	var poly_points = _get_area_global_points()
 	var bounds = _get_polygon_bounds(poly_points)
 
@@ -24,7 +28,7 @@ func _ready():
 
 		add_child(b)
 		b.set_flight_area(area_polygon)
-		print("Spawned butterfly ", i, " at ", b.position)
+		if debug: print("Spawned butterfly ", i, " at ", b.position)
 
 func _get_area_global_points() -> Array:
 	var global_points = []

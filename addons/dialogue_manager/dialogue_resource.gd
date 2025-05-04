@@ -4,8 +4,7 @@
 ## A collection of dialogue lines for use with [code]DialogueManager[/code].
 class_name DialogueResource extends Resource
 
-
-const DialogueLine = preload("./dialogue_line.gd")
+const DialogueLine = preload("res://addons/dialogue_manager/dialogue_line.gd")
 
 ## A list of state shortcuts
 @export var using_states: PackedStringArray = []
@@ -25,18 +24,15 @@ const DialogueLine = preload("./dialogue_line.gd")
 ## raw version of the text
 @export var raw_text: String
 
-
 ## Get the next printable line of dialogue, starting from a referenced line ([code]title[/code] can
 ## be a title string or a stringified line number). Runs any mutations along the way and then returns
 ## the first dialogue line encountered.
 func get_next_dialogue_line(title: String = "", extra_game_states: Array = [], mutation_behaviour: DMConstants.MutationBehaviour = DMConstants.MutationBehaviour.Wait) -> DialogueLine:
 	return await Engine.get_singleton("DialogueManager").get_next_dialogue_line(self, title, extra_game_states, mutation_behaviour)
 
-
 ## Get the list of any titles found in the file.
 func get_titles() -> PackedStringArray:
 	return titles.keys()
-
 
 func _to_string() -> String:
 	return "<DialogueResource titles=\"%s\">" % [",".join(titles.keys())]

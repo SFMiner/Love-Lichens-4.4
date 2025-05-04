@@ -2,6 +2,8 @@ extends Node2D
 
 # Campus Quad scene script
 # Initializes the level and manages scene-specific logic
+const location_scene :bool = true
+
 const scr_debug :bool = false
 var debug
 var visit_areas = {}
@@ -17,6 +19,7 @@ var zoom_factor = 1.0
 
 func _ready():
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
+	GameState.set_current_scene(self)
 	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
 	if debug_label:
 		var player = $Player
@@ -26,7 +29,7 @@ func _ready():
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
 	
 	
-	print("Drom Room scene initialized")
+	if debug: print("Drom Room scene initialized")
 	# Set up the scene components
 	setup_player()
 #	setup_npcs()
@@ -36,7 +39,7 @@ func _ready():
 	initialize_systems()
 	for child in z_objects.get_children():
 			child.z_index = child.global_position.y
-			print(child.name + " now has z-index " + str(child.z_index))
+			if debug: print(child.name + " now has z-index " + str(child.z_index))
 	
 	# Find and set up visitable areas
 	setup_visit_areas()
@@ -46,12 +49,12 @@ func _ready():
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and quest_system.has_method("on_location_entered"):
 		quest_system.on_location_entered("dorm-room")
-		print("Notified quest system of location: dorm-room")
+		if debug: print("Notified quest system of location: dorm-room")
 
 
 func setup_player():
 	if player:
-		print("Player found in scene")
+		if debug: print("Player found in scene")
 		var col2d = player.get_node("CollisionShape2D")
 		var shape = col2d.shape
 		if shape:
@@ -64,14 +67,14 @@ func setup_player():
 			event.keycode = KEY_E
 			InputMap.action_add_event("interact", event)
 		else:
-			print("'interact' action already exists in InputMap")
+			if debug: print("'interact' action already exists in InputMap")
 	else:
-		print("ERROR: Player not found in scene!")
+		if debug: print("ERROR: Player not found in scene!")
 
 func setup_visit_areas():
 	# Find all Area2D nodes in the "visitable_area" group
 	var areas = get_tree().get_nodes_in_group("visitable_area")
-	print("Found " + str(areas.size()) + " visitable areas in the scene")
+	if debug: print("Found " + str(areas.size()) + " visitable areas in the scene")
 	
 	# Set up tracking for each area
 	for area in areas:
@@ -88,7 +91,7 @@ func setup_visit_areas():
 func setup_npcs():
 	# Setup Professor Moss
 	var npcs = get_tree().get_nodes_in_group("interactable")
-	print("Found ", npcs.size(), " interactable NPCs in scene")
+	if debug: print("Found ", npcs.size(), " interactable NPCs in scene")
 
 func setup_items():
 	var interactables = get_tree().get_nodes_in_group("interactable")
@@ -100,23 +103,23 @@ func initialize_systems():
 #	var relationship_system = get_node_or_null("/root/SoundManager")
 	
 	if dialog_system:
-		print("Dialog System found")
+		if debug: print("Dialog System found")
 	else:
-		print("WARNING: Dialog System not found! Adding a temporary one.")
+		if debug: print("WARNING: Dialog System not found! Adding a temporary one.")
 		var new_dialog_system = Node.new()
 		new_dialog_system.name = "DialogSystem"
 		new_dialog_system.set_script(load("res://scripts/systems/dialog_system.gd"))
 		get_tree().root.add_child(new_dialog_system)
 	
 	if relationship_system:
-		print("Relationship System found")
+		if debug: print("Relationship System found")
 		
 		# Initialize relationship with Professor Moss if needed
 		if not relationship_system.relationships.has("professor_moss"):
 			print("Initializing relationship with Professor Moss")
 			relationship_system.initialize_relationship("professor_moss", "Professor Moss")
 	else:
-		print("WARNING: Relationship System not found")
+		if debug: print("WARNING: Relationship System not found")
 
 # Optional function to update debug info on screen
 #func _process(delta):
@@ -130,5 +133,5 @@ func _on_visit_area_entered(body, area_name):
 	if not body.is_in_group("player"):
 		return
 		
-	print("Player entered area: " + area_name)
+	if debug: print("Player entered area: " + area_name)
 	

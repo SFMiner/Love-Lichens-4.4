@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://op3bmm58tjvd"]
+[gd_scene load_steps=54 format=3 uid="uid://op3bmm58tjvd"]
 
 [ext_resource type="Script" uid="uid://bnjfc5seu20rn" path="res://scripts/world/cemetery.gd" id="1_xgtns"]
 [ext_resource type="Texture2D" uid="uid://cxg2up0rwqh07" path="res://assets/images/scenes/cemetery/cemetery.png" id="2_776x0"]
@@ -43,7 +43,6 @@
 [ext_resource type="Texture2D" uid="uid://b4l7dt4r7pqjy" path="res://assets/images/scenes/cemetery/F2c.png" id="35_vn62c"]
 [ext_resource type="Texture2D" uid="uid://bi4dsw7ofxpwv" path="res://assets/images/scenes/cemetery/F3a.png" id="36_6dy67"]
 [ext_resource type="Texture2D" uid="uid://cm1132somqy4v" path="res://assets/images/scenes/cemetery/F3b.png" id="37_tga7s"]
-[ext_resource type="Shader" uid="uid://u4eqjl6u8exf" path="res://scenes/world/locations/TREE_ROOT.gdshader" id="38_2mmxy"]
 [ext_resource type="Texture2D" uid="uid://pu2tmu81gtf2" path="res://assets/images/scenes/cemetery/roots.png" id="38_56uy4"]
 [ext_resource type="Texture2D" uid="uid://bxngltrthm20s" path="res://assets/images/scenes/cemetery/Tree.png" id="39_xgtns"]
 [ext_resource type="Script" uid="uid://bhfkcl6u6ldi0" path="res://scripts/world/location_transition.gd" id="40_2dq5r"]
@@ -52,9 +51,6 @@
 [ext_resource type="Script" uid="uid://b0vt1wx861dgx" path="res://scripts/world/interactable.gd" id="42_qso2a"]
 [ext_resource type="Texture2D" uid="uid://bk5rfqclhv1ga" path="res://assets/images/scenes/cemetery/colorful_stones.png" id="47_rjlar"]
 [ext_resource type="Texture2D" uid="uid://c238g1f45fn5f" path="res://assets/images/scenes/cemetery/cem_remote.png" id="51_b70eq"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_voevw"]
-shader = ExtResource("38_2mmxy")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbj4a"]
 radius = 30.0
@@ -167,7 +163,7 @@ polygon = PackedVector2Array(730.108, 1171.88, 629.488, 1214.5, 578.587, 1190.82
 polygon = PackedVector2Array(978.698, 1058.24, 902.937, 1089.02, 869.792, 1076, 946.737, 1041.67)
 
 [node name="Col_Tree" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
-polygon = PackedVector2Array(1245.04, 429.664, 1098.26, 405.988, 882.814, 402.437, 842.566, 422.561, 760.886, 413.091, 705.249, 397.702, 733.659, 388.232, 798.766, 387.048, 829.544, 374.027, 863.873, 343.249, 908.856, 314.839, 971.596, 308.92, 1052.09, 313.655, 1106.54, 319.574, 1124.3, 345.616, 1182.31, 382.313)
+polygon = PackedVector2Array(1245.04, 429.664, 1098.26, 405.988, 1061.15, 405.376, 882.814, 402.437, 842.566, 422.561, 760.886, 413.091, 705.249, 397.702, 733.659, 388.232, 798.766, 387.048, 829.544, 374.027, 863.873, 343.249, 908.856, 314.839, 971.596, 308.92, 1052.09, 313.655, 1106.54, 319.574, 1124.3, 345.616, 1182.31, 382.313)
 
 [node name="Col_Roots" type="CollisionPolygon2D" parent="Sprite2D/nonwalkable_areas"]
 polygon = PackedVector2Array(1177.57, 484.117, 1067.48, 472.279, 1028.42, 458.074, 1003.15, 402.704, 983.433, 403.621, 943.185, 458.074, 901.754, 469.912, 820.074, 481.749, 841.382, 462.809, 860.322, 455.706, 904.121, 395.334, 1089.39, 398.165, 1108.91, 432.031, 1124.3, 448.604, 1159.81, 465.176)
@@ -418,7 +414,6 @@ texture = ExtResource("37_tga7s")
 offset = Vector2(-76.3464, -146.533)
 
 [node name="Roots" type="Sprite2D" parent="Sprite2D/z_Objects" groups=["z_Objects"]]
-material = SubResource("ShaderMaterial_voevw")
 position = Vector2(-11.561, -43.9047)
 scale = Vector2(0.478506, 0.478506)
 texture = ExtResource("38_56uy4")

@@ -1,0 +1,35 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://b8sy37rfa8aed"
+path="res://.godot/imported/Jagged dreams Oblique-02b3.pfb-0e9e3e5a7ae9c88788c1fd6ba2007c74.fontdata"
+
+[deps]
+
+source_file="res://assets/fonts/jagged_dreams/misc/Jagged dreams Oblique-02b3.pfb"
+dest_files=["res://.godot/imported/Jagged dreams Oblique-02b3.pfb-0e9e3e5a7ae9c88788c1fd6ba2007c74.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=4
+keep_rounding_remainders=true
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[]
+language_support={}
+script_support={}
+opentype_features={}

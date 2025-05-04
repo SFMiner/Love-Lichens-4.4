@@ -26,3 +26,11 @@ text = "Loading scene..."
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TimeDisplay" parent="CanvasLayer" instance=ExtResource("2_yqjtg")]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 386.0
+offset_top = 274.0
+offset_right = 435.0
+offset_bottom = 297.0
+text = "NPCs: "

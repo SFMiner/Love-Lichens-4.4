@@ -7,6 +7,8 @@ signal stamina_changed(current, maximum)
 signal status_effect_applied(effect)
 signal status_effect_removed(effect)
 
+const JUMP_DURATION  = 1.2
+
 # Basic combat stats
 @export var max_health := 100
 @export var max_stamina := 100
@@ -21,7 +23,7 @@ var current_health: int
 var current_stamina: int
 var is_retreating := false
 var status_effects := {}
-var debug
+var debug = false
 
 var is_moving = false
 var was_moving : bool
@@ -36,12 +38,17 @@ var base_speed = 250.0
 var run_speed_multiplier = 1.5  # Player moves faster when running
 var last_position = Vector2.ZERO
 
+var navigation_path = []
+var navigation_target = null
+var is_navigating = false
+var navigation_speed_multiplier = 1.0
+
 func _ready():
 	# Common initialization
 	current_health = max_health
 	current_stamina = max_stamina
 	animator = get_node_or_null("CharacterAnimator")
-	print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
+	if debug: print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
 	last_position = position
 	
 
@@ -119,7 +126,7 @@ func update_position_tracking():
 
 func begin_jump():
 	is_jumping = true
-	jump_timer = 1.2  # JUMP_DURATION 
+	jump_timer = JUMP_DURATION 
 	update_anim_direction()
 	animator.set_animation("jump", anim_direction, get_character_id())
 
@@ -143,7 +150,7 @@ func get_initiative():
 # Check if combatant is defeated
 func is_defeated():
 	var defeated = current_health <= 0 or is_retreating
-	print(name, " is_defeated? ", defeated, " | HP: ", current_health)
+	if debug: print(name, " is_defeated? ", defeated, " | HP: ", current_health)
 	return defeated
 	
 # Take damage with nonlethal option
@@ -258,7 +265,7 @@ func remove_status_effect(effect_id):
 
 # Perform a combat action on a target
 func perform_combat_action(target, action):
-	print(name + " attacked ", target.name)
+	if debug: print(name + " attacked ", target.name)
 	match action.type:
 		"attack":
 			return perform_attack(target, action)
@@ -390,7 +397,7 @@ func take_combat_turn():
 func add_visual_health_bar():
 	# Check if health bar already exists
 	if has_node("HealthBar"):
-		print("Health bar already exists")
+		if debug: print("Health bar already exists")
 		return
 		
 	# Create a ProgressBar for health
@@ -428,7 +435,7 @@ func add_visual_health_bar():
 	if item_effects_system and item_effects_system.has_signal("health_changed"):
 		item_effects_system.health_changed.connect(_on_health_changed)
 	
-	print("Added health bar to " + name)
+	if debug: print("Added health bar to " + name)
 	
 # Add this function to player.gd as well
 func _on_health_changed(current, maximum):
@@ -456,3 +463,81 @@ func _on_health_changed(current, maximum):
 		style_fill.corner_radius_bottom_right = 2
 		
 		health_bar.add_theme_stylebox_override("fill", style_fill)
+
+func set_navigation_path(path: Array, run: bool = false) -> void:
+	navigation_path = path
+	is_navigating = true
+	is_running = run
+	
+	if navigation_path.size() > 0:
+		navigation_target = navigation_path[0]
+		
+	# Update running/walking speed
+	if is_running:
+		navigation_speed_multiplier = run_speed_multiplier
+	else:
+		navigation_speed_multiplier = 1.0
+
+# Process navigation in _physics_process
+func process_navigation(delta: float) -> void:
+	if not is_navigating or navigation_path.size() == 0:
+		return
+	
+	# Get the next point in the path
+	var target = navigation_target
+	var distance_to_target = global_position.distance_to(target)
+	
+	# Debug visualization of the path
+#	if debug:
+#		for i in range(navigation_path.size() - 1):
+#			get_tree().debug_draw.draw_line(navigation_path[i], navigation_path[i+1], Color(1, 0, 0))
+	
+	# Check if we reached the current target point
+	if distance_to_target < 10:
+		# Remove the reached point
+		navigation_path.remove_at(0)
+		
+		# If no more points, navigation is complete
+		if navigation_path.size() == 0:
+			navigation_complete()
+			return
+		
+		# Set the next target
+		navigation_target = navigation_path[0]
+	
+	# Calculate direction to the target
+	var direction = (target - global_position).normalized()
+	
+	# Set velocity based on direction and speed
+	#velocity = direction * speed * navigation_speed_multiplier
+
+	# Update movement state
+	is_moving = true
+	was_moving = true
+	last_direction = direction
+	
+	# Update animation
+	update_animation(direction)
+
+# Called when navigation is complete
+func navigation_complete() -> void:
+	is_navigating = false
+	navigation_path = []
+	navigation_target = null
+	
+	# Stop movement
+	velocity = Vector2.ZERO
+	is_moving = false
+	
+	# Update animation to idle
+	update_animation(Vector2.ZERO)
+	
+	# Emit signal via NavigationManager
+	var navigation_manager = get_node_or_null("/root/NavigationManager")
+	if navigation_manager:
+		navigation_manager.navigation_completed.emit(self)
+
+# Cancel current navigation
+func cancel_navigation() -> void:
+	if is_navigating:
+		navigation_complete()

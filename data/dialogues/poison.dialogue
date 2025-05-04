@@ -3,7 +3,8 @@
 
 Poison: [#wry] What's up?
 - How's it going?
-	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. => general_chat
+	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. 
+	=> general_chat
 - I've been exploring campus [do GameState.set_tag("dusty_bracelet_seen")]
 	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 	=> general_chat
 - What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen")]

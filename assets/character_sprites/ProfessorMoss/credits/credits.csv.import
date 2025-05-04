@@ -6,10 +6,10 @@ uid="uid://cgt46bqsah710"
 
 [deps]
 
-files=["res://assets/character_sprites/ProfessorMoss/credits/credits.notes.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.authors.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.licenses.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/professor_moss/credits/credits.notes.translation", "res://assets/character_sprites/professor_moss/credits/credits.authors.translation", "res://assets/character_sprites/professor_moss/credits/credits.licenses.translation", "res://assets/character_sprites/professor_moss/credits/credits.urls.translation"]
 
 source_file="res://assets/character_sprites/ProfessorMoss/credits/credits.csv"
-dest_files=["res://assets/character_sprites/ProfessorMoss/credits/credits.notes.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.authors.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.licenses.translation", "res://assets/character_sprites/ProfessorMoss/credits/credits.urls.translation"]
+dest_files=["res://assets/character_sprites/professor_moss/credits/credits.notes.translation", "res://assets/character_sprites/professor_moss/credits/credits.authors.translation", "res://assets/character_sprites/professor_moss/credits/credits.licenses.translation", "res://assets/character_sprites/professor_moss/credits/credits.urls.translation"]
 
 [params]
 

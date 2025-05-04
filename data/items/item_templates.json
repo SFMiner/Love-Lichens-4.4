@@ -1,4 +1,11 @@
 {
+	"library_map": {
+		"name": "Libraruy Map",
+		"description": "A hand-drawn map with moisture warnings.",
+		"category": 2,
+		"image_path": "res://assets/images/items/library_map.png",
+		"tags": ["map", "library"]
+	},
 	"common_lichen1": {
 		"name": "Mossy Lichen",
 		"description": "A green lichen that grows in masses that resemble moss but are much more rugged. Plentiful in most ecosystems.",

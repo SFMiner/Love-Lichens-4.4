@@ -2,6 +2,8 @@ extends Node2D
 
 # Campus Quad scene script
 # Initializes the level and manages scene-specific logic
+const location_scene :bool = true
+
 const scr_debug :bool = false
 var debug
 var scene_item_num : int = 0
@@ -13,6 +15,7 @@ var camera_limit_left = 0
 var camera_limit_top = 0
 var zoom_factor = 1
 @onready var player = $Player
+@onready var professor_moss = get_node_or_null("z_Objects/ProfessorMoss")
 @onready var construct_spawner = $ConstructSpawner
 @onready var combat_manager = get_node_or_null("/root/CombatManager")
 @onready var camera = get_node_or_null("Camerad2D")
@@ -21,8 +24,9 @@ var zoom_factor = 1
 func _ready():
 	var debug_label = $CanvasLayer/GameInfo
 	debug = scr_debug or GameController.sys_debug 
+	GameState.set_current_scene(self)
 			
-	player = $Player
+	player = GameState.get_player()
 	if debug:
 		if debug_label:
 			if player and player.interactable_object:
@@ -212,12 +216,11 @@ func setup_visit_areas():
 
 func setup_npcs():
 	# Setup Professor Moss
-	var professor_moss = $ProfessorMoss
 	if professor_moss:
 		if debug: print("Professor Moss found in scene")
 		# Ensure Professor Moss has the correct collision settings
 		if professor_moss.get_collision_layer() != 2:
-			print("Setting Professor Moss collision layer to 2")
+			if debug: print("Setting Professor Moss collision layer to 2")
 			professor_moss.set_collision_layer(2)
 	else:
 		if debug: print("ERROR: Professor Moss not found in scene!")

@@ -18,6 +18,9 @@
 		"insects"
 	],
 	"background": "Had enmity with Dusty due to dating the same manipulative ex, resolved on the last day of high school when they broke free together.",
+	"font_path": "res://assets/fonts/numb_bunny/Numbbunny-L7L5.otf",
+	"text_color": "#74ff33",
+	"font_size": 22,
 	"observable_features": {
 		"necklace": {
 			"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they sometimes touch it without seeming to realize.",

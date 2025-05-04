@@ -2,6 +2,8 @@ extends Node2D
 
 # Campus Quad scene script
 # Initializes the level and manages scene-specific logic
+const location_scene :bool = true
+
 const scr_debug :bool = false
 var debug
 var visit_areas = {}
@@ -16,6 +18,7 @@ var zoom_factor = 1.2
 
 func _ready():
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
+	GameState.set_current_scene(self)
 	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
 	if debug_label:
 		if player and player.interactable_object:

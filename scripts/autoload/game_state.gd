@@ -23,6 +23,14 @@ var poison_bugs = ["tarantula"]
 var atlas_emergence : int = 28
 var current_day : float = 0
 
+var current_scene
+var current_npc_list = []
+var current_marker_list = []
+
+
+const scr_debug : bool = true
+var debug 
+
 # Game metadata
 var game_data = {
 	"player_name": "Adam Major",
@@ -42,7 +50,7 @@ var systems_to_reset = [
 ]
 
 func _ready():
-	pass
+	debug = scr_debug or GameController.sys_debug
 
 # Start a new game
 func start_new_game():
@@ -273,7 +281,7 @@ var knowledge : Array[String]= []
 
 func add_knowledge(tag):
 	if is_known(tag):
-		print(tag + " is already known.")
+		if debug: print(tag + " is already known.")
 	else:
 		knowledge.append(tag)
 
@@ -289,3 +297,63 @@ func has_in_it(array : Array, tag : String):
 	if tag in array:
 		return true
 	return false
+
+
+func set_current_scene(scene):
+	current_scene = scene
+	if debug: print("GameState: Set current scene to ", scene.name)
+	
+	# Update NPC and marker lists immediately
+	set_current_npcs()
+	set_current_markers()
+
+func get_current_scene():
+	return current_scene
+
+func set_current_npcs():
+	current_npc_list = get_tree().get_nodes_in_group("npc")
+	if debug: print("GameState: Updated NPC list with ", current_npc_list.size(), " NPCs")
+	return current_npc_list
+
+func get_current_npcs():
+	return current_npc_list
+
+func set_current_markers():
+	current_marker_list = get_tree().get_nodes_in_group("marker")
+	if debug: print("GameState: Updated marker list with ", current_marker_list.size(), " markers")
+	return current_marker_list
+
+func get_npc_by_id(npc_id):
+	# First update the list to make sure it's current
+	if current_npc_list.size() == 0:
+		set_current_npcs()
+	
+	# Try to find an NPC with matching name or character_id
+	for npc in current_npc_list:
+		print("found character " + npc.name)
+		if npc.name.to_lower() == npc_id.to_lower(): 
+			return npc
+			
+		if npc.get("character_id") and npc.character_id.to_lower() == npc_id.to_lower():
+			return npc
+	
+	if debug: print("GameState: Could not find NPC with ID: ", npc_id)
+	return null
+
+func get_marker_by_id(marker_id):
+	# First update the list to make sure it's current
+	if current_marker_list.size() == 0:
+		set_current_markers()
+		
+	# Try to find a marker with matching name or marker_id
+	for marker in current_marker_list:
+		if marker.name.to_lower() == marker_id.to_lower():
+			return marker
+			
+		if marker.has_method("get_marker_id") and marker.get_marker_id() == marker_id:
+			return marker
+		elif marker.get("marker_id") and marker.marker_id == marker_id:
+			return marker
+	
+	if debug: print("GameState: Could not find marker with ID: ", marker_id)
+	return null

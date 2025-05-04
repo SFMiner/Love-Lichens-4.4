@@ -1,8 +1,5 @@
-extends CanvasLayer
-
-# Customized dialogue balloon for Love & Lichens using the Dialogue Manager
-var scr_debug : bool = false
-var debug : bool
+class_name DialogueManagerExampleBalloon extends CanvasLayer
+## A basic dialogue balloon for use with Dialogue Manager.
 
 ## The action to use for advancing the dialogue
 @export var next_action: StringName = &"ui_accept"
@@ -35,9 +32,6 @@ var dialogue_line: DialogueLine:
 			apply_dialogue_line()
 		else:
 			# The dialogue has finished so close the balloon
-			print("Dialogue balloon finished, freeing")
-			# Make sure to cleanup properly
-			_cleanup_dialogue()
 			queue_free()
 	get:
 		return dialogue_line
@@ -45,31 +39,35 @@ var dialogue_line: DialogueLine:
 ## A cooldown timer for delaying the balloon hide when encountering a mutation.
 var mutation_cooldown: Timer = Timer.new()
 
-## UI elements (will be set in _ready from the scene)
+## The base balloon anchor
 @onready var balloon: Control = %Balloon
+
+## The label showing the name of the currently speaking character
 @onready var character_label: RichTextLabel = %CharacterLabel
-@onready var dialogue_label = %DialogueLabel
-@onready var responses_menu = %ResponsesMenu
+
+## The label showing the currently spoken dialogue
+@onready var dialogue_label: DialogueLabel = %DialogueLabel
+
+## The menu of responses
+@onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
+
 
 func _ready() -> void:
 	balloon.hide()
-	debug = scr_debug or GameController.sys_debug
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
-	
+
 	# If the responses menu doesn't have a next action set, use this one
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
-	
+
 	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
 	add_child(mutation_cooldown)
-	
-	# Add to dialogue_balloon group for tracking
-	add_to_group("dialogue_balloon")
-	print("Dialogue balloon added to group for tracking")
+
 
 func _unhandled_input(_event: InputEvent) -> void:
 	# Only the balloon is allowed to handle input while it's showing
 	get_viewport().set_input_as_handled()
+
 
 func _notification(what: int) -> void:
 	## Detect a change of locale and update the current dialogue line to show the new language
@@ -80,12 +78,14 @@ func _notification(what: int) -> void:
 		if visible_ratio < 1:
 			dialogue_label.skip_typing()
 
+
 ## Start some dialogue
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
 	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
 	resource = dialogue_resource
 	self.dialogue_line = await resource.get_next_dialogue_line(title, temporary_game_states)
+
 
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
@@ -126,21 +126,26 @@ func apply_dialogue_line() -> void:
 		balloon.focus_mode = Control.FOCUS_ALL
 		balloon.grab_focus()
 
+
 ## Go to the next line
 func next(next_id: String) -> void:
 	self.dialogue_line = await resource.get_next_dialogue_line(next_id, temporary_game_states)
 
+
 #region Signals
+
 
 func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:
 		will_hide_balloon = false
 		balloon.hide()
 
+
 func _on_mutated(_mutation: Dictionary) -> void:
 	is_waiting_for_input = false
 	will_hide_balloon = true
 	mutation_cooldown.start(0.1)
+
 
 func _on_balloon_gui_input(event: InputEvent) -> void:
 	# See if we need to skip typing of the dialogue
@@ -163,29 +168,9 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(next_action) and get_viewport().gui_get_focus_owner() == balloon:
 		next(dialogue_line.next_id)
 
+
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
 
-#endregion
 
-# Clean up dialogue resources and ensure game state is reset
-func _cleanup_dialogue() -> void:
-	# Reset input handling
-	is_waiting_for_input = false
-	
-	# Notify the dialogue manager and any other systems
-	if Engine.has_singleton("DialogSystem"):
-		var dialog_system = Engine.get_singleton("DialogSystem")
-		if dialog_system.has_method("end_dialog"):
-			dialog_system.end_dialog()
-			
-	# Make absolutely sure we release control
-	get_tree().paused = false
-	Engine.time_scale = 1.0
-	
-	print("Dialogue balloon cleaned up successfully")
-	
-func _exit_tree() -> void:
-	# Ensure we clean up even if queue_free is called directly
-	_cleanup_dialogue()
-	print("Dialogue balloon exiting tree")
+#endregion

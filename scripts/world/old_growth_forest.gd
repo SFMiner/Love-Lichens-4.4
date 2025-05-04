@@ -1,4 +1,5 @@
 extends Node2D
+const location_scene : bool = true
 
 # Initializes the level and manages scene-specific logic
 const scr_debug :bool = false
@@ -14,9 +15,12 @@ var camera_limit_right = 2000
 var camera_limit_bottom = 2030
 var camera_limit_left = 0
 var camera_limit_top = 0
+var zoom_factor = 0.75
+var scene_speed_mod : float = 1.8
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
+	GameState.set_current_scene(self)
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
 	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top)
 	if debug_label:
@@ -38,5 +42,6 @@ func spawn_player():
 
 func _process(delta):
 	curr_scale = float(player.global_position.y/2125)*8
-	player.speed = 100 * curr_scale
+	scene_speed_mod = curr_scale/4
 	player.scale = Vector2(curr_scale, curr_scale)
+	player.calculate_speed()

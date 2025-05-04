@@ -1,0 +1,1631 @@
+[gd_scene load_steps=77 format=4 uid="uid://ste0r61tos1i"]
+
+[ext_resource type="Script" uid="uid://ckpmocpinj2rc" path="res://scripts/world/research__lab.gd" id="1_2ixo3"]
+[ext_resource type="Texture2D" uid="uid://dg0t3x8eoaxj5" path="res://assets/images/items/lab_floor_tile.png" id="2_ylhje"]
+[ext_resource type="Texture2D" uid="uid://cmrf5p11p3m2k" path="res://assets/images/items/cubicle_bar_V.png" id="3_x3gbj"]
+[ext_resource type="Texture2D" uid="uid://4rhwbifmw1dy" path="res://assets/images/items/cubicle_bar_h.png" id="4_j7rcm"]
+[ext_resource type="Texture2D" uid="uid://bbwg85ettbv1h" path="res://assets/images/items/horizontal_bart_long.png" id="5_va1k7"]
+[ext_resource type="Texture2D" uid="uid://bi4ubeu6v6xig" path="res://assets/images/items/countertop2_.png" id="6_t6hw3"]
+[ext_resource type="Texture2D" uid="uid://dhd340ufswa4m" path="res://assets/images/items/microscopes-Sheet.png" id="7_d1hg4"]
+[ext_resource type="Texture2D" uid="uid://c5mgb8lkbkpt6" path="res://assets/images/items/computer2.png" id="8_tiso7"]
+[ext_resource type="Texture2D" uid="uid://5uf282cpwgij" path="res://assets/images/items/file_cabinet.png" id="9_jcn3k"]
+[ext_resource type="Texture2D" uid="uid://bmw7ojc2nmmaj" path="res://assets/images/items/table_leg.png" id="10_xnny7"]
+[ext_resource type="Texture2D" uid="uid://cm4xfgr547ai4" path="res://assets/images/items/stool.png" id="11_nl8nf"]
+[ext_resource type="Texture2D" uid="uid://bprvhvbnohh6j" path="res://assets/images/items/countertop1.png" id="12_jvq5t"]
+[ext_resource type="Script" uid="uid://b0vt1wx861dgx" path="res://scripts/world/interactable.gd" id="13_yrixy"]
+[ext_resource type="Texture2D" uid="uid://ciajc8n42uje5" path="res://assets/images/items/CORKBOARD1.png" id="14_kpi7a"]
+[ext_resource type="Texture2D" uid="uid://bda4nw58yk33" path="res://assets/images/items/countertop3_.png" id="15_kbt7t"]
+[ext_resource type="Texture2D" uid="uid://jg8720cm0w78" path="res://assets/images/items/POSTER1.png" id="16_evaet"]
+[ext_resource type="Texture2D" uid="uid://8ynacoaa3em4" path="res://assets/images/scenes/research_lab/LabStand.png" id="17_56xsk"]
+[ext_resource type="Texture2D" uid="uid://dopmx2y23k4vj" path="res://assets/images/items/lab_flasks-Sheet.png" id="18_s3ogh"]
+[ext_resource type="Texture2D" uid="uid://dnrqpmon5yfvn" path="res://assets/images/scenes/research_lab/ChemicalRack.png" id="19_rb8gn"]
+[ext_resource type="Texture2D" uid="uid://dkf5easjdo78e" path="res://assets/images/items/test_tubes_spritesheet.png" id="20_l4hel"]
+[ext_resource type="Texture2D" uid="uid://drovyfxjaewfy" path="res://assets/images/scenes/research_lab/PottedPlant.png" id="21_4lrpv"]
+[ext_resource type="Texture2D" uid="uid://btrpsebln6w5a" path="res://assets/images/items/corkboard4.png" id="22_s4pth"]
+[ext_resource type="Texture2D" uid="uid://b0y832n38n85x" path="res://assets/images/items/computer1.png" id="23_odju1"]
+[ext_resource type="Texture2D" uid="uid://dtw2270f04cmg" path="res://assets/images/scenes/research_lab/white_)board.png" id="24_srw2g"]
+[ext_resource type="Texture2D" uid="uid://d08n3sc32wlsr" path="res://assets/images/items/corkboard2.png" id="25_im6ro"]
+[ext_resource type="Texture2D" uid="uid://cis07j1nrgdps" path="res://assets/images/items/corkboard3.png" id="26_hg1di"]
+[ext_resource type="Script" uid="uid://d1c5wotact3ml" path="res://scripts/world/lab_cat.gd" id="27_s5of4"]
+[ext_resource type="Texture2D" uid="uid://dll52tnfcud6o" path="res://assets/sprites/LabCatSleep_Sheet.png" id="28_4gbqi"]
+[ext_resource type="Texture2D" uid="uid://cpmp3w2v1mwyj" path="res://assets/images/scenes/research_lab/GlowingMachine.png" id="29_pl66u"]
+[ext_resource type="Script" uid="uid://jju76x4p7l2m" path="res://scenes/world/locations/glowing_machine.gd" id="30_1sjrw"]
+[ext_resource type="Texture2D" uid="uid://bvaxtkq5e7wgi" path="res://assets/sprites/green_machine_churn-Sheet_h3.png" id="31_058kf"]
+[ext_resource type="Texture2D" uid="uid://b5uf64moi7qux" path="res://assets/sprites/green_machine_churn2-Sheet-4h.png" id="32_6uawi"]
+[ext_resource type="Texture2D" uid="uid://56x1wshnopoa" path="res://assets/images/scenes/research_lab/mushrarium.png" id="33_x1vps"]
+[ext_resource type="Texture2D" uid="uid://bhluv008cepod" path="res://assets/images/items/countertop4_.png" id="34_bnqev"]
+[ext_resource type="Texture2D" uid="uid://b4timekjelrvj" path="res://assets/images/items/cubicle_bar_h2.png" id="35_1aoer"]
+[ext_resource type="Texture2D" uid="uid://bmeixb14qrgpb" path="res://assets/images/items/cubicle_bar_V2.png" id="36_ano3o"]
+[ext_resource type="Texture2D" uid="uid://cc1gfg6ep1yct" path="res://assets/images/items/cubicle_bar_V3_1.png" id="37_t4w5v"]
+[ext_resource type="Script" uid="uid://cv1a8f8al30cu" path="res://scenes/world/locations/entrance.gd" id="38_igf2k"]
+[ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="39_dchpr"]
+[ext_resource type="PackedScene" uid="uid://bx2qv4ojlhjbp" path="res://scenes/transitions/campus_to_cemetery.tscn" id="40_wouif"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2ixo3"]
+texture = ExtResource("2_ylhje")
+texture_region_size = Vector2i(112, 72)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_onxp2"]
+tile_size = Vector2i(112, 72)
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
+sources/0 = SubResource("TileSetAtlasSource_2ixo3")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l356"]
+size = Vector2(12528.1, 104.941)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jdsxb"]
+size = Vector2(1459.83, 554.256)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8b1fy"]
+size = Vector2(1368.84, 177.971)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_myem5"]
+size = Vector2(1120.43, 397.688)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ixg7p"]
+size = Vector2(141.558, 150.994)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iquec"]
+size = Vector2(856.834, 108.492)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiylr"]
+size = Vector2(1512.79, 328.92)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upopv"]
+size = Vector2(1528.73, 201.147)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovh2r"]
+size = Vector2(901.953, 218.233)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3n3ks"]
+size = Vector2(1912.2, 101.88)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1aaw"]
+size = Vector2(842.527, 509.34)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jjgu"]
+size = Vector2(10.1227, 495.166)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uac7m"]
+size = Vector2(511.561, 684.422)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_og1cd"]
+size = Vector2(950.427, 384.457)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_42jst"]
+size = Vector2(1248.68, 323.925)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onxp2"]
+size = Vector2(443.641, 621.727)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mnoe"]
+size = Vector2(1569.54, 370.946)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mf0bu"]
+size = Vector2(454.091, 670.911)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_acmvb"]
+size = Vector2(510.787, 301.848)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_giynm"]
+size = Vector2(782.994, 241.925)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_42ijk"]
+size = Vector2(1731.18, 363.512)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pb8ne"]
+size = Vector2(1767.44, 314.946)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6sj1"]
+size = Vector2(1319.65, 285.396)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ssb25"]
+size = Vector2(1914.37, 297.353)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ssb25"]
+radius = 72.1804
+
+[sub_resource type="Animation" id="Animation_8b1fy"]
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5, 2.26667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_onxp2"]
+resource_name = "sleeping"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5, 2.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7mnoe"]
+_data = {
+&"RESET": SubResource("Animation_8b1fy"),
+&"sleeping": SubResource("Animation_onxp2")
+}
+
+[sub_resource type="Animation" id="Animation_ytf15"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_htedc"]
+resource_name = "bubble"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xobo2"]
+_data = {
+&"RESET": SubResource("Animation_ytf15"),
+&"bubble": SubResource("Animation_htedc")
+}
+
+[sub_resource type="Animation" id="Animation_o3yy6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7m83m"]
+resource_name = "bubble"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667, 1.96667, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_axx48"]
+_data = {
+&"RESET": SubResource("Animation_o3yy6"),
+&"bubble": SubResource("Animation_7m83m")
+}
+
+[node name="ResearchLab" type="Node2D"]
+script = ExtResource("1_2ixo3")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(2404, 768)
+scale = Vector2(0.495, 0.495)
+
+[node name="Floor" type="TileMapLayer" parent="Node2D"]
+position = Vector2(-3126.25, -976.25)
+scale = Vector2(1.9, 1.9)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA0AAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAABAAsAAAAAAAAAAAABAAwAAAAAAAAAAAABAA0AAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAAAAAAAAAAACAAsAAAAAAAAAAAACAAwAAAAAAAAAAAACAA0AAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAADAAgAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAADAAsAAAAAAAAAAAADAAwAAAAAAAAAAAADAA0AAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAsAAAAAAAAAAAAEAAwAAAAAAAAAAAAEAA0AAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAFAAoAAAAAAAAAAAAFAAsAAAAAAAAAAAAFAAwAAAAAAAAAAAAFAA0AAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAoAAAAAAAAAAAAGAAsAAAAAAAAAAAAGAAwAAAAAAAAAAAAGAA0AAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAHAAgAAAAAAAAAAAAHAAkAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAsAAAAAAAAAAAAHAAwAAAAAAAAAAAAHAA0AAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAIAAwAAAAAAAAAAAAIAA0AAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAJAAsAAAAAAAAAAAAJAAwAAAAAAAAAAAAJAA0AAAAAAAAAAAAKAAAAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAAKAAsAAAAAAAAAAAAKAAwAAAAAAAAAAAAKAA0AAAAAAAAAAAALAAAAAAAAAAAAAAALAAEAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAALAAgAAAAAAAAAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAALAAsAAAAAAAAAAAALAAwAAAAAAAAAAAALAA0AAAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAMAAwAAAAAAAAAAAAMAA0AAAAAAAAAAAANAAAAAAAAAAAAAAANAAEAAAAAAAAAAAANAAIAAAAAAAAAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAANAAkAAAAAAAAAAAANAAoAAAAAAAAAAAANAAsAAAAAAAAAAAANAAwAAAAAAAAAAAANAA0AAAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAwAAAAAAAAAAAAOAA0AAAAAAAAAAAAPAAAAAAAAAAAAAAAPAAEAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAsAAAAAAAAAAAAPAAwAAAAAAAAAAAAPAA0AAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAAQAAgAAAAAAAAAAAAQAAkAAAAAAAAAAAAQAAoAAAAAAAAAAAAQAAsAAAAAAAAAAAAQAAwAAAAAAAAAAAAQAA0AAAAAAAAAAAARAAAAAAAAAAAAAAARAAEAAAAAAAAAAAARAAIAAAAAAAAAAAARAAMAAAAAAAAAAAARAAQAAAAAAAAAAAARAAUAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAARAAgAAAAAAAAAAAARAAkAAAAAAAAAAAARAAoAAAAAAAAAAAARAAsAAAAAAAAAAAARAAwAAAAAAAAAAAARAA0AAAAAAAAAAAASAAAAAAAAAAAAAAASAAEAAAAAAAAAAAASAAIAAAAAAAAAAAASAAMAAAAAAAAAAAASAAQAAAAAAAAAAAASAAUAAAAAAAAAAAASAAYAAAAAAAAAAAASAAcAAAAAAAAAAAASAAgAAAAAAAAAAAASAAkAAAAAAAAAAAASAAoAAAAAAAAAAAASAAsAAAAAAAAAAAASAAwAAAAAAAAAAAASAA0AAAAAAAAAAAATAAAAAAAAAAAAAAATAAEAAAAAAAAAAAATAAIAAAAAAAAAAAATAAMAAAAAAAAAAAATAAQAAAAAAAAAAAATAAUAAAAAAAAAAAATAAYAAAAAAAAAAAATAAcAAAAAAAAAAAATAAgAAAAAAAAAAAATAAkAAAAAAAAAAAATAAoAAAAAAAAAAAATAAsAAAAAAAAAAAATAAwAAAAAAAAAAAATAA0AAAAAAAAAAAAUAAAAAAAAAAAAAAAUAAEAAAAAAAAAAAAUAAIAAAAAAAAAAAAUAAMAAAAAAAAAAAAUAAQAAAAAAAAAAAAUAAUAAAAAAAAAAAAUAAYAAAAAAAAAAAAUAAcAAAAAAAAAAAAUAAgAAAAAAAAAAAAUAAkAAAAAAAAAAAAUAAoAAAAAAAAAAAAUAAsAAAAAAAAAAAAUAAwAAAAAAAAAAAAUAA0AAAAAAAAAAAAVAAAAAAAAAAAAAAAVAAEAAAAAAAAAAAAVAAIAAAAAAAAAAAAVAAMAAAAAAAAAAAAVAAQAAAAAAAAAAAAVAAUAAAAAAAAAAAAVAAYAAAAAAAAAAAAVAAcAAAAAAAAAAAAVAAgAAAAAAAAAAAAVAAkAAAAAAAAAAAAVAAoAAAAAAAAAAAAVAAsAAAAAAAAAAAAVAAwAAAAAAAAAAAAVAA0AAAAAAAAAAAAWAAAAAAAAAAAAAAAWAAEAAAAAAAAAAAAWAAIAAAAAAAAAAAAWAAMAAAAAAAAAAAAWAAQAAAAAAAAAAAAWAAUAAAAAAAAAAAAWAAYAAAAAAAAAAAAWAAcAAAAAAAAAAAAWAAgAAAAAAAAAAAAWAAkAAAAAAAAAAAAWAAoAAAAAAAAAAAAWAAsAAAAAAAAAAAAWAAwAAAAAAAAAAAAWAA0AAAAAAAAAAAAXAAAAAAAAAAAAAAAXAAEAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAAMAAAAAAAAAAAAXAAQAAAAAAAAAAAAXAAUAAAAAAAAAAAAXAAYAAAAAAAAAAAAXAAcAAAAAAAAAAAAXAAgAAAAAAAAAAAAXAAkAAAAAAAAAAAAXAAoAAAAAAAAAAAAXAAsAAAAAAAAAAAAXAAwAAAAAAAAAAAAXAA0AAAAAAAAAAAAYAAAAAAAAAAAAAAAYAAEAAAAAAAAAAAAYAAIAAAAAAAAAAAAYAAMAAAAAAAAAAAAYAAQAAAAAAAAAAAAYAAUAAAAAAAAAAAAYAAYAAAAAAAAAAAAYAAcAAAAAAAAAAAAYAAgAAAAAAAAAAAAYAAkAAAAAAAAAAAAYAAoAAAAAAAAAAAAYAAsAAAAAAAAAAAAYAAwAAAAAAAAAAAAYAA0AAAAAAAAAAAAZAAAAAAAAAAAAAAAZAAEAAAAAAAAAAAAZAAIAAAAAAAAAAAAZAAMAAAAAAAAAAAAZAAQAAAAAAAAAAAAZAAUAAAAAAAAAAAAZAAYAAAAAAAAAAAAZAAcAAAAAAAAAAAAZAAgAAAAAAAAAAAAZAAkAAAAAAAAAAAAZAAoAAAAAAAAAAAAZAAsAAAAAAAAAAAAZAAwAAAAAAAAAAAAZAA0AAAAAAAAAAAAaAAAAAAAAAAAAAAAaAAEAAAAAAAAAAAAaAAIAAAAAAAAAAAAaAAMAAAAAAAAAAAAaAAQAAAAAAAAAAAAaAAUAAAAAAAAAAAAaAAYAAAAAAAAAAAAaAAcAAAAAAAAAAAAaAAgAAAAAAAAAAAAaAAkAAAAAAAAAAAAaAAoAAAAAAAAAAAAaAAsAAAAAAAAAAAAaAAwAAAAAAAAAAAAaAA0AAAAAAAAAAAAbAAAAAAAAAAAAAAAbAAEAAAAAAAAAAAAbAAIAAAAAAAAAAAAbAAMAAAAAAAAAAAAbAAQAAAAAAAAAAAAbAAUAAAAAAAAAAAAbAAYAAAAAAAAAAAAbAAcAAAAAAAAAAAAbAAgAAAAAAAAAAAAbAAkAAAAAAAAAAAAbAAoAAAAAAAAAAAAbAAsAAAAAAAAAAAAbAAwAAAAAAAAAAAAbAA0AAAAAAAAAAAAcAAAAAAAAAAAAAAAcAAEAAAAAAAAAAAAcAAIAAAAAAAAAAAAcAAMAAAAAAAAAAAAcAAQAAAAAAAAAAAAcAAUAAAAAAAAAAAAcAAYAAAAAAAAAAAAcAAcAAAAAAAAAAAAcAAgAAAAAAAAAAAAcAAkAAAAAAAAAAAAcAAoAAAAAAAAAAAAcAAsAAAAAAAAAAAAcAAwAAAAAAAAAAAAcAA0AAAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAD//wYAAAAAAAAAAAD//wcAAAAAAAAAAAD//wgAAAAAAAAAAAD//wkAAAAAAAAAAAD//woAAAAAAAAAAAD//wsAAAAAAAAAAAD//wwAAAAAAAAAAAD//w0AAAAAAAAAAAD//w4AAAAAAAAAAAAAAP//AAAAAAAAAAAAAA4AAAAAAAAAAAABAP//AAAAAAAAAAABAA4AAAAAAAAAAAACAP//AAAAAAAAAAACAA4AAAAAAAAAAAADAP//AAAAAAAAAAADAA4AAAAAAAAAAAAEAP//AAAAAAAAAAAEAA4AAAAAAAAAAAAFAP//AAAAAAAAAAAFAA4AAAAAAAAAAAAGAP//AAAAAAAAAAAGAA4AAAAAAAAAAAAHAP//AAAAAAAAAAAHAA4AAAAAAAAAAAAIAP//AAAAAAAAAAAIAA4AAAAAAAAAAAAJAP//AAAAAAAAAAAJAA4AAAAAAAAAAAAKAP//AAAAAAAAAAAKAA4AAAAAAAAAAAALAP//AAAAAAAAAAALAA4AAAAAAAAAAAAMAP//AAAAAAAAAAAMAA4AAAAAAAAAAAANAP//AAAAAAAAAAANAA4AAAAAAAAAAAAOAP//AAAAAAAAAAAOAA4AAAAAAAAAAAAPAP//AAAAAAAAAAAPAA4AAAAAAAAAAAAQAP//AAAAAAAAAAAQAA4AAAAAAAAAAAARAP//AAAAAAAAAAARAA4AAAAAAAAAAAASAP//AAAAAAAAAAASAA4AAAAAAAAAAAATAP//AAAAAAAAAAATAA4AAAAAAAAAAAAUAP//AAAAAAAAAAAUAA4AAAAAAAAAAAAVAP//AAAAAAAAAAAVAA4AAAAAAAAAAAAWAP//AAAAAAAAAAAWAA4AAAAAAAAAAAAXAP//AAAAAAAAAAAXAA4AAAAAAAAAAAAYAP//AAAAAAAAAAAYAA4AAAAAAAAAAAAZAP//AAAAAAAAAAAZAA4AAAAAAAAAAAAaAP//AAAAAAAAAAAaAA4AAAAAAAAAAAAbAP//AAAAAAAAAAAbAA4AAAAAAAAAAAAcAP//AAAAAAAAAAAcAA4AAAAAAAAAAAAdAP//AAAAAAAAAAAdAAAAAAAAAAAAAAAdAAEAAAAAAAAAAAAdAAIAAAAAAAAAAAAdAAMAAAAAAAAAAAAdAAQAAAAAAAAAAAAdAAUAAAAAAAAAAAAdAAYAAAAAAAAAAAAdAAcAAAAAAAAAAAAdAAgAAAAAAAAAAAAdAAkAAAAAAAAAAAAdAAoAAAAAAAAAAAAdAAsAAAAAAAAAAAAdAAwAAAAAAAAAAAAdAA0AAAAAAAAAAAAdAA4AAAAAAAAAAAAeAP//AAAAAAAAAAAeAAAAAAAAAAAAAAAeAAEAAAAAAAAAAAAeAAIAAAAAAAAAAAAeAAMAAAAAAAAAAAAeAAQAAAAAAAAAAAAeAAUAAAAAAAAAAAAeAAYAAAAAAAAAAAAeAAcAAAAAAAAAAAAeAAgAAAAAAAAAAAAeAAkAAAAAAAAAAAAeAAoAAAAAAAAAAAAeAAsAAAAAAAAAAAAeAAwAAAAAAAAAAAAeAA0AAAAAAAAAAAAeAA4AAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_onxp2")
+
+[node name="nonwalkable_areas" type="StaticBody2D" parent="Node2D"]
+position = Vector2(-488.076, -287.103)
+scale = Vector2(0.478506, 0.478506)
+collision_layer = 3
+collision_mask = 0
+
+[node name="CollisionShape2D35" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(960.142, -549.412)
+shape = SubResource("RectangleShape2D_2l356")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(2406.05, 2138.87)
+shape = SubResource("RectangleShape2D_jdsxb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-1819.57, 2196.28)
+shape = SubResource("RectangleShape2D_8b1fy")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-582.519, 2099.77)
+shape = SubResource("RectangleShape2D_myem5")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(40.6353, 1968.58)
+shape = SubResource("RectangleShape2D_ixg7p")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(1302.13, 1931.66)
+shape = SubResource("RectangleShape2D_iquec")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-4907.3, 2287.54)
+shape = SubResource("RectangleShape2D_qiylr")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-3410.46, 869.065)
+shape = SubResource("RectangleShape2D_qiylr")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-4708.77, 986.619)
+shape = SubResource("RectangleShape2D_myem5")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-1899.51, 794.615)
+shape = SubResource("RectangleShape2D_upopv")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-684.169, 818.832)
+shape = SubResource("RectangleShape2D_ovh2r")
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(706.524, 789.39)
+shape = SubResource("RectangleShape2D_3n3ks")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(2821.8, 1003.57)
+shape = SubResource("RectangleShape2D_t1aaw")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-3236.74, -720.293)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(5207.51, -720.293)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(3255.96, 903.61)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D20" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(3243.06, 1853.9)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(1649.24, 750.07)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(76.9604, 579.1)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D19" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-4136.68, 571.263)
+shape = SubResource("RectangleShape2D_7jjgu")
+
+[node name="CollisionShape2D21" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(113.757, -604.271)
+shape = SubResource("RectangleShape2D_uac7m")
+
+[node name="CollisionShape2D22" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-659.482, -409.43)
+shape = SubResource("RectangleShape2D_og1cd")
+
+[node name="CollisionShape2D23" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-1947.57, -384.837)
+shape = SubResource("RectangleShape2D_42jst")
+
+[node name="CollisionShape2D24" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-2887.77, -583.372)
+shape = SubResource("RectangleShape2D_onxp2")
+
+[node name="CollisionShape2D25" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-4158.66, -403.124)
+shape = SubResource("RectangleShape2D_7mnoe")
+
+[node name="CollisionShape2D26" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-5160.47, -668.496)
+shape = SubResource("RectangleShape2D_mf0bu")
+
+[node name="CollisionShape2D27" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(2018.51, -382.814)
+shape = SubResource("RectangleShape2D_acmvb")
+
+[node name="CollisionShape2D29" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(3805.06, -325.777)
+shape = SubResource("RectangleShape2D_giynm")
+
+[node name="CollisionShape2D30" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(4677.22, -565.086)
+shape = SubResource("RectangleShape2D_giynm")
+
+[node name="CollisionShape2D31" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(6936.85, 1415.83)
+shape = SubResource("RectangleShape2D_giynm")
+
+[node name="CollisionShape2D28" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(6196.65, 34.6375)
+shape = SubResource("RectangleShape2D_42ijk")
+
+[node name="CollisionShape2D32" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(4216.69, 1637.82)
+shape = SubResource("RectangleShape2D_pb8ne")
+
+[node name="CollisionShape2D33" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(6456.19, 2368.52)
+shape = SubResource("RectangleShape2D_pb8ne")
+
+[node name="CollisionShape2D34" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(4188.72, 2446.89)
+shape = SubResource("RectangleShape2D_g6sj1")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-2511.83, 2493.91)
+polygon = PackedVector2Array(2.6123, -313.476, 2.6123, -62.6951, 62.6951, -18.2861, 770.628, -15.6738, 841.16, -65.3074, 1290.47, -75.7566, 1295.7, -412.743, 5.22461, -436.254)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(-5607.4, 2760.37)
+polygon = PackedVector2Array(172.411, -130.615, 12959.6, -135.839, 12970.1, -4164, 417.967, -4174.45, 344.822, -151.513, 104.491, -143.676, 104.491, -4255.43, 13983.6, -4294.62, 13910.5, 109.717, 78.368, 112.329)
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(4218.98, 1088.27)
+shape = SubResource("RectangleShape2D_ssb25")
+
+[node name="z_Objects" type="Node2D" parent="Node2D"]
+
+[node name="GlassPane1" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-2997.28, -520.532)
+scale = Vector2(1.90972, 1.90972)
+
+[node name="ColorRect" type="ColorRect" parent="Node2D/z_Objects/GlassPane1"]
+offset_left = -4.337
+offset_top = -222.594
+offset_right = 3110.66
+offset_bottom = -0.593979
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="CubicleBarV" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-225, -498.75)
+scale = Vector2(1.90972, 1.90972)
+texture = ExtResource("3_x3gbj")
+offset = Vector2(-3.59998, -110.045)
+
+[node name="CubicleBarV_2" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV"]
+position = Vector2(269.018, 1.96364)
+texture = ExtResource("3_x3gbj")
+offset = Vector2(6.54541, -112.009)
+
+[node name="CubicleBarH" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV"]
+position = Vector2(135.163, -221.367)
+scale = Vector2(0.448332, 0.486818)
+texture = ExtResource("4_j7rcm")
+
+[node name="HorizontalBartLong5" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV"]
+position = Vector2(498.763, -22.9091)
+scale = Vector2(0.223297, 0.523636)
+texture = ExtResource("5_va1k7")
+
+[node name="HorizontalBartLong3" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV"]
+position = Vector2(-506.487, -22.9091)
+scale = Vector2(0.466724, 0.523636)
+texture = ExtResource("5_va1k7")
+
+[node name="HorizontalBartLong4" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV"]
+position = Vector2(1152.65, 34.0363)
+scale = Vector2(0.223297, 0.523636)
+texture = ExtResource("5_va1k7")
+
+[node name="Table1" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-2818.75, -381.25)
+scale = Vector2(1.81928, 1.53646)
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table1"]
+position = Vector2(191.01, -149.964)
+texture = ExtResource("6_t6hw3")
+
+[node name="Microscopes-sheet2" type="Sprite2D" parent="Node2D/z_Objects/Table1"]
+position = Vector2(316.059, -207.117)
+scale = Vector2(1.29, 1.52746)
+texture = ExtResource("7_d1hg4")
+flip_h = true
+hframes = 3
+
+[node name="Computer2" type="Sprite2D" parent="Node2D/z_Objects/Table1"]
+position = Vector2(179.329, -218.507)
+scale = Vector2(0.692371, 0.819817)
+texture = ExtResource("8_tiso7")
+
+[node name="FileCabinet" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-1867.5, -412.5)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("9_jcn3k")
+offset = Vector2(7, -169)
+
+[node name="Table2" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1742.5, -382.5)
+scale = Vector2(1.50301, 1.26042)
+
+[node name="Countertop4" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(213.322, -184.959)
+texture = ExtResource("6_t6hw3")
+
+[node name="Microscopes-sheet3" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(116.433, -255.868)
+scale = Vector2(1.56145, 1.86198)
+texture = ExtResource("7_d1hg4")
+hframes = 3
+
+[node name="Microscopes-sheet5" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(339.318, -262.376)
+scale = Vector2(1.02191, 2.05165)
+texture = ExtResource("7_d1hg4")
+flip_h = true
+hframes = 3
+
+[node name="TableLeg" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(24.4508, -65.1429)
+scale = Vector2(0.807902, 0.9634)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg2" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(285.26, -65.1429)
+scale = Vector2(0.807902, 0.9634)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg3" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
+position = Vector2(405.02, -65.1429)
+scale = Vector2(0.807902, 0.9634)
+texture = ExtResource("10_xnny7")
+
+[node name="Stool4" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-1525, -345)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(6.10352e-05, -46.8409)
+
+[node name="Table 3" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1020, -436.25)
+
+[node name="TableLeg" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
+position = Vector2(410, -62.9066)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg2" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
+position = Vector2(1.25024, -62.9066)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
+position = Vector2(207.891, -177.657)
+scale = Vector2(1.28795, 1.29167)
+texture = ExtResource("12_jvq5t")
+
+[node name="Microscopes-sheet6" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
+position = Vector2(148.75, -258.907)
+scale = Vector2(2.34687, 2.34687)
+texture = ExtResource("7_d1hg4")
+hframes = 3
+frame = 2
+
+[node name="Microscopes-sheet7" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
+position = Vector2(311.25, -260.157)
+scale = Vector2(2.34687, 2.34687)
+texture = ExtResource("7_d1hg4")
+flip_h = true
+hframes = 3
+frame = 2
+
+[node name="Microscope Interactable2" type="Area2D" parent="Node2D/z_Objects/Table 3" groups=["interactable"]]
+position = Vector2(221.25, 45)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "whiteboard"
+dis_name = "Whiteboard"
+dia_id = "research_lab_interactables"
+dia_tit = "microscope"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Table 3/Microscope Interactable2"]
+position = Vector2(-8.36409, -212.687)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="FileCabinet2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-446.25, -407.5)
+scale = Vector2(1.44622, 1.25)
+texture = ExtResource("9_jcn3k")
+offset = Vector2(6.48242, -178)
+
+[node name="Corkboard1" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(961.25, -520)
+scale = Vector2(1.01411, 1.01411)
+texture = ExtResource("14_kpi7a")
+offset = Vector2(2.09546, -232.745)
+
+[node name="Table 4" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(473.125, -555)
+scale = Vector2(0.968875, 1.1875)
+
+[node name="TableLeg3" type="Sprite2D" parent="Node2D/z_Objects/Table 4"]
+position = Vector2(99.9872, 88.2102)
+scale = Vector2(1.03212, 0.842105)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg4" type="Sprite2D" parent="Node2D/z_Objects/Table 4"]
+position = Vector2(-97.1489, 88.2102)
+scale = Vector2(1.03212, 0.842105)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table 4"]
+position = Vector2(4.51538, 1.05255)
+texture = ExtResource("15_kbt7t")
+
+[node name="Microscopes-sheet4" type="Sprite2D" parent="Node2D/z_Objects/Table 4/Countertop3"]
+position = Vector2(3.87061, -84.2107)
+scale = Vector2(2.42226, 1.97631)
+texture = ExtResource("7_d1hg4")
+hframes = 3
+frame = 1
+
+[node name="Poster Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(738.75, -336.25)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "poster1"
+dis_name = "Poster1"
+dia_id = "research_lab_interactables"
+dia_tit = "poster"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Poster Interactable"]
+position = Vector2(-4.77948, -222.246)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Small Messageboard  Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(1002.5, -336.25)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "bulletin_small"
+dis_name = "Bulletin Small"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_bulletin_small"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Small Messageboard  Interactable"]
+position = Vector2(-4.77948, -222.246)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Poster1" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(746.25, -516.25)
+scale = Vector2(1.04614, 1.04614)
+texture = ExtResource("16_evaet")
+offset = Vector2(9.59204, -219.259)
+
+[node name="LabStand" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1850, -353.75)
+texture = ExtResource("17_56xsk")
+offset = Vector2(3.75, -159)
+
+[node name="LabFlasks-sheet11" type="Sprite2D" parent="Node2D/z_Objects/LabStand"]
+position = Vector2(2.5, -261.25)
+scale = Vector2(2.56988, 3.09316)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-0.486328, -41.2482)
+hframes = 5
+vframes = 2
+frame = 1
+
+[node name="ChemicalRack" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1332.5, -342.5)
+texture = ExtResource("19_rb8gn")
+offset = Vector2(6.25, -266.25)
+
+[node name="LabFlasks-sheet11" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+z_index = 3
+position = Vector2(-107.5, -163.469)
+scale = Vector2(1.57954, 1.52415)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(2.33594, -42.6996)
+hframes = 5
+vframes = 2
+frame = 6
+
+[node name="LabFlasks-sheet15" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+z_index = 2
+position = Vector2(-111.25, -323.469)
+scale = Vector2(1.74477, 1.68359)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(2.11279, -39.4158)
+hframes = 5
+vframes = 2
+frame = 3
+
+[node name="LabFlasks-sheet22" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+z_index = 2
+position = Vector2(-23.7499, -222.219)
+scale = Vector2(1.74477, 1.68359)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-1.58472, -99.6345)
+hframes = 5
+vframes = 2
+frame = 2
+
+[node name="TestTubesSpritesheet" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+z_index = 1
+position = Vector2(58, -217.469)
+scale = Vector2(1.125, 1.125)
+texture = ExtResource("20_l4hel")
+vframes = 3
+
+[node name="LabFlasks-sheet18" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+position = Vector2(51.25, -338.469)
+scale = Vector2(1.48742, 1.43526)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(0.840332, -40.9333)
+hframes = 5
+vframes = 2
+frame = 4
+
+[node name="LabFlasks-sheet19" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+position = Vector2(-38.75, -184.719)
+scale = Vector2(1.48742, 1.43526)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-0.840332, -43.5461)
+hframes = 5
+vframes = 2
+frame = 2
+
+[node name="LabFlasks-sheet20" type="Sprite2D" parent="Node2D/z_Objects/ChemicalRack"]
+position = Vector2(127.5, -345.969)
+scale = Vector2(1.48742, 1.43526)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(4.2019, -43.5462)
+hframes = 5
+vframes = 2
+
+[node name="PottedPlant" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1660, -362.5)
+texture = ExtResource("21_4lrpv")
+offset = Vector2(0, -243.75)
+
+[node name="Corkboard4" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(2593.75, -313.75)
+scale = Vector2(1.82345, 1.82345)
+texture = ExtResource("22_s4pth")
+offset = Vector2(9.34473, -220.393)
+
+[node name="Table 5" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(1952.5, -197.5)
+metadata/_edit_group_ = true
+
+[node name="TableLeg5" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
+position = Vector2(327.5, -49.4069)
+scale = Vector2(1.00337, 1.18323)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg6" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
+position = Vector2(136.5, -49.4069)
+scale = Vector2(1.00337, 1.18323)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg7" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
+position = Vector2(753.75, -49.1569)
+scale = Vector2(1.00337, 1.18323)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg8" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
+position = Vector2(928.75, -49.1569)
+scale = Vector2(1.00337, 1.18323)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop6" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
+position = Vector2(531.875, -216.6)
+scale = Vector2(2.53214, 1.625)
+texture = ExtResource("12_jvq5t")
+
+[node name="LabFlasks-sheet10" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(-94.2876, -20.7693)
+scale = Vector2(0.934518, 1.40514)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(2.33594, -42.6996)
+hframes = 5
+vframes = 2
+frame = 6
+
+[node name="LabFlasks-sheet12" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(-145.134, -14.6155)
+scale = Vector2(0.934518, 1.40514)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(2.11279, -39.4158)
+hframes = 5
+vframes = 2
+frame = 3
+
+[node name="LabFlasks-sheet21" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(-141.678, -4.61539)
+scale = Vector2(0.934518, 1.40514)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-1.58472, -99.6345)
+hframes = 5
+vframes = 2
+frame = 2
+
+[node name="LabFlasks-sheet13" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(-26.2166, -25.5998)
+scale = Vector2(0.800529, 1.20367)
+texture = ExtResource("18_s3ogh")
+hframes = 5
+vframes = 2
+frame = 1
+
+[node name="LabFlasks-sheet14" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(26.8511, -41.5385)
+scale = Vector2(0.800529, 1.20367)
+texture = ExtResource("18_s3ogh")
+hframes = 5
+vframes = 2
+frame = 4
+
+[node name="Computer1" type="Sprite2D" parent="Node2D/z_Objects/Table 5/Countertop6"]
+position = Vector2(93.7944, -32.3078)
+scale = Vector2(0.394922, 0.615385)
+texture = ExtResource("23_odju1")
+
+[node name="Map Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(2711.25, -170)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "map"
+dis_name = "map"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_map"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Map Interactable"]
+position = Vector2(-4.77948, -130.241)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Stool3" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(2478.75, -94.9998)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(-2.09741, -56.6286)
+
+[node name="GlassPane2" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-2998.39, 77.934)
+
+[node name="ColorRect2" type="ColorRect" parent="Node2D/z_Objects/GlassPane2"]
+offset_left = -7.61383
+offset_top = -391.934
+offset_right = 3307.39
+offset_bottom = -16.934
+pivot_offset = Vector2(2911, 412.75)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane3" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(613.02, 113.505)
+metadata/_edit_group_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="Node2D/z_Objects/GlassPane3"]
+offset_left = 11.9805
+offset_top = -427.505
+offset_right = 437.98
+offset_bottom = -52.5054
+pivot_offset = Vector2(1.25, 380.25)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane4" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(1072.5, 283.75)
+metadata/_edit_group_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="Node2D/z_Objects/GlassPane4"]
+offset_left = 1.24976
+offset_top = -600.0
+offset_right = 933.25
+offset_bottom = -70.0001
+pivot_offset = Vector2(466.25, 607.5)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane5" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(2571.45, 343.654)
+metadata/_edit_group_ = true
+
+[node name="ColorRect5" type="ColorRect" parent="Node2D/z_Objects/GlassPane5"]
+offset_left = 3.54883
+offset_top = -437.654
+offset_right = 399.549
+offset_bottom = -10.6544
+pivot_offset = Vector2(-11.7505, 426.5)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="HorizontalBartLong" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-762.5, 83.75)
+texture = ExtResource("5_va1k7")
+
+[node name="HorizontalBartLong2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1529.25, 213.75)
+scale = Vector2(0.426436, 1)
+texture = ExtResource("5_va1k7")
+
+[node name="Table 6" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-3012.68, 312.218)
+scale = Vector2(1.81928, 1.4349)
+metadata/_edit_group_ = true
+
+[node name="Countertop4" type="Sprite2D" parent="Node2D/z_Objects/Table 6"]
+position = Vector2(90.1074, -172.181)
+texture = ExtResource("6_t6hw3")
+
+[node name="LabFlasks-sheet5" type="Sprite2D" parent="Node2D/z_Objects/Table 6/Countertop4"]
+position = Vector2(107.185, -14.9183)
+scale = Vector2(1.16617, 1.42671)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(0, -42.1312)
+hframes = 5
+vframes = 2
+frame = 1
+
+[node name="LabFlasks-sheet9" type="Sprite2D" parent="Node2D/z_Objects/Table 6/Countertop4"]
+position = Vector2(39.164, -8.82037)
+scale = Vector2(1.04304, 1.55998)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-3.67449, -46.7908)
+hframes = 5
+vframes = 2
+frame = 3
+
+[node name="LabFlasks-sheet6" type="Sprite2D" parent="Node2D/z_Objects/Table 6/Countertop4"]
+position = Vector2(145.662, -0.980042)
+scale = Vector2(1.16617, 1.42671)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(3.5351, -39.0782)
+hframes = 5
+vframes = 2
+frame = 7
+
+[node name="Stool6" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2897.5, 363.75)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(-0.698944, -54.5312)
+
+[node name="Table 7" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-2420.84, 207.878)
+scale = Vector2(1.76161, 1.29427)
+metadata/_edit_group_ = true
+
+[node name="TableLeg13" type="Sprite2D" parent="Node2D/z_Objects/Table 7"]
+position = Vector2(11.1179, -60.1715)
+scale = Vector2(0.567664, 0.888531)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg14" type="Sprite2D" parent="Node2D/z_Objects/Table 7"]
+position = Vector2(330.997, -61.4077)
+scale = Vector2(0.567664, 0.888531)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop2" type="Sprite2D" parent="Node2D/z_Objects/Table 7"]
+position = Vector2(173.168, -159.769)
+texture = ExtResource("12_jvq5t")
+
+[node name="Microscopes-sheet" type="Sprite2D" parent="Node2D/z_Objects/Table 7"]
+position = Vector2(275.17, -239.206)
+scale = Vector2(1.33223, 1.81328)
+texture = ExtResource("7_d1hg4")
+flip_h = true
+hframes = 3
+frame = 1
+
+[node name="Stool5" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2138.75, 335)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(7.69037, -44.7435)
+
+[node name="Table 8" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1678.64, 143.516)
+scale = Vector2(1.50301, 1.11979)
+
+[node name="TableLeg15" type="Sprite2D" parent="Node2D/z_Objects/Table 8"]
+position = Vector2(23.3765, -63.4186)
+scale = Vector2(0.665331, 1.02698)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg16" type="Sprite2D" parent="Node2D/z_Objects/Table 8"]
+position = Vector2(398.29, -64.8473)
+scale = Vector2(0.665331, 1.02698)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop5" type="Sprite2D" parent="Node2D/z_Objects/Table 8"]
+position = Vector2(216.156, -170.302)
+texture = ExtResource("6_t6hw3")
+
+[node name="LabFlasks-sheet4" type="Sprite2D" parent="Node2D/z_Objects/Table 8/Countertop5"]
+position = Vector2(114.77, 8.65118)
+scale = Vector2(1.41155, 1.82818)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-0.184143, -44.7047)
+hframes = 5
+vframes = 2
+frame = 8
+
+[node name="Table 9" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1035, 192.5)
+scale = Vector2(2.21874, 2.21874)
+metadata/_edit_group_ = true
+
+[node name="TableLeg17" type="Sprite2D" parent="Node2D/z_Objects/Table 9"]
+position = Vector2(15.7747, -41.127)
+scale = Vector2(0.450706, 0.518312)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg18" type="Sprite2D" parent="Node2D/z_Objects/Table 9"]
+position = Vector2(193.24, -41.8481)
+scale = Vector2(0.450706, 0.518312)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table 9"]
+position = Vector2(104.085, -91.4089)
+scale = Vector2(0.564187, 0.500002)
+texture = ExtResource("12_jvq5t")
+
+[node name="LabFlasks-sheet3" type="Sprite2D" parent="Node2D/z_Objects/Table 9/Countertop3"]
+position = Vector2(61.1626, 10.4225)
+scale = Vector2(1.76701, 1.92006)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-3.7439, -44.8517)
+hframes = 5
+vframes = 2
+frame = 7
+
+[node name="TestTubesSpritesheet3" type="Sprite2D" parent="Node2D/z_Objects/Table 9/Countertop3"]
+position = Vector2(-64.6576, -102.254)
+scale = Vector2(1.77246, 1.99999)
+texture = ExtResource("20_l4hel")
+hframes = 4
+vframes = 3
+frame = 4
+
+[node name="Whiteboard" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-70, 105)
+texture = ExtResource("24_srw2g")
+offset = Vector2(-10, -211.25)
+
+[node name="Whiteboard Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(-90, 153.75)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "whiteboard"
+dis_name = "Whiteboard"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_whiteboard"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Whiteboard Interactable"]
+position = Vector2(-4.77948, -123.072)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Corkboard2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(813.75, 117.5)
+scale = Vector2(0.785416, 0.785416)
+texture = ExtResource("25_im6ro")
+offset = Vector2(43.5928, -312.334)
+
+[node name="Table 10" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(932.01, 120.266)
+scale = Vector2(1.36797, 1.29167)
+metadata/_edit_group_ = true
+
+[node name="TableLeg19" type="Sprite2D" parent="Node2D/z_Objects/Table 10"]
+position = Vector2(-186.049, 81.0841)
+scale = Vector2(0.731009, 0.890322)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg20" type="Sprite2D" parent="Node2D/z_Objects/Table 10"]
+position = Vector2(33.4368, 79.8454)
+scale = Vector2(0.731009, 0.890322)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop5" type="Sprite2D" parent="Node2D/z_Objects/Table 10"]
+position = Vector2(-75.4839, 14.31)
+texture = ExtResource("15_kbt7t")
+
+[node name="Medium Bulleting Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(846.25, 336.25)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "bulletin_medium1"
+dis_name = "Bulletin Medium1"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_bulletin_board_medium"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Medium Bulleting Interactable"]
+position = Vector2(-4.77948, -130.241)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Corkboard3" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1283.75, 306.25)
+scale = Vector2(1.40982, 1.40982)
+texture = ExtResource("26_hg1di")
+offset = Vector2(0.103027, -228.31)
+
+[node name="Board by Cat" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(1283.75, 265)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "bulletin_medium1"
+dis_name = "Bulletin Medium1"
+dia_id = "research_lab_interactables"
+dia_tit = "board_by_cat"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/Board by Cat"]
+position = Vector2(-4.77948, -130.241)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Table11" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(1117.09, 581.753)
+scale = Vector2(1.36797, 1.29167)
+
+[node name="TableLeg5" type="Sprite2D" parent="Node2D/z_Objects/Table11"]
+position = Vector2(0.481934, -55.5503)
+scale = Vector2(0.731009, 0.890322)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg6" type="Sprite2D" parent="Node2D/z_Objects/Table11"]
+position = Vector2(587.299, -55.744)
+scale = Vector2(0.731009, 0.890322)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop7" type="Sprite2D" parent="Node2D/z_Objects/Table11"]
+position = Vector2(302.754, -165.873)
+scale = Vector2(1.85102, 1.25806)
+texture = ExtResource("12_jvq5t")
+
+[node name="LabCat" type="Node2D" parent="Node2D/z_Objects/Table11/Countertop7"]
+position = Vector2(-135.26, 136.154)
+scale = Vector2(0.394922, 0.615385)
+script = ExtResource("27_s5of4")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/z_Objects/Table11/Countertop7/LabCat"]
+position = Vector2(92.5002, -293.75)
+texture = ExtResource("28_4gbqi")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/z_Objects/Table11/Countertop7/LabCat"]
+libraries = {
+&"": SubResource("AnimationLibrary_7mnoe")
+}
+
+[node name="Stool" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1525, 656.25)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(-0.698975, -55.9294)
+
+[node name="Table 12" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(2646.25, 451.25)
+scale = Vector2(1.36797, 1.29167)
+
+[node name="TableLeg7" type="Sprite2D" parent="Node2D/z_Objects/Table 12"]
+position = Vector2(7.53893, -59.9995)
+scale = Vector2(0.731009, 0.890322)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop6" type="Sprite2D" parent="Node2D/z_Objects/Table 12"]
+position = Vector2(113.535, -147.096)
+texture = ExtResource("15_kbt7t")
+
+[node name="LabFlasks-sheet15" type="Sprite2D" parent="Node2D/z_Objects/Table 12/Countertop6"]
+position = Vector2(22.8438, 1.93549)
+scale = Vector2(1.48179, 1.51429)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(1.2334, -42.8177)
+hframes = 5
+vframes = 2
+
+[node name="LabFlasks-sheet16" type="Sprite2D" parent="Node2D/z_Objects/Table 12/Countertop6"]
+position = Vector2(-52.084, 0)
+scale = Vector2(1.48179, 1.51429)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-1.23315, -42.8177)
+hframes = 5
+vframes = 2
+frame = 6
+
+[node name="GlassPane6" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-3025.26, 759.143)
+metadata/_edit_group_ = true
+
+[node name="ColorRect6" type="ColorRect" parent="Node2D/z_Objects/GlassPane6"]
+offset_left = 14.259
+offset_top = -423.143
+offset_right = 579.259
+offset_bottom = -6.14294
+pivot_offset = Vector2(-2.75024, 421.5)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane7" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1765.9, 777.899)
+metadata/_edit_group_ = true
+
+[node name="ColorRect7" type="ColorRect" parent="Node2D/z_Objects/GlassPane7"]
+offset_left = 1.90002
+offset_top = -441.899
+offset_right = 696.9
+offset_bottom = -24.8994
+pivot_offset = Vector2(-2.49988, 425.25)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="ColorRect8" type="ColorRect" parent="Node2D/z_Objects/GlassPane7"]
+offset_left = 691.9
+offset_top = -465.9
+offset_right = 1316.9
+offset_bottom = -48.8995
+pivot_offset = Vector2(-2.49988, 425.25)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane8" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-72.1592, 668.672)
+metadata/_edit_group_ = true
+
+[node name="ColorRect9" type="ColorRect" parent="Node2D/z_Objects/GlassPane8"]
+offset_left = -2.0
+offset_top = -389.0
+offset_right = 379.0
+offset_bottom = -15.0
+pivot_offset = Vector2(-2.49988, 425.25)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="GlassPane9" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(308.06, 709.936)
+metadata/_edit_group_ = true
+
+[node name="ColorRect10" type="ColorRect" parent="Node2D/z_Objects/GlassPane9"]
+offset_left = -6.05957
+offset_top = -383.936
+offset_right = 752.94
+offset_bottom = -9.93555
+pivot_offset = Vector2(-5.75, 384)
+color = Color(0.364706, 1, 1, 0.243137)
+
+[node name="Table 13" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-3001.64, 890.846)
+scale = Vector2(1.61518, 1.3776)
+metadata/_edit_group_ = true
+
+[node name="TableLeg11" type="Sprite2D" parent="Node2D/z_Objects/Table 13"]
+position = Vector2(-4.2472, -49.6119)
+scale = Vector2(0.619127, 0.834783)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg12" type="Sprite2D" parent="Node2D/z_Objects/Table 13"]
+position = Vector2(318.163, -49.8661)
+scale = Vector2(0.619127, 0.834783)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table 13"]
+position = Vector2(152.024, -149.536)
+texture = ExtResource("12_jvq5t")
+
+[node name="LabFlasks-sheet7" type="Sprite2D" parent="Node2D/z_Objects/Table 13/Countertop3"]
+position = Vector2(139.98, 4.65027)
+scale = Vector2(1.14046, 1.29024)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-6.89198, -44.2609)
+hframes = 5
+vframes = 2
+frame = 7
+
+[node name="LabFlasks-sheet8" type="Sprite2D" parent="Node2D/z_Objects/Table 13/Countertop3"]
+position = Vector2(86.5808, 4.65027)
+scale = Vector2(1.14046, 1.29024)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-5.42877, -44.2609)
+hframes = 5
+vframes = 2
+frame = 9
+
+[node name="TestTubesSpritesheet" type="Sprite2D" parent="Node2D/z_Objects/Table 13/Countertop3"]
+position = Vector2(-26.4096, 2.83557)
+scale = Vector2(1.37368, 1.61058)
+texture = ExtResource("20_l4hel")
+offset = Vector2(1.68987, -32.6762)
+hframes = 4
+vframes = 3
+
+[node name="TestTubesSpritesheet2" type="Sprite2D" parent="Node2D/z_Objects/Table 13/Countertop3"]
+position = Vector2(4.54652, 1.02087)
+scale = Vector2(1.37368, 1.61058)
+texture = ExtResource("20_l4hel")
+offset = Vector2(3.94367, -31.5494)
+hframes = 4
+vframes = 3
+frame = 4
+
+[node name="Stool7" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2848.75, 966.25)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(4.1947, -50.3364)
+
+[node name="Table 14" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1720.85, 905.612)
+metadata/_edit_group_ = true
+
+[node name="GlowingMachine" type="Sprite2D" parent="Node2D/z_Objects/Table 14"]
+position = Vector2(327.105, -344.363)
+texture = ExtResource("29_pl66u")
+script = ExtResource("30_1sjrw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/z_Objects/Table 14/GlowingMachine"]
+position = Vector2(-85, -33)
+scale = Vector2(1.01814, 0.982432)
+texture = ExtResource("31_058kf")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/z_Objects/Table 14/GlowingMachine/Sprite2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_xobo2")
+}
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D/z_Objects/Table 14/GlowingMachine"]
+position = Vector2(-85.0048, -36.249)
+scale = Vector2(1.15385, 1.01293)
+texture = ExtResource("32_6uawi")
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/z_Objects/Table 14/GlowingMachine/Sprite2D2"]
+libraries = {
+&"": SubResource("AnimationLibrary_axx48")
+}
+
+[node name="LabFlasks-sheet" type="Sprite2D" parent="Node2D/z_Objects/Table 14/GlowingMachine"]
+position = Vector2(251.25, 161.25)
+scale = Vector2(1.97266, 1.97266)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-1.58417, -48.2574)
+hframes = 5
+vframes = 2
+frame = 6
+
+[node name="GlowingMachine Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(-1490, 912.5)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "green_machine"
+dis_name = "Green Machine"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_green_machine"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/GlowingMachine Interactable"]
+position = Vector2(-4.77948, -151.748)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Table 15" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(-1049.39, 827.135)
+scale = Vector2(1.63214, 1.26042)
+metadata/_edit_group_ = true
+
+[node name="TableLeg9" type="Sprite2D" parent="Node2D/z_Objects/Table 15"]
+position = Vector2(13.4143, -69.1317)
+scale = Vector2(0.612692, 0.912397)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg10" type="Sprite2D" parent="Node2D/z_Objects/Table 15"]
+position = Vector2(332.474, -69.4094)
+scale = Vector2(0.612692, 0.912397)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop1" type="Sprite2D" parent="Node2D/z_Objects/Table 15"]
+position = Vector2(175.395, -164.834)
+texture = ExtResource("12_jvq5t")
+
+[node name="LabFlasks-sheet2" type="Sprite2D" parent="Node2D/z_Objects/Table 15/Countertop1"]
+position = Vector2(-21.827, 8.42957)
+scale = Vector2(1.44198, 1.89234)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(-2.65564, -43.4985)
+hframes = 5
+vframes = 2
+frame = 6
+
+[node name="Table 16" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(355.605, 868.736)
+scale = Vector2(1.95179, 1.33854)
+metadata/_edit_group_ = true
+
+[node name="TableLeg7" type="Sprite2D" parent="Node2D/z_Objects/Table 16"]
+position = Vector2(8.65619, -47.6157)
+scale = Vector2(0.512352, 0.859145)
+texture = ExtResource("10_xnny7")
+
+[node name="TableLeg8" type="Sprite2D" parent="Node2D/z_Objects/Table 16"]
+position = Vector2(329.773, -47.8773)
+scale = Vector2(0.512352, 0.859145)
+texture = ExtResource("10_xnny7")
+
+[node name="Countertop2" type="Sprite2D" parent="Node2D/z_Objects/Table 16"]
+position = Vector2(169.887, -144.97)
+texture = ExtResource("12_jvq5t")
+
+[node name="Mushrarium" type="Sprite2D" parent="Node2D/z_Objects/Table 16/Countertop2"]
+position = Vector2(-86.9399, -86.6149)
+scale = Vector2(0.512351, 0.747082)
+texture = ExtResource("33_x1vps")
+
+[node name="PinkMushroom Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
+position = Vector2(515, 890)
+scale = Vector2(1.04614, 1.04614)
+script = ExtResource("13_yrixy")
+int_id = "pink_fungi"
+dis_name = "Pink Fungi"
+dia_id = "research_lab_interactables"
+dia_tit = "lab_pink_fungi"
+interaction_id = "poster1"
+display_name = "Poster1"
+dialog_id = "poster1"
+object_type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/z_Objects/PinkMushroom Interactable"]
+position = Vector2(-4.77948, -123.072)
+shape = SubResource("CircleShape2D_ssb25")
+
+[node name="Stool2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(761.25, 958.75)
+scale = Vector2(1.78797, 1.78797)
+texture = ExtResource("11_nl8nf")
+offset = Vector2(2.79663, -56.6285)
+
+[node name="Table17" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(1202.5, 910)
+scale = Vector2(1.95179, 1.58594)
+metadata/_edit_group_ = true
+
+[node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table17"]
+position = Vector2(165.703, -100.886)
+texture = ExtResource("12_jvq5t")
+
+[node name="Table 18" type="Node2D" parent="Node2D/z_Objects"]
+position = Vector2(2167.79, 900.966)
+scale = Vector2(1.25, 1.25)
+metadata/_edit_group_ = true
+
+[node name="Countertop4" type="Sprite2D" parent="Node2D/z_Objects/Table 18"]
+position = Vector2(291.766, -151.773)
+scale = Vector2(1.47356, 1.26159)
+texture = ExtResource("34_bnqev")
+
+[node name="LabFlasks-sheet17" type="Sprite2D" parent="Node2D/z_Objects/Table 18/Countertop4"]
+position = Vector2(60.3979, -20.609)
+scale = Vector2(1.52692, 1.24032)
+texture = ExtResource("18_s3ogh")
+offset = Vector2(0.444458, -41.5396)
+hframes = 5
+vframes = 2
+frame = 5
+
+[node name="CubicleBarH5" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-432.5, 113.75)
+scale = Vector2(1.19955, 0.929689)
+texture = ExtResource("4_j7rcm")
+offset = Vector2(289.822, -450.419)
+
+[node name="CubicleBarH7" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-450, 688.75)
+scale = Vector2(0.989665, 0.929689)
+texture = ExtResource("4_j7rcm")
+offset = Vector2(-306.369, -395.294)
+
+[node name="CubicleBarH9" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(302.5, 717.5)
+scale = Vector2(1.23782, 0.929689)
+texture = ExtResource("4_j7rcm")
+offset = Vector2(304.972, -430.252)
+
+[node name="CubicleBarH10" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-61.0784, 660)
+scale = Vector2(1.15182, 0.929689)
+texture = ExtResource("4_j7rcm")
+offset = Vector2(-10.9421, -438.319)
+
+[node name="CubicleBarH2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-1151.25, -523.75)
+scale = Vector2(1.17459, 1.28693)
+texture = ExtResource("35_1aoer")
+offset = Vector2(15.431, -308.535)
+
+[node name="CubicleBarH3" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1508.75, -540)
+scale = Vector2(1.13156, 1.28693)
+texture = ExtResource("35_1aoer")
+offset = Vector2(-305.166, -295.908)
+
+[node name="CubicleBarH4" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(2025, 315)
+scale = Vector2(1.13156, 1.28693)
+texture = ExtResource("35_1aoer")
+offset = Vector2(-765.538, -481.768)
+
+[node name="CubicleBarV3_1" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2030, -303.75)
+scale = Vector2(1.52, 1.52)
+texture = ExtResource("36_ano3o")
+offset = Vector2(-4.9342, -222.862)
+
+[node name="CubicleBarV2_2" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1991.25, -288.75)
+scale = Vector2(1.52, 1.52)
+texture = ExtResource("36_ano3o")
+offset = Vector2(12.3357, -232.73)
+
+[node name="CubicleBarV2_3" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(2037.5, 337.5)
+scale = Vector2(1.52, 1.4302)
+texture = ExtResource("36_ano3o")
+offset = Vector2(-19.7366, -227.762)
+
+[node name="CubicleBarV2_4" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(302.5, 700)
+scale = Vector2(1.52, 1.4302)
+texture = ExtResource("36_ano3o")
+offset = Vector2(0, -481.223)
+
+[node name="CubicleBarV2_7" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(615, 116.25)
+scale = Vector2(1.44751, 0.956983)
+texture = ExtResource("36_ano3o")
+offset = Vector2(-1.36426, -208.337)
+
+[node name="CubicleBarV2_8" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(1062.5, 296.25)
+scale = Vector2(1.44751, 1.42768)
+texture = ExtResource("36_ano3o")
+offset = Vector2(0.362793, -199.624)
+
+[node name="CubicleBarV2_5" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-438.75, 682.5)
+scale = Vector2(1.52, 1.4302)
+texture = ExtResource("36_ano3o")
+offset = Vector2(-12.3354, -468.987)
+
+[node name="CubicleBarV2_6" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2465, 768.75)
+scale = Vector2(1.52, 1.4302)
+texture = ExtResource("36_ano3o")
+offset = Vector2(-0.000183105, -529.293)
+
+[node name="CubicleBarV31" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-1765, 803.75)
+scale = Vector2(1.52273, 1.52273)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(0.821045, -142.836)
+
+[node name="CubicleBarH8" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV31"]
+position = Vector2(219.82, -296.343)
+scale = Vector2(0.730266, 0.610542)
+texture = ExtResource("4_j7rcm")
+
+[node name="CubicleBarV34" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-447.5, 701.25)
+scale = Vector2(1.52273, 1.29512)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(0, -140.001)
+
+[node name="CubicleBarV36" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-57.5001, 672.5)
+scale = Vector2(1.52273, 1.39574)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(-4.92529, -147.747)
+
+[node name="CubicleBarV35" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(292.5, 732.5)
+scale = Vector2(1.61364, 1.35468)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(6.35181, -152.686)
+
+[node name="CubicleBarV32" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-2471.25, 812.5)
+scale = Vector2(1.52273, 1.52273)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(5.74637, -148.582)
+
+[node name="CubicleBarH8" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV32"]
+position = Vector2(-246.269, -302.09)
+scale = Vector2(0.812052, 0.567614)
+texture = ExtResource("4_j7rcm")
+
+[node name="CubicleBarV33" type="Sprite2D" parent="Node2D/z_Objects"]
+position = Vector2(-1765, 227.5)
+scale = Vector2(1.52273, 1.80607)
+texture = ExtResource("37_t4w5v")
+offset = Vector2(2.46283, -142.575)
+
+[node name="CubicleBarH6" type="Sprite2D" parent="Node2D/z_Objects/CubicleBarV33"]
+position = Vector2(21.0354, -294.839)
+scale = Vector2(1.09556, 0.712555)
+texture = ExtResource("35_1aoer")
+
+[node name="bugzones" type="Node2D" parent="Node2D"]
+position = Vector2(2045, -311.25)
+
+[node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
+position = Vector2(2434, 1440)
+scale = Vector2(2.8419, 2.8419)
+script = ExtResource("38_igf2k")
+
+[node name="Player" parent="." instance=ExtResource("39_dchpr")]
+position = Vector2(2259, 1425)
+scale = Vector2(6, 6)
+
+[node name="ResearchLabExit" parent="." instance=ExtResource("40_wouif")]
+position = Vector2(2261, 1383)
+scale = Vector2(1.66489, 1.66489)
+target_location = "campus_quad"
+spawn_point = "lab_exit"
+transition_name = "Lab Exit"
+require_interaction = false

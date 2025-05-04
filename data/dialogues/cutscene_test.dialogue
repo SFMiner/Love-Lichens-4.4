@@ -1,0 +1,10 @@
+~ start
+do CutsceneManager.move_character_to_marker("poison", "center_marker")
+# Using all optional parameters: character_id, target, animation, speed, stop_distance, time
+do CutsceneManager.wait_for_movements()
+
+do CutsceneManager.move_character_to_marker("player", "right_marker")
+do CutsceneManager.move_character_to_marker("poison", "right_marker")
+Poison: Hey Adam, check out this lichen patch I found!
+do CutsceneManager.play_animation("poison", "jump_down")
+=> END

@@ -39,3 +39,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Memory Management
 - Free nodes with queue_free() rather than free() when removing
 - Avoid circular references between autoloaded singletons
+
+## Player Navigation System
+
+The game supports both keyboard (WASD) navigation and click-to-navigate functionality:
+
+### Player Navigation Components
+- The player uses a `NavigationAgent2D` node for pathfinding
+- `navigate_on_click` flag controls whether click-to-navigate is enabled
+- Right-click on the map to navigate to that position
+- Movement markers are instantiated from `res://scenes/world/movement_marker.tscn`
+
+### Implementation Details
+- Movement is interrupted by keyboard input (WASD keys) automatically
+- Navigation requires scenes to have a `NavigationRegion2D` node with a valid navigation mesh
+- The `is_navigating` flag controls navigation state
+- Use `process_navigation(delta)` for handling navigation updates
+- Direct navigation paths (`[target_position]`) work better than complex path calculation
+
+### Debug Options
+- Set `scr_debug = true` to enable navigation debugging
+- Use `keyboard_override_timeout` to prevent unwanted keyboard interruptions
+- The function `_check_navigation_region()` verifies navigation mesh validity

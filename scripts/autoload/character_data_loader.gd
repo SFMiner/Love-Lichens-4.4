@@ -76,7 +76,13 @@ func _load_character_file(path: String) -> void:
 	var character = CharacterData.new()
 	character.from_dict(character_data)
 	characters[character.id] = character
-	
+
+	# Register font with the font manager if it exists
+	var font_manager = get_node_or_null("/root/CharacterFontManager")
+	if font_manager and character.font_path != "":
+		font_manager.register_character_style(character.id, character.font_path, character.text_color)
+		if debug: print("Registered font style for: ", character.id)
+			
 	if debug: print("Loaded character: ", character.id)
 
 # Get a character's data by ID

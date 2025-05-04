@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwnw4x1ocl0ro"]
+
+[ext_resource type="Script" uid="uid://bqkn3y0d6nqse" path="res://scripts/world/movement_marker.gd" id="1_h2s5a"]
+[ext_resource type="Texture2D" uid="uid://dfobnry6ocxx2" path="res://assets/images/ui/target_marker.png" id="2_vg8m1"]
+
+[node name="MovementMarker" type="Node2D"]
+z_index = 10
+script = ExtResource("1_h2s5a")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_vg8m1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "pulse"

@@ -5,20 +5,26 @@ extends PlayerCombatant
 
 # Player movement and interaction signals
 signal interaction_triggered(object)
-
+var current_location_scene = null
+var is_player_controlled := true
+var in_dialogue : bool = false
 #var speed
+var current_scene_speed_mod = 1
 @export var character_name = "Adam Young"
 @export var character_id: String = ""
 @export var portrait: Texture2D = preload("res://assets/images/portraits/adam_portrait.png")
 var interaction_range : int
 @onready var max_interaction_distance : int= interaction_range  # Maximum distance for mouse clicks
-
+@onready var current_speed = base_speed
 @onready var AP = get_node_or_null("AnimationPlayer")
 @onready var sprite = get_node_or_null("Sprite2D")
-		
+@onready var interaction_area = get_node_or_null("InteractionArea")
+#@onready var animator = get_node_or_null("CharacterAnimator")
+var path_to_target = []
+
+
 # Jumping
 var run_toggle = false  # For CapsLock toggle functionality
-const JUMP_DURATION = 1.2  # Seconds - match this to animation length
 # Interaction variables
 var interactable_object = null
 var in_dialog = false
@@ -33,22 +39,28 @@ var sleep_interface
 
 var jump_speed
 
+# Navigation
+var keyboard_override_timeout = 0.0  # Timer to allow keyboard to override navigation
+var navigate_on_click = true  # Toggle for click-to-move functionality
+var movement_marker_scene
+@onready var nav_agent : NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 
 # Mouse interaction variables
 var interactables_in_range = []
 signal interaction_requested(object)
-const scr_debug = false
+const scr_debug = true  # Enable debugging to help diagnose navigation issues
 
 func _ready():
 	super._ready()
-
+	
 	initialize_stats()
 	interaction_range = 30 * scale.y
 #	GameState.set_player(self)
-	speed = base_speed
+	current_location_scene = get_location_scene()
+	calculate_speed()
+	current_speed = base_speed * current_scene_speed_mod
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print("Player initialized: ", character_name)
-#	add_visual_health_bar()
 	
 	# Set up interaction area if it doesn't exist
 	if not has_node("InteractionArea"):
@@ -91,16 +103,60 @@ func _ready():
 	if ResourceLoader.exists("res://scenes/ui/sleep_interface.tscn"):
 		sleep_interface_scene = load("res://scenes/ui/sleep_interface.tscn")
 	
-	# Force reset dialog state on initialization
+	print("Force reset dialog state on initialization")
 	in_dialog = false
 	add_to_group("player")
 	add_to_group("z_Objects")
-	
+	add_to_group("navigator")
+
+
 	# Connect to item pickup signals
 	connect_to_pickup_signals()
 	# Initialize with idle animation
-	play_animation("idle")
-
+	print("play_animation('idle')")
+	if ResourceLoader.exists("res://scenes/world/movement_marker.tscn"):
+		movement_marker_scene = load("res://scenes/world/movement_marker.tscn")
+	else:
+		# Create a simple marker if scene doesn't exist
+		movement_marker_scene = _create_default_movement_marker()
+	
+	# Configure navigation agent
+	nav_agent.avoidance_enabled = true
+	nav_agent.radius = 50.0
+	nav_agent.max_speed = current_speed * run_speed_multiplier * 1.2  # Give it some extra headroom
+	nav_agent.neighbor_distance = 100.0
+	nav_agent.max_neighbors = 15
+	nav_agent.time_horizon = 3.0
+	nav_agent.path_desired_distance = 10.0
+	nav_agent.target_desired_distance = 15.0
+	
+	# Connect velocity_computed signal
+	if not nav_agent.velocity_computed.is_connected(_on_velocity_computed):
+		if nav_agent.velocity_computed.connect(_on_velocity_computed) == OK:
+			if debug: print("DEBUG: velocity_computed signal connected successfully")
+		else:
+			print("ERROR: Failed to connect velocity_computed signal")
+	
+	# Add to navigation group for the NavigationManager to recognize
+	if not is_in_group("navigation_agents"):
+		add_to_group("navigation_agents")
+	
+	# Check if navigation is available in current scene
+	call_deferred("_check_navigation_region")
+		
+func move_to(target: Vector2):
+	nav_agent.target_position = target
+		
+func get_location_scene():
+	var parent = get_parent()
+	print("Trying parent" + parent.name + "...")
+	
+	while "location_scene" not in parent:
+		print("NOPE!")
+		print("Now trying parent" + parent.get_parent().name + "...")
+		parent = parent.get_parent()
+	return parent
+	
 func get_character_id():
 	return character_id
 
@@ -172,12 +228,111 @@ func get_combat_usable_items():
 	return []
 
 func _physics_process(delta):
-	# Check dialogue system state
-	handle_dialogue_state()
+	if debug: print("Frame: ", Engine.get_process_frames(), " - is_navigating: ", is_navigating)
 	
-	# Get input and update movement state
+	if keyboard_override_timeout > 0:
+		keyboard_override_timeout -= delta
+
+	# PRIORITY 1: Handle dialogue
+	if in_dialogue:
+		return
+		
+	# PRIORITY 2: Navigation takes precedence if active
+	if is_navigating:
+		if debug: print("Navigation is active - processing navigation")
+		process_navigation(delta)
+		return
+
+	# PRIORITY 3: Player control if not navigating and not in dialogue
+	if is_player_controlled:
+		handle_dialogue_state()
+		
+		# Get input and update movement state
+		var input_vector = get_movement_input()
+		handle_movement_state(input_vector)
+		
+		# Process jumping if active
+		process_jumping(delta)
+		
+		# Set velocity based on input and speed
+		self.velocity = input_vector * speed
+		
+		# Update animation based on movement state
+		update_animation(input_vector)
+		
+		# Check for interactable objects in range
+		check_for_interactable()
+		
+		# Apply movement
+		move_and_slide()
+		
+		# Update position tracking and z-index
+		update_position_tracking()
+
+	else:
+		# Your autonomous/repulsion/pathfinding logic here
+		if _is_near_interaction_zone():
+			nav_agent.set_velocity(Vector2.ZERO)
+			return
+
+		if nav_agent.is_navigation_finished():
+			return
+
+		var next_point = nav_agent.get_next_path_position()
+		var direction = (next_point - global_position).normalized()
+		self.velocity = direction * speed
+		nav_agent.set_velocity(direction * speed)
+	# Check dialogue system state
+	var should_wait := false
+	var push_vector := Vector2.ZERO
+	var MIN_SEPARATION := 16.0
+	var REPULSION_STRENGTH := 50.0
+
+
+
+	if in_dialogue:
+		return
+
+	if is_navigating:
+		process_navigation(delta)
+		return
+
+	if nav_agent.is_navigation_finished():
+		return  # Reached goal
+
+	if _is_near_interaction_zone():
+		nav_agent.set_velocity(Vector2.ZERO)
+		return
+		
+	var next_position = nav_agent.get_next_path_position()
+	var direction = (next_position - global_position).normalized()
+	#var speed = 100.0  # Example speed
+	var velocity = direction * current_speed
+	nav_agent.set_velocity(velocity)
+
+	handle_dialogue_state()
+
+
+	for other in get_tree().get_nodes_in_group("navigators"):
+		if other == self:
+			continue
+		var distance := global_position.distance_to(other.global_position)
+		if distance < MIN_SEPARATION and distance > 0:
+			var away = (global_position - other.global_position).normalized()
+			push_vector += away * ((MIN_SEPARATION - distance) / MIN_SEPARATION)
+
+	# Apply repulsion
+	if push_vector.length() > 0:
+		velocity = push_vector.normalized() * REPULSION_STRENGTH
+		nav_agent.set_velocity(velocity)
+		return
+
+	# Skip movement if near an interaction zone
 	var input_vector = get_movement_input()
-	handle_movement_state(input_vector)
+
+	if is_player_controlled:
+		# Get input and update movement state
+		handle_movement_state(input_vector)
 	
 	# Process jumping if active
 	process_jumping(delta)
@@ -196,7 +351,12 @@ func _physics_process(delta):
 	
 	# Update position tracking and z-index
 	update_position_tracking()
-	
+
+func _is_near_interaction_zone() -> bool:
+	for area in interaction_area.get_overlapping_areas():
+		if area.get_parent() != self:
+			return true
+	return false
 	
 func handle_dialogue_state():
 	if in_dialog:
@@ -241,19 +401,24 @@ func get_movement_input():
 			
 		input_vector = Vector2(x_input, y_input).normalized()
 	
+	# If we get keyboard input while navigating, cancel navigation
+	if input_vector.length() > 0.1 and is_navigating and keyboard_override_timeout <= 0:
+		is_navigating = false
+		path_to_target.clear()
+		if debug: print("Navigation canceled due to keyboard input")
+	
 	return input_vector
-	
-	
+
 func handle_movement_state(input_vector):
 	# Update running state
 	is_running = Input.is_key_pressed(KEY_SHIFT) or run_toggle
 	
 	# Set appropriate speed
 	if is_running:
-		speed = base_speed * run_speed_multiplier
+		speed = current_speed * run_speed_multiplier
 	else:
-		speed = base_speed
-	
+		speed = current_speed
+	if debug: print("base_speed = " + str(base_speed))
 	# Update movement state tracking
 	was_moving = is_moving
 	is_moving = input_vector.length() > 0.1
@@ -367,6 +532,42 @@ func update_running_state():
 
 func _unhandled_input(event):
 	# Handle CapsLock toggle - this needs to be first
+	if in_dialog:
+		return
+
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT and navigate_on_click:
+		# Get click position in world space
+		var click_pos = get_global_mouse_position()
+		
+		# Show marker at destination
+		_show_movement_marker(click_pos)
+		
+		# Force debug output to be true temporarily for diagnosing issues
+		var temp_debug = true
+		
+		# Create a simple direct path to the click point
+		var direct_path = [click_pos]
+		if temp_debug: print("NAVIGATION DEBUG: Creating direct path to ", click_pos)
+		
+		# Use this simple path for navigation
+		if direct_path.size() > 0:
+			path_to_target = direct_path
+			is_navigating = true
+			
+			# Set a timeout to allow keyboard override immediately
+			keyboard_override_timeout = 0.1
+			
+			if temp_debug: print("NAVIGATION DEBUG: Path set with ", path_to_target.size(), " points")
+			if temp_debug: print("NAVIGATION DEBUG: is_navigating = ", is_navigating)
+		else:
+			if temp_debug: print("NAVIGATION DEBUG: Failed to create path")
+			
+			# Try to notify the user
+			var notification_system = get_node_or_null("/root/NotificationSystem")
+			if notification_system and notification_system.has_method("show_notification"):
+				notification_system.show_notification("Cannot navigate to that location")
+			
+			
 	if event is InputEventKey and event.keycode == KEY_CAPSLOCK and event.pressed:
 		run_toggle = !run_toggle
 		print("Run toggle is now: ", run_toggle)
@@ -478,6 +679,17 @@ func _unhandled_input(event):
 				look_at_system.look_at(nearest_obj)
 			else:
 				print("No interactable objects in range to look at")
+
+func _on_navigation_completed(character):
+	# Only handle our own completion
+	if character == self:
+		is_navigating = false
+		path_to_target = []
+		
+		# Disconnectig to avoid memory leaks
+		var navigation_manager = get_node_or_null("/root/NavigationManager")
+		if navigation_manager and navigation_manager.navigation_completed.is_connected(_on_navigation_completed):
+			navigation_manager.navigation_completed.disconnect(_on_navigation_completed)
 
 func begin_jump():
 	if is_running:
@@ -615,6 +827,15 @@ func sleep():
 		sleep_interface.update_buttons()
 		get_tree().paused = true
 
+func calculate_speed():
+	if "scene_speed_mod" in current_location_scene:
+		current_scene_speed_mod = current_location_scene.scene_speed_mod
+	else:
+		current_scene_speed_mod = 1
+	var original_speed = base_speed
+	current_speed = base_speed * current_scene_speed_mod
+	if debug: print("speed was " + str(original_speed) + " but was multipliesd by " + str(current_scene_speed_mod) + " and is now " + str(base_speed) )
+
 func _on_sleep_completed(time_periods):
 	# Restore player health/energy
 	if current_health < max_health:
@@ -636,3 +857,167 @@ func _on_sleep_completed(time_periods):
 	var notification_system = get_node_or_null("/root/NotificationSystem")
 	if notification_system and notification_system.has_method("show_notification"):
 		notification_system.show_notification("You feel refreshed after sleeping")
+
+
+func _check_navigation_region():
+	# Check if the current scene has a NavigationRegion2D for navigation
+	var navigation_region = get_tree().current_scene.find_child("NavigationRegion2D", true, false)
+	
+	if navigation_region:
+		if debug: print("Found NavigationRegion2D for navigation: ", navigation_region.name)
+		
+		# Make sure the navigation map is active
+		var map_rid = navigation_region.get_navigation_map()
+		NavigationServer2D.map_set_active(map_rid, true)
+		
+		# Verify the navigation mesh is valid
+		var regions = NavigationServer2D.map_get_regions(map_rid)
+		if regions.size() > 0:
+			if debug: print("Navigation mesh has ", regions.size(), " regions")
+		else:
+			if debug: print("WARNING: Navigation mesh has no regions!")
+	else:
+		if debug: print("WARNING: No NavigationRegion2D found in scene. Click-to-navigate will not work.")
+		
+		# Try to notify the user about the missing navigation mesh
+		var notification_system = get_node_or_null("/root/NotificationSystem")
+		if notification_system and notification_system.has_method("show_notification"):
+			notification_system.show_notification("Click to navigate not available in this area")
+
+func _show_movement_marker(position):
+	# Remove any existing markers
+	for marker in get_tree().get_nodes_in_group("player_movement_marker"):
+		marker.queue_free()
+	
+	# Create a new marker
+	if movement_marker_scene:
+		var marker = movement_marker_scene.instantiate()
+		get_tree().current_scene.add_child(marker)
+		marker.global_position = position
+		marker.add_to_group("player_movement_marker")
+		
+		# Set up auto-removal
+		var tween = create_tween()
+		tween.tween_property(marker, "modulate:a", 0.0, 1.0)
+		tween.tween_callback(marker.queue_free)
+
+func _create_default_movement_marker():
+	# Create a simple scene for the movement marker
+	var scene = PackedScene.new()
+	
+	var marker = Sprite2D.new()
+	marker.texture = preload("res://icon.svg") # Godot icon as fallback
+	marker.scale = Vector2(0.3, 0.3)
+	
+	var script = GDScript.new()
+	script.source_code = """
+	extends Sprite2D
+	
+	func _ready():
+		# Fade in
+		modulate.a = 0
+		var tween = create_tween()
+		tween.tween_property(self, "modulate:a", 1.0, 0.2)
+	"""
+	script.reload()
+	marker.set_script(script)
+	
+	scene.pack(marker)
+	return scene
+
+func process_navigation(delta):
+	# Force debug to be true for this function
+	var force_debug = true
+	
+	if not is_navigating or path_to_target.size() == 0:
+		if force_debug: print("NAVIGATION STOPPED: is_navigating=", is_navigating, ", path_size=", path_to_target.size())
+		is_navigating = false
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
+	if force_debug: print("NAVIGATION ACTIVE: Processing navigation. Path points: ", path_to_target.size())
+	
+	# Get the next point in the path
+	var target_point = path_to_target[0]
+	
+	# Calculate distance to the next point
+	var distance = global_position.distance_to(target_point)
+	if force_debug: print("NAVIGATION DISTANCE: ", distance, " to point: ", target_point)
+	
+	# If we've reached the point, remove it and move to the next
+	if distance < 10:  # Threshold for reaching a point
+		if force_debug: print("NAVIGATION REACHED: waypoint, removing from path")
+		path_to_target.remove_at(0)
+		
+		# If no more points, we're done
+		if path_to_target.size() == 0:
+			if force_debug: print("NAVIGATION COMPLETE!")
+			is_navigating = false
+			velocity = Vector2.ZERO
+			move_and_slide()
+			
+			# Try different ways to set animation back to idle
+			if animator and animator.has_method("set_animation"):
+				animator.set_animation("idle", anim_direction, get_character_id())
+				if force_debug: print("NAVIGATION ANIMATION: Using CharacterAnimator.set_animation")
+			elif AP and AP.has_animation("idle_" + anim_direction):
+				AP.play("idle_" + anim_direction)
+				if force_debug: print("NAVIGATION ANIMATION: Using AnimationPlayer.play")
+			
+			last_animation = "idle"
+			return
+	
+	# Calculate direction directly to the next point in our path
+	var direction = (target_point - global_position).normalized()
+	if force_debug: print("NAVIGATION DIRECTION: ", direction)
+	
+	# Update animation based on direction
+	last_direction = direction
+	update_anim_direction()
+	if force_debug: print("NAVIGATION ANIM DIR: ", anim_direction)
+	
+	# Set speed based on running state
+	if is_running:
+		speed = current_speed * run_speed_multiplier
+	else:
+		speed = current_speed
+	
+	# Calculate velocity (double the speed to make movement more obvious)
+	var move_velocity = direction * speed * 1.5
+	if force_debug: print("NAVIGATION VELOCITY: ", move_velocity)
+	
+	# Apply movement directly
+	velocity = move_velocity
+	move_and_slide()
+	
+	# Try different ways to update animation
+	var anim_type = "run" if is_running else "walk"
+	if animator and animator.has_method("set_animation"):
+		animator.set_animation(anim_type, anim_direction, get_character_id())
+		if force_debug: print("NAVIGATION ANIMATION: Using CharacterAnimator for ", anim_type)
+	elif AP:
+		var anim_name = anim_type + "_" + anim_direction
+		if AP.has_animation(anim_name):
+			AP.play(anim_name)
+			if force_debug: print("NAVIGATION ANIMATION: Using AnimationPlayer for ", anim_name)
+	
+	# Update position tracking
+	update_position_tracking()
+	
+# Handle the adjusted velocity from the avoidance system
+func _on_velocity_computed(safe_velocity):
+	# print("DEBUG: velocity_computed callback called with velocity: ", safe_velocity)
+	
+	# Apply the safe velocity that avoids other agents
+	velocity = safe_velocity
+	move_and_slide()
+	
+	# Update position tracking after movement
+	update_position_tracking()
+
+# Set a navigation path
+func set_navigation_path(path: Array, run: bool = false):
+	path_to_target = path
+	is_navigating = true
+	is_running = run

@@ -1,6 +1,11 @@
 extends Node2D
+
+const location_scene : bool = true
+
 @onready var z_objects = $Sprite2D/z_Objects
+
 func _ready():
+	print(self.name + " location_scene: " + str(location_scene))
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
 	if debug_label:
 		var player = $Player
