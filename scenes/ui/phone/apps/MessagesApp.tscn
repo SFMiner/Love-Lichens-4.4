@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6gkxj1qwv001"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/apps/MessagesApp.gd" id="1_xyz78"] ; Placeholder for script
+
+[node name="MessagesApp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xyz78")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true ; To help keep new messages in view
+
+[node name="MessageStreamLabel" type="RichTextLabel" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "" ; Initial text is empty
+autowrap_mode = 2 ; AUTOWRAP_WORD
+scroll_active = true ; Ensure it's scrollable
+scroll_following = true ; Important for new messages to scroll into view
+threaded = true ; For potentially long message histories
+meta_underlined = false
+hint_underlined = false
+parse_bbcode = true
+text_direction = 0
+visible_characters_behavior = 0
+clip_contents = true

@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu2a7w5c22x0i"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/PhoneScene.gd" id="1_abcde"] ; Placeholder for script, will create later
+
+[node name="PhoneScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="PhoneShell" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -250.0
+offset_right = 150.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AppGrid" type="GridContainer" parent="PhoneShell"]
+layout_mode = 2
+columns = 3
+
+[node name="AppButton_Messages" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Messages"
+
+[node name="AppButton_Discord" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Discord"
+
+[node name="AppButton_SocialFeed" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Social"
+
+[node name="AppButton_Journal" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Journal"
+
+[node name="AppButton_Email" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Email"
+
+[node name="AppButton_Grades" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Grades"
+
+[node name="AppButton_CameraRoll" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Photos"
+
+[node name="AppButton_Spore" type="Button" parent="PhoneShell/AppGrid"]
+layout_mode = 2
+text = "Spore"
+
+[node name="AppPanel" type="Control" parent="."]
+visible = false ; Initially hidden
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"

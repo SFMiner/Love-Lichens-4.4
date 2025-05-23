@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkl30j0qwb07q"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/apps/CameraRollApp.gd" id="1_abc12"] ; Placeholder for script
+
+[node name="CameraRollApp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abc12")
+
+[node name="ThumbnailsGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3 ; Example column count
+
+[node name="ImageViewPanel" type="Panel" parent="."]
+visible = false ; Initially hidden
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FullImageView" type="TextureRect" parent="ImageViewPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -100.0 ; Make space for metadata and button
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1 ; EXPAND_KEEP_ASPECT_CENTERED
+stretch_mode = 5 ; STRETCH_KEEP_ASPECT_CENTERED
+
+[node name="CaptionLabel" type="Label" parent="ImageViewPanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -90.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Image Caption"
+horizontal_alignment = 1 ; Center
+
+[node name="MetadataPanel" type="VBoxContainer" parent="ImageViewPanel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0 ; Adjust width as needed
+offset_top = -60.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2 ; End (bottom)
+
+[node name="TimestampLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+layout_mode = 2
+text = "Date: YYYY-MM-DD"
+
+[node name="TagsLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+layout_mode = 2
+text = "Tags: #example, #tags"
+
+[node name="SourceLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+layout_mode = 2
+text = "Source: Unknown"
+
+[node name="ImageBackButton" type="Button" parent="ImageViewPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back to Grid"

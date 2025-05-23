@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5wof2gq00xya"]
+
+[ext_resource type="PackedScene" uid="uid://bu2a7w5c22x0i" path="res://scenes/ui/phone/PhoneScene.tscn" id="1_phone"]
+
+[node name="TestPhoneScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.25, 1) ; A dark bluish-gray background
+
+[node name="PhoneSceneInstance" parent="." instance=ExtResource("1_phone")]
+unique_name_in_owner = true
+
+[node name="InstructionsLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 80.0
+grow_horizontal = 2
+text = "TestPhoneScene:
+Manually verify PhoneScene functionality.
+Check app loading, UI, and back buttons."
+horizontal_alignment = 1
+autowrap_mode = 2
