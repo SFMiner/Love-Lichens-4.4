@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d1bilgecycfwy"
-path="res://.godot/imported/spellcast.png-af4f6bde6706d51b8394ec841652876e.ctex"
+path="res://.godot/imported/spellcast.png-a01403c26e8b5f56a551cb4e9b000936.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/poison/standard/spellcast.png"
-dest_files=["res://.godot/imported/spellcast.png-af4f6bde6706d51b8394ec841652876e.ctex"]
+source_file="res://assets/character_sprites/Poison/standard/spellcast.png"
+dest_files=["res://.godot/imported/spellcast.png-a01403c26e8b5f56a551cb4e9b000936.ctex"]
 
 [params]
 

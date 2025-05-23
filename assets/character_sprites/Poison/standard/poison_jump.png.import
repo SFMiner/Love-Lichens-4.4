@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://nea46nl0me63"
-path="res://.godot/imported/poison_jump.png-7bb88f0a2bdf167aca61c13d40d2634b.ctex"
+path="res://.godot/imported/poison_jump.png-5864becc147ab3cba783a31ade75dd14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/poison/standard/poison_jump.png"
-dest_files=["res://.godot/imported/poison_jump.png-7bb88f0a2bdf167aca61c13d40d2634b.ctex"]
+source_file="res://assets/character_sprites/Poison/standard/poison_jump.png"
+dest_files=["res://.godot/imported/poison_jump.png-5864becc147ab3cba783a31ade75dd14.ctex"]
 
 [params]
 

@@ -1,15 +1,30 @@
 [gd_scene load_steps=2 format=3 uid="uid://c6gkxj1qwv001"]
 
-[ext_resource type="Script" path="res://scenes/ui/phone/apps/MessagesApp.gd" id="1_xyz78"]
+[ext_resource type="Script" uid="uid://xiw2eo8p5miu" path="res://scenes/ui/phone/apps/MessagesApp.gd" id="1_xyz78"]
 
 [node name="MessagesApp" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = -19.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xyz78")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_right = 5.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ConversationListView" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -18,22 +33,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 0 ; Start
 
-	[node name="ConvButton_Poison" type="Button" parent="ConversationListView"]
-	layout_mode = 2
-	text = "Poison"
-	
-	[node name="ConvButton_Erik" type="Button" parent="ConversationListView"]
-	layout_mode = 2
-	text = "Erik"
-	
-	[node name="ConvButton_LabGroup" type="Button" parent="ConversationListView"]
-	layout_mode = 2
-	text = "Lab Group"
+[node name="ConvButton_Poison" type="Button" parent="ConversationListView"]
+layout_mode = 2
+text = "Poison"
+
+[node name="ConvButton_Erik" type="Button" parent="ConversationListView"]
+layout_mode = 2
+text = "Erik"
+
+[node name="ConvButton_LabGroup" type="Button" parent="ConversationListView"]
+layout_mode = 2
+text = "Lab Group"
 
 [node name="ChatView" type="Control" parent="."]
-visible = false ; Initially hidden
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,47 +55,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-	[node name="ChatHeader" type="HBoxContainer" parent="ChatView"]
-	layout_mode = 1
-	anchors_preset = 10
-	anchor_right = 1.0
-	offset_bottom = 40.0 ; Adjust height as needed
-	grow_horizontal = 2
-	
-		[node name="ChatBackButton" type="Button" parent="ChatView/ChatHeader"]
-		layout_mode = 2
-		text = "< Back to List"
-		
-		[node name="ChatTitleLabel" type="Label" parent="ChatView/ChatHeader"]
-		layout_mode = 2
-		size_flags_horizontal = 3 ; Fill remaining space
-		text = "Conversation Title" ; Will be updated by script
-		horizontal_alignment = 1 ; Center
-		vertical_alignment = 1 ; Center
+[node name="ChatHeader" type="HBoxContainer" parent="ChatView"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
 
-	[node name="ScrollContainer" type="ScrollContainer" parent="ChatView"]
-	layout_mode = 1
-	anchors_preset = 15
-	anchor_right = 1.0
-	anchor_bottom = 1.0
-	offset_top = 45.0 ; Below ChatHeader
-	grow_horizontal = 2
-	grow_vertical = 2
-	follow_focus = true
+[node name="ChatBackButton" type="Button" parent="ChatView/ChatHeader"]
+layout_mode = 2
+text = "< Back to List"
 
-		[node name="MessageStreamLabel" type="RichTextLabel" parent="ChatView/ScrollContainer"]
-		layout_mode = 2
-		size_flags_horizontal = 3
-		size_flags_vertical = 3
-		bbcode_enabled = true
-		text = ""
-		autowrap_mode = 2
-		scroll_active = true
-		scroll_following = true
-		threaded = true
-		meta_underlined = false
-		hint_underlined = false
-		parse_bbcode = true
-		text_direction = 0
-		visible_characters_behavior = 0
-		clip_contents = true
+[node name="ChatTitleLabel" type="Label" parent="ChatView/ChatHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Conversation Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ChatView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="MessageStreamLabel" type="RichTextLabel" parent="ChatView/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+autowrap_mode = 2
+meta_underlined = false
+hint_underlined = false
+threaded = true

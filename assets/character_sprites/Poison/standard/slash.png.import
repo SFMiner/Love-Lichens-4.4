@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhcrygn7eh2m1"
-path="res://.godot/imported/slash.png-28024d8bc0f833d66e54693035d53c1e.ctex"
+path="res://.godot/imported/slash.png-d21bd1a71c555aa8b7f1c091dcac4fd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/poison/standard/slash.png"
-dest_files=["res://.godot/imported/slash.png-28024d8bc0f833d66e54693035d53c1e.ctex"]
+source_file="res://assets/character_sprites/Poison/standard/slash.png"
+dest_files=["res://.godot/imported/slash.png-d21bd1a71c555aa8b7f1c091dcac4fd1.ctex"]
 
 [params]
 

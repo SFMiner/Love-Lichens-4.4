@@ -6,10 +6,10 @@ uid="uid://cvq156w8pxjd6"
 
 [deps]
 
-files=["res://assets/character_sprites/fate/credits/credits.notes.translation", "res://assets/character_sprites/fate/credits/credits.authors.translation", "res://assets/character_sprites/fate/credits/credits.licenses.translation", "res://assets/character_sprites/fate/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/Fate/credits/credits.notes.translation", "res://assets/character_sprites/Fate/credits/credits.authors.translation", "res://assets/character_sprites/Fate/credits/credits.licenses.translation", "res://assets/character_sprites/Fate/credits/credits.urls.translation"]
 
-source_file="res://assets/character_sprites/fate/credits/credits.csv"
-dest_files=["res://assets/character_sprites/fate/credits/credits.notes.translation", "res://assets/character_sprites/fate/credits/credits.authors.translation", "res://assets/character_sprites/fate/credits/credits.licenses.translation", "res://assets/character_sprites/fate/credits/credits.urls.translation"]
+source_file="res://assets/character_sprites/Fate/credits/credits.csv"
+dest_files=["res://assets/character_sprites/Fate/credits/credits.notes.translation", "res://assets/character_sprites/Fate/credits/credits.authors.translation", "res://assets/character_sprites/Fate/credits/credits.licenses.translation", "res://assets/character_sprites/Fate/credits/credits.urls.translation"]
 
 [params]
 

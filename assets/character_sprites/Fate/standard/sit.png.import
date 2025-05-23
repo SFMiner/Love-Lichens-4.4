@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mhkh0atf45v6"
-path="res://.godot/imported/sit.png-4af4bc5cf2fdb0d94dbec2037e43df17.ctex"
+path="res://.godot/imported/sit.png-a85bff4d6710b9d26d9e849e363ef3a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/fate/standard/sit.png"
-dest_files=["res://.godot/imported/sit.png-4af4bc5cf2fdb0d94dbec2037e43df17.ctex"]
+source_file="res://assets/character_sprites/Fate/standard/sit.png"
+dest_files=["res://.godot/imported/sit.png-a85bff4d6710b9d26d9e849e363ef3a1.ctex"]
 
 [params]
 

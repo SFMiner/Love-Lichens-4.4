@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://etepu1v3bbdy"
-path="res://.godot/imported/thrust.png-2f90417dda55bdc81de6798805441705.ctex"
+path="res://.godot/imported/thrust.png-32827b26f0e0bf5546ffdabe13bd9e91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/poison/standard/thrust.png"
-dest_files=["res://.godot/imported/thrust.png-2f90417dda55bdc81de6798805441705.ctex"]
+source_file="res://assets/character_sprites/Poison/standard/thrust.png"
+dest_files=["res://.godot/imported/thrust.png-32827b26f0e0bf5546ffdabe13bd9e91.ctex"]
 
 [params]
 

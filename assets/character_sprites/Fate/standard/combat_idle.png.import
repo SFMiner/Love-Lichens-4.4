@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt71phsa2wkpv"
-path="res://.godot/imported/combat_idle.png-c3e1a98e1f04d74a393ad0a98cb9f67d.ctex"
+path="res://.godot/imported/combat_idle.png-8a8ec8dcdecc03ec09a532d2c8e654ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/fate/standard/combat_idle.png"
-dest_files=["res://.godot/imported/combat_idle.png-c3e1a98e1f04d74a393ad0a98cb9f67d.ctex"]
+source_file="res://assets/character_sprites/Fate/standard/combat_idle.png"
+dest_files=["res://.godot/imported/combat_idle.png-8a8ec8dcdecc03ec09a532d2c8e654ba.ctex"]
 
 [params]
 
