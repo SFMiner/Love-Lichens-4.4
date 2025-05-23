@@ -144,7 +144,21 @@ func _ready():
 	
 	if not phone_scene_instance:
 		if debug: print("GameController: PhoneSceneInstance not found at path /root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	elif phone_scene_instance: # Explicitly ensure phone is hidden on _ready
+		phone_scene_instance.visible = false
+		if debug: print("GameController: Ensured PhoneSceneInstance is hidden on _ready.")
 # Add these new methods
+
+# Public method to be called after a game load
+func hide_phone_ui_on_load():
+	if phone_scene_instance:
+		phone_scene_instance.visible = false
+		# If PhoneScene had an internal reset function, call it here too
+		# e.g., phone_scene_instance.reset_to_home_screen() 
+		if debug: print("GameController: Phone UI hidden and reset due to game load.")
+	else:
+		if debug: print("GameController: PhoneSceneInstance not found, cannot hide on load.")
+
 func _on_day_changed(old_day, new_day):
 	if debug: print("Day changed from %d to %d" % [old_day, new_day])
 	day_advanced.emit()

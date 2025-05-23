@@ -322,6 +322,13 @@ func _apply_save_data(save_data):
 				player.play_animation(save_data.player_animation)
 		else:
 			if debug: print("Player not found in the scene")
+
+	# Ensure Phone UI is hidden after all data is applied
+	if game_controller and game_controller.has_method("hide_phone_ui_on_load"):
+		if debug: print("SaveLoadSystem: Ensuring Phone UI is hidden post-load.")
+		game_controller.hide_phone_ui_on_load()
+	else:
+		if debug: print("SaveLoadSystem: GameController or hide_phone_ui_on_load method not found when trying to hide phone UI post-load.")
 			
 	if debug: print("Save data applied successfully")
 	return true
