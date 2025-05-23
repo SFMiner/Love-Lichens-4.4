@@ -34,6 +34,8 @@ var quest_panel_scene
 # UI references
 var pause_menu
 var pause_menu_scene # Will be loaded in _ready
+@onready var phone_scene_instance: Control = $PhoneCanvasLayer/PhoneSceneInstance
+@onready var phone_toggle_button: Button = $CanvasLayer/PhoneToggleButton
 
 #time tracking
 var current_turn = 0
@@ -134,7 +136,14 @@ func _ready():
 	
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
+
+	if phone_toggle_button:
+		phone_toggle_button.pressed.connect(_on_phone_toggle_button_pressed)
+	else:
+		if debug: print("GameController: PhoneToggleButton not found at path /root/Game/CanvasLayer/PhoneToggleButton")
 	
+	if not phone_scene_instance:
+		if debug: print("GameController: PhoneSceneInstance not found at path /root/Game/PhoneCanvasLayer/PhoneSceneInstance")
 # Add these new methods
 func _on_day_changed(old_day, new_day):
 	if debug: print("Day changed from %d to %d" % [old_day, new_day])
@@ -792,6 +801,13 @@ func on_location_entered(location_id):
 # Add this to _ready() in game_controller.gd
 	# Initialize the "dorm_room" visit for intro quest
 	call_deferred("on_location_entered", "dorm_room")
+
+func _on_phone_toggle_button_pressed():
+	if phone_scene_instance:
+		phone_scene_instance.visible = not phone_scene_instance.visible
+		if debug: print("Phone visibility toggled to: ", phone_scene_instance.visible)
+	else:
+		if debug: print("PhoneSceneInstance is null, cannot toggle visibility.")
 	
 func debug_complete_quest_objective(quest_id, objective_type, target_id):
 	if quest_system:

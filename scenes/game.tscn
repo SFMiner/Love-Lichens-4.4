@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqssmnrlhvthw" path="res://scripts/autoload/game_controller.gd" id="1_g3xwj"]
 [ext_resource type="PackedScene" uid="uid://co0t5m2qa8e1n" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bu2a7w5c22x0i" path="res://scenes/ui/phone/PhoneScene.tscn" id="3_abcde"] ; Added PhoneScene resource
 
 [node name="Game" type="Node"]
 script = ExtResource("1_g3xwj")
@@ -27,6 +28,13 @@ text = "Loading scene..."
 
 [node name="TimeDisplay" parent="CanvasLayer" instance=ExtResource("2_yqjtg")]
 
+[node name="PhoneToggleButton" type="Button" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 50.0
+text = "Phone"
+
 [node name="Label" type="Label" parent="CanvasLayer"]
 visible = false
 offset_left = 386.0
@@ -34,3 +42,10 @@ offset_top = 274.0
 offset_right = 435.0
 offset_bottom = 297.0
 text = "NPCs: "
+
+[node name="PhoneCanvasLayer" type="CanvasLayer" parent="."]
+layer = 10 ; Ensure it's on top
+
+[node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_abcde")]
+visible = false ; Initially hidden
+unique_name_in_owner = true ; Good practice if accessing via unique name

@@ -8,13 +8,13 @@ extends Control
 # Dictionary mapping button names to their scene paths
 const APP_SCENE_PATHS = {
 	"AppButton_Messages": "res://scenes/ui/phone/apps/MessagesApp.tscn",
-	"AppButton_Discord": "res://scenes/ui/phone/apps/DiscordApp.tscn",
-	"AppButton_SocialFeed": "res://scenes/ui/phone/apps/SocialFeedApp.tscn",
-	"AppButton_Journal": "res://scenes/ui/phone/apps/JournalApp.tscn",
-	"AppButton_Email": "res://scenes/ui/phone/apps/EmailApp.tscn",
-	"AppButton_Grades": "res://scenes/ui/phone/apps/GradesApp.tscn",
+	"AppButton_Discord": "res://scenes/ui/phone/apps/DiscordApp.tscn", # Updated path
+	"AppButton_SocialFeed": "res://scenes/ui/phone/apps/SocialFeedApp.tscn", # Assuming this exists or is placeholder
+	"AppButton_Journal": "res://scenes/ui/phone/apps/JournalApp.tscn", # Assuming this exists or is placeholder
+	"AppButton_Email": "res://scenes/ui/phone/apps/EmailApp.tscn", # Updated path
+	"AppButton_Grades": "res://scenes/ui/phone/apps/GradesApp.tscn", # Assuming this exists or is placeholder
 	"AppButton_CameraRoll": "res://scenes/ui/phone/apps/CameraRollApp.tscn",
-	"AppButton_Spore": "res://scenes/ui/phone/apps/SporeApp.tscn"
+	"AppButton_Spore": "res://scenes/ui/phone/apps/SporeApp.tscn" # Assuming this exists or is placeholder
 }
 
 func _ready():

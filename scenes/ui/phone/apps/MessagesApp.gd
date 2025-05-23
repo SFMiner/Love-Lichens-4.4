@@ -1,97 +1,178 @@
 extends Control
 
-@onready var message_stream_label: RichTextLabel = $ScrollContainer/MessageStreamLabel
-@onready var scroll_container: ScrollContainer = $ScrollContainer
+# --- Node References ---
+@onready var conversation_list_view: VBoxContainer = $ConversationListView
+@onready var chat_view: Control = $ChatView
+@onready var chat_back_button: Button = $ChatView/ChatHeader/ChatBackButton
+@onready var chat_title_label: Label = $ChatView/ChatHeader/ChatTitleLabel
+@onready var message_stream_label: RichTextLabel = $ChatView/ScrollContainer/MessageStreamLabel
+@onready var scroll_container: ScrollContainer = $ChatView/ScrollContainer
 
-# Color for NPC messages (default RichTextLabel color is usually white/light)
-const NPC_COLOR = Color(0.8, 0.8, 0.8) # Light gray, adjust as needed
-# Color for Player messages
-const PLAYER_COLOR = Color(0.6, 0.8, 1.0) # A light blue, adjust as needed
+# --- Style Constants ---
+const STYLE_TAG_COLORS = {
+	"default": "", # Will default to NPC/Player base colors if empty
+	"player": "[color=#D0D0FF]",
+	"npc_default": "[color=#E0E0E0]",
+	"spore_data": "[color=#A0FFA0]", # Light green for spore/oud
+	"system_error": "[color=#FF8080]", # Reddish for errors
+}
+
+# Base colors if no specific style_tag color is found or applicable
+const BASE_NPC_COLOR_TAG = "[color=#E0E0E0]" # Default NPC
+const BASE_PLAYER_COLOR_TAG = "[color=#D0D0FF]" # Default Player
+
+# --- State ---
+var current_view: String = "list" # "list" or "chat"
+var current_conversation_id: String = ""
+
+# --- Test Conversation Data ---
+const TEST_CONVERSATIONS = {
+	"poison_chat": {
+		"title": "Poison",
+		"messages": [
+			{"sender": "Poison", "text": "Hey Adam, you there?", "timestamp": "10:30 AM", "is_player": false, "style_tag": "npc_default"},
+			{"sender": "Adam", "text": "Yeah, what's up?", "timestamp": "10:31 AM", "is_player": true, "style_tag": "player"},
+			{"sender": "Poison", "text": "Found that weird glowing lichen we saw yesterday. It's pulsating.", "timestamp": "10:32 AM", "is_player": false, "style_tag": "npc_default"},
+			{"sender": "Poison", "text": "Actually, scratch that. It's giving off a faint green glow now.", "timestamp": "10:33 AM", "is_player": false, "style_tag": "spore_data"},
+			{"sender": "Adam", "text": "Whoa, seriously? Where are you?", "timestamp": "10:34 AM", "is_player": true, "style_tag": "player"},
+		]
+	},
+	"erik_chat": {
+		"title": "Erik",
+		"messages": [
+			{"sender": "Erik", "text": "Dude, did you finish the history assignment?", "timestamp": "11:00 AM", "is_player": false, "style_tag": "npc_default"},
+			{"sender": "Adam", "text": "Almost... just the last paragraph.", "timestamp": "11:01 AM", "is_player": true, "style_tag": "player"},
+			{"sender": "Erik", "text": "Lucky. I'm still stuck on the causes of the Franco-Prussian War.", "timestamp": "11:02 AM", "is_player": false, "style_tag": "npc_default"},
+		]
+	},
+	"lab_group_chat": {
+		"title": "Lab Group",
+		"messages": [
+			{"sender": "Sarah", "text": "Is anyone else having trouble with experiment 3?", "timestamp": "Yesterday", "is_player": false, "style_tag": "npc_default"},
+			{"sender": "Adam", "text": "Yeah, my results were way off.", "timestamp": "Yesterday", "is_player": true, "style_tag": "player"},
+			{"sender": "Mike", "text": "Same here. Maybe we should compare notes before class?", "timestamp": "Yesterday", "is_player": false, "style_tag": "npc_default"},
+			{"sender": "Adam", "text": "Good idea.", "timestamp": "Today", "is_player": true, "style_tag": "player"},
+		]
+	}
+}
+
 
 func _ready():
-	# Example call to load a conversation based on tags.
-	# In a real scenario, these tags might come from game events or player choices.
-	load_conversation_by_tags(["test_conversation_1"])
+	var conv_buttons = {
+		"ConvButton_Poison": "poison_chat",
+		"ConvButton_Erik": "erik_chat",
+		"ConvButton_LabGroup": "lab_group_chat"
+	}
+	for button_name in conv_buttons:
+		var button_node = conversation_list_view.get_node(button_name)
+		if button_node is Button:
+			var conv_id = conv_buttons[button_name]
+			button_node.pressed.connect(Callable(self, "_on_conversation_selected").bind(conv_id))
+		else:
+			print("Warning: Conversation button not found: ", button_name)
+			
+	chat_back_button.pressed.connect(Callable(self, "_show_conversation_list_view"))
+	_show_conversation_list_view()
 
-func add_message(character_name: String, message_text: String, timestamp: String, is_player: bool):
-	var formatted_message = ""
+
+func _show_conversation_list_view():
+	conversation_list_view.show()
+	chat_view.hide()
+	message_stream_label.clear()
+	current_view = "list"
+	current_conversation_id = ""
+	print("MessagesApp: Switched to Conversation List View")
+
+func _show_chat_view(conversation_id: String):
+	conversation_list_view.hide()
+	chat_view.show()
+	current_view = "chat"
+	current_conversation_id = conversation_id
 	
-	# Timestamp
-	formatted_message += "[color=gray][" + timestamp + "][/color] "
-	
-	# Character Name (bold)
-	formatted_message += "[b]" + character_name + ":[/b] "
-	
-	# Message Text
-	formatted_message += message_text
-	
-	# Apply alignment and color based on who sent the message
-	if is_player:
-		# Player messages: Right-aligned and specific color
-		message_stream_label.append_text("\n[p align=right][color=#" + PLAYER_COLOR.to_html(false) + "]" + formatted_message + "[/color][/p]")
+	if TEST_CONVERSATIONS.has(conversation_id):
+		chat_title_label.text = TEST_CONVERSATIONS[conversation_id]["title"]
 	else:
-		# NPC messages: Left-aligned (default) and specific color
-		message_stream_label.append_text("\n[p align=left][color=#" + NPC_COLOR.to_html(false) + "]" + formatted_message + "[/color][/p]")
+		chat_title_label.text = "Unknown Conversation"
+		
+	load_conversation_by_tags([conversation_id])
+	print("MessagesApp: Switched to Chat View for: ", conversation_id)
 
-	# Scroll to the bottom after adding a new message
-	# Give a brief moment for the RichTextLabel to update its size
+func _on_conversation_selected(conversation_id: String):
+	_show_chat_view(conversation_id)
+
+func add_message(character_name: String, message_text: String, timestamp: String, is_player: bool, style_tag: String = "default"):
+	var text_color_tag = STYLE_TAG_COLORS.get(style_tag, "")
+	
+	# If style_tag is "default" or not found, or if its color is empty, use base player/NPC colors
+	if text_color_tag == "":
+		text_color_tag = BASE_PLAYER_COLOR_TAG if is_player else BASE_NPC_COLOR_TAG
+	
+	var alignment_tag_open = ""
+	var alignment_tag_close = ""
+	if is_player:
+		alignment_tag_open = "[p align=right]"
+		alignment_tag_close = "[/p]"
+	else:
+		alignment_tag_open = "[p align=left]" # Default, but explicit
+		alignment_tag_close = "[/p]"
+
+	var formatted_message_content = ""
+	formatted_message_content += "[color=gray][" + timestamp + "][/color] " # Timestamp color fixed
+	formatted_message_content += "[b]" + character_name + ":[/b] "
+	formatted_message_content += message_text
+	
+	var final_message = alignment_tag_open + text_color_tag + formatted_message_content + "[/color]" + alignment_tag_close
+	message_stream_label.append_text("\n" + final_message)
+
 	await get_tree().create_timer(0.01).timeout
 	scroll_container.scroll_vertical = scroll_container.get_v_scroll_bar().max_value
 
-
 func load_conversation_by_tags(tags: Array):
-	"""
-	Loads and displays a conversation based on a set of tags.
+	message_stream_label.clear()
 	
-	TODO: This function will be updated to:
-	1. Query a central ContentProvider/DataManager singleton using the provided 'tags'.
-	2. The ContentProvider would return dialogue entries or a DialogueResource path.
-	3. This app would then use DialogueManager (or a similar system) to play out the 
-	   conversation, with each line/event being fed to the 'add_message' function
-	   or a new function like '_on_dialogue_line_received'.
-	
-	For now, it uses placeholder hardcoded messages.
-	The 'tags' parameter is currently unused but demonstrates the intended API.
-	"""
-	print("MessagesApp: Attempting to load conversation with tags: ", tags)
-	
-	# --- Placeholder Content ---
-	# In the future, this section will be replaced by data fetched via ContentProvider
-	# and processed by DialogueManager.
-	message_stream_label.clear() # Clear previous messages
-	
-	add_message("Poison", "Hey Adam, you there? (Loaded via tags: " + str(tags) + ")", "10:30 AM", false)
-	add_message("Adam", "Yeah, what's up?", "10:31 AM", true)
-	add_message("Poison", "Found that weird glowing lichen we saw yesterday. It's pulsating.", "10:32 AM", false)
-	add_message("Adam", "Whoa, seriously? Where are you?", "10:33 AM", true)
-	add_message("Poison", "Near the old oak, by the creek. You gotta see this.", "10:34 AM", false)
-	# --- End Placeholder Content ---
+	if tags.is_empty():
+		print("Error: No tags provided to load_conversation_by_tags.")
+		add_message("System", "No conversation ID provided.", "Now", false, "system_error")
+		return
+
+	var conversation_id_to_load = tags[0]
+	print("MessagesApp: Attempting to load conversation with ID (tag): ", conversation_id_to_load)
+
+	if TEST_CONVERSATIONS.has(conversation_id_to_load):
+		var conversation_data = TEST_CONVERSATIONS[conversation_id_to_load]
+		for message_data in conversation_data["messages"]:
+			add_message(
+				message_data.get("sender", "Unknown"),
+				message_data.get("text", "..."),
+				message_data.get("timestamp", " "),
+				message_data.get("is_player", false),
+				message_data.get("style_tag", "default") # Pass the style_tag
+			)
+	else:
+		print("Error: No test data found for conversation_id: ", conversation_id_to_load)
+		add_message("System", "Conversation data not found for ID: " + conversation_id_to_load, "Now", false, "system_error")
+
 
 func set_conversation_data(conversation_data):
-	"""
-	(Conceptual) This function would be called by a ContentProvider or DataManager
-	after it has asynchronously fetched conversation data.
-	
-	It would then process this data, for example:
-	- If 'conversation_data' is a DialogueResource path, it might initialize DialogueManager.
-	- If 'conversation_data' is a pre-structured list of messages, it might loop through
-	  them and call 'add_message'.
-	
-	For now, it just prints the received data.
-	"""
-	print("MessagesApp: Received conversation data: ", conversation_data)
-	# Placeholder:
-	# message_stream_label.clear()
-	# for message_entry in conversation_data:
-	#    add_message(message_entry.character, message_entry.text, message_entry.timestamp, message_entry.is_player)
+	print("MessagesApp: Received conversation data via set_conversation_data: ", conversation_data)
+	message_stream_label.clear()
+	if conversation_data and conversation_data.has("messages"):
+		if conversation_data.has("title"):
+			chat_title_label.text = conversation_data["title"]
+		for message_entry in conversation_data["messages"]:
+			add_message(
+				message_entry.get("sender", "Unknown"), 
+				message_entry.get("text", "..."), 
+				message_entry.get("timestamp", " "), 
+				message_entry.get("is_player", false),
+				message_entry.get("style_tag", "default") # Pass style_tag here too
+			)
+	else:
+		add_message("System", "Received invalid conversation data.", "Now", false, "system_error")
 
-
-# --- DialogueManager Integration Points (Conceptual - kept for reference) ---
-# func load_conversation_from_dialogue_manager(dialogue_resource_id: String, start_node: String = ""):
-# ... (rest of the conceptual DialogueManager comments can remain as they are relevant)
-# func _on_dialogue_line_received(line_data):
-# ...
-# func _on_choices_presented(choices_data):
-# ...
-# func get_current_time_string() -> String:
-# ...
+# --- Conceptual DialogueManager Integration Points ---
+# (Kept for future reference)
+# func load_conversation_from_dialogue_manager(dialogue_resource_id: String, start_node: String = ""): ...
+# func _on_dialogue_line_received(line_data): ...
+# func _on_choices_presented(choices_data): ...
+# func get_current_time_string() -> String: ...
