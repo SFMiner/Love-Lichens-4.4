@@ -138,12 +138,14 @@ func _ready():
 
 	# Phone UI Initialization
 	phone_scene_instance = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	if sys_debug: print("GameController DBG: phone_scene_instance is ", phone_scene_instance)
 	if phone_scene_instance:
 		phone_scene_instance.visible = false
 	else:
 		if sys_debug: print("GameController: PhoneSceneInstance not found.")
 
 	var phone_toggle_button = get_node_or_null("/root/Game/CanvasLayer/PhoneToggleButton")
+	if sys_debug: print("GameController DBG: phone_toggle_button is ", phone_toggle_button)
 	if phone_toggle_button:
 		phone_toggle_button.connect("pressed", Callable(self, "_on_PhoneToggleButton_pressed"))
 	else:
@@ -916,8 +918,11 @@ func waiting():
 
 # Phone UI Methods
 func _on_PhoneToggleButton_pressed():
+	if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed called.")
 	if phone_scene_instance:
+		if sys_debug: print("GameController DBG: phone_scene_instance.visible before toggle: ", phone_scene_instance.visible)
 		phone_scene_instance.visible = !phone_scene_instance.visible
+		if sys_debug: print("GameController DBG: phone_scene_instance.visible after toggle: ", phone_scene_instance.visible)
 		if sys_debug: print("Phone UI visibility toggled to: ", phone_scene_instance.visible)
 		# Optionally, pause the game when phone is open, similar to other UIs
 		# get_tree().paused = phone_scene_instance.visible 

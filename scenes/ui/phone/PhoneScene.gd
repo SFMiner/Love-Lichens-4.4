@@ -27,19 +27,25 @@ const APP_OPEN_COLOR = Color(0.9, 0.9, 0.9)
 var current_app_instance: Node = null
 
 func _ready():
+    print("PhoneScene DBG: _ready() started.")
     # Set initial screen color
-    phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
+    # phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
 
     # Populate AppGrid with buttons
     for app_name in APP_PATHS:
         var app_button = Button.new()
+        print("PhoneScene DBG: Creating button for: ", app_name, " - Button instance: ", app_button)
         app_button.text = app_name
         app_button.custom_minimum_size = Vector2(80, 80) # Adjust size as needed
         app_button.connect("pressed", Callable(self, "_on_app_button_pressed").bind(APP_PATHS[app_name]))
         app_grid.add_child(app_button)
+        print("PhoneScene DBG: Added button for ", app_name, " to AppGrid. AppGrid child count now: ", app_grid.get_child_count())
 
+    print("PhoneScene DBG: Finished adding app buttons. Final AppGrid child count: ", app_grid.get_child_count())
     # Connect BackButton
     back_button.connect("pressed", Callable(self, "_on_back_button_pressed"))
+    print("PhoneScene DBG: final visibility in _ready: %s, global_position: %s, size: %s" % [visible, global_position, size])
+    print("PhoneScene DBG: PhoneCase custom_min_size: %s, PhoneScreen custom_min_size: %s" % [phone_case.custom_minimum_size, phone_screen.custom_minimum_size])
 
 func _on_app_button_pressed(app_scene_path: String):
     print("Attempting to load app: " + app_scene_path)
@@ -62,7 +68,7 @@ func _on_app_button_pressed(app_scene_path: String):
         # Update UI visibility and color
         phone_shell.visible = false
         app_panel.visible = true
-        phone_screen.get_theme_stylebox("panel").set_bg_color(APP_OPEN_COLOR)
+        # phone_screen.get_theme_stylebox("panel").set_bg_color(APP_OPEN_COLOR)
         back_button.visible = true
     else:
         printerr("Failed to load app scene: " + app_scene_path)
@@ -81,7 +87,7 @@ func _return_to_home_screen():
 
     phone_shell.visible = true
     app_panel.visible = false
-    phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
+    # phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
     # back_button.visible = false # Keep back button visible as it's part of phone case
 
 func clear_current_app():
@@ -91,7 +97,7 @@ func clear_current_app():
         current_app_instance = null
     app_panel.visible = false
     phone_shell.visible = true
-    phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
+    # phone_screen.get_theme_stylebox("panel").set_bg_color(HOME_SCREEN_COLOR)
 
 # Call this function if an app fails to load, or if an app needs to close itself
 # and there's no specific "back to app list" button within the app itself.
