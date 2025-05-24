@@ -139,19 +139,28 @@ func _ready():
 
 	# Phone UI Initialization
 	phone_scene_instance = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
-	if sys_debug: print("GameController DBG: phone_scene_instance is ", phone_scene_instance)
+	if debug: print("GameController DBG: phone_scene_instance is ", phone_scene_instance)
 	if phone_scene_instance:
 		phone_scene_instance.visible = false
 	else:
-		if sys_debug: print("GameController: PhoneSceneInstance not found.")
+		if debug: print("GameController: PhoneSceneInstance not found.")
 
 	var phone_toggle_button = get_node_or_null("/root/Game/CanvasLayer/PhoneToggleButton")
-	if sys_debug: print("GameController DBG: phone_toggle_button is ", phone_toggle_button)
+	if debug: print("GameController DBG: phone_toggle_button is ", phone_toggle_button)
 	if phone_toggle_button:
-		if sys_debug: print("GameController DBG: Attempting to connect PhoneToggleButton pressed signal.")
+		# Check if already connected, and disconnect if so
+		if phone_toggle_button.is_connected("pressed", Callable(self, "_on_PhoneToggleButton_pressed")):
+			if debug: print("GameController DBG: PhoneToggleButton 'pressed' signal already connected. Disconnecting first.")
+			phone_toggle_button.disconnect("pressed", Callable(self, "_on_PhoneToggleButton_pressed"))
+		
+		if debug: print("GameController DBG: Attempting to connect PhoneToggleButton pressed signal.")
 		phone_toggle_button.connect("pressed", Callable(self, "_on_PhoneToggleButton_pressed"))
+		if phone_toggle_button.is_connected("pressed", Callable(self, "_on_PhoneToggleButton_pressed")):
+			if debug: print("GameController DBG: PhoneToggleButton 'pressed' signal connection successful.")
+		else:
+			if debug: print("GameController DBG: PhoneToggleButton 'pressed' signal connection FAILED.")
 	else:
-		if sys_debug: print("GameController: PhoneToggleButton not found.")
+		if debug: print("GameController: PhoneToggleButton not found.")
 	
 # Add these new methods
 func _on_day_changed(old_day, new_day):
@@ -921,32 +930,32 @@ func waiting():
 # Phone UI Methods
 func _on_PhoneToggleButton_pressed():
 	if _phone_toggle_debouncing:
-		if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed call ignored due to debounce.")
+		if debug: print("GameController DBG: _on_PhoneToggleButton_pressed call ignored due to debounce.")
 		return
 	_phone_toggle_debouncing = true
 
-	if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed called.") # This is the original print
+	if debug: print("GameController DBG: _on_PhoneToggleButton_pressed called.") # This is the original print
 
 	if phone_scene_instance:
-		if sys_debug: print("GameController DBG: phone_scene_instance.visible before toggle: ", phone_scene_instance.visible)
+		if debug: print("GameController DBG: phone_scene_instance.visible before toggle: ", phone_scene_instance.visible)
 		phone_scene_instance.visible = !phone_scene_instance.visible
-		if sys_debug: print("GameController DBG: phone_scene_instance.visible after toggle: ", phone_scene_instance.visible)
-		if sys_debug: print("Phone UI visibility toggled to: ", phone_scene_instance.visible)
+		if debug: print("GameController DBG: phone_scene_instance.visible after toggle: ", phone_scene_instance.visible)
+		if debug: print("Phone UI visibility toggled to: ", phone_scene_instance.visible)
 		# Optionally, pause the game when phone is open, similar to other UIs
 		# get_tree().paused = phone_scene_instance.visible 
 	else:
-		if sys_debug: print("PhoneSceneInstance not found, cannot toggle.")
+		if debug: print("PhoneSceneInstance not found, cannot toggle.")
 	
 	call_deferred("_reset_phone_toggle_debounce")
 
 func _reset_phone_toggle_debounce():
 	_phone_toggle_debouncing = false
-	if sys_debug: print("GameController DBG: Phone toggle debounce reset.")
+	if debug: print("GameController DBG: Phone toggle debounce reset.")
 
 func hide_phone_ui_on_load():
 	if phone_scene_instance:
 		phone_scene_instance.visible = false
-		if sys_debug: print("Phone UI hidden on load.")
+		if debug: print("Phone UI hidden on load.")
 	# If game was paused by phone, unpause
 	# if get_tree().paused and not other_ui_active(): # you'd need a helper for other_ui_active
 	#     get_tree().paused = false
