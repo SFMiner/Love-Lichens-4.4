@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://h0yiht8pkacx"
-path="res://.godot/imported/run.png-a501e361de86c45ad49cf88cf214c855.ctex"
+path="res://.godot/imported/run.png-9aa90fce927e158b287eea8d142e9fc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/fate/standard/run.png"
-dest_files=["res://.godot/imported/run.png-a501e361de86c45ad49cf88cf214c855.ctex"]
+source_file="res://assets/character_sprites/Fate/standard/run.png"
+dest_files=["res://.godot/imported/run.png-9aa90fce927e158b287eea8d142e9fc3.ctex"]
 
 [params]
 

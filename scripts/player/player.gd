@@ -48,7 +48,7 @@ var movement_marker_scene
 # Mouse interaction variables
 var interactables_in_range = []
 signal interaction_requested(object)
-const scr_debug = true  # Enable debugging to help diagnose navigation issues
+const scr_debug = false  # Enable debugging to help diagnose navigation issues
 
 func _ready():
 	super._ready()

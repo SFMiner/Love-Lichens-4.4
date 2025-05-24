@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://divvppxb3xbfy"
-path="res://.godot/imported/emote.png-f6c268bdf08fe9fe3b12bf705c53b578.ctex"
+path="res://.godot/imported/emote.png-55dfec5e012b502972c31d4ea13747d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/poison/standard/emote.png"
-dest_files=["res://.godot/imported/emote.png-f6c268bdf08fe9fe3b12bf705c53b578.ctex"]
+source_file="res://assets/character_sprites/Poison/standard/emote.png"
+dest_files=["res://.godot/imported/emote.png-55dfec5e012b502972c31d4ea13747d6.ctex"]
 
 [params]
 

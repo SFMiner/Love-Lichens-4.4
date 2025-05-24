@@ -6,10 +6,10 @@ uid="uid://vpxkvef1ncr7"
 
 [deps]
 
-files=["res://assets/character_sprites/li/credits/credits.notes.translation", "res://assets/character_sprites/li/credits/credits.authors.translation", "res://assets/character_sprites/li/credits/credits.licenses.translation", "res://assets/character_sprites/li/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/Li/credits/credits.notes.translation", "res://assets/character_sprites/Li/credits/credits.authors.translation", "res://assets/character_sprites/Li/credits/credits.licenses.translation", "res://assets/character_sprites/Li/credits/credits.urls.translation"]
 
-source_file="res://assets/character_sprites/li/credits/credits.csv"
-dest_files=["res://assets/character_sprites/li/credits/credits.notes.translation", "res://assets/character_sprites/li/credits/credits.authors.translation", "res://assets/character_sprites/li/credits/credits.licenses.translation", "res://assets/character_sprites/li/credits/credits.urls.translation"]
+source_file="res://assets/character_sprites/Li/credits/credits.csv"
+dest_files=["res://assets/character_sprites/Li/credits/credits.notes.translation", "res://assets/character_sprites/Li/credits/credits.authors.translation", "res://assets/character_sprites/Li/credits/credits.licenses.translation", "res://assets/character_sprites/Li/credits/credits.urls.translation"]
 
 [params]
 

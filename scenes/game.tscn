@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqssmnrlhvthw" path="res://scripts/autoload/game_controller.gd" id="1_g3xwj"]
 [ext_resource type="PackedScene" uid="uid://co0t5m2qa8e1n" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://phoneScn01" path="res://scenes/ui/phone/PhoneScene.tscn" id="3_phonScn"]
+[ext_resource type="PackedScene" uid="uid://buqyl5w255j0c" path="res://scenes/ui/phone/PhoneScene.tscn" id="3_phonScn"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_g3xwj")
@@ -48,3 +48,4 @@ layer = 10
 
 [node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_phonScn")]
 visible = false
+layout_mode = 3

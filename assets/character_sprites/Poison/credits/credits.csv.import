@@ -6,10 +6,10 @@ uid="uid://btfmtdwcc2c6w"
 
 [deps]
 
-files=["res://assets/character_sprites/poison/credits/credits.notes.translation", "res://assets/character_sprites/poison/credits/credits.authors.translation", "res://assets/character_sprites/poison/credits/credits.licenses.translation", "res://assets/character_sprites/poison/credits/credits.urls.translation"]
+files=["res://assets/character_sprites/Poison/credits/credits.notes.translation", "res://assets/character_sprites/Poison/credits/credits.authors.translation", "res://assets/character_sprites/Poison/credits/credits.licenses.translation", "res://assets/character_sprites/Poison/credits/credits.urls.translation"]
 
-source_file="res://assets/character_sprites/poison/credits/credits.csv"
-dest_files=["res://assets/character_sprites/poison/credits/credits.notes.translation", "res://assets/character_sprites/poison/credits/credits.authors.translation", "res://assets/character_sprites/poison/credits/credits.licenses.translation", "res://assets/character_sprites/poison/credits/credits.urls.translation"]
+source_file="res://assets/character_sprites/Poison/credits/credits.csv"
+dest_files=["res://assets/character_sprites/Poison/credits/credits.notes.translation", "res://assets/character_sprites/Poison/credits/credits.authors.translation", "res://assets/character_sprites/Poison/credits/credits.licenses.translation", "res://assets/character_sprites/Poison/credits/credits.urls.translation"]
 
 [params]
 

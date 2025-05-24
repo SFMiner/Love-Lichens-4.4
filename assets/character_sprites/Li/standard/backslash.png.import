@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://wak1tksm0pvg"
-path="res://.godot/imported/backslash.png-59b86aa878c0d247476eea61aa49fd6d.ctex"
+path="res://.godot/imported/backslash.png-115bb019672edb462f57bb7c8229d3af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprites/li/standard/backslash.png"
-dest_files=["res://.godot/imported/backslash.png-59b86aa878c0d247476eea61aa49fd6d.ctex"]
+source_file="res://assets/character_sprites/Li/standard/backslash.png"
+dest_files=["res://.godot/imported/backslash.png-115bb019672edb462f57bb7c8229d3af.ctex"]
 
 [params]
 
