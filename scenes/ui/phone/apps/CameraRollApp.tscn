@@ -1,94 +1,106 @@
 [gd_scene load_steps=2 format=3 uid="uid://dkl30j0qwb07q"]
 
-[ext_resource type="Script" path="res://scenes/ui/phone/apps/CameraRollApp.gd" id="1_abc12"] ; Placeholder for script
+[ext_resource type="Script" path="res://scenes/ui/phone/apps/CameraRollApp.gd" id="1_abc12"]
 
 [node name="CameraRollApp" type="Control"]
-layout_mode = 3
-anchors_preset = 15
+layout_mode = 1 # Explicitly set to anchors for preset to work
+anchors_preset = 15 # Full Rect
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_abc12")
 
-[node name="ThumbnailsGrid" type="GridContainer" parent="."]
+[node name="ThumbnailsMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 3 ; Example column count
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+	[node name="ThumbnailsGrid" type="GridContainer" parent="ThumbnailsMarginContainer"]
+	layout_mode = 2 # Will fill MarginContainer
+	columns = 3 
+	# Add size flags to ensure it tries to expand if MarginContainer is larger
+	size_flags_horizontal = 3
+	size_flags_vertical = 3
 
 [node name="ImageViewPanel" type="Panel" parent="."]
-visible = false ; Initially hidden
+visible = false # Initially hidden
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+# The Panel itself provides a visual background. Margins for content go inside.
 
-[node name="FullImageView" type="TextureRect" parent="ImageViewPanel"]
+[node name="ImageViewContentMarginContainer" type="MarginContainer" parent="ImageViewPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -100.0 ; Make space for metadata and button
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 1 ; EXPAND_KEEP_ASPECT_CENTERED
-stretch_mode = 5 ; STRETCH_KEEP_ASPECT_CENTERED
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="CaptionLabel" type="Label" parent="ImageViewPanel"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -90.0
-offset_bottom = -70.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Image Caption"
-horizontal_alignment = 1 ; Center
+	[node name="FullImageView" type="TextureRect" parent="ImageViewPanel/ImageViewContentMarginContainer"]
+	layout_mode = 2 
+	# Removed fixed offsets, will be controlled by MarginContainer and its own size flags
+	# For TextureRect to fill and keep aspect, we need it to expand and then use its expand_mode
+	size_flags_horizontal = 3 # Fill, Expand
+	size_flags_vertical = 3   # Fill, Expand
+	expand_mode = 1 # EXPAND_KEEP_ASPECT_CENTERED (was already this)
+	stretch_mode = 5 # STRETCH_KEEP_ASPECT_CENTERED (was already this)
+	# To ensure it doesn't take all space from labels/button below, 
+	# we might need to put it in a VBoxContainer with other elements or manage its size_flags_stretch_ratio.
+	# For now, let it expand. If Caption/Metadata/Button are also in a VBox, they will share space.
+	# Let's put FullImageView, CaptionLabel, MetadataPanel (simplified), and ImageBackButton in a VBox.
 
-[node name="MetadataPanel" type="VBoxContainer" parent="ImageViewPanel"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -150.0 ; Adjust width as needed
-offset_top = -60.0
-offset_bottom = -10.0
-grow_horizontal = 0
-grow_vertical = 0
-alignment = 2 ; End (bottom)
+	[node name="ContentVBox" type="VBoxContainer" parent="ImageViewPanel/ImageViewContentMarginContainer"]
+	layout_mode = 2
 
-[node name="TimestampLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
-layout_mode = 2
-text = "Date: YYYY-MM-DD"
+		[node name="FullImageView" type="TextureRect" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox"]
+		layout_mode = 2
+		size_flags_vertical = 3 # Expand vertically
+		stretch_mode = 5 # Keep aspect centered
+		
+		[node name="CaptionLabel" type="Label" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox"]
+		layout_mode = 2
+		# Removed anchor presets and offsets
+		text = "Image Caption"
+		horizontal_alignment = 1 # Center
+		# Add some vertical separation if needed via theme_override_constants/separation in VBoxContainer
 
-[node name="TagsLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
-layout_mode = 2
-text = "Tags: #example, #tags"
+		[node name="MetadataPanel" type="HBoxContainer" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox"] # Changed to HBox for simple horizontal layout
+		layout_mode = 2
+		# Removed anchor presets and offsets
+		alignment = 1 # Center children
 
-[node name="SourceLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
-layout_mode = 2
-text = "Source: Unknown"
+			[node name="TimestampLabel" type="Label" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox/MetadataPanel"]
+			layout_mode = 2
+			text = "Date: YYYY-MM-DD"
+			
+			[node name="TagsLabel" type="Label" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox/MetadataPanel"]
+			layout_mode = 2
+			text = "Tags: #example" # Shortened for HBox
+			size_flags_horizontal = 3 # Expand if needed
 
-[node name="ImageBackButton" type="Button" parent="ImageViewPanel"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -40.0
-offset_right = 50.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Back to Grid"
+			[node name="SourceLabel" type="Label" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox/MetadataPanel"]
+			layout_mode = 2
+			text = "Src: Unknown" # Shortened
+
+		[node name="ImageBackButton" type="Button" parent="ImageViewPanel/ImageViewContentMarginContainer/ContentVBox"]
+		layout_mode = 2
+		# Removed anchor presets and offsets
+		# Let VBoxContainer handle positioning, maybe add alignment to center it
+		size_flags_horizontal = 4 # Center (within VBox)
+		text = "Back to Grid"

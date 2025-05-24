@@ -4,52 +4,38 @@
 
 [node name="MessagesApp" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = 14.0
-offset_right = -19.0
-offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xyz78")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_right = 5.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ConversationListView" type="VBoxContainer" parent="."]
+[node name="ConversationListMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="ConvButton_Poison" type="Button" parent="ConversationListView"]
+[node name="ConversationListView" type="VBoxContainer" parent="ConversationListMarginContainer"]
 layout_mode = 2
-text = "Poison"
 
-[node name="ConvButton_Erik" type="Button" parent="ConversationListView"]
+[node name="ConvButton_Erik" type="Button" parent="ConversationListMarginContainer/ConversationListView"]
 layout_mode = 2
 text = "Erik"
 
-[node name="ConvButton_LabGroup" type="Button" parent="ConversationListView"]
+[node name="ConvButton_LabGroup" type="Button" parent="ConversationListMarginContainer/ConversationListView"]
 layout_mode = 2
 text = "Lab Group"
 
 [node name="ChatView" type="Control" parent="."]
 visible = false
-layout_mode = 1
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -73,7 +59,7 @@ text = "Conversation Title"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ChatView"]
+[node name="ChatContentMarginContainer" type="MarginContainer" parent="ChatView"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,9 +67,15 @@ anchor_bottom = 1.0
 offset_top = 45.0
 grow_horizontal = 2
 grow_vertical = 2
-follow_focus = true
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
 
-[node name="MessageStreamLabel" type="RichTextLabel" parent="ChatView/ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="ChatView/ChatContentMarginContainer"]
+layout_mode = 2
+
+[node name="MessageStreamLabel" type="RichTextLabel" parent="ChatView/ChatContentMarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

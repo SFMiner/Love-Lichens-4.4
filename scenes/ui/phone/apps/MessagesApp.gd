@@ -1,12 +1,12 @@
 extends Control
 
 # --- Node References ---
-@onready var conversation_list_view: VBoxContainer = $ConversationListView
+@onready var conversation_list_view: VBoxContainer = $ConversationListMarginContainer/ConversationListView
 @onready var chat_view: Control = $ChatView
 @onready var chat_back_button: Button = $ChatView/ChatHeader/ChatBackButton
 @onready var chat_title_label: Label = $ChatView/ChatHeader/ChatTitleLabel
-@onready var message_stream_label: RichTextLabel = $ChatView/ScrollContainer/MessageStreamLabel
-@onready var scroll_container: ScrollContainer = $ChatView/ScrollContainer
+@onready var message_stream_label: RichTextLabel = $ChatView/ChatContentMarginContainer/ScrollContainer/MessageStreamLabel
+@onready var scroll_container: ScrollContainer = $ChatView/ChatContentMarginContainer/ScrollContainer
 
 # --- Style Constants ---
 const STYLE_TAG_COLORS = {
