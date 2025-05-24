@@ -35,6 +35,7 @@ var quest_panel_scene
 var pause_menu
 var pause_menu_scene # Will be loaded in _ready
 @onready var phone_scene_instance: Control
+var _phone_toggle_debouncing: bool = false
 
 #time tracking
 var current_turn = 0
@@ -147,6 +148,7 @@ func _ready():
 	var phone_toggle_button = get_node_or_null("/root/Game/CanvasLayer/PhoneToggleButton")
 	if sys_debug: print("GameController DBG: phone_toggle_button is ", phone_toggle_button)
 	if phone_toggle_button:
+		if sys_debug: print("GameController DBG: Attempting to connect PhoneToggleButton pressed signal.")
 		phone_toggle_button.connect("pressed", Callable(self, "_on_PhoneToggleButton_pressed"))
 	else:
 		if sys_debug: print("GameController: PhoneToggleButton not found.")
@@ -918,7 +920,13 @@ func waiting():
 
 # Phone UI Methods
 func _on_PhoneToggleButton_pressed():
-	if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed called.")
+	if _phone_toggle_debouncing:
+		if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed call ignored due to debounce.")
+		return
+	_phone_toggle_debouncing = true
+
+	if sys_debug: print("GameController DBG: _on_PhoneToggleButton_pressed called.") # This is the original print
+
 	if phone_scene_instance:
 		if sys_debug: print("GameController DBG: phone_scene_instance.visible before toggle: ", phone_scene_instance.visible)
 		phone_scene_instance.visible = !phone_scene_instance.visible
@@ -928,6 +936,12 @@ func _on_PhoneToggleButton_pressed():
 		# get_tree().paused = phone_scene_instance.visible 
 	else:
 		if sys_debug: print("PhoneSceneInstance not found, cannot toggle.")
+	
+	call_deferred("_reset_phone_toggle_debounce")
+
+func _reset_phone_toggle_debounce():
+	_phone_toggle_debouncing = false
+	if sys_debug: print("GameController DBG: Phone toggle debounce reset.")
 
 func hide_phone_ui_on_load():
 	if phone_scene_instance:
