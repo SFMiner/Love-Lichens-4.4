@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1a2s3d4f5g6"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/apps/MessagesApp.gd" id="1_msgsapp"]
+
+[node name="MessagesApp" type="Control" script=ExtResource("1_msgsapp")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AppMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MainVBox" type="VBoxContainer" parent="AppMarginContainer"]
+layout_mode = 2
+
+[node name="HeaderHBox" type="HBoxContainer" parent="AppMarginContainer/MainVBox"]
+layout_mode = 2
+alignment = 1 ; ALIGNMENT_CENTER
+
+[node name="BackToListButton" type="Button" parent="AppMarginContainer/MainVBox/HeaderHBox"]
+layout_mode = 2
+visible = false
+text = "Back to List"
+
+[node name="HeaderLabel" type="Label" parent="AppMarginContainer/MainVBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3 ; SIZE_EXPAND_FILL
+text = "Messages"
+horizontal_alignment = 1 ; HORIZONTAL_ALIGNMENT_CENTER
+
+[node name="ContentSwitchControl" type="Control" parent="AppMarginContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3 ; SIZE_EXPAND_FILL
+
+[node name="ConversationListView" type="ScrollContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConversationListVBox" type="VBoxContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ConversationListView"]
+layout_mode = 2
+size_flags_horizontal = 3 ; SIZE_EXPAND_FILL
+
+[node name="ChatView" type="ScrollContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="ChatViewMargins" type="MarginContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ChatView"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MessageRichTextLabel" type="RichTextLabel" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ChatView/ChatViewMargins"]
+layout_mode = 2
+size_flags_horizontal = 3 ; SIZE_EXPAND_FILL
+size_flags_vertical = 3 ; SIZE_EXPAND_FILL
+bbcode_enabled = true
+text = ""
+fit_content = true
+scroll_active = true

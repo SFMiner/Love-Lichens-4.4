@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0p7owuaem3nk"]
+[gd_scene load_steps=4 format=3 uid="uid://c0p7owuaem3nk"]
 
 [ext_resource type="Script" uid="uid://cqssmnrlhvthw" path="res://scripts/autoload/game_controller.gd" id="1_g3xwj"]
 [ext_resource type="PackedScene" uid="uid://co0t5m2qa8e1n" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://phoneScn01" path="res://scenes/ui/phone/PhoneScene.tscn" id="3_phonScn"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_g3xwj")
@@ -34,3 +35,16 @@ offset_top = 274.0
 offset_right = 435.0
 offset_bottom = 297.0
 text = "NPCs: "
+
+[node name="PhoneToggleButton" type="Button" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 580.0
+offset_right = 100.0
+offset_bottom = 620.0
+text = "Phone"
+
+[node name="PhoneCanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_phonScn")]
+visible = false

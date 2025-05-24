@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://buqyl5w255j0c"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/PhoneScene.gd" id="1_x7xvx"]
+
+[node name="PhoneScene" type="Control" script = ExtResource("1_x7xvx")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PhoneCase" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 600)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -300.0
+offset_right = 150.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PhoneScreen" type="PanelContainer" parent="PhoneCase"]
+custom_minimum_size = Vector2(280, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -250.0
+offset_right = 140.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PhoneShell" type="PanelContainer" parent="PhoneCase/PhoneScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AppGrid" type="GridContainer" parent="PhoneCase/PhoneScreen/PhoneShell"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+
+[node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="PhoneCase"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 12
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0 # Adjusted to be outside PhoneScreen; e.g. 10px margin from bottom of PhoneCase
+offset_right = 50.0
+offset_bottom = -10.0 # Adjusted to be outside PhoneScreen
+grow_horizontal = 2
+grow_vertical = 0 
+text = "Back"

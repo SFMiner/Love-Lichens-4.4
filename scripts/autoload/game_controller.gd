@@ -34,6 +34,7 @@ var quest_panel_scene
 # UI references
 var pause_menu
 var pause_menu_scene # Will be loaded in _ready
+@onready var phone_scene_instance: Control
 
 #time tracking
 var current_turn = 0
@@ -134,6 +135,19 @@ func _ready():
 	
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
+
+	# Phone UI Initialization
+	phone_scene_instance = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	if phone_scene_instance:
+		phone_scene_instance.visible = false
+	else:
+		if sys_debug: print("GameController: PhoneSceneInstance not found.")
+
+	var phone_toggle_button = get_node_or_null("/root/Game/CanvasLayer/PhoneToggleButton")
+	if phone_toggle_button:
+		phone_toggle_button.connect("pressed", Callable(self, "_on_PhoneToggleButton_pressed"))
+	else:
+		if sys_debug: print("GameController: PhoneToggleButton not found.")
 	
 # Add these new methods
 func _on_day_changed(old_day, new_day):
@@ -899,3 +913,21 @@ func waiting():
 		quest_panel.visible = !quest_panel.visible
 		get_tree().paused = quest_panel.visible
 		if debug: print("Directly toggled quest panel visibility: ", quest_panel.visible)
+
+# Phone UI Methods
+func _on_PhoneToggleButton_pressed():
+	if phone_scene_instance:
+		phone_scene_instance.visible = !phone_scene_instance.visible
+		if sys_debug: print("Phone UI visibility toggled to: ", phone_scene_instance.visible)
+		# Optionally, pause the game when phone is open, similar to other UIs
+		# get_tree().paused = phone_scene_instance.visible 
+	else:
+		if sys_debug: print("PhoneSceneInstance not found, cannot toggle.")
+
+func hide_phone_ui_on_load():
+	if phone_scene_instance:
+		phone_scene_instance.visible = false
+		if sys_debug: print("Phone UI hidden on load.")
+	# If game was paused by phone, unpause
+	# if get_tree().paused and not other_ui_active(): # you'd need a helper for other_ui_active
+	#     get_tree().paused = false

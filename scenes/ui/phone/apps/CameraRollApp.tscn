@@ -1,0 +1,83 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4m3r4r0ll"]
+
+[ext_resource type="Script" path="res://scenes/ui/phone/apps/CameraRollApp.gd" id="1_camgd"]
+
+[node name="CameraRollApp" type="Control" script=ExtResource("1_camgd")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AppMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MainVBox" type="VBoxContainer" parent="AppMarginContainer"]
+layout_mode = 2
+
+[node name="HeaderHBox" type="HBoxContainer" parent="AppMarginContainer/MainVBox"]
+layout_mode = 2
+alignment = 1 ; HBoxContainer.ALIGNMENT_CENTER
+
+[node name="BackToGridButton" type="Button" parent="AppMarginContainer/MainVBox/HeaderHBox"]
+layout_mode = 2
+text = "Back to Grid"
+visible = false
+
+[node name="HeaderLabel" type="Label" parent="AppMarginContainer/MainVBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3 ; Control.SIZE_EXPAND_FILL
+text = "Camera Roll"
+horizontal_alignment = 1 ; Label.HORIZONTAL_ALIGNMENT_CENTER
+
+[node name="ContentSwitchControl" type="Control" parent="AppMarginContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3 ; Control.SIZE_EXPAND_FILL
+
+[node name="ThumbnailsGridScroll" type="ScrollContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ThumbnailsGrid" type="GridContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ThumbnailsGridScroll"]
+layout_mode = 2
+size_flags_horizontal = 3 ; Control.SIZE_EXPAND_FILL
+columns = 3
+
+[node name="ImageViewPanel" type="VBoxContainer" parent="AppMarginContainer/MainVBox/ContentSwitchControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="ImageTextureRect" type="TextureRect" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ImageViewPanel"]
+layout_mode = 2
+size_flags_vertical = 3 ; Control.SIZE_EXPAND_FILL
+expand_mode = 1 ; TextureRect.EXPAND_KEEP_SIZE_CENTERED
+stretch_mode = 5 ; TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+
+[node name="CaptionLabel" type="Label" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ImageViewPanel"]
+layout_mode = 2
+text = "Image Caption"
+horizontal_alignment = 1
+
+[node name="MetadataLabel" type="Label" parent="AppMarginContainer/MainVBox/ContentSwitchControl/ImageViewPanel"]
+layout_mode = 2
+text = "Timestamp | Tags | Source"
+horizontal_alignment = 1
