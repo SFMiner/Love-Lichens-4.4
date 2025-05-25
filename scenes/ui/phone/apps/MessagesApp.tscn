@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://c6gkxj1qwv001"]
 
 [ext_resource type="Script" uid="uid://xiw2eo8p5miu" path="res://scenes/ui/phone/apps/MessagesApp.gd" id="1_xyz78"]
+[ext_resource type="PackedScene" uid="uid://dks0bvs2isw7c" path="res://addons/dialogue_manager/dialogue_runner.tscn" id="2_dialogue_runner"]
 
 [node name="MessagesApp" type="Control"]
 layout_mode = 3
@@ -33,18 +34,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="ConvButton_Poison" type="Button" parent="ConversationListView"]
-layout_mode = 2
-text = "Poison"
-
-[node name="ConvButton_Erik" type="Button" parent="ConversationListView"]
-layout_mode = 2
-text = "Erik"
-
-[node name="ConvButton_LabGroup" type="Button" parent="ConversationListView"]
-layout_mode = 2
-text = "Lab Group"
 
 [node name="ChatView" type="Control" parent="."]
 visible = false
@@ -79,6 +68,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 45.0
+offset_bottom = -50.0 # Make space for choice buttons
 grow_horizontal = 2
 grow_vertical = 2
 follow_focus = true
@@ -93,3 +83,16 @@ autowrap_mode = 2
 meta_underlined = false
 hint_underlined = false
 threaded = true
+
+[node name="ChoiceButtonContainer" type="VBoxContainer" parent="ChatView"]
+visible = false # Initially hidden
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -45.0 # Adjust as needed
+grow_horizontal = 2
+grow_vertical = 0 # Should not grow vertically, its height is based on content
+
+[node name="DialogueRunner" type="Node" parent="." instance=ExtResource("2_dialogue_runner")]
