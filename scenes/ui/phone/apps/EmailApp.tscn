@@ -1,12 +1,17 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1q2w3e4r5t6y"]
 
-[ext_resource type="Script" path="res://scenes/ui/phone/apps/EmailApp.gd" id="1_emailgd"]
+[ext_resource type="Script" uid="uid://bpu626bdvle75" path="res://scenes/ui/phone/apps/EmailApp.gd" id="1_emailgd"]
 
 [node name="EmailApp" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.002
+anchor_top = 0.003
+anchor_right = 0.998
+anchor_bottom = 0.997
+offset_left = 0.16
+offset_top = 0.76
+offset_right = -0.160034
+offset_bottom = -0.76001
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_emailgd")

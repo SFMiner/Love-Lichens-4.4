@@ -14,26 +14,31 @@ The main Control scene representing the phone. It persists as the foundational v
 #### Primary Children:
 ```
 PhoneScene (Control)
-├── PhoneShell (Texture/UI Elements)
-│   ├── ClockLabel
-│   ├── BatteryIcon
-│   ├── SignalIcon
-│   └── AppGrid (GridContainer)
-│       ├── AppButton_Messages
-│       ├── AppButton_Discord
-│       ├── AppButton_SocialFeed
-│       ├── AppButton_Journal
-│       ├── AppButton_Email
-│       ├── AppButton_Grades
-│       ├── AppButton_CameraRoll
-│       ├── AppButton_Spore
-├── AppPanel (Control)  → Loads active app scenes here
-├── BackButton (Button) → Closes current app and returns to home screen
+├── PhoneCase (Texture/UI Elements, for now represent with ColorRect, will change to TextureRect later)
+├── PhoneScreen
+│   ├──PhoneShell (Texture/UI Elements, for now use a Panel, may/may not change to TextureRect)
+│      ├── PhoneIcons (HBoxClockLabel (Label)
+│      │   ├── BatteryIcon
+│      │   ├── SignalIcon
+│      │   └── AppGrid (GridContainer)
+│      │── AppButton_Messages
+│      │   ├── AppButton_Messages
+│      │   ├── AppButton_Discord
+│      │   ├── AppButton_SocialFeed
+│      │   ├── AppButton_Journal
+│      │   ├── AppButton_Email
+│      │   ├── AppButton_Grades
+│      │   ├── AppButton_CameraRoll
+│      │   ├── AppButton_Spore
+│      ├── AppPanel (Control)  → Loads active app scenes here
+│      ├── BackButton (Button) → Closes current app and returns to home screen
 ├── PopupLayer (Control, optional) → Global overlays like image viewers
 └── TransitionLayer (optional) → Animations for switching apps
 ```
-
+BackButton should appear on the phone case, not overlapping the phone
 ---
+
+
 
 ### 2. App Loading
 Apps are modular `.tscn` scenes loaded dynamically into `AppPanel`.

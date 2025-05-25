@@ -1,9 +1,9 @@
 extends Control
 
-@onready var app_panel: Control = $AppPanel
-@onready var phone_shell: PanelContainer = $PhoneShell
-@onready var back_button: Button = $BackButton
-@onready var app_grid: GridContainer = $PhoneShell/AppGrid
+@onready var app_panel: Control = $PhoneCase/PhoneScreen/AppPanel
+@onready var phone_shell: PanelContainer = $PhoneCase/PhoneScreen/PhoneShell
+@onready var back_button: Button = $PhoneCase/BackButton
+@onready var app_grid: GridContainer = $PhoneCase/PhoneScreen/PhoneShell/AppGrid
 
 # Dictionary mapping button names to their scene paths
 const APP_SCENE_PATHS = {
@@ -72,3 +72,7 @@ func _on_back_button_pressed():
 # Placeholder for future use if needed
 # func open_messages_app():
 #     _on_app_button_pressed(APP_SCENE_PATHS["AppButton_Messages"])
+
+
+func _on_app_panel_resized() -> void:
+	print(str(app_panel.size))   # Replace with function body.

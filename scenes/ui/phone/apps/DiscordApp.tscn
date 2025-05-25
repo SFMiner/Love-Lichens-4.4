@@ -1,12 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2x3y4z5a6b7c"]
+[gd_scene load_steps=2 format=3 uid="uid://c2x3y405a6b7c"]
 
-[ext_resource type="Script" path="res://scenes/ui/phone/apps/DiscordApp.gd" id="1_discordgd"]
+[ext_resource type="Script" uid="uid://i7kbpr63rj8o" path="res://scenes/ui/phone/apps/DiscordApp.gd" id="1_discordgd"]
 
 [node name="DiscordApp" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.002
+anchor_top = 0.003
+anchor_right = 0.998
+anchor_bottom = 0.996
+offset_left = 0.16
+offset_top = 0.76
+offset_right = -0.160034
+offset_bottom = 0.319946
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_discordgd")

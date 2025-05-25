@@ -47,5 +47,3 @@ text = "NPCs: "
 layer = 10
 
 [node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_abcde")]
-unique_name_in_owner = true
-visible = false
