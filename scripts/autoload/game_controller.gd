@@ -9,6 +9,7 @@ signal day_advanced
 signal location_changed(old_location, new_location)
 
 const sys_debug : bool = false
+const scr_debug : bool = false
 var debug 
 var active_scene
 
@@ -51,7 +52,7 @@ var unlocked_areas = {}
 var knowledge_base = {}
 
 func _ready():
-	debug = sys_debug
+	debug = sys_debug or scr_debug
 	if debug: print("Game Controller initialized")
 	quest_system = QuestSystem
 	
