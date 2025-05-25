@@ -21,13 +21,15 @@ PhoneScene (Control)
 │      │   ├── BatteryIcon
 │      │   ├── SignalIcon
 │      │   └── AppGrid (GridContainer)
-│      │── AppButton_Messages
+│      │── AppButton_Messages (All buttons in this should be square, like the usual 
+│      │   │   home screen on a normal smartphone; make the grid 4 buttons wide.)
 │      │   ├── AppButton_Messages
 │      │   ├── AppButton_Discord
 │      │   ├── AppButton_SocialFeed
 │      │   ├── AppButton_Journal
 │      │   ├── AppButton_Email
 │      │   ├── AppButton_Grades
+│      │   ├── AppButton_Snake
 │      │   ├── AppButton_CameraRoll
 │      │   ├── AppButton_Spore
 │      ├── AppPanel (Control)  → Loads active app scenes here
@@ -35,7 +37,12 @@ PhoneScene (Control)
 ├── PopupLayer (Control, optional) → Global overlays like image viewers
 └── TransitionLayer (optional) → Animations for switching apps
 ```
-BackButton should appear on the phone case, not overlapping the phone
+Notes:
+	1. BackButton should appear to be part of the PhoneCase, so it should not overlap the PhoneScreen. 
+		(This is in place)
+	2. The children of PhoneIcons have not yet been added.
+	3. EACH of the apps, when opened, MUST befit inside PhoneScreen, which represents the screen.
+		(This is not yet the case: CameraApp extends past the edges of both PhoneScreen and AppPanel, and I can't tell why)
 ---
 
 
@@ -97,6 +104,19 @@ Each app is a Control scene containing its own layout and logic. All apps must b
 - Table: Course | Professor | Grade
 - Clicking entries can open related dialogue nodes or notes
 - Distorted or glitched entries are possible for narrative effect
+- Source should be a resource file in res:/data/grades.
+	- A different grades file each semester: year1_sem1_grades.json, year1_sem2_grades.json, year2_sem1_grades.json, and so on.
+
+### SnakeApp
+- A very simple "Snake" game, on one non-scrolling screen
+	- Start screen
+	- Player moves "Snake" which grows as it consumes randomly-spawning dots.
+	- Snake moves only in straight lines up, down, left, and right
+	- Snake is cont4rolled by the same bvuttons as the player (see player.gd for action names)
+	- Body of snake follows the exact path of the "head"
+	- If the head crashes into (movces into) a space taken up by any part of its trailing body, the game is over.
+	- Game Over scene upon game ending
+	- Play Again? cene with restart icon to restart game.
 
 ### CameraRollApp
 - Grid of image thumbnails (tagged)
@@ -148,7 +168,20 @@ Timestamps support full formatting flexibility, including unconventional or anom
 
 ---
 
-## 8. UX Features
+## 8. Dialogue System Integration
+
+- **Text source** The branching conversations are stored int he *.dialogue files in data/dialogues
+- **Dialogue system** The dialogue system handles both branching dialogue and player dialogue options, and should be used for each active exchange
+- **Persistent text** The DialogueBalloon scene and script used by the dialogue system holds only one exchange at a time. For most apps (DiscrdApp, MessagesApp, Email), the information from each exchange must be taken from this eschange and stored in a running RichTextLabel which is iteself child of a ScrollContainer, to resemble an actrual app of the same nature.
+- **Dialogue system files** 
+  - res://scripts/autoloads/DialogueSystem
+  - res://scripts/autoloads/DialogueMemoryExtension
+  - res://scripts/ui/DialoguePanel
+  - res://scenes/ui/DialogueBalloon
+  - res://addons/dialogue_manager/
+---
+
+## 9. UX Features
 
 - **Back button** exits app and returns to home screen
 - **Bookmarking** (optional): store references to messages/posts/images
