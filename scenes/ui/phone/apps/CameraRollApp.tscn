@@ -3,15 +3,15 @@
 [ext_resource type="Script" uid="uid://dxfacwhsf5o3b" path="res://scenes/ui/phone/apps/CameraRollApp.gd" id="1_abc12"]
 
 [node name="CameraRollApp" type="Control"]
-layout_mode = 3
-anchor_left = 0.002
-anchor_top = 0.004
-anchor_right = 0.998
-anchor_bottom = 0.997
-offset_left = 0.16
-offset_top = -0.32
-offset_right = -0.160034
-offset_bottom = -0.76001
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_abc12")

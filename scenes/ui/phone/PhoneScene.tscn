@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bu2a7w5c22x0i"]
+[gd_scene load_steps=11 format=3 uid="uid://bu2a7w5c22x0i"]
 
 [ext_resource type="Script" uid="uid://6vms5tvfowux" path="res://scenes/ui/phone/PhoneScene.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://c7i6ebhyg5m44" path="res://assets/icons/phone/text_icon.png" id="2_wu38c"]
+[ext_resource type="Texture2D" uid="uid://cxqoi5y2obg0k" path="res://assets/icons/phone/discord_icon.png" id="3_ytgae"]
+[ext_resource type="Texture2D" uid="uid://2n4qkps7ixax" path="res://assets/icons/phone/social_icon.png" id="4_hnuvk"]
+[ext_resource type="Texture2D" uid="uid://c4w4it6es1qmq" path="res://assets/icons/phone/journal_icon.png" id="5_ixx5u"]
+[ext_resource type="Texture2D" uid="uid://rewru7vew01s" path="res://assets/icons/phone/mail_icon.png" id="6_b714f"]
+[ext_resource type="Texture2D" uid="uid://mws10er8idml" path="res://assets/icons/phone/grades_icon.png" id="7_vok02"]
+[ext_resource type="Texture2D" uid="uid://dvaxua4uq8mb4" path="res://assets/icons/phone/snake_icon.png" id="8_5i1as"]
+[ext_resource type="Texture2D" uid="uid://b257mlyvj3vty" path="res://assets/icons/phone/camera_roll_icon.png" id="9_2fs8w"]
+[ext_resource type="Texture2D" uid="uid://bpeekx3ys02eo" path="res://assets/icons/phone/spore_icon.png" id="10_lq1rp"]
 
 [node name="PhoneScene" type="Control"]
 layout_mode = 3
@@ -45,39 +54,97 @@ layout_mode = 2
 
 [node name="AppGrid" type="GridContainer" parent="PhoneCase/PhoneScreen/PhoneShell"]
 layout_mode = 2
-columns = 3
+columns = 4
 
-[node name="AppButton_Messages" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Messages" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
-text = "Messages"
+texture_normal = ExtResource("2_wu38c")
+texture_pressed = ExtResource("2_wu38c")
+texture_hover = ExtResource("2_wu38c")
+texture_disabled = ExtResource("2_wu38c")
+texture_focused = ExtResource("2_wu38c")
+stretch_mode = 0
 
-[node name="AppButton_Discord" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Discord" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Discord"
+texture_normal = ExtResource("3_ytgae")
+texture_pressed = ExtResource("3_ytgae")
+texture_hover = ExtResource("3_ytgae")
+texture_disabled = ExtResource("3_ytgae")
+texture_focused = ExtResource("3_ytgae")
+stretch_mode = 0
 
-[node name="AppButton_SocialFeed" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_SocialFeed" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Social"
+texture_normal = ExtResource("4_hnuvk")
+texture_pressed = ExtResource("4_hnuvk")
+texture_hover = ExtResource("4_hnuvk")
+texture_disabled = ExtResource("4_hnuvk")
+texture_focused = ExtResource("4_hnuvk")
+stretch_mode = 0
 
-[node name="AppButton_Journal" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Journal" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Journal"
+texture_normal = ExtResource("5_ixx5u")
+texture_pressed = ExtResource("5_ixx5u")
+texture_hover = ExtResource("5_ixx5u")
+texture_disabled = ExtResource("5_ixx5u")
+texture_focused = ExtResource("5_ixx5u")
+stretch_mode = 0
 
-[node name="AppButton_Email" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Email" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Email"
+texture_normal = ExtResource("6_b714f")
+texture_pressed = ExtResource("6_b714f")
+texture_hover = ExtResource("6_b714f")
+texture_disabled = ExtResource("6_b714f")
+texture_focused = ExtResource("6_b714f")
+stretch_mode = 0
 
-[node name="AppButton_Grades" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Grades" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Grades"
+texture_normal = ExtResource("7_vok02")
+texture_pressed = ExtResource("7_vok02")
+texture_hover = ExtResource("7_vok02")
+texture_disabled = ExtResource("7_vok02")
+texture_focused = ExtResource("7_vok02")
+stretch_mode = 0
 
-[node name="AppButton_CameraRoll" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_Snake" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Photos"
+texture_normal = ExtResource("8_5i1as")
+texture_pressed = ExtResource("8_5i1as")
+texture_hover = ExtResource("8_5i1as")
+texture_disabled = ExtResource("8_5i1as")
+texture_focused = ExtResource("8_5i1as")
+stretch_mode = 0
 
-[node name="AppButton_Spore" type="Button" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+[node name="AppButton_CameraRoll" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "Spore"
+texture_normal = ExtResource("9_2fs8w")
+texture_pressed = ExtResource("9_2fs8w")
+texture_hover = ExtResource("9_2fs8w")
+texture_disabled = ExtResource("9_2fs8w")
+texture_focused = ExtResource("9_2fs8w")
+stretch_mode = 0
+
+[node name="AppButton_Spore" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+texture_normal = ExtResource("10_lq1rp")
+texture_pressed = ExtResource("10_lq1rp")
+texture_hover = ExtResource("10_lq1rp")
+texture_disabled = ExtResource("10_lq1rp")
+texture_focused = ExtResource("10_lq1rp")
+stretch_mode = 0
 
 [node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen"]
 layout_mode = 2

@@ -4,7 +4,7 @@ const CELL_SIZE = Vector2(20, 20)
 const GRID_WIDTH = 15 # GameArea width (300) / CELL_SIZE.x (20)
 const GRID_HEIGHT = 20 # GameArea height (400) / CELL_SIZE.y (20)
 
-enum GameState { START_SCREEN, PLAYING, GAME_OVER }
+enum SnakeGameState { START_SCREEN, PLAYING, GAME_OVER }
 enum Direction { UP, DOWN, LEFT, RIGHT }
 
 @onready var start_screen: VBoxContainer = $StartScreen
@@ -17,7 +17,7 @@ var snake_body: Array[Vector2] = []
 var food_pos: Vector2
 var current_direction: Direction = Direction.RIGHT # Default starting direction
 var score: int = 0
-var current_game_state: GameState = GameState.START_SCREEN
+var current_game_state: SnakeGameState = SnakeGameState.START_SCREEN
 var time_since_last_move: float = 0.0
 const MOVE_INTERVAL: float = 0.2 # Seconds between moves, adjust for speed (0.2 is faster for testing)
 
@@ -40,14 +40,14 @@ func _ready():
 
 
 func show_start_screen():
-    current_game_state = GameState.START_SCREEN
+    current_game_state = SnakeGameState.START_SCREEN
     start_screen.show()
     game_area.hide()
     game_over_screen.hide()
     clear_game_elements() # Clear any old game drawings from game_area
 
 func show_game_over_screen():
-    current_game_state = GameState.GAME_OVER
+    current_game_state = SnakeGameState.GAME_OVER
     game_over_screen.show()
     game_area.hide()
     start_screen.hide()
@@ -55,7 +55,7 @@ func show_game_over_screen():
     clear_game_elements() # Clear game drawings from game_area
 
 func start_game():
-    current_game_state = GameState.PLAYING
+    current_game_state = SnakeGameState.PLAYING
     start_screen.hide()
     game_over_screen.hide()
     game_area.show()
@@ -75,7 +75,7 @@ func start_game():
     draw_game_elements() # Initial draw of food and snake
 
 func _process(delta: float):
-    if current_game_state == GameState.PLAYING:
+    if current_game_state == SnakeGameState.PLAYING:
         time_since_last_move += delta
         if time_since_last_move >= MOVE_INTERVAL:
             time_since_last_move = 0.0 # Reset timer
@@ -84,7 +84,7 @@ func _process(delta: float):
             # draw_game_elements() is called at the end of move_snake if successful
 
 func _unhandled_input(event: InputEvent):
-    if current_game_state != GameState.PLAYING:
+    if current_game_state != SnakeGameState.PLAYING:
         return # Only process input if game is active
 
     if event.is_action_pressed("ui_right"):
@@ -130,8 +130,7 @@ func move_snake():
             new_head_pos.x += 1
 
     # Wall collision check
-    if new_head_pos.x < 0 or new_head_pos.x >= GRID_WIDTH or \
-       new_head_pos.y < 0 or new_head_pos.y >= GRID_HEIGHT:
+    if new_head_pos.x < 0 or new_head_pos.x >= GRID_WIDTH or        new_head_pos.y < 0 or new_head_pos.y >= GRID_HEIGHT:
         show_game_over_screen()
         return
 
@@ -208,7 +207,7 @@ func draw_game_elements():
         segment_rect.size = CELL_SIZE
         segment_rect.position = segment_pos * CELL_SIZE
         if i == 0: # Head
-            segment_rect.color = Color.GREENYELLOW 
+            segment_rect.color = Color.GREEN_YELLOW # Corrected line
         else: # Body
             segment_rect.color = Color.GREEN
         game_area.add_child(segment_rect)
