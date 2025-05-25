@@ -1,0 +1,17 @@
+[
+    {
+        "course": "Intro to Mycology",
+        "professor": "Prof. Amanita",
+        "grade": "A+"
+    },
+    {
+        "course": "Advanced Potion Brewing",
+        "professor": "Prof. Hellebore",
+        "grade": "C-"
+    },
+    {
+        "course": "Herbology 101",
+        "professor": "Prof. Sprout",
+        "grade": "B+"
+    }
+]

@@ -14,7 +14,8 @@ const APP_SCENE_PATHS = {
 	"AppButton_Email": "res://scenes/ui/phone/apps/EmailApp.tscn", # Updated path
 	"AppButton_Grades": "res://scenes/ui/phone/apps/GradesApp.tscn", # Assuming this exists or is placeholder
 	"AppButton_CameraRoll": "res://scenes/ui/phone/apps/CameraRollApp.tscn",
-	"AppButton_Spore": "res://scenes/ui/phone/apps/SporeApp.tscn" # Assuming this exists or is placeholder
+	"AppButton_Spore": "res://scenes/ui/phone/apps/SporeApp.tscn", # Assuming this exists or is placeholder
+	"AppButton_Snake": "res://scenes/ui/phone/apps/SnakeApp.tscn"
 }
 
 func _ready():
