@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://unique_grades_app_scene_id"]
+
+[node name="GradesApp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GradesTable" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+
+[node name="HeaderCourse" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Course"
+
+[node name="HeaderProfessor" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Professor"
+
+[node name="HeaderGrade" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grade"
+
+[node name="SampleCourse" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Intro to Magic"
+
+[node name="SampleProfessor" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Prof. Elm"
+
+[node name="SampleGrade" type="Label" parent="GradesTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A+"
