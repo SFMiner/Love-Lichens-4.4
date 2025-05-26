@@ -60,7 +60,7 @@ layout_mode = 2
 [node name="PhoneIcons" type="HBoxContainer" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer"]
 layout_mode = 2
 
-[node name="DateTimeLabel" type="Label" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/PhoneIcons"]
+[node name="Clock" type="Label" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/PhoneIcons"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 13
@@ -198,5 +198,15 @@ offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Back"
+
+[node name="PopupLayer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TransitionLayer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="resized" from="PhoneCase/PhoneScreen/AppPanel" to="." method="_on_app_panel_resized"]

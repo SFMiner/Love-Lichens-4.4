@@ -15,30 +15,35 @@ The main Control scene representing the phone. It persists as the foundational v
 ```
 PhoneScene (Control)
 ├── PhoneCase (Texture/UI Elements, for now represent with ColorRect, will change to TextureRect later)
-├── PhoneScreen (PanelContainer)
-│   ├──PhoneShell (Texture/UI Elements, MarginContainer)
-│      ├── PhoneIcons (HBoxClockLabel (Label)
-│      │   ├── BatteryIcon
-│      │   ├── SignalIcon
-│      │   └── AppGrid (GridContainer)
-│      │── AppButton_Messages
-│      │   ├── AppButton_Messages
-│      │   ├── AppButton_Discord
-│      │   ├── AppButton_SocialFeed
-│      │   ├── AppButton_Journal
-│      │   ├── AppButton_Email
-│      │   ├── AppButton_Grades
-│      │   ├── AppButton_CameraRoll
-│      │   ├── AppButton_Spore
-│      ├── AppPanel (Control)  → Loads active app scenes here
-│      ├── BackButton (Button) → Closes current app and returns to home screen
-├── PopupLayer (Control, optional) → Global overlays like image viewers
-└── TransitionLayer (optional) → Animations for switching apps
+│   ├── PhoneScreen (TextureRect: represents screen/wallpaper/background color of apps)
+│   │   ├──PhoneShell (MarginContainer: Texture/UI Elements)
+│   │   │   └── VBoxContainer (VBoxContainer: keeps PhoneIcons at top, rest of screen items below)
+│   │   │       ├── PhoneIcons (HBoxContainer)
+│   │   │       │   ├── Clock
+│   │   │       │   ├── BatteryIcon (not yet implemented)
+│   │   │       │   └── SignalIcon (not yet implemented)
+│   │   │       └── AppGrid (GridContainer, holds app icons)
+│   │   │           ├── AppButton_Messages
+│   │   │           ├── AppButton_Discord
+│   │   │           ├── AppButton_SocialFeed
+│   │   │           ├── AppButton_Journal
+│   │   │           ├── AppButton_Email
+│   │   │           ├── AppButton_Grades
+│   │   │           ├── AppButton_Snake
+│   │   │           ├── AppButton_CameraRoll
+│   │   │           └── AppButton_Spore
+│   │   └── AppPanel (Control)  → Loads active app scenes here
+│   └── BackButton (Button) → Closes current app and returns to home screen
+├── PopupLayer (Control, optional) → Global overlays like image viewers (not yet implemented)
+└── TransitionLayer (optional) → Animations for switching apps (not yet implemented)
 ```
-BackButton should appear on the phone case, not overlapping the phone
----
 
-
+#### Problem: AppPanel should be in VBoxContainer to keep it beneath PhoneIcons
+- Issue 1: AppPanel and AppGrid share the same space
+  - This should not be a problem, since they shoul dnever both be visible at the same time
+  - Nevertheless, best practice suggests would seem to be to keep them as sibling nodes in a container separate from PhoneIcons.
+- Issue 2: If I move AppPanel, the apps no longer load. 
+  - Note that AppPanel has a unique ID, (%AppPanel) so the script should not care where in the node tree it is, but it still doesn't work if I move it into a more nested position.
 
 ### 2. App Loading
 Apps are modular `.tscn` scenes loaded dynamically into `AppPanel`.
@@ -135,7 +140,7 @@ All app content is tagged using your existing tag framework (shared with quests/
 | Email          | List view and message     | Standard per message          |
 | Camera Roll    | Metadata panel (on click) | Hidden until viewed           |
 
-Timestamps support full formatting flexibility, including unconventional or anomalous formats (e.g., “417 million BCE”).
+Timestamps support full formatting flexibility, including unconventional or anomalous formats (e.g., “417 million BCE” or "-417 million").
 
 ---
 
