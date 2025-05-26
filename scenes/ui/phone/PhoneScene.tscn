@@ -46,105 +46,131 @@ offset_bottom = 245.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PhoneIcons" type="HBoxContainer" parent="PhoneCase/PhoneScreen"]
+[node name="PhoneShell" type="MarginContainer" parent="PhoneCase/PhoneScreen"]
 layout_mode = 2
 
-[node name="PhoneShell" type="PanelContainer" parent="PhoneCase/PhoneScreen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PhoneCase/PhoneScreen/PhoneShell"]
 layout_mode = 2
 
-[node name="AppGrid" type="GridContainer" parent="PhoneCase/PhoneScreen/PhoneShell"]
+[node name="PhoneIcons" type="HBoxContainer" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer"]
+layout_mode = 2
+
+[node name="DateTimeLabel" type="Label" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/PhoneIcons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = " Date/Time"
+
+[node name="AppGrid" type="GridContainer" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer"]
 layout_mode = 2
 columns = 4
 
-[node name="AppButton_Messages" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(75, 0)
+[node name="AppButton_Messages" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 0)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("2_wu38c")
 texture_pressed = ExtResource("2_wu38c")
 texture_hover = ExtResource("2_wu38c")
 texture_disabled = ExtResource("2_wu38c")
 texture_focused = ExtResource("2_wu38c")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Discord" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Discord" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("3_ytgae")
 texture_pressed = ExtResource("3_ytgae")
 texture_hover = ExtResource("3_ytgae")
 texture_disabled = ExtResource("3_ytgae")
 texture_focused = ExtResource("3_ytgae")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_SocialFeed" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_SocialFeed" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("4_hnuvk")
 texture_pressed = ExtResource("4_hnuvk")
 texture_hover = ExtResource("4_hnuvk")
 texture_disabled = ExtResource("4_hnuvk")
 texture_focused = ExtResource("4_hnuvk")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Journal" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Journal" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("5_ixx5u")
 texture_pressed = ExtResource("5_ixx5u")
 texture_hover = ExtResource("5_ixx5u")
 texture_disabled = ExtResource("5_ixx5u")
 texture_focused = ExtResource("5_ixx5u")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Email" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Email" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("6_b714f")
 texture_pressed = ExtResource("6_b714f")
 texture_hover = ExtResource("6_b714f")
 texture_disabled = ExtResource("6_b714f")
 texture_focused = ExtResource("6_b714f")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Grades" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Grades" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("7_vok02")
 texture_pressed = ExtResource("7_vok02")
 texture_hover = ExtResource("7_vok02")
 texture_disabled = ExtResource("7_vok02")
 texture_focused = ExtResource("7_vok02")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Snake" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Snake" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("8_5i1as")
 texture_pressed = ExtResource("8_5i1as")
 texture_hover = ExtResource("8_5i1as")
 texture_disabled = ExtResource("8_5i1as")
 texture_focused = ExtResource("8_5i1as")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_CameraRoll" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_CameraRoll" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("9_2fs8w")
 texture_pressed = ExtResource("9_2fs8w")
 texture_hover = ExtResource("9_2fs8w")
 texture_disabled = ExtResource("9_2fs8w")
 texture_focused = ExtResource("9_2fs8w")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="AppButton_Spore" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/AppGrid"]
-custom_minimum_size = Vector2(72, 72)
+[node name="AppButton_Spore" type="TextureButton" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid"]
+custom_minimum_size = Vector2(62, 72)
 layout_mode = 2
+size_flags_horizontal = 6
 texture_normal = ExtResource("10_lq1rp")
 texture_pressed = ExtResource("10_lq1rp")
 texture_hover = ExtResource("10_lq1rp")
 texture_disabled = ExtResource("10_lq1rp")
 texture_focused = ExtResource("10_lq1rp")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen"]
 layout_mode = 2

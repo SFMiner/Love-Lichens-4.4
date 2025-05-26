@@ -1,9 +1,9 @@
 extends Control
 
 @onready var app_panel: Control = $PhoneCase/PhoneScreen/AppPanel
-@onready var phone_shell: PanelContainer = $PhoneCase/PhoneScreen/PhoneShell
+@onready var phone_shell: MarginContainer = $PhoneCase/PhoneScreen/PhoneShell
 @onready var back_button: Button = $PhoneCase/BackButton
-@onready var app_grid: GridContainer = $PhoneCase/PhoneScreen/PhoneShell/AppGrid
+@onready var app_grid: GridContainer = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid
 
 # Dictionary mapping button names to their scene paths
 const APP_SCENE_PATHS = {
