@@ -15,8 +15,8 @@ The main Control scene representing the phone. It persists as the foundational v
 ```
 PhoneScene (Control)
 ├── PhoneCase (Texture/UI Elements, for now represent with ColorRect, will change to TextureRect later)
-├── PhoneScreen
-│   ├──PhoneShell (Texture/UI Elements, for now use a Panel, may/may not change to TextureRect)
+├── PhoneScreen (PanelContainer)
+│   ├──PhoneShell (Texture/UI Elements, MarginContainer)
 │      ├── PhoneIcons (HBoxClockLabel (Label)
 │      │   ├── BatteryIcon
 │      │   ├── SignalIcon

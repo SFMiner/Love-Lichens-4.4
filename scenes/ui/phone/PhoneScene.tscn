@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bu2a7w5c22x0i"]
+[gd_scene load_steps=12 format=3 uid="uid://bu2a7w5c22x0i"]
 
 [ext_resource type="Script" uid="uid://6vms5tvfowux" path="res://scenes/ui/phone/PhoneScene.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://ddl2a2bjn7qso" path="res://assets/images/ui/phone_startup_background.png" id="2_vok02"]
 [ext_resource type="Texture2D" uid="uid://c7i6ebhyg5m44" path="res://assets/icons/phone/text_icon.png" id="2_wu38c"]
 [ext_resource type="Texture2D" uid="uid://cxqoi5y2obg0k" path="res://assets/icons/phone/discord_icon.png" id="3_ytgae"]
 [ext_resource type="Texture2D" uid="uid://2n4qkps7ixax" path="res://assets/icons/phone/social_icon.png" id="4_hnuvk"]
@@ -32,7 +33,7 @@ layout_mode = 0
 offset_right = 314.0
 offset_bottom = 601.0
 
-[node name="PhoneScreen" type="PanelContainer" parent="PhoneCase"]
+[node name="PhoneScreen" type="TextureRect" parent="PhoneCase"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,9 +46,13 @@ offset_right = 150.0
 offset_bottom = 245.5
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_vok02")
+expand_mode = 1
 
 [node name="PhoneShell" type="MarginContainer" parent="PhoneCase/PhoneScreen"]
 layout_mode = 2
+offset_right = 300.0
+offset_bottom = 524.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PhoneCase/PhoneScreen/PhoneShell"]
 layout_mode = 2
@@ -57,7 +62,8 @@ layout_mode = 2
 
 [node name="DateTimeLabel" type="Label" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/PhoneIcons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 13
 text = " Date/Time"
 
 [node name="AppGrid" type="GridContainer" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer"]
@@ -174,6 +180,9 @@ stretch_mode = 5
 
 [node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen"]
 layout_mode = 2
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 524.0
 
 [node name="BackButton" type="Button" parent="PhoneCase"]
 layout_mode = 1
