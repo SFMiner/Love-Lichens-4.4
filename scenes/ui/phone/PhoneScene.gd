@@ -26,8 +26,8 @@ func _ready():
 
 	# Connect app button signals
 	for button_node in app_grid.get_children():
-		if button_node is Button:
-			var button: Button = button_node
+		if button_node is BaseButton: # Corrected to BaseButton for TextureButtons
+			var button: BaseButton = button_node # Type hint updated
 			var button_name: String = button.name
 			if APP_SCENE_PATHS.has(button_name):
 				var app_scene_path: String = APP_SCENE_PATHS[button_name]
