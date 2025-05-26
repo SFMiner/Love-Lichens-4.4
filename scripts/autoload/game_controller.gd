@@ -12,6 +12,7 @@ const sys_debug : bool = false
 const scr_debug : bool = false
 var debug 
 var active_scene
+var is_phone_active: bool = false
 
 # Current scene tracking
 var current_scene_node

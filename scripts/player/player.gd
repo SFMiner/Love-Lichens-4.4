@@ -228,6 +228,12 @@ func get_combat_usable_items():
 	return []
 
 func _physics_process(delta):
+	if GameController.is_phone_active:
+		# Optionally, ensure player velocity is zeroed out if phone just opened
+		# velocity = Vector2.ZERO 
+		# move_and_slide() # if you want to ensure physics state is updated
+		return
+
 	if debug: print("Frame: ", Engine.get_process_frames(), " - is_navigating: ", is_navigating)
 	
 	if keyboard_override_timeout > 0:
@@ -531,6 +537,13 @@ func update_running_state():
 				print("AnimationPlayer reference not found")
 
 func _unhandled_input(event):
+	if GameController.is_phone_active:
+		# This will prevent player-specific interpretations of unhandled input,
+		# allowing UI elements (like the phone apps) to process them.
+		# Global inputs like ui_cancel for a pause menu are typically handled
+		# in GameController's _unhandled_input, which is not affected here.
+		return
+
 	# Handle CapsLock toggle - this needs to be first
 	if in_dialog:
 		return
