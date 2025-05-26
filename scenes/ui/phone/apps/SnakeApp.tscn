@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://unique_snake_app_scene_id"]
+[gd_scene load_steps=3 format=3 uid="uid://b5gtksubv1p7q"]
 
-[ext_resource type="Script" path="res://scenes/ui/phone/apps/SnakeApp.gd" id="1_snake_app_gd"]
+[ext_resource type="Script" uid="uid://cvqh3v6dbiasg" path="res://scenes/ui/phone/apps/SnakeApp.gd" id="1_snake_app_gd"]
+[ext_resource type="Script" uid="uid://d24yftid7iv4p" path="res://scenes/ui/phone/apps/button.gd" id="2_n2jjn"]
 
 [node name="SnakeApp" type="Control"]
 layout_mode = 3
@@ -11,66 +12,86 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_snake_app_gd")
 
-[node name="StartScreen" type="VBoxContainer" parent="."]
+[node name="StartScreen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="StartScreen"]
+layout_mode = 2
+offset_left = 934.0
+offset_top = 97.0
+offset_right = 986.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SNAKE"
+
+[node name="StartScreenButton" type="VBoxContainer" parent="StartScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -75.0  # Adjusted for content width
-offset_top = -50.0   # Adjusted for content height
-offset_right = 75.0
-offset_bottom = 50.0
-theme_override_constants/separation = 10 # Spacing between title and button
+offset_left = -26.0
+offset_top = -32.0
+offset_right = 26.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+script = ExtResource("2_n2jjn")
 
-    [node name="TitleLabel" type="Label" parent="StartScreen"]
-    layout_mode = 2
-    text = "Snake Game"
-    horizontal_alignment = 1 # Center
-
-    [node name="StartButton" type="Button" parent="StartScreen"]
-    layout_mode = 2
-    text = "Start Game"
+[node name="StartButton" type="Button" parent="StartScreen/StartScreenButton"]
+layout_mode = 2
+text = "Start"
 
 [node name="GameArea" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0 # for 300 width
-offset_top = -200.0  # for 400 height
-offset_right = 150.0
-offset_bottom = 200.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.2, 0.2, 0.2, 1)
-visible = false # Initially hidden
 
-[node name="GameOverScreen" type="VBoxContainer" parent="."]
+[node name="GameOverScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverButtons" type="VBoxContainer" parent="GameOverScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -80.0  # Adjusted for content width
-offset_top = -70.0   # Adjusted for content height
-offset_right = 80.0
-offset_bottom = 70.0
-visible = false # Initially hidden
-theme_override_constants/separation = 10 # Spacing between elements
+offset_left = -46.0
+offset_top = -42.5
+offset_right = 46.0
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
 
-    [node name="GameOverLabel" type="Label" parent="GameOverScreen"]
-    layout_mode = 2
-    text = "Game Over!"
-    horizontal_alignment = 1 # Center
+[node name="GameOverLabel" type="Label" parent="GameOverScreen/GameOverButtons"]
+layout_mode = 2
+text = "Game Over!"
+horizontal_alignment = 1
 
-    [node name="ScoreLabel" type="Label" parent="GameOverScreen"]
-    layout_mode = 2
-    text = "Score: 0"
-    horizontal_alignment = 1 # Center
+[node name="ScoreLabel" type="Label" parent="GameOverScreen/GameOverButtons"]
+layout_mode = 2
+horizontal_alignment = 1
 
-    [node name="PlayAgainButton" type="Button" parent="GameOverScreen"]
-    layout_mode = 2
-    text = "Play Again"
+[node name="PlayAgainButton" type="Button" parent="GameOverScreen/GameOverButtons"]
+layout_mode = 2
+text = "Play Again"
