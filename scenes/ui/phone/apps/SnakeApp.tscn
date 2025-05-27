@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5gtksubv1p7q"]
 
-[ext_resource type="Script" uid="uid://cvqh3v6dbiasg" path="res://scenes/ui/phone/apps/SnakeApp.gd" id="1_snake_app_gd"]
-[ext_resource type="Script" uid="uid://d24yftid7iv4p" path="res://scenes/ui/phone/apps/button.gd" id="2_n2jjn"]
+[ext_resource type="Script" uid="uid://b6awxdr0pyfw8" path="res://scenes/ui/phone/apps/SnakeApp.gd" id="1_snake_app_gd"]
+[ext_resource type="Script" uid="uid://bu11pdbbkmq6f" path="res://scenes/ui/phone/apps/button.gd" id="2_n2jjn"]
 
 [node name="SnakeApp" type="Control"]
 layout_mode = 3
@@ -10,6 +10,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_snake_app_gd")
 
 [node name="StartScreen" type="Control" parent="."]

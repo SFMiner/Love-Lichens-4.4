@@ -178,11 +178,10 @@ texture_focused = ExtResource("10_lq1rp")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen"]
+[node name="AppPanel" type="Control" parent="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer"]
+custom_minimum_size = Vector2(290, 274)
 layout_mode = 2
-anchors_preset = 0
-offset_right = 300.0
-offset_bottom = 524.0
+size_flags_vertical = 3
 
 [node name="BackButton" type="Button" parent="PhoneCase"]
 layout_mode = 1
@@ -209,4 +208,4 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[connection signal="resized" from="PhoneCase/PhoneScreen/AppPanel" to="." method="_on_app_panel_resized"]
+[connection signal="resized" from="PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppPanel" to="." method="_on_app_panel_resized"]

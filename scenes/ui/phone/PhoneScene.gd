@@ -1,6 +1,6 @@
 extends Control
 
-@onready var app_panel: Control = $PhoneCase/PhoneScreen/AppPanel
+@onready var app_panel: Control = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppPanel
 @onready var phone_shell: MarginContainer = $PhoneCase/PhoneScreen/PhoneShell
 @onready var back_button: Button = $PhoneCase/BackButton
 @onready var app_grid: GridContainer = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid
@@ -76,4 +76,4 @@ func _on_back_button_pressed():
 
 
 func _on_app_panel_resized() -> void:
-	print(str(app_panel.size))   # Replace with function body.
+	print("AppPanel.size = ", str(app_panel.size))   # Replace with function body.
