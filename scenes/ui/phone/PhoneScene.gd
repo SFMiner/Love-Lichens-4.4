@@ -4,6 +4,7 @@ extends Control
 @onready var phone_shell: MarginContainer = $PhoneCase/PhoneScreen/PhoneShell
 @onready var back_button: Button = $PhoneCase/BackButton
 @onready var app_grid: GridContainer = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppGrid
+@onready var phone_icons: HBoxContainer = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/PhoneIcons
 
 # Dictionary mapping button names to their scene paths
 const APP_SCENE_PATHS = {
@@ -55,9 +56,10 @@ func _on_app_button_pressed(app_scene_path: String):
 		return # Don't change visibility if scene loading failed
 
 	# Visibility changes
+	phone_icons.hide()
+	app_grid.hide()
 	app_panel.show()
 	back_button.show()
-	phone_shell.hide()
 
 func _on_back_button_pressed():
 	# Unload current app
@@ -67,6 +69,7 @@ func _on_back_button_pressed():
 
 	# Visibility changes
 	phone_shell.show()
+	app_grid.show()
 	app_panel.hide()
 	back_button.hide()
 
@@ -76,4 +79,6 @@ func _on_back_button_pressed():
 
 
 func _on_app_panel_resized() -> void:
+	app_panel = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppPanel
+
 	print("AppPanel.size = ", str(app_panel.size))   # Replace with function body.
