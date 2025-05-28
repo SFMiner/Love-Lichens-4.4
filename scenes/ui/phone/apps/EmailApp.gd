@@ -1,58 +1,71 @@
 extends Control
 
-# Conceptual script for EmailApp
+@onready var email_list    = $EmailListView
+@onready var detail_view   = $EmailDetailView
+@onready var back_button   = $EmailDetailView/VBoxDetail/BackButton
+@onready var from_label    = $EmailDetailView/VBoxDetail/FromLabel
+@onready var to_label      = $EmailDetailView/VBoxDetail/ToLabel
+@onready var subject_label = $EmailDetailView/VBoxDetail/SubjectLabel
+@onready var date_label    = $EmailDetailView/VBoxDetail/DateLabel
+@onready var body_text     = $EmailDetailView/VBoxDetail/BodyScroll/BodyText
 
-func _ready():
-	# TODO:
-	# 1. Implement EmailListView (e.g., ItemList or VBoxContainer of buttons)
-	#    - Each item: Sender, Subject, Date snippet
-	#    - This view is shown first.
-	#
-	# 2. Implement EmailDetailView (Control, initially hidden)
-	#    - Shows full email content (Sender, To, Subject, Body, Timestamp).
-	#    - Body could use RichTextLabel for formatting and potential attachments.
-	#    - Add a "Back to List" button in this view.
-	#
-	# 3. Implement _on_email_selected(email_id):
-	#    - Called when an email is selected from EmailListView.
-	#    - Hides EmailListView, shows EmailDetailView.
-	#    - Loads and displays the full content of the selected email.
-	#
-	# 4. Implement _show_email_list_view():
-	#    - Called by "Back to List" button from EmailDetailView.
-	#    - Shows EmailListView, hides EmailDetailView.
-	#
-	# 5. Data Loading (e.g., load_emails_by_tags(tags: Array)):
-	#    - Fetches email list items (sender, subject, date, email_id).
-	#    - Populates EmailListView.
-	#    - Specific email content loaded when an email is selected.
-	pass
+# Dummy data store: replace with your real loader
+var email_threads := [
+	{
+		"sender":  "Service Bot",
+		"to":      ["You"],
+		"subject": "Welcome to Our Service",
+		"date":    "2025-05-20",
+		"body":    "Hello, and thanks for joining us!"
+	},
+	{
+		"sender":  "Alice",
+		"to":      ["You","Bob"],
+		"subject": "Meeting Agenda",
+		"date":    "2025-05-22",
+		"body":    "Here's the agenda for tomorrow's meeting:\n- Item A\n- Item B"
+	}
+]
 
-# Example function signature for data loading
-func load_emails_by_tags(tags: Array):
-	print("EmailApp: Would load emails with tags: ", tags)
-	# Placeholder: Populate EmailListView with dummy items
-	# var email_list_view = get_node_or_null("EmailListView") # Assuming node exists
-	# if email_list_view:
-	#     email_list_view.add_item("Prof. Moss - Project Update")
-	#     email_list_view.add_item("Luna - Art Club Invite")
+func _ready() -> void:
+	# wire both select and activate (tap/click/enter)
+	email_list.item_selected.connect(Callable(self, "_on_email_selected"))
+	email_list.item_activated.connect(Callable(self, "_on_email_selected"))
+	back_button.pressed.connect(Callable(self, "_show_email_list_view"))
+	_load_inbox()
 
-# Example function for when an email is selected from the list
-func _on_email_selected(email_id: String):
-	print("EmailApp: Email selected: ", email_id)
-	# Placeholder: Switch to detail view and load full email for email_id
-	# var email_detail_view = get_node_or_null("EmailDetailView")
-	# if email_detail_view:
-	# email_detail_view.visible = true
-	# get_node_or_null("EmailListView").visible = false # Assuming node exists
-	pass
+# 5. Data Loading: populate the inbox list
+func _load_inbox() -> void:
+	email_list.clear()
+	for i in range(email_threads.size()):
+		var mail = email_threads[i]
+		# 1. Sender — Subject — Date snippet
+		var label_text = "%s — %s <%s>" % [mail["sender"], mail["subject"], mail["date"]]
+		var idx = email_list.add_item(label_text)
+		# bind our array index as metadata
+		email_list.set_item_metadata(idx, i)
 
-# Example function to go back to the list
-func _show_email_list_view():
-	print("EmailApp: Returning to email list.")
-	# Placeholder: Switch to list view
-	# var email_detail_view = get_node_or_null("EmailDetailView")
-	# if email_detail_view:
-	# email_detail_view.visible = false
-	# get_node_or_null("EmailListView").visible = true # Assuming node exists
-	pass
+# 3. Respond to selection
+func _on_email_selected(index: int) -> void:
+	var idx = email_list.get_item_metadata(index)
+	var mail = email_threads[idx]
+	email_list.visible  = false
+	detail_view.visible = true
+	_load_email_detail(mail)
+
+# 4. Show the detail view
+func _load_email_detail(mail: Dictionary) -> void:
+	from_label.text    = "From: %s"   % mail["sender"]
+	to_label.text      = "To: %s"     % mail["to"].join(", ")
+	subject_label.text = "Subject: %s" % mail["subject"]
+	date_label.text    = "Date: %s"    % mail["date"]
+	body_text.clear()
+	body_text.append_text(mail["body"])
+	# scroll to top
+	body_text.scroll_vertical = 0
+
+# 4. Back to list
+func _show_email_list_view() -> void:
+	detail_view.visible = false
+	email_list.visible  = true
+	email_list.unselect_all()

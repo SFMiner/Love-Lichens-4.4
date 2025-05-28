@@ -13,25 +13,26 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_abc12")
 
-[node name="ThumbnailsGrid" type="GridContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="ImageViewPanel" type="Panel" parent="."]
+[node name="ThumbnailsGrid" type="HFlowContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ImageViewPanel" type="Panel" parent="MarginContainer"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
-[node name="FullImageView" type="TextureRect" parent="ImageViewPanel"]
+[node name="FullImageView" type="TextureRect" parent="MarginContainer/ImageViewPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,20 +43,20 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CaptionLabel" type="Label" parent="ImageViewPanel"]
+[node name="CaptionLabel" type="Label" parent="MarginContainer/ImageViewPanel"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -90.0
-offset_bottom = -70.0
+offset_top = -58.0
+offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Image Caption"
 horizontal_alignment = 1
 
-[node name="MetadataPanel" type="VBoxContainer" parent="ImageViewPanel"]
+[node name="MetadataPanel" type="VBoxContainer" parent="MarginContainer/ImageViewPanel"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -69,28 +70,29 @@ grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
-[node name="TimestampLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+[node name="TimestampLabel" type="Label" parent="MarginContainer/ImageViewPanel/MetadataPanel"]
 layout_mode = 2
 text = "Date: YYYY-MM-DD"
 
-[node name="TagsLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+[node name="TagsLabel" type="Label" parent="MarginContainer/ImageViewPanel/MetadataPanel"]
 layout_mode = 2
 text = "Tags: #example, #tags"
 
-[node name="SourceLabel" type="Label" parent="ImageViewPanel/MetadataPanel"]
+[node name="SourceLabel" type="Label" parent="MarginContainer/ImageViewPanel/MetadataPanel"]
 layout_mode = 2
 text = "Source: Unknown"
 
-[node name="ImageBackButton" type="Button" parent="ImageViewPanel"]
+[node name="ImageBackButton" type="Button" parent="MarginContainer/ImageViewPanel"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -40.0
-offset_right = 50.0
+offset_left = -56.0
+offset_top = -510.0
+offset_right = 47.0
+offset_bottom = -470.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Back to Grid"

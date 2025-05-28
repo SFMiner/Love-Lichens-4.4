@@ -1,59 +1,68 @@
 extends Control
 
-# Conceptual script for DiscordApp
+@onready var channel_list : ItemList = $ChannelListView
+@onready var chat_view : Control = $ChannelChatView
+@onready var back_button : Button = $ChannelChatView/VBoxChat/BackButton
+@onready var chat_text : RichTextLabel   = $ChannelChatView/VBoxChat/ChatScroll/ChatText
+@onready var text_field : TextEdit  = $ChannelChatView/VBoxChat/HBoxContainer/TextField
 
-func _ready():
-	# TODO:
-	# 1. Implement ChannelListView (e.g., ItemList or VBoxContainer of buttons)
-	#    - Each item: Channel Name (e.g., "#general", "#lichen_enthusiasts")
-	#    - This view is shown first.
-	#
-	# 2. Implement ChannelChatView (Control, initially hidden)
-	#    - Shows chat messages for a selected channel.
-	#    - Uses ScrollContainer + RichTextLabel for message stream.
-	#    - Add a "Back to Channels" button in this view.
-	#
-	# 3. Implement _on_channel_selected(channel_id: String):
-	#    - Called when a channel is selected from ChannelListView.
-	#    - Hides ChannelListView, shows ChannelChatView.
-	#    - Loads and displays messages for the selected channel.
-	#
-	# 4. Implement _show_channel_list_view():
-	#    - Called by "Back to Channels" button.
-	#    - Shows ChannelListView, hides ChannelChatView.
-	#
-	# 5. Data Loading (e.g., load_channels_by_tags(tags: Array) for channel list,
-	#    and load_channel_messages(channel_id: String, tags: Array) for messages):
-	#    - Fetches channel list.
-	#    - Specific channel messages loaded when a channel is selected.
-	#    - Message display similar to MessagesApp (ScrollContainer, RichTextLabel, styled messages).
-	pass
+# Dummy data: channel → array of { "user": String, "text": String }
+var channels: Dictionary = {
+	"#general": [
+		{"user":"Alice",   "text":"Welcome to #general!"},
+		{"user":"Bob",     "text":"Anyone here up for a lichens hike?"}
+	],
+	"#lichen_enthusiasts": [
+		{"user":"Charlie", "text":"I found a new Prototaxites specimen today!"},
+		{"user":"Dana",    "text":"Share pics? #science"}
+	]
+}
 
-# Example function signature for data loading
-func load_channels_by_tags(tags: Array):
-	print("DiscordApp: Would load channels with tags: ", tags)
-	# Placeholder: Populate ChannelListView with dummy items
-	# var channel_list_view = get_node_or_null("ChannelListView") # Assuming node exists
-	# if channel_list_view:
-	#     channel_list_view.add_item("#general")
-	#     channel_list_view.add_item("#event_planning")
+func _ready() -> void:
+	# wire signals
+	channel_list.item_selected.connect(Callable(self, "_on_channel_selected"))
+#	back_button.pressed.connect(Callable(self, "_show_channel_list_view"))
+	# populate the channel list
+	load_channels_by_tags([])
 
-# Example function for when a channel is selected
-func _on_channel_selected(channel_id: String):
-	print("DiscordApp: Channel selected: ", channel_id)
-	# Placeholder: Switch to chat view for channel_id
-	# var channel_chat_view = get_node_or_null("ChannelChatView") # Assuming node exists
-	# if channel_chat_view:
-	# channel_chat_view.visible = true
-	# get_node_or_null("ChannelListView").visible = false # Assuming node exists
-	pass
+# Populate the ItemList of channels (tags filtering stubbed out)
+func load_channels_by_tags(tags: Array) -> void:
+	channel_list.clear()
+	for chan_id in channels.keys():
+		channel_list.add_item(chan_id)
 
-# Example function to go back to the channel list
-func _show_channel_list_view():
-	print("DiscordApp: Returning to channel list.")
-	# Placeholder: Switch to channel list view
-	# var channel_chat_view = get_node_or_null("ChannelChatView") # Assuming node exists
-	# if channel_chat_view:
-	# channel_chat_view.visible = false
-	# get_node_or_null("ChannelListView").visible = true # Assuming node exists
-	pass
+# When a channel is tapped…
+func _on_channel_selected(index: int) -> void:
+	var chan_id = channel_list.get_item_text(index)
+	channel_list.visible = false
+	chat_view.visible    = true
+	load_channel_messages(chan_id)
+
+# Fill the RichTextLabel with BBCode-styled messages
+func load_channel_messages(channel_id: String) -> void:
+	chat_text.clear()
+	if not channels.has(channel_id):
+		chat_text.bbcode_text = "[i]No messages in this channel.[/i]"
+		return
+	for msg in channels[channel_id]:
+		chat_text.append_text("[b]%s:[/b] %s\n" % [msg["user"], msg["text"]])
+
+# Back button: hide chat, show channel list
+func _show_channel_list_view() -> void:
+	chat_view.visible    = false
+	channel_list.visible = true
+	chat_text.clear()
+	channel_list.deselect_all()
+
+
+
+func _on_channel_list_view_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	var chan_id = channel_list.get_item_text(index)
+	print("Opening chat for channel:", chan_id)
+	channel_list.visible = false
+	chat_view.visible    = true
+	load_channel_messages(chan_id) # Replace with function body.
+
+
+func _on_submit_button_button_up() -> void:
+	chat_text.append_text("\n[p align=\"right\"][b]Adam:[/b] " + text_field.text + "[/p]") # Replace with function body.

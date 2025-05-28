@@ -357,3 +357,7 @@ func get_marker_by_id(marker_id):
 	
 	if debug: print("GameState: Could not find marker with ID: ", marker_id)
 	return null
+	
+func get_current_date_string():
+	var current_date_string = str(TimeSystem.current_day) + "_" + str(TimeSystem.current_month) + "_" + str(TimeSystem.current_year)
+	return (current_date_string)

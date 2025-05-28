@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://co0t5m2qa8e1n"]
+[gd_scene load_steps=2 format=3 uid="uid://psku74tm8111"]
 
 [ext_resource type="Script" uid="uid://cuw5e4j0wx3ba" path="res://scripts/ui/time_display.gd" id="1_m5yva"]
 

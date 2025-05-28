@@ -1,42 +1,102 @@
 extends Control
 
-@onready var entry_container: VBoxContainer = $ScrollContainer/EntryContainer
+@onready var new_entry_button = $UI/Toolbar/NewEntryButton
+@onready var back_button      = $UI/Toolbar/BackButton
+@onready var entries_list     = $UI/Scroll/EntriesList
+@onready var entry_panel   = $EntryPanel
+@onready var body_edit     = $EntryPanel/DialogVBox/BodyEdit
+@onready var save_button   = $EntryPanel/DialogVBox/Buttons/SaveButton
+@onready var cancel_button = $EntryPanel/DialogVBox/Buttons/CancelButton
+@onready var toolbar = $UI/Toolbar
 
-func _ready():
-    add_entry("My First Entry", "Today I started working on this cool journal app. It's going to be great for keeping track of thoughts and discoveries!")
-    add_entry("Observations", "The old willow tree near the library seems to hum at dusk. I should investigate further. #mystery #spooky")
+var all_entries: Array = []
 
-func add_entry(title: String, entry_text: String):
-    var entry_item = VBoxContainer.new()
-    entry_item.layout_mode = 2
-    entry_item.size_flags_horizontal = 3
+func _ready() -> void:
+	new_entry_button.pressed.connect(Callable(self, "_on_new_entry_pressed"))
+	back_button.pressed.connect(Callable(self, "_on_back_pressed"))
+	save_button.pressed.connect(Callable(self, "_on_save_pressed"))
+	cancel_button.pressed.connect(Callable(self, "_on_cancel_pressed"))
+	_refresh_list()
 
-    if not title.is_empty():
-        var title_label = Label.new()
-        title_label.text = title
-        # Optional: Make title stand out, e.g., by theme override or a specific stylebox.
-        # title_label.add_theme_font_override("font", preload("res://path/to/bold_font.tres")) # Example
-        title_label.add_theme_font_size_override("font_size", 18) # Example: Larger font size
-        title_label.size_flags_horizontal = 3
-        entry_item.add_child(title_label)
-        
-        # Add a small spacer after the title
-        var title_spacer = Control.new()
-        title_spacer.custom_minimum_size = Vector2(0, 5) # 5 pixels of vertical space
-        entry_item.add_child(title_spacer)
+func _on_new_entry_pressed() -> void:
+	entry_panel.visible = true
+	body_edit.text = ""
+	toolbar.visible = false
 
+func _on_entry_gui_input(event: InputEvent, idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == 1 and event.double_click:
+		_open_entry(idx)
 
-    var text_label = RichTextLabel.new()
-    text_label.bbcode_enabled = true # Good practice for RichTextLabel
-    text_label.text = entry_text
-    text_label.fit_content = true
-    text_label.size_flags_horizontal = 3
-    entry_item.add_child(text_label)
+func _on_cancel_pressed() -> void:
+	entry_panel.visible = false
+	toolbar.visible = true
+	
+func _on_back_pressed() -> void:
+	hide()  # Or however you return to the phone’s main UI
 
-    # Optional: Add some spacing between entries
-    if entry_container.get_child_count() > 0:
-        var spacer = Control.new()
-        spacer.custom_minimum_size = Vector2(0, 10) # 10 pixels of vertical space
-        entry_container.add_child(spacer)
-        
-    entry_container.add_child(entry_item)
+func _on_save_pressed() -> void:
+	var text = body_edit.text.strip_edges()
+	if text == "":
+		return  # nothing to save
+
+	# 1) Title = first line
+	var lines = text.split("\n", false)
+	var title = lines[0]
+
+	# 2) Body = all remaining lines
+	var body = lines.slice(1).join("\n") if lines.size() > 1 else ""
+
+	# 3) Parse #tags via regex
+	var tag_regex = RegEx.new()
+	tag_regex.compile("#([A-Za-z0-9_-]+)")
+	var tags = []
+	for m in tag_regex.search_all(text):
+		var tag = m.get_string(1)
+		if not tags.has(tag):
+			tags.append(tag)
+
+	# 4) Auto–date from your game’s date manager
+	#    Replace this with however you fetch the in-game date:
+	var game_date = get_node("/root/GameState").get_current_date_string()
+
+	# 5) Add it
+	add_entry(title, game_date, tags, body)
+	entry_panel.visible = false
+	toolbar.visible = true
+
+func add_entry(title: String, date: String, tags: Array, body: String) -> void:
+	all_entries.append({
+		"title": title,
+		"date": date,
+		"tags": tags,
+		"body": body
+	})
+	_refresh_list()
+
+func _refresh_list() -> void:
+	for c in entries_list.get_children():
+		c.queue_free()
+
+	for idx in all_entries.size():
+		var e = all_entries[idx]
+		var b = Button.new()
+		b.text = "%s — %s" % [e["date"], e["title"]]
+		b.size_flags_horizontal = Control.SIZE_FILL
+
+		# connect gui_input for double-click, binding idx into the handler
+		b.gui_input.connect(
+			Callable(self, "_on_entry_gui_input").bind(idx)
+		)
+
+		entries_list.add_child(b)
+
+	$UI/Scroll.scroll_vertical = 0
+
+func _open_entry(idx: int) -> void:
+	var e = all_entries[idx]
+	# fill the panel
+	body_edit.text = "%s\n\n%s" % [e["title"], e["body"]]
+	# show panel in read‐only mode
+	entry_panel.visible = true
+	save_button.visible = false
+	cancel_button.text = "Back"

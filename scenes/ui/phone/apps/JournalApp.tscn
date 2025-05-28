@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://5porwk1unk32"]
+[gd_scene load_steps=3 format=3 uid="uid://5porwk1unk32"]
+
+[ext_resource type="Script" uid="uid://bvbcu6dskqx38" path="res://scenes/ui/phone/apps/JournalApp.gd" id="1_0myva"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0myva"]
+bg_color = Color(0.847149, 0.767913, 0.588442, 1)
 
 [node name="JournalApp" type="Control"]
 layout_mode = 3
@@ -7,10 +12,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_0myva")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="UI" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +23,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="EntryContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Toolbar" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+
+[node name="NewEntryButton" type="Button" parent="UI/Toolbar"]
+layout_mode = 2
+text = "New Entry"
+
+[node name="BackButton" type="Button" parent="UI/Toolbar"]
+layout_mode = 2
+text = "Back"
+
+[node name="Scroll" type="ScrollContainer" parent="UI"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EntriesList" type="VBoxContainer" parent="UI/Scroll"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="EntryPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0myva")
+
+[node name="DialogVBox" type="VBoxContainer" parent="EntryPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BodyEdit" type="TextEdit" parent="EntryPanel/DialogVBox"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Type entry here."
+scroll_smooth = true
+
+[node name="Buttons" type="HBoxContainer" parent="EntryPanel/DialogVBox"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="EntryPanel/DialogVBox/Buttons"]
+layout_mode = 2
+text = "Save"
+
+[node name="CancelButton" type="Button" parent="EntryPanel/DialogVBox/Buttons"]
+layout_mode = 2
+text = "Cancel"

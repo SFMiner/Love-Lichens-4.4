@@ -1,13 +1,13 @@
 extends Control
-
-@onready var thumbnails_grid: GridContainer = $ThumbnailsGrid
-@onready var image_view_panel: Panel = $ImageViewPanel
-@onready var full_image_view: TextureRect = $ImageViewPanel/FullImageView
-@onready var caption_label: Label = $ImageViewPanel/CaptionLabel
-@onready var timestamp_label: Label = $ImageViewPanel/MetadataPanel/TimestampLabel
-@onready var tags_label: Label = $ImageViewPanel/MetadataPanel/TagsLabel
-@onready var source_label: Label = $ImageViewPanel/MetadataPanel/SourceLabel
-@onready var image_back_button: Button = $ImageViewPanel/ImageBackButton
+const THUMB_SIZE: int = 80
+@onready var thumbnails_grid: FlowContainer = $MarginContainer/ThumbnailsGrid
+@onready var image_view_panel: Panel = $MarginContainer/ImageViewPanel
+@onready var full_image_view: TextureRect = $MarginContainer/ImageViewPanel/FullImageView
+@onready var caption_label: Label = $MarginContainer/ImageViewPanel/CaptionLabel
+@onready var timestamp_label: Label = $MarginContainer/ImageViewPanel/MetadataPanel/TimestampLabel
+@onready var tags_label: Label = $MarginContainer/ImageViewPanel/MetadataPanel/TagsLabel
+@onready var source_label: Label = $MarginContainer/ImageViewPanel/MetadataPanel/SourceLabel
+@onready var image_back_button: Button = $MarginContainer/ImageViewPanel/ImageBackButton
 
 # Placeholder for image data. In a real app, this would come from a data source.
 var test_image_data = [
@@ -59,8 +59,8 @@ func _populate_thumbnail_grid(image_data_array: Array):
 		var thumb_button = TextureButton.new()
 		var thumb_texture = load(image_data.get("thumbnail_path", "res://icon.svg")) # Default to icon.svg if path missing
 		thumb_button.texture_normal = thumb_texture
-		thumb_button.ignore_texture_size = false
-		thumb_button.custom_minimum_size = Vector2(100, 100)
+		thumb_button.ignore_texture_size = true
+		thumb_button.custom_minimum_size = Vector2(THUMB_SIZE, THUMB_SIZE)
 		thumb_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 		
 		thumb_button.pressed.connect(Callable(self, "_on_thumbnail_pressed").bind(image_data))
