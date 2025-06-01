@@ -11,7 +11,7 @@ func _ready():
 	debug = scr_debug or GameController.sys_debug 
 	await get_tree().process_frame  # Ensure @onready vars are assigned
 	area_polygon = $Area2D/CollisionPolygon2D  # Just in case
-	if debug: print("[DEBUG] Initialized area_polygon:", area_polygon)
+	if debug: print(GameState.script_name_tag(self) + "[DEBUG] Initialized area_polygon:", area_polygon)
 
 	var poly_points = _get_area_points()
 	var bounds = _get_polygon_bounds(poly_points)
@@ -32,7 +32,7 @@ func _ready():
 
 		add_child(b)
 		b.set_flight_area(area_polygon)
-		if debug: print("Spawned butterfly ", i, " at ", b.position)
+		if debug: print(GameState.script_name_tag(self) + "Spawned butterfly ", i, " at ", b.position)
 
 func _get_area_global_points() -> Array:
 	var global_points = []

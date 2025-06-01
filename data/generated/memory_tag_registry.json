@@ -1,0 +1,145 @@
+{
+	"dusty_bracelet_seen": {
+		"character_id": "dusty",
+		"condition_tags": [],
+		"description": "You notice Dusty's handmade wooden bracelet.",
+		"dialogue_title": "ask_about_bracelet",
+		"target_id": "dusty_bracelet",
+		"trigger_type": 0.0
+	},
+	"dusty_observed": {
+		"character_id": "dusty",
+		"condition_tags": [],
+		"description": "You notice Dusty's protective, warm demeanor.",
+		"target_id": "dusty",
+		"trigger_type": 0.0
+	},
+	"erik_gummies_seen": {
+		"character_id": "erik",
+		"condition_tags": [],
+		"description": "You notice Erik's emergency stash of THC gummies.",
+		"dialogue_title": "ask_about_gummies",
+		"target_id": "erik_gummy_pack",
+		"trigger_type": 0.0
+	},
+	"librarian_rare_collection_access": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [
+			"relationship_level_1"
+		],
+		"description": "Trusted enough to see the rare collection and hear about the Great Spore Incident.",
+		"dialogue_title": "librarian_hidden_collection",
+		"target_id": "rare_collection_access",
+		"trigger_type": 3.0
+	},
+	"librarian_storm_books_known": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [
+			"relationship_level_2"
+		],
+		"description": "Learned about books that change during thunderstorms and the student who tried to read them.",
+		"dialogue_title": "librarian_profound_response",
+		"target_id": "storm_responsive_texts",
+		"trigger_type": 3.0
+	},
+	"librarian_tea_seen": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [],
+		"description": "A steaming earthenware mug with small mushroom designs etched into it sits on her desk.",
+		"dialogue_title": "librarian_social_visit",
+		"target_id": "iris_bookwright_mycelial_tea",
+		"trigger_type": 0.0
+	},
+	"poison_expression_seen": {
+		"character_id": "poison",
+		"condition_tags": [],
+		"description": "Their expression shifts between sarcastic and genuinely warm, especially when talking about certain topics.",
+		"target_id": "poison_expression",
+		"trigger_type": 0.0
+	},
+	"poison_memory_chain_completed": {
+		"character_id": "Poison",
+		"condition_tags": [],
+		"description": "",
+		"target_id": "",
+		"trigger_type": -1
+	},
+	"poison_necklace_seen": {
+		"character_id": "poison",
+		"condition_tags": [],
+		"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they sometimes touch it without seeming to realize.",
+		"dialogue_title": "ask_about_necklace",
+		"target_id": "poison_necklace",
+		"trigger_type": 0.0
+	},
+	"poison_observed": {
+		"character_id": "poison",
+		"condition_tags": [],
+		"description": "You notice Poison's sharp wit barely conceals a deeper loyalty.",
+		"target_id": "poison",
+		"trigger_type": 0.0
+	},
+	"poison_peepaw_known": {
+		"character_id": "poison",
+		"condition_tags": [
+			"poison_necklace_seen"
+		],
+		"description": "Poison explained the necklace contains their grandfather's ashes - a way of keeping family close.",
+		"dialogue_title": "peepaw_explanation",
+		"target_id": "peepaw_explanation",
+		"trigger_type": 3.0
+	},
+	"poison_peepaw_memory_stirred": {
+		"character_id": "poison",
+		"condition_tags": [
+			"poison_peepaw_known"
+		],
+		"description": "Poison mentioned they have a story about their Pee-Paw they'd like to share with you.",
+		"dialogue_title": "peepaw_memory_mention",
+		"target_id": "poison_peepaw_memory_stirred",
+		"trigger_type": 3.0
+	},
+	"poison_peepaw_story_shared": {
+		"character_id": "poison",
+		"condition_tags": [
+			"poison_peepaw_memory_stirred"
+		],
+		"description": "Poison recounted sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
+		"dialogue_title": "grandpa_goat_story",
+		"target_id": "grandpa_goat_story",
+		"trigger_type": 3.0
+	},
+	"posion_necklace_seen": {
+		"character_id": "poison",
+		"condition_tags": [],
+		"description": "You notice Poison's sharp wit barely conceals a deeper loyalty.",
+		"target_id": "poison",
+		"trigger_type": 0.0
+	},
+	"rare_collection_key_seen": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [],
+		"description": "An ornate brass key hanging from a chain on her belt, alongside several index cards bound with rubber bands.",
+		"dialogue_title": "librarian_hidden_collection",
+		"target_id": "iris_bookwright_rare_books_key",
+		"trigger_type": 0.0
+	},
+	"received_library_map": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [],
+		"description": "A folded paper sticking out of her jacket pocket, covered in her distinctive purple ink.",
+		"dialogue_title": "back_to_fungi_books",
+		"target_id": "iris_bookwright_library_map",
+		"trigger_type": 0.0
+	},
+	"shared_mycological_tea": {
+		"character_id": "iris_bookwright",
+		"condition_tags": [
+			"librarian_tea_seen"
+		],
+		"description": "Experienced the mild hallucination effects of mushroom tea, seeing shimmering text.",
+		"dialogue_title": "librarian_tea_effects",
+		"target_id": "enhanced_reading",
+		"trigger_type": 3.0
+	}
+}

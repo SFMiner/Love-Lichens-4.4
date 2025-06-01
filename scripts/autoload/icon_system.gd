@@ -9,7 +9,7 @@ var texture_cache = {}
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("IconSystem initialized")
+	if debug: print(GameState.script_name_tag(self) + "IconSystem initialized")
 
 # Get a cached texture or load it if not already cached
 func get_cached_texture(item_id):
@@ -28,13 +28,13 @@ func get_cached_texture(item_id):
 			if template and template.has("image_path") and template.image_path.length() > 0:
 				var texture_path = template.image_path
 				
-				if debug: print("Loading texture from: " + texture_path + " for item: " + item_id)
+				if debug: print(GameState.script_name_tag(self) + "Loading texture from: " + texture_path + " for item: " + item_id)
 				
 				if ResourceLoader.exists(texture_path):
 					texture = load(texture_path)
-					if debug: print("Successfully loaded texture for: " + item_id)
+					if debug: print(GameState.script_name_tag(self) + "Successfully loaded texture for: " + item_id)
 				else:
-					if debug: print("Texture path does not exist: " + texture_path)
+					if debug: print(GameState.script_name_tag(self) + "Texture path does not exist: " + texture_path)
 	
 	# Cache the result (even if null)
 	texture_cache[item_id] = texture
@@ -52,22 +52,22 @@ func load_texture_for_item(item_id):
 				# Try to load the texture from the specified path
 				var texture_path = template.image_path
 				
-				if debug: print("Attempting to load texture from: ", texture_path)
+				if debug: print(GameState.script_name_tag(self) + "Attempting to load texture from: ", texture_path)
 				
 				if ResourceLoader.exists(texture_path):
 					var texture = load(texture_path)
 					if texture:
-						if debug: print("Successfully loaded texture for ", item_id)
+						if debug: print(GameState.script_name_tag(self) + "Successfully loaded texture for ", item_id)
 						return texture
 					else:
-						if debug: print("Failed to load texture from path: ", texture_path)
+						if debug: print(GameState.script_name_tag(self) + "Failed to load texture from path: ", texture_path)
 				else:
-					if debug: print("Texture path does not exist: ", texture_path)
+					if debug: print(GameState.script_name_tag(self) + "Texture path does not exist: ", texture_path)
 	
-	if debug: print("No texture found for item: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "No texture found for item: ", item_id)
 	return null
 
 # Clear the texture cache
 func clear_cache():
 	texture_cache.clear()
-	if debug: print("Texture cache cleared")
+	if debug: print(GameState.script_name_tag(self) + "Texture cache cleared")

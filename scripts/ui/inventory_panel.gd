@@ -37,7 +37,7 @@ var item_slot_scene = null
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("Inventory panel initializing...")
+	if debug: print(GameState.script_name_tag(self) + "Inventory panel initializing...")
 	
 	# Set proper visibility and process modes for pausing
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -51,32 +51,32 @@ func _ready():
 	inventory_system = get_node_or_null("/root/InventorySystem")
 	
 	if not inventory_system:
-		if debug: print("ERROR: InventorySystem not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: InventorySystem not found!")
 		# Continue anyway, we might find it later
 	else:
-		if debug: print("InventorySystem found and connected")
+		if debug: print(GameState.script_name_tag(self) + "InventorySystem found and connected")
 	
 	# Try to load the item slot scene
 	if ResourceLoader.exists("res://scenes/ui/inventory_item_slot.tscn"):
-		if debug: print("Loading inventory_item_slot.tscn")
+		if debug: print(GameState.script_name_tag(self) + "Loading inventory_item_slot.tscn")
 		item_slot_scene = load("res://scenes/ui/inventory_item_slot.tscn")
 		if not item_slot_scene:
-			if debug: print("ERROR: Failed to load inventory_item_slot.tscn")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to load inventory_item_slot.tscn")
 			# Try an alternative path
 			if ResourceLoader.exists("res://inventory_item_slot.tscn"):
 				item_slot_scene = load("res://inventory_item_slot.tscn")
-				if debug: print("Loaded inventory_item_slot.tscn from alternative path")
+				if debug: print(GameState.script_name_tag(self) + "Loaded inventory_item_slot.tscn from alternative path")
 	else:
-		if debug: print("ERROR: Could not find inventory_item_slot.tscn")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Could not find inventory_item_slot.tscn")
 		# Try an alternative path
 		if ResourceLoader.exists("res://inventory_item_slot.tscn"):
 			item_slot_scene = load("res://inventory_item_slot.tscn")
-			if debug: print("Loaded inventory_item_slot.tscn from alternative path")
+			if debug: print(GameState.script_name_tag(self) + "Loaded inventory_item_slot.tscn from alternative path")
 	
 	# Get reference to the grid container
 	grid_container = $MarginContainer/VBoxContainer/GridContainer
 	if not grid_container:
-		if debug: print("ERROR: GridContainer not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: GridContainer not found!")
 		return
 	
 	# Connect to inventory signals if inventory system is available
@@ -103,7 +103,7 @@ func _ready():
 			close_button.pressed.disconnect(_on_close_button_pressed)
 		close_button.pressed.connect(_on_close_button_pressed)
 	else:
-		if debug: print("WARNING: Close button not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Close button not found")
 	
 	var filter_button = $MarginContainer/VBoxContainer/HBoxContainer/FilterButton
 	if filter_button:
@@ -111,7 +111,7 @@ func _ready():
 			filter_button.item_selected.disconnect(_on_filter_selected)
 		filter_button.item_selected.connect(_on_filter_selected)
 	else:
-		if debug: print("WARNING: Filter button not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Filter button not found")
 	
 	# Set up item use and drop buttons
 	var use_button = $MarginContainer/VBoxContainer/ItemDescriptionPanel/MarginContainer/VBoxContainer/HBoxContainer2/UseButton
@@ -120,7 +120,7 @@ func _ready():
 			use_button.pressed.disconnect(_on_use_button_pressed)
 		use_button.pressed.connect(_on_use_button_pressed)
 	else:
-		if debug: print("WARNING: Use button not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Use button not found")
 	
 	var drop_button = $MarginContainer/VBoxContainer/ItemDescriptionPanel/MarginContainer/VBoxContainer/HBoxContainer2/DropButton
 	if drop_button:
@@ -128,13 +128,13 @@ func _ready():
 			drop_button.pressed.disconnect(_on_drop_button_pressed)
 		drop_button.pressed.connect(_on_drop_button_pressed)
 	else:
-		if debug: print("WARNING: Drop button not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Drop button not found")
 	
 	# Create grid slots if we have the item slot scene
 	if item_slot_scene:
 		create_grid_slots()
 	else:
-		if debug: print("ERROR: Cannot create grid slots without item_slot_scene")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot create grid slots without item_slot_scene")
 	
 	# Create a simple tooltip directly in the scene
 	create_simple_tooltip()
@@ -142,10 +142,10 @@ func _ready():
 	# Set up to process input (for dragging and tooltip)
 	set_process_input(true)
 	
-	if debug: print("Inventory panel initialization completed")
+	if debug: print(GameState.script_name_tag(self) + "Inventory panel initialization completed")
 
 func create_simple_tooltip():
-	if debug: print("Creating tooltip...")
+	if debug: print(GameState.script_name_tag(self) + "Creating tooltip...")
 	
 	# Create a simple panel as tooltip
 	tooltip_panel = Panel.new()
@@ -203,19 +203,19 @@ func create_simple_tooltip():
 	# Add to scene
 	add_child(tooltip_panel)
 	
-	if debug: print("Tooltip created successfully")
+	if debug: print(GameState.script_name_tag(self) + "Tooltip created successfully")
 
 func create_grid_slots():
-	if debug: print("Creating grid slots...")
+	if debug: print(GameState.script_name_tag(self) + "Creating grid slots...")
 	
 	# Make sure we have the item slot scene
 	if not item_slot_scene:
-		if debug: print("ERROR: Cannot create grid slots - item_slot_scene is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot create grid slots - item_slot_scene is null")
 		return
 	
 	# Make sure we have the grid container
 	if not grid_container:
-		if debug: print("ERROR: Cannot create grid slots - grid_container is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot create grid slots - grid_container is null")
 		return
 	
 	# Clear any existing slots
@@ -224,13 +224,13 @@ func create_grid_slots():
 	
 	item_slots.clear()
 	
-	if debug: print("Creating " + str(MAX_ITEMS) + " inventory slots...")
+	if debug: print(GameState.script_name_tag(self) + "Creating " + str(MAX_ITEMS) + " inventory slots...")
 	
 	# Create grid of slots
 	for i in range(MAX_ITEMS):
 		var slot = item_slot_scene.instantiate()
 		if not slot:
-			if debug: print("ERROR: Failed to instantiate item slot")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to instantiate item slot")
 			continue
 			
 		slot.slot_index = i  # Assign unique index for identification
@@ -255,25 +255,25 @@ func create_grid_slots():
 			if not slot.drag_ended.is_connected(_on_drag_ended):
 				slot.connect("drag_ended", _on_drag_ended)
 		else:
-			if debug: print("WARNING: Slot missing required signals")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: Slot missing required signals")
 	
-	if debug: print(str(item_slots.size()) + " inventory slots created")
+	if debug: print(GameState.script_name_tag(self) + str(item_slots.size()) + " inventory slots created")
 
 func refresh_inventory():
-	if debug: print("Refreshing inventory...")
+	if debug: print(GameState.script_name_tag(self) + "Refreshing inventory...")
 	
 	if not inventory_system:
-		if debug: print("ERROR: Cannot refresh - inventory_system is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh - inventory_system is null")
 		return
 	
 	if item_slots.size() == 0:
-		if debug: print("ERROR: Cannot refresh - no item slots available")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh - no item slots available")
 		return
 		
 	# Get current filter
 	var filter_button = $MarginContainer/VBoxContainer/HBoxContainer/FilterButton
 	if not filter_button:
-		if debug: print("ERROR: Filter button not found")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Filter button not found")
 		return
 		
 	var filter_idx = filter_button.selected
@@ -291,25 +291,25 @@ func refresh_inventory():
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.BOOK)
 			else:
-				if debug: print("ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		2: # Quest Items
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.QUEST_ITEM)
 			else:
-				if debug: print("ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		3: # Consumables
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.CONSUMABLE)
 			else:
-				if debug: print("ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		4: # Equipment
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.EQUIPMENT)
 			else:
-				if debug: print("ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 	
 	# Save current item positions before clearing slots
@@ -372,10 +372,10 @@ func refresh_inventory():
 			description_panel.visible = false
 			current_selected_item_id = null
 	
-	if debug: print("Inventory refreshed with " + str(filtered_items.size()) + " items")
+	if debug: print(GameState.script_name_tag(self) + "Inventory refreshed with " + str(filtered_items.size()) + " items")
 
 func _on_close_button_pressed():
-	if debug: print("Close button pressed")
+	if debug: print(GameState.script_name_tag(self) + "Close button pressed")
 	
 	# Hide tooltip
 	if tooltip_panel:
@@ -391,7 +391,7 @@ func _on_close_button_pressed():
 	toggle_visibility()
 
 func _on_slot_clicked(item_id):
-	if debug: print("Slot clicked with item_id: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Slot clicked with item_id: ", item_id)
 	
 	# Deselect any previously selected slot
 	for slot in item_slots:
@@ -442,7 +442,7 @@ func _on_slot_hovered(item_id, item_data):
 			tooltip_panel.visible = true
 			tooltip_visible = true
 			
-			if debug: print("Tooltip showing for: ", item_id)
+			if debug: print(GameState.script_name_tag(self) + "Tooltip showing for: ", item_id)
 
 func _on_slot_unhovered():
 	# Hide tooltip
@@ -451,20 +451,20 @@ func _on_slot_unhovered():
 		tooltip_visible = false
 
 func select_item(item_id):
-	if debug: print("Selecting item: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Selecting item: ", item_id)
 	
 	# Store the currently selected item ID
 	current_selected_item_id = item_id
 	
 	# Get item data
 	if not inventory_system:
-		if debug: print("ERROR: Cannot select item - inventory_system is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot select item - inventory_system is null")
 		return
 		
 	var all_items = inventory_system.get_all_items()
 	if all_items.has(item_id):
 		var item = all_items[item_id]
-		if debug: print("Item found in inventory: ", item.name if item.has("name") else "Unknown")
+		if debug: print(GameState.script_name_tag(self) + "Item found in inventory: ", item.name if item.has("name") else "Unknown")
 		
 		# Update item description
 		var item_name_label = $MarginContainer/VBoxContainer/ItemDescriptionPanel/MarginContainer/VBoxContainer/ItemName
@@ -523,7 +523,7 @@ func select_item(item_id):
 			panel.show()
 			panel.queue_redraw()
 			
-			if debug: print("Description panel made visible")
+			if debug: print(GameState.script_name_tag(self) + "Description panel made visible")
 		
 		# Force the buttons to update
 		if use_button:
@@ -533,14 +533,14 @@ func select_item(item_id):
 
 func _on_use_button_pressed():
 	if current_selected_item_id and inventory_system:
-		if debug: print("Using item: ", current_selected_item_id)
+		if debug: print(GameState.script_name_tag(self) + "Using item: ", current_selected_item_id)
 		inventory_system.use_item(current_selected_item_id)
 		
 		# Don't refresh the whole inventory, the _on_item_used signal will handle it
 
 func _on_drop_button_pressed_old():
 	if current_selected_item_id and inventory_system:
-		if debug: print("Dropping item: ", current_selected_item_id)
+		if debug: print(GameState.script_name_tag(self) + "Dropping item: ", current_selected_item_id)
 		inventory_system.remove_item(current_selected_item_id, 1)
 		
 		# Don't refresh the whole inventory, the _on_item_removed signal will handle it
@@ -549,14 +549,14 @@ func _on_filter_selected(index):
 	refresh_inventory()
 
 func _on_item_added(item_id, item_data):
-	if debug: print("Item added signal received: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Item added signal received: ", item_id)
 	refresh_inventory()
 	# Re-select item if it was the current selection
 	if item_id == current_selected_item_id:
 		select_item(item_id)
 
 func _on_item_removed(item_id, amount):
-	if debug: print("Item removed signal received: ", item_id, " amount: ", amount)
+	if debug: print(GameState.script_name_tag(self) + "Item removed signal received: ", item_id, " amount: ", amount)
 	var was_selected = (item_id == current_selected_item_id)
 	
 	# Check if the item is completely removed
@@ -574,7 +574,7 @@ func _on_item_removed(item_id, amount):
 		current_selected_item_id = null
 
 func _on_item_used(item_id):
-	if debug: print("Item used signal received: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Item used signal received: ", item_id)
 	var was_selected = (item_id == current_selected_item_id)
 	
 	# Check if the item was completely used up
@@ -630,7 +630,7 @@ func toggle_visibility():
 			if slot:
 				slot.modulate = Color(1, 1, 1)
 	
-	if debug: print("Inventory panel visibility: ", visible)
+	if debug: print(GameState.script_name_tag(self) + "Inventory panel visibility: ", visible)
 
 # Custom draw function for item icons in the description panel
 # Custom draw function for item icons in the description panel
@@ -653,7 +653,7 @@ func _on_item_icon_draw(icon_control, item_id, category):
 
 # Drag and drop handlers
 func _on_drag_started(item_id, item_data, source_slot):
-	if debug: print("Started dragging item: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Started dragging item: ", item_id)
 	drag_item_id = item_id
 	drag_item_data = item_data
 	drag_source_slot = source_slot
@@ -669,7 +669,7 @@ func _on_drag_started(item_id, item_data, source_slot):
 func _on_drag_ended():#   target_slot):
 	# Most drag ending is now handled in _input and _handle_drag_end
 	# This is just a fallback
-	if debug: print("_on_drag_ended called directly - should not happen normally")
+	if debug: print(GameState.script_name_tag(self) + "_on_drag_ended called directly - should not happen normally")
 	cleanup_drag()
 
 func create_drag_preview():
@@ -721,7 +721,7 @@ func cleanup_drag():
 
 func _input(event):
 	if visible and event.is_action_pressed("ui_cancel"):
-		if debug: print("UI cancel detected in inventory panel")
+		if debug: print(GameState.script_name_tag(self) + "UI cancel detected in inventory panel")
 		toggle_visibility()
 		get_viewport().set_input_as_handled()
 		
@@ -742,10 +742,10 @@ func _input(event):
 			var target_slot = get_slot_at_position(mouse_pos)
 			
 			if target_slot:
-				if debug: print("Ending drag on slot under cursor: ", target_slot.slot_index)
+				if debug: print(GameState.script_name_tag(self) + "Ending drag on slot under cursor: ", target_slot.slot_index)
 				_handle_drag_end(target_slot)
 			else:
-				if debug: print("No slot under cursor, dropping back to source")
+				if debug: print(GameState.script_name_tag(self) + "No slot under cursor, dropping back to source")
 				if drag_source_slot:
 					_handle_drag_end(drag_source_slot)
 				
@@ -766,18 +766,18 @@ func _handle_drag_end(target_slot):
 	if not drag_source_slot or not drag_item_id:
 		return
 		
-	if debug: print("Handling drag end. Source: ", drag_source_slot.slot_index, 
+	if debug: print(GameState.script_name_tag(self) + "Handling drag end. Source: ", drag_source_slot.slot_index, 
 		", Target: ", target_slot.slot_index)
 	
 	# If dropped on a different slot than source
 	if target_slot != drag_source_slot:
 		# If target slot has an item, swap them
 		if target_slot.item_id:
-			if debug: print("Swapping items between different slots")
+			if debug: print(GameState.script_name_tag(self) + "Swapping items between different slots")
 			swap_items(drag_source_slot, target_slot)
 		else:
 			# Move item to empty slot
-			if debug: print("Moving item to empty slot")
+			if debug: print(GameState.script_name_tag(self) + "Moving item to empty slot")
 			move_item(drag_source_slot, target_slot)
 			
 		# Re-select the item in its new location
@@ -789,7 +789,7 @@ func _handle_drag_end(target_slot):
 				slot.modulate = Color(1, 1, 1)
 		target_slot.modulate = Color(1.3, 1.3, 0.8)  # Yellowish highlight
 	else:
-		if debug: print("Dropped on same slot - no changes made")
+		if debug: print(GameState.script_name_tag(self) + "Dropped on same slot - no changes made")
 
 func swap_items(slot1, slot2):
 	# Get the items from both slots
@@ -798,7 +798,7 @@ func swap_items(slot1, slot2):
 	var item2_id = slot2.item_id
 	var item2_data = slot2.item_data.duplicate() if slot2.item_data else null
 	
-	if debug: print("Swapping items: ", item1_id, " and ", item2_id)
+	if debug: print(GameState.script_name_tag(self) + "Swapping items: ", item1_id, " and ", item2_id)
 	
 	# Swap the items in the slots (visually)
 	slot1.clear_slot()
@@ -814,7 +814,7 @@ func swap_items(slot1, slot2):
 		# Update position tracking
 		item_positions[item1_id] = slot2.slot_index
 	
-	if debug: print("Swapped items between slots ", slot1.slot_index, " and ", slot2.slot_index)
+	if debug: print(GameState.script_name_tag(self) + "Swapped items between slots ", slot1.slot_index, " and ", slot2.slot_index)
 
 func move_item(source_slot, target_slot):
 	# Get item data
@@ -822,10 +822,10 @@ func move_item(source_slot, target_slot):
 	var item_data = source_slot.item_data.duplicate() if source_slot.item_data else null
 	
 	if !item_id:
-		if debug: print("No item to move from slot ", source_slot.slot_index)
+		if debug: print(GameState.script_name_tag(self) + "No item to move from slot ", source_slot.slot_index)
 		return
 	
-	if debug: print("Moving item ", item_id, " from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
+	if debug: print(GameState.script_name_tag(self) + "Moving item ", item_id, " from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
 	
 	# Clear both slots first
 	source_slot.clear_slot()
@@ -837,23 +837,23 @@ func move_item(source_slot, target_slot):
 	# Update position tracking
 	item_positions[item_id] = target_slot.slot_index
 	
-	if debug: print("Moved item from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
+	if debug: print(GameState.script_name_tag(self) + "Moved item from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
 
 
 func _on_drop_button_pressed():
 	if current_selected_item_id and inventory_system:
-		if debug: print("Dropping item: ", current_selected_item_id)
+		if debug: print(GameState.script_name_tag(self) + "Dropping item: ", current_selected_item_id)
 		
 		# Check if item exists and get its data
 		if not inventory_system.has_item(current_selected_item_id):
-			if debug: print("Item no longer exists in inventory")
+			if debug: print(GameState.script_name_tag(self) + "Item no longer exists in inventory")
 			refresh_inventory()
 			return
 			
 		# Get item data BEFORE removing from inventory
 		var item_data = inventory_system.get_item_data(current_selected_item_id)
 		if not item_data:
-			if debug: print("Could not get item data")
+			if debug: print(GameState.script_name_tag(self) + "Could not get item data")
 			return
 			
 		# Make a copy of relevant item data
@@ -867,7 +867,7 @@ func _on_drop_button_pressed():
 		# Get the player
 		var player = get_tree().get_first_node_in_group("player")
 		if not player:
-			if debug: print("Player not found")
+			if debug: print(GameState.script_name_tag(self) + "Player not found")
 			return
 			
 		# Calculate drop position
@@ -877,7 +877,7 @@ func _on_drop_button_pressed():
 			
 		# Only remove from inventory if we have all the prerequisites for creating the pickup
 		if inventory_system.remove_item(current_selected_item_id, 1):
-			if debug: print("Item removed from inventory, creating pickup")
+			if debug: print(GameState.script_name_tag(self) + "Item removed from inventory, creating pickup")
 			
 			# Get current scene
 			var current_scene = player.get_parent()
@@ -894,20 +894,20 @@ func _on_drop_button_pressed():
 				
 				pickup.global_position = drop_pos
 				current_scene.add_child(pickup)
-				if debug: print("Created pickup item in world: ", item_data_copy.id)
+				if debug: print(GameState.script_name_tag(self) + "Created pickup item in world: ", item_data_copy.id)
 			else:
-				if debug: print("ERROR: Could not load pickup_item.tscn")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: Could not load pickup_item.tscn")
 		else:
-			if debug: print("Failed to remove item from inventory")
+			if debug: print(GameState.script_name_tag(self) + "Failed to remove item from inventory")
 			
 		# Always refresh inventory
 		refresh_inventory()
 	else:
-		if debug: print("No item selected or inventory system not found")
+		if debug: print(GameState.script_name_tag(self) + "No item selected or inventory system not found")
 
 # Reset the inventory panel state
 func reset():
-	if debug: print("Resetting inventory panel state")
+	if debug: print(GameState.script_name_tag(self) + "Resetting inventory panel state")
 	
 	# Clear the current selection
 	current_selected_item_id = null
@@ -931,7 +931,7 @@ func reset():
 		tooltip_panel.visible = false
 		tooltip_visible = false
 	
-	if debug: print("Inventory panel reset completed")
+	if debug: print(GameState.script_name_tag(self) + "Inventory panel reset completed")
 	
 	# Refresh to ensure UI state matches inventory system state
 	refresh_inventory()

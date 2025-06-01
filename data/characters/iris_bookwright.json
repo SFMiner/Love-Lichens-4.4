@@ -5,31 +5,14 @@
 	"portrait_path": "res://assets/characters/iris_bookwright_portrait.png",
 	"dialogue_file": "res://data/dialogues/iris_bookwright.dialogue",
 	"initial_dialogue_title": "librarian_greeting",
+	"font_path": "res://assets/fonts/quango/Quango-xlVR.otf",
+	"text_color": "#ff9d0f",
+	"font_size": 22,
+
 	"personality_traits": ["whimsical", "organized", "knowledgeable", "eccentric"],
 	"interests": ["living libraries", "mycological literature", "environmental history", "symbiotic relationships"],
 	"background": "Head librarian of the Environmental Science Library. Organizes books by their 'preferred habitat' and believes in bibliofungal symbiosis.",
-	"font_path": "res://assets/fonts/quango/Quango-xlVR.otf",
-	"text_color": "#ff9d0f",
-	"observable_features": {
-		"library_map": {
-			"description": "A folded paper sticking out of her jacket pocket, covered in her distinctive purple ink.",
-			"observed": false,
-			"memory_tag": "received_library_map",
-			"dialogue_title": "back_to_fungi_books"
-		},
-		"mycelial_tea": {
-			"description": "A steaming earthenware mug with small mushroom designs etched into it sits on her desk.",
-			"observed": false,
-			"memory_tag": "librarian_tea_seen",
-			"dialogue_title": "librarian_social_visit"
-		},
-		"rare_books_key": {
-			"description": "An ornate brass key hanging from a chain on her belt, alongside several index cards bound with rubber bands.",
-			"observed": false,
-			"memory_tag": "rare_collection_key_seen",
-			"dialogue_title": "librarian_hidden_collection"
-		}
-	},
+
 	"special_items": [
 		{
 			"id": "library_map",
@@ -47,6 +30,7 @@
 			"description": "A book that leaves your hands slightly damp"
 		}
 	],
+
 	"relationships": {
 		"Professor Moss": {
 			"type": "colleague",
@@ -57,23 +41,72 @@
 			"description": "Helps students navigate both the library and the interconnected web of environmental knowledge."
 		}
 	},
-	"dialogue_memories": {
-		"rare_collection_access": {
-			"unlock_condition": "relationship_level >= 1",
-			"description": "Trusted enough to see the rare collection and hear about the Great Spore Incident.",
-			"dialogue_title": "librarian_hidden_collection"
-		},
-		"enhanced_reading": {
-			"unlock_condition": "shared_mycological_tea",
-			"description": "Experienced the mild hallucination effects of mushroom tea, seeing shimmering text.",
-			"dialogue_title": "librarian_tea_effects"
-		},
-		"storm_responsive_texts": {
-			"unlock_condition": "relationship_level >= 2",
-			"description": "Learned about books that change during thunderstorms and the student who tried to read them.",
-			"dialogue_title": "librarian_profound_response"
+
+	"memory_chains": [
+		{
+			"id": "iris_library_intro",
+			"character_id": "iris_bookwright",
+			"relationship_reward": 4,
+			"completed_tag": null,
+			"steps": [
+				{
+					"id": "observe_library_map",
+					"trigger_type": 0,
+					"target_id": "iris_bookwright_library_map",
+					"unlock_tag": "received_library_map",
+					"description": "A folded paper sticking out of her jacket pocket, covered in her distinctive purple ink.",
+					"dialogue_title": "back_to_fungi_books",
+					"condition_tags": []
+				},
+				{
+					"id": "observe_mycological_tea",
+					"trigger_type": 0,
+					"target_id": "iris_bookwright_mycelial_tea",
+					"unlock_tag": "librarian_tea_seen",
+					"description": "A steaming earthenware mug with small mushroom designs etched into it sits on her desk.",
+					"dialogue_title": "librarian_social_visit",
+					"condition_tags": []
+				},
+				{
+					"id": "observe_rare_books_key",
+					"trigger_type": 0,
+					"target_id": "iris_bookwright_rare_books_key",
+					"unlock_tag": "rare_collection_key_seen",
+					"description": "An ornate brass key hanging from a chain on her belt, alongside several index cards bound with rubber bands.",
+					"dialogue_title": "librarian_hidden_collection",
+					"condition_tags": []
+				},
+				{
+					"id": "share_rare_collection",
+					"trigger_type": 3,
+					"target_id": "rare_collection_access",
+					"unlock_tag": "librarian_rare_collection_access",
+					"description": "Trusted enough to see the rare collection and hear about the Great Spore Incident.",
+					"dialogue_title": "librarian_hidden_collection",
+					"condition_tags": ["relationship_level_1"]
+				},
+				{
+					"id": "enhanced_reading_experience",
+					"trigger_type": 3,
+					"target_id": "enhanced_reading",
+					"unlock_tag": "shared_mycological_tea",
+					"description": "Experienced the mild hallucination effects of mushroom tea, seeing shimmering text.",
+					"dialogue_title": "librarian_tea_effects",
+					"condition_tags": ["librarian_tea_seen"]
+				},
+				{
+					"id": "learn_storm_books",
+					"trigger_type": 3,
+					"target_id": "storm_responsive_texts",
+					"unlock_tag": "librarian_storm_books_known",
+					"description": "Learned about books that change during thunderstorms and the student who tried to read them.",
+					"dialogue_title": "librarian_profound_response",
+					"condition_tags": ["relationship_level_2"]
+				}
+			]
 		}
-	},
+	],
+
 	"daily_patterns": {
 		"morning": {
 			"location": "main desk",
@@ -91,6 +124,7 @@
 			"mood": "contemplative"
 		}
 	},
+
 	"quest_triggers": {
 		"arrange_rare_book_viewing": {
 			"requirement": "relationship_level >= 1",
@@ -98,6 +132,7 @@
 			"dialogue_title": "librarian_appointment_setup"
 		}
 	},
+
 	"ambient_behaviors": [
 		"adjusts books that are 'arguing' with each other",
 		"checks humidity levels with hand-held sensor",

@@ -52,7 +52,7 @@ const scr_debug = false  # Enable debugging to help diagnose navigation issues
 
 func _ready():
 	super._ready()
-	
+
 	initialize_stats()
 	interaction_range = 30 * scale.y
 #	GameState.set_player(self)
@@ -60,7 +60,7 @@ func _ready():
 	calculate_speed()
 	current_speed = base_speed * current_scene_speed_mod
 	debug = scr_debug or GameController.sys_debug 
-	if debug: print("Player initialized: ", character_name)
+	if debug: print(GameState.script_name_tag(self) + "Player initialized: ", character_name)
 	
 	# Set up interaction area if it doesn't exist
 	if not has_node("InteractionArea"):
@@ -80,9 +80,9 @@ func _ready():
 		area.area_entered.connect(_on_interaction_area_area_entered)
 		area.area_exited.connect(_on_interaction_area_area_exited)
 		
-		if debug: print("Created InteractionArea with collision mask: ", area.collision_mask)
+		if debug: print(GameState.script_name_tag(self) + "Created InteractionArea with collision mask: ", area.collision_mask)
 	else:
-		if debug: print("InteractionArea already exists")
+		if debug: print(GameState.script_name_tag(self) + "InteractionArea already exists")
 	
 	# Connect to dialog system signals
 	var dialog_system = get_node_or_null("/root/DialogSystem")
@@ -96,14 +96,14 @@ func _ready():
 		# Now connect the signals
 		dialog_system.dialog_started.connect(_on_dialog_started)
 		dialog_system.dialog_ended.connect(_on_dialog_ended)
-		if debug: print("Connected to DialogSystem signals")
+		if debug: print(GameState.script_name_tag(self) + "Connected to DialogSystem signals")
 	else:
-		if debug: print("DialogSystem not found")
+		if debug: print(GameState.script_name_tag(self) + "DialogSystem not found")
 	
 	if ResourceLoader.exists("res://scenes/ui/sleep_interface.tscn"):
 		sleep_interface_scene = load("res://scenes/ui/sleep_interface.tscn")
 	
-	print("Force reset dialog state on initialization")
+	if debug: print(GameState.script_name_tag(self) + "Force reset dialog state on initialization")
 	in_dialog = false
 	add_to_group("player")
 	add_to_group("z_Objects")
@@ -113,7 +113,7 @@ func _ready():
 	# Connect to item pickup signals
 	connect_to_pickup_signals()
 	# Initialize with idle animation
-	print("play_animation('idle')")
+	if debug: print(GameState.script_name_tag(self) + "play_animation('idle')")
 	if ResourceLoader.exists("res://scenes/world/movement_marker.tscn"):
 		movement_marker_scene = load("res://scenes/world/movement_marker.tscn")
 	else:
@@ -133,9 +133,9 @@ func _ready():
 	# Connect velocity_computed signal
 	if not nav_agent.velocity_computed.is_connected(_on_velocity_computed):
 		if nav_agent.velocity_computed.connect(_on_velocity_computed) == OK:
-			if debug: print("DEBUG: velocity_computed signal connected successfully")
+			if debug: print(GameState.script_name_tag(self) + "DEBUG: velocity_computed signal connected successfully")
 		else:
-			print("ERROR: Failed to connect velocity_computed signal")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to connect velocity_computed signal")
 	
 	# Add to navigation group for the NavigationManager to recognize
 	if not is_in_group("navigation_agents"):
@@ -149,11 +149,11 @@ func move_to(target: Vector2):
 		
 func get_location_scene():
 	var parent = get_parent()
-	print("Trying parent" + parent.name + "...")
+	if debug: print(GameState.script_name_tag(self) + "Trying parent" + parent.name + "...")
 	
 	while "location_scene" not in parent:
-		print("NOPE!")
-		print("Now trying parent" + parent.get_parent().name + "...")
+		if debug: print(GameState.script_name_tag(self) + "NOPE!")
+		if debug: print(GameState.script_name_tag(self) + "Now trying parent" + parent.get_parent().name + "...")
 		parent = parent.get_parent()
 	return parent
 	
@@ -234,7 +234,7 @@ func _physics_process(delta):
 		# move_and_slide() # if you want to ensure physics state is updated
 		return
 
-	if debug: print("Frame: ", Engine.get_process_frames(), " - is_navigating: ", is_navigating)
+	if debug: print(GameState.script_name_tag(self) + "Frame: ", Engine.get_process_frames(), " - is_navigating: ", is_navigating)
 	
 	if keyboard_override_timeout > 0:
 		keyboard_override_timeout -= delta
@@ -245,7 +245,7 @@ func _physics_process(delta):
 		
 	# PRIORITY 2: Navigation takes precedence if active
 	if is_navigating:
-		if debug: print("Navigation is active - processing navigation")
+		if debug: print(GameState.script_name_tag(self) + "Navigation is active - processing navigation")
 		process_navigation(delta)
 		return
 
@@ -313,7 +313,7 @@ func _physics_process(delta):
 	var next_position = nav_agent.get_next_path_position()
 	var direction = (next_position - global_position).normalized()
 	#var speed = 100.0  # Example speed
-	var velocity = direction * current_speed
+	var curr_velocity = direction * current_speed
 	nav_agent.set_velocity(velocity)
 
 	handle_dialogue_state()
@@ -329,7 +329,7 @@ func _physics_process(delta):
 
 	# Apply repulsion
 	if push_vector.length() > 0:
-		velocity = push_vector.normalized() * REPULSION_STRENGTH
+		curr_velocity = push_vector.normalized() * REPULSION_STRENGTH
 		nav_agent.set_velocity(velocity)
 		return
 
@@ -344,7 +344,7 @@ func _physics_process(delta):
 	process_jumping(delta)
 	
 	# Set velocity based on input and speed
-	velocity = input_vector * speed
+	curr_velocity = input_vector * speed
 	
 	# Update animation based on movement state
 	update_animation(input_vector)
@@ -369,20 +369,20 @@ func handle_dialogue_state():
 		# Check if dialogue system reports it's still active
 		var dialog_system = get_node_or_null("/root/DialogSystem")
 		if dialog_system and dialog_system.current_character_id == "":
-			if debug: print("Dialog ended detection: Fixing stuck dialog state (empty character ID)")
+			if debug: print(GameState.script_name_tag(self) + "Dialog ended detection: Fixing stuck dialog state (empty character ID)")
 			in_dialog = false
 			return
 			
 		# Check if any dialogue balloons exist in the scene
 		var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
 		if balloons.size() == 0:
-			if debug: print("Dialog ended detection: No dialogue balloons found in scene tree")
+			if debug: print(GameState.script_name_tag(self) + "Dialog ended detection: No dialogue balloons found in scene tree")
 			in_dialog = false
 			return
 			
 		# Periodic debug check
 		if Engine.get_process_frames() % 60 == 0 and debug:  # Check once a second
-			print("DEBUG: Still in dialog mode with character: ", dialog_system.current_character_id)
+			print(GameState.script_name_tag(self) + "DEBUG: Still in dialog mode with character: ", dialog_system.current_character_id)
 
 func get_movement_input():
 	var input_vector = Vector2.ZERO
@@ -411,7 +411,7 @@ func get_movement_input():
 	if input_vector.length() > 0.1 and is_navigating and keyboard_override_timeout <= 0:
 		is_navigating = false
 		path_to_target.clear()
-		if debug: print("Navigation canceled due to keyboard input")
+		if debug: print(GameState.script_name_tag(self) + "Navigation canceled due to keyboard input")
 	
 	return input_vector
 
@@ -424,7 +424,7 @@ func handle_movement_state(input_vector):
 		speed = current_speed * run_speed_multiplier
 	else:
 		speed = current_speed
-	if debug: print("base_speed = " + str(base_speed))
+	if debug: print(GameState.script_name_tag(self) + "base_speed = " + str(base_speed))
 	# Update movement state tracking
 	was_moving = is_moving
 	is_moving = input_vector.length() > 0.1
@@ -456,7 +456,7 @@ func play_animation(anim_name):
 	if anim_player and anim_player.has_animation(anim_name) and anim_player.current_animation != anim_name:
 		anim_player.play(anim_name)
 
-func update_interaction_ray(input_dir):
+func update_interaction_ray(_input_dir):
 	# This function is now a placeholder for compatibility
 	# We no longer use a ray for interaction
 	pass
@@ -485,7 +485,7 @@ func check_for_interactable():
 	update_closest_interactable()
 	
 #	if debug:
-#		print("Found ", interactables_in_range.size(), " interactables in range")
+#		print(GameState.script_name_tag(self) + "Found ", interactables_in_range.size(), " interactables in range")
 
 func update_closest_interactable():
 	# Find the closest interactable in range for key-based interaction
@@ -505,9 +505,9 @@ func update_closest_interactable():
 	# Debug output for object change
 	if debug and interactable_object != previous_interactable:
 		if interactable_object:
-			print("Updated closest interactable to: ", interactable_object.name)
+			print(GameState.script_name_tag(self) + "Updated closest interactable to: ", interactable_object.name)
 		else:
-			print("No interactable objects in range")
+			print(GameState.script_name_tag(self) + "No interactable objects in range")
 
 func update_running_state():
 	# Update speed based on running state
@@ -529,12 +529,12 @@ func update_running_state():
 		if last_animation != anim_name:
 			if AP:
 				var new_anim = anim_name + "_" + anim_direction
-				print("Updating to animation: " + new_anim)
+				print(GameState.script_name_tag(self) + "Updating to animation: " + new_anim)
 				AP.stop()
 				AP.play(new_anim)
 				last_animation = anim_name
 			else:
-				print("AnimationPlayer reference not found")
+				print(GameState.script_name_tag(self) + "AnimationPlayer reference not found")
 
 func _unhandled_input(event):
 	if GameController.is_phone_active:
@@ -560,7 +560,7 @@ func _unhandled_input(event):
 		
 		# Create a simple direct path to the click point
 		var direct_path = [click_pos]
-		if temp_debug: print("NAVIGATION DEBUG: Creating direct path to ", click_pos)
+		if temp_debug: print(GameState.script_name_tag(self) + "NAVIGATION DEBUG: Creating direct path to ", click_pos)
 		
 		# Use this simple path for navigation
 		if direct_path.size() > 0:
@@ -570,10 +570,10 @@ func _unhandled_input(event):
 			# Set a timeout to allow keyboard override immediately
 			keyboard_override_timeout = 0.1
 			
-			if temp_debug: print("NAVIGATION DEBUG: Path set with ", path_to_target.size(), " points")
-			if temp_debug: print("NAVIGATION DEBUG: is_navigating = ", is_navigating)
+			if temp_debug: print(GameState.script_name_tag(self) + "NAVIGATION DEBUG: Path set with ", path_to_target.size(), " points")
+			if temp_debug: print(GameState.script_name_tag(self) + "NAVIGATION DEBUG: is_navigating = ", is_navigating)
 		else:
-			if temp_debug: print("NAVIGATION DEBUG: Failed to create path")
+			if temp_debug: print(GameState.script_name_tag(self) + "NAVIGATION DEBUG: Failed to create path")
 			
 			# Try to notify the user
 			var notification_system = get_node_or_null("/root/NotificationSystem")
@@ -583,7 +583,7 @@ func _unhandled_input(event):
 			
 	if event is InputEventKey and event.keycode == KEY_CAPSLOCK and event.pressed:
 		run_toggle = !run_toggle
-		print("Run toggle is now: ", run_toggle)
+		print(GameState.script_name_tag(self) + "Run toggle is now: ", run_toggle)
 
 	# Add sleep key (press H to sleep/rest)
 	if event is InputEventKey and event.keycode == KEY_H and event.pressed and not in_dialog:
@@ -591,11 +591,11 @@ func _unhandled_input(event):
 
 	# Jump handling (existing code)
 	if event.is_action_pressed("jump") and !in_dialog:
-		print("JUMP pressed.")
+		print(GameState.script_name_tag(self) + "JUMP pressed.")
 		begin_jump()
 		
 	if event.is_action_pressed("click") and !in_dialog:
-		print("GLOBAL CLICK DETECTED!")
+		print(GameState.script_name_tag(self) + "GLOBAL CLICK DETECTED!")
 		
 		# Check if we clicked on any interactable directly
 		var space = get_viewport().get_world_2d().direct_space_state
@@ -606,7 +606,7 @@ func _unhandled_input(event):
 		query.collide_with_bodies = false
 		
 		var results = space.intersect_point(query)
-		print("Click detected " + str(results.size()) + " objects at position " + str(query.position), " out of ", str(30 * scale.y))
+		print(GameState.script_name_tag(self) + "Click detected " + str(results.size()) + " objects at position " + str(query.position), " out of ", str(30 * scale.y))
 		
 		# Process clicked objects
 		var closest_obj = null
@@ -616,7 +616,7 @@ func _unhandled_input(event):
 			var obj = result["collider"]
 			if obj.is_in_group("interactable") and obj.has_method("interact"):
 				var dist = global_position.distance_to(obj.global_position)
-				print("- Clicked on: " + obj.name + " at distance " + str(dist))
+				print(GameState.script_name_tag(self) + "- Clicked on: " + obj.name + " at distance " + str(dist))
 				
 				if dist < closest_dist:
 					closest_dist = dist
@@ -624,16 +624,16 @@ func _unhandled_input(event):
 		
 		# Check if any object was clicked
 		if closest_obj:
-			print("Selected object: " + closest_obj.name + " (distance: " + str(closest_dist) + ", max range: " + str(max_interaction_distance) + ")")
+			print(GameState.script_name_tag(self) + "Selected object: " + closest_obj.name + " (distance: " + str(closest_dist) + ", max range: " + str(max_interaction_distance) + ")")
 			
 			# STRICT RANGE CHECK - force object to be within max_interaction_distance
 			if closest_dist <= max_interaction_distance:
-				print("Object in range, interacting with: " + closest_obj.name)
+				print(GameState.script_name_tag(self) + "Object in range, interacting with: " + closest_obj.name)
 				if global_position.distance_to(closest_obj.global_position) <= 30 * scale.y:	
-					print("Distance to interactable = " + str(global_position.distance_to(closest_obj.global_position)), " out of ", str(30 * scale.y))
+					print(GameState.script_name_tag(self) + "Distance to interactable = " + str(global_position.distance_to(closest_obj.global_position)), " out of ", str(30 * scale.y))
 					closest_obj.interact()
 			else:
-				print("Object too far away: " + closest_obj.name + " (" + str(closest_dist) + " > " + str(max_interaction_distance) + ")")
+				print(GameState.script_name_tag(self) + "Object too far away: " + closest_obj.name + " (" + str(closest_dist) + " > " + str(max_interaction_distance) + ")")
 				# Show too far away notification
 				var notification_system = get_node_or_null("/root/NotificationSystem")
 				if notification_system and notification_system.has_method("show_notification"):
@@ -645,35 +645,35 @@ func _unhandled_input(event):
 						closest_obj.name
 					notification_system.show_notification("Too far away to interact with " + display_name)
 				else:
-					print("Too far away to interact with " + closest_obj.name)
+					print(GameState.script_name_tag(self) + "Too far away to interact with " + closest_obj.name)
 
 	elif event.is_action_pressed("interact"): 
-		print("Interact button pressed")
+		print(GameState.script_name_tag(self) + "Interact button pressed")
 		
 		# Add emergency dialog reset logic
 		if in_dialog:
-			print("Emergency dialog reset: Player was stuck in dialog mode")
+			print(GameState.script_name_tag(self) + "Emergency dialog reset: Player was stuck in dialog mode")
 			in_dialog = false
 			
 		if interactable_object and !in_dialog:
-			print("Interacting with: ", interactable_object.name)
+			print(GameState.script_name_tag(self) + "Interacting with: ", interactable_object.name)
 			if global_position.distance_to(interactable_object.global_position) <= 30 * scale.y:
-				print("Distance to interactable = " + str(global_position.distance_to(interactable_object.global_position)), " out of ", str(30 * scale.y))
+				print(GameState.script_name_tag(self) + "Distance to interactable = " + str(global_position.distance_to(interactable_object.global_position)), " out of ", str(30 * scale.y))
 				interaction_requested.emit(interactable_object)
 				interactable_object.interact()
 		else:
-			print("No interactable object in range or dialog active")
-			print("In dialog: ", in_dialog)
+			print(GameState.script_name_tag(self) + "No interactable object in range or dialog active")
+			print(GameState.script_name_tag(self) + "In dialog: ", in_dialog)
 			
 			# Print all nearby interactable objects for debugging
 			var areas = get_tree().get_nodes_in_group("interactable")
-			print("Interactable objects in scene: ", areas.size())
+			print(GameState.script_name_tag(self) + "Interactable objects in scene: ", areas.size())
 			for area in areas:
-				print("- ", area.name, " at distance ", global_position.distance_to(area.global_position))
+				print(GameState.script_name_tag(self) + "- ", area.name, " at distance ", global_position.distance_to(area.global_position))
 
 	elif event.is_action_pressed("look_at"):
 	 # Get the LookAtSystem singleton
-		print("Look_at pressed.")
+		print(GameState.script_name_tag(self) + "Look_at pressed.")
 		var look_at_system = get_node_or_null("/root/LookAtSystem")
 		if look_at_system:
 			  # Find the nearest interactable object
@@ -688,10 +688,10 @@ func _unhandled_input(event):
 
 			  # Look at the nearest object if found
 			if nearest_obj:
-				print("Looking at: ", nearest_obj.name)
+				print(GameState.script_name_tag(self) + "Looking at: ", nearest_obj.name)
 				look_at_system.look_at(nearest_obj)
 			else:
-				print("No interactable objects in range to look at")
+				print(GameState.script_name_tag(self) + "No interactable objects in range to look at")
 
 func _on_navigation_completed(character):
 	# Only handle our own completion
@@ -718,7 +718,7 @@ func begin_jump():
 
 
 func _on_dialog_started(character_id):
-	if debug: print("Dialog started with: ", character_id)
+	if debug: print(GameState.script_name_tag(self) + "Dialog started with: ", character_id)
 	in_dialog = true
 	
 	# Make sure we're not stuck in an intermediate state
@@ -728,7 +728,7 @@ func _on_dialog_started(character_id):
 	play_animation("idle")
 	
 func _on_dialog_ended(character_id):
-	if debug: print("Dialog ended with: ", character_id)
+	if debug: print(GameState.script_name_tag(self) + "Dialog ended with: ", character_id)
 	in_dialog = false
 	
 	# Force input processing to resume
@@ -738,7 +738,7 @@ func _on_dialog_ended(character_id):
 	# Clear any lingering input to prevent unwanted movement
 	# Just let the next frame handle input reset naturally
 	
-	if debug: print("Player movement re-enabled")
+	if debug: print(GameState.script_name_tag(self) + "Player movement re-enabled")
 
 func connect_to_pickup_signals():
 	# This will connect to any existing pickup items in the scene
@@ -747,41 +747,46 @@ func connect_to_pickup_signals():
 		if pickup.has_signal("item_picked_up") and not pickup.item_picked_up.is_connected(_on_item_picked_up):
 			pickup.item_picked_up.connect(_on_item_picked_up)
 
-func _on_item_picked_up(item_id, item_data):
-	if debug: print("Player received item: ", item_id)
+func _on_item_picked_up(item_id: String, item_data: Dictionary):
+	if debug: print(GameState.script_name_tag(self) + "Player picked up item: ", item_id)
+	
+	# Trigger memory system
+	var memory_system = get_node_or_null("/root/MemorySystem")
+	if memory_system:
+		memory_system.trigger_item_acquired(item_id)
 	
 	
 func handle_interaction():
 	if interactable_object and interactable_object.has_method("interact"):
 		if global_position.distance_to(interactable_object.global_position) <= 30 * scale.y:
-			print("distance to interacable object = ", str(global_position.distance_to(interactable_object.global_position)))
+			print(GameState.script_name_tag(self) + "distance to interacable object = ", str(global_position.distance_to(interactable_object.global_position)))
 			interactable_object.interact()
 			interaction_triggered.emit(interactable_object)
 
 func _on_interaction_area_body_entered(body):
 	if body.is_in_group("interactable"):
 		interactable_object = body
-		print("Entered interaction range with: ", body.name)
+		print(GameState.script_name_tag(self) + "Entered interaction range with: ", body.name)
 
 func _on_interaction_area_area_entered(area):
 	if area.is_in_group("interactable"):
 		interactable_object = area
-		print("Entered interaction range with area: ", area.name)
+		print(GameState.script_name_tag(self) + "Entered interaction range with area: ", area.name)
 
 func _on_interaction_area_body_exited(body):
 	if body == interactable_object:
 		interactable_object = null
-		print("Left interaction range with: ", body.name)
+		print(GameState.script_name_tag(self) + "Left interaction range with: ", body.name)
 
 func _on_interaction_area_area_exited(area):
 	if area == interactable_object:
 		interactable_object = null
-		print("Left interaction range with area: ", area.name)
+		print(GameState.script_name_tag(self) + "Left interaction range with area: ", area.name)
 
 # Function to be called when dialog starts/ends
 func set_dialog_mode(active):
 	in_dialog = active
-	print("Dialog mode set to: ", in_dialog)  
+	print(GameState.script_name_tag(self) + "Dialog mode set to: ", in_dialog)  
 
 func set_camera_limits(right, bottom, left, top, zoom_factor := 1.0):
 	camera.limit_right = right
@@ -794,27 +799,27 @@ func set_camera_limits(right, bottom, left, top, zoom_factor := 1.0):
 func _input(event):
 	# F key debug option - lists all interactable objects and their distances
 	if event is InputEventKey and event.keycode == KEY_F and event.pressed:
-		print("DEBUG: F key pressed - listing all interactable objects")
+		print(GameState.script_name_tag(self) + "DEBUG: F key pressed - listing all interactable objects")
 		
 		# List all interactable objects and their distances
 		var all_interactables = get_tree().get_nodes_in_group("interactable")
-		print("Found ", all_interactables.size(), " total interactable objects")
+		print(GameState.script_name_tag(self) + "Found ", all_interactables.size(), " total interactable objects")
 		
 		for obj in all_interactables:
 			var dist = global_position.distance_to(obj.global_position)
 			var in_range = dist <= interaction_range
-			print("- ", obj.name, " (distance: ", dist, ", in range: ", in_range, ")")
+			print(GameState.script_name_tag(self) + "- ", obj.name, " (distance: ", dist, ", in range: ", in_range, ")")
 		
 		# Force interaction with closest object
 		if interactable_object:
-			print("DEBUG: Force interacting with closest object: ", interactable_object.name)
+			print(GameState.script_name_tag(self) + "DEBUG: Force interacting with closest object: ", interactable_object.name)
 			if global_position.distance_to(interactable_object.global_position) <= 30 * scale.y:
 				interactable_object.interact()
 		else:
-			print("DEBUG: No interactable object in range")
+			print(GameState.script_name_tag(self) + "DEBUG: No interactable object in range")
 
 #func _on_sprite_2d_frame_changed() -> void:
-#	print(str(sprite.texture) + " frame " + str(sprite.frame))
+#	print(GameState.script_name_tag(self) + str(sprite.texture) + " frame " + str(sprite.frame))
 
 func sleep():
 	if sleep_interface_scene and not is_instance_valid(sleep_interface):
@@ -847,7 +852,7 @@ func calculate_speed():
 		current_scene_speed_mod = 1
 	var original_speed = base_speed
 	current_speed = base_speed * current_scene_speed_mod
-	if debug: print("speed was " + str(original_speed) + " but was multipliesd by " + str(current_scene_speed_mod) + " and is now " + str(base_speed) )
+	if debug: print(GameState.script_name_tag(self) + "speed was " + str(original_speed) + " but was multipliesd by " + str(current_scene_speed_mod) + " and is now " + str(base_speed) )
 
 func _on_sleep_completed(time_periods):
 	# Restore player health/energy
@@ -877,7 +882,7 @@ func _check_navigation_region():
 	var navigation_region = get_tree().current_scene.find_child("NavigationRegion2D", true, false)
 	
 	if navigation_region:
-		if debug: print("Found NavigationRegion2D for navigation: ", navigation_region.name)
+		if debug: print(GameState.script_name_tag(self) + "Found NavigationRegion2D for navigation: ", navigation_region.name)
 		
 		# Make sure the navigation map is active
 		var map_rid = navigation_region.get_navigation_map()
@@ -886,11 +891,11 @@ func _check_navigation_region():
 		# Verify the navigation mesh is valid
 		var regions = NavigationServer2D.map_get_regions(map_rid)
 		if regions.size() > 0:
-			if debug: print("Navigation mesh has ", regions.size(), " regions")
+			if debug: print(GameState.script_name_tag(self) + "Navigation mesh has ", regions.size(), " regions")
 		else:
-			if debug: print("WARNING: Navigation mesh has no regions!")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: Navigation mesh has no regions!")
 	else:
-		if debug: print("WARNING: No NavigationRegion2D found in scene. Click-to-navigate will not work.")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: No NavigationRegion2D found in scene. Click-to-navigate will not work.")
 		
 		# Try to notify the user about the missing navigation mesh
 		var notification_system = get_node_or_null("/root/NotificationSystem")
@@ -943,29 +948,29 @@ func process_navigation(delta):
 	var force_debug = true
 	
 	if not is_navigating or path_to_target.size() == 0:
-		if force_debug: print("NAVIGATION STOPPED: is_navigating=", is_navigating, ", path_size=", path_to_target.size())
+		if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION STOPPED: is_navigating=", is_navigating, ", path_size=", path_to_target.size())
 		is_navigating = false
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
 	
-	if force_debug: print("NAVIGATION ACTIVE: Processing navigation. Path points: ", path_to_target.size())
+	if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ACTIVE: Processing navigation. Path points: ", path_to_target.size())
 	
 	# Get the next point in the path
 	var target_point = path_to_target[0]
 	
 	# Calculate distance to the next point
 	var distance = global_position.distance_to(target_point)
-	if force_debug: print("NAVIGATION DISTANCE: ", distance, " to point: ", target_point)
+	if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION DISTANCE: ", distance, " to point: ", target_point)
 	
 	# If we've reached the point, remove it and move to the next
 	if distance < 10:  # Threshold for reaching a point
-		if force_debug: print("NAVIGATION REACHED: waypoint, removing from path")
+		if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION REACHED: waypoint, removing from path")
 		path_to_target.remove_at(0)
 		
 		# If no more points, we're done
 		if path_to_target.size() == 0:
-			if force_debug: print("NAVIGATION COMPLETE!")
+			if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION COMPLETE!")
 			is_navigating = false
 			velocity = Vector2.ZERO
 			move_and_slide()
@@ -973,22 +978,22 @@ func process_navigation(delta):
 			# Try different ways to set animation back to idle
 			if animator and animator.has_method("set_animation"):
 				animator.set_animation("idle", anim_direction, get_character_id())
-				if force_debug: print("NAVIGATION ANIMATION: Using CharacterAnimator.set_animation")
+				if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ANIMATION: Using CharacterAnimator.set_animation")
 			elif AP and AP.has_animation("idle_" + anim_direction):
 				AP.play("idle_" + anim_direction)
-				if force_debug: print("NAVIGATION ANIMATION: Using AnimationPlayer.play")
+				if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ANIMATION: Using AnimationPlayer.play")
 			
 			last_animation = "idle"
 			return
 	
 	# Calculate direction directly to the next point in our path
 	var direction = (target_point - global_position).normalized()
-	if force_debug: print("NAVIGATION DIRECTION: ", direction)
+	if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION DIRECTION: ", direction)
 	
 	# Update animation based on direction
 	last_direction = direction
 	update_anim_direction()
-	if force_debug: print("NAVIGATION ANIM DIR: ", anim_direction)
+	if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ANIM DIR: ", anim_direction)
 	
 	# Set speed based on running state
 	if is_running:
@@ -998,7 +1003,7 @@ func process_navigation(delta):
 	
 	# Calculate velocity (double the speed to make movement more obvious)
 	var move_velocity = direction * speed * 1.5
-	if force_debug: print("NAVIGATION VELOCITY: ", move_velocity)
+	if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION VELOCITY: ", move_velocity)
 	
 	# Apply movement directly
 	velocity = move_velocity
@@ -1008,19 +1013,19 @@ func process_navigation(delta):
 	var anim_type = "run" if is_running else "walk"
 	if animator and animator.has_method("set_animation"):
 		animator.set_animation(anim_type, anim_direction, get_character_id())
-		if force_debug: print("NAVIGATION ANIMATION: Using CharacterAnimator for ", anim_type)
+		if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ANIMATION: Using CharacterAnimator for ", anim_type)
 	elif AP:
 		var anim_name = anim_type + "_" + anim_direction
 		if AP.has_animation(anim_name):
 			AP.play(anim_name)
-			if force_debug: print("NAVIGATION ANIMATION: Using AnimationPlayer for ", anim_name)
+			if force_debug: print(GameState.script_name_tag(self) + "NAVIGATION ANIMATION: Using AnimationPlayer for ", anim_name)
 	
 	# Update position tracking
 	update_position_tracking()
 	
 # Handle the adjusted velocity from the avoidance system
 func _on_velocity_computed(safe_velocity):
-	# print("DEBUG: velocity_computed callback called with velocity: ", safe_velocity)
+	# print(GameState.script_name_tag(self) + "DEBUG: velocity_computed callback called with velocity: ", safe_velocity)
 	
 	# Apply the safe velocity that avoids other agents
 	velocity = safe_velocity

@@ -23,7 +23,7 @@ func initialize_stats():
 		max_stamina = 50
 	current_stamina = max_stamina
 
-	print("Stats initialized: HP", current_health, "/", max_health, 
+	print(GameState.script_name_tag(self) + "Stats initialized: HP", current_health, "/", max_health, 
 		  " | SP", current_stamina, "/", max_stamina)
 
 # Override combat type

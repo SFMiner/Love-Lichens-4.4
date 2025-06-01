@@ -25,7 +25,7 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	update_buttons()
-	print("Sleep interface initialized and signals connected")
+	print(GameState.script_name_tag(self) + "Sleep interface initialized and signals connected")
 
 func update_buttons():
 	if time_system:
@@ -42,7 +42,7 @@ func update_buttons():
 			morning_button.disabled = false
 
 func _on_morning_button_pressed():
-	print("Morning button pressed")
+	print(GameState.script_name_tag(self) + "Morning button pressed")
 	if time_system:
 		var periods = time_system.sleep_until(time_system.TimeOfDay.MORNING)
 		sleep_completed.emit(periods)
@@ -50,7 +50,7 @@ func _on_morning_button_pressed():
 	get_tree().paused = false
 
 func _on_afternoon_button_pressed():
-	print("Afternoon button pressed")
+	print(GameState.script_name_tag(self) + "Afternoon button pressed")
 	if time_system:
 		var periods = time_system.sleep_until(time_system.TimeOfDay.AFTERNOON)
 		sleep_completed.emit(periods)
@@ -58,7 +58,7 @@ func _on_afternoon_button_pressed():
 	get_tree().paused = false
 
 func _on_evening_button_pressed():
-	print("Evening button pressed")
+	print(GameState.script_name_tag(self) + "Evening button pressed")
 	if time_system:
 		var periods = time_system.sleep_until(time_system.TimeOfDay.EVENING)
 		sleep_completed.emit(periods)
@@ -66,7 +66,7 @@ func _on_evening_button_pressed():
 	get_tree().paused = false
 	
 func _on_night_button_pressed():
-	print("Night button pressed")
+	print(GameState.script_name_tag(self) + "Night button pressed")
 	if time_system:
 		var periods = time_system.sleep_until(time_system.TimeOfDay.NIGHT)
 		sleep_completed.emit(periods)
@@ -74,7 +74,7 @@ func _on_night_button_pressed():
 	get_tree().paused = false
 
 func _on_cancel_button_pressed():
-	print("Cancel button pressed")
+	print(GameState.script_name_tag(self) + "Cancel button pressed")
 	visible = false
 	get_tree().paused = false
 	

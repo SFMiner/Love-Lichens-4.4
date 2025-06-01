@@ -111,7 +111,7 @@ func start_combat_with_player():
 			var combat_manager = get_node_or_null("/root/CombatManager")
 			if combat_manager:
 				combat_manager.start_combat(player, self)
-				print("Combat started with " + construct_name)
+				print(GameState.script_name_tag(self) + "Combat started with " + construct_name)
 
 func interact():
 	# Handle player interaction

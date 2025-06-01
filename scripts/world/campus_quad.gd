@@ -38,7 +38,7 @@ func _ready():
 
 
 	if construct_spawner:
-		if debug:print("Setting up construct spawner")
+		if debug:print(GameState.script_name_tag(self) + "Setting up construct spawner")
 		# Clear any existing positions to avoid duplicates
 		construct_spawner.spawn_positions.clear()
 		
@@ -53,10 +53,10 @@ func _ready():
 		# Verify spawning worked
 		await get_tree().process_frame
 		var constructs = get_tree().get_nodes_in_group("construct_enemies")
-		if debug:print("Constructs after spawning: ", constructs.size())
+		if debug:print(GameState.script_name_tag(self) + "Constructs after spawning: ", constructs.size())
 		
 	
-	print("Campus Quad scene initialized")
+	print(GameState.script_name_tag(self) + "Campus Quad scene initialized")
 	# Set up the scene components
 	setup_player()
 	setup_npcs()
@@ -77,29 +77,29 @@ func _ready():
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and quest_system.has_method("on_location_entered"):
 		quest_system.on_location_entered("campus_quad")
-		if debug:print("Notified quest system of location: campus_quad")
+		if debug:print(GameState.script_name_tag(self) + "Notified quest system of location: campus_quad")
 
 
 func _input(event):
 	# Debug key to force start combat (press F2)
 	if event is InputEventKey and event.keycode == KEY_F2 and event.pressed:
-		if debug:print("F2 pressed - starting test combat")
+		if debug:print(GameState.script_name_tag(self) + "F2 pressed - starting test combat")
 		
 		# Ensure constructs exist
 		var constructs = get_tree().get_nodes_in_group("construct_enemies")
 		if constructs.size() == 0:
-			if debug:print("No constructs found, spawning test constructs")
+			if debug:print(GameState.script_name_tag(self) + "No constructs found, spawning test constructs")
 			spawn_test_constructs()
 			# Wait a frame for constructs to initialize
 			await get_tree().process_frame
 			constructs = get_tree().get_nodes_in_group("construct_enemies")
 		
-		if debug:print("Number of constructs found: ", constructs.size())
+		if debug:print(GameState.script_name_tag(self) + "Number of constructs found: ", constructs.size())
 		
 		# Get player reference
 		player = $Player
 		if not player:
-			if debug:print("ERROR: Player not found!")
+			if debug:print(GameState.script_name_tag(self) + "ERROR: Player not found!")
 			return
 			
 		# Initialize player combat stats
@@ -108,99 +108,99 @@ func _input(event):
 		# Force the combat UI to show first
 		var combat_ui = get_node_or_null("/root/CombatUI")
 		if combat_ui:
-			if debug:print("Found CombatUI, making it visible")
+			if debug:print(GameState.script_name_tag(self) + "Found CombatUI, making it visible")
 			
 			# Force the combat panel to be visible
 			var combat_panel = combat_ui.get_node_or_null("CombatPanel")
 			if combat_panel:
 				combat_panel.visible = true
-				if debug:print("Made combat panel visible")
+				if debug:print(GameState.script_name_tag(self) + "Made combat panel visible")
 			
 			# Try to initialize combat through the best available method
 			if combat_ui.has_method("initialize_combat"):
 				combat_ui.initialize_combat(player, constructs)
-				if debug:print("Combat initialized via initialize_combat method")
+				if debug:print(GameState.script_name_tag(self) + "Combat initialized via initialize_combat method")
 			elif combat_ui.has_method("set_player"):
 				combat_ui.set_player(player)
 				if combat_ui.has_method("set_opponents"):
 					combat_ui.set_opponents(constructs)
-				if debug:print("Combat initialized via set_player/set_opponents methods")
+				if debug:print(GameState.script_name_tag(self) + "Combat initialized via set_player/set_opponents methods")
 			else:
 				# Try to set properties directly
 				if "current_player" in combat_ui:
 					combat_ui.current_player = player
-					if debug:print("Set current_player property directly")
+					if debug:print(GameState.script_name_tag(self) + "Set current_player property directly")
 				
 				if "current_opponents" in combat_ui:
 					combat_ui.current_opponents = constructs
-					if debug:print("Set current_opponents property directly")
+					if debug:print(GameState.script_name_tag(self) + "Set current_opponents property directly")
 				
 				# Fallback to combat manager if needed
 				if combat_manager:
 					combat_manager.current_combatants = [player] + constructs
-					if debug:print("Set combatants via CombatManager")
+					if debug:print(GameState.script_name_tag(self) + "Set combatants via CombatManager")
 			
 			# Update UI displays if methods exist
 			if combat_ui.has_method("update_player_stats"):
 				combat_ui.update_player_stats()
-				if debug:print("Updated player stats in UI")
+				if debug:print(GameState.script_name_tag(self) + "Updated player stats in UI")
 				
 			if combat_ui.has_method("update_opponent_list"):
 				combat_ui.update_opponent_list()
-				if debug:print("Updated opponent list in UI")
+				if debug:print(GameState.script_name_tag(self) + "Updated opponent list in UI")
 				
 			# Show a status message
 			var status_label = combat_ui.get_node_or_null("CombatPanel/StatusPanel/StatusLabel")
 			if status_label:
 				status_label.text = "Combat started!"
-				if debug:print("Set status message")
+				if debug:print(GameState.script_name_tag(self) + "Set status message")
 		else:
-			if debug:print("CombatUI not found")
+			if debug:print(GameState.script_name_tag(self) + "CombatUI not found")
 			
 		# Now start the actual combat
 		if combat_manager and player and constructs.size() > 0:
 			# If combat manager exists, properly start combat
 			if combat_manager.has_method("start_combat"):
 				combat_manager.start_combat(player, constructs)
-				if debug:print("Combat started via CombatManager.start_combat")
+				if debug:print(GameState.script_name_tag(self) + "Combat started via CombatManager.start_combat")
 			else:
 				# Directly simulate combat for testing
-				if debug:print("Simulating combat turn")
+				if debug:print(GameState.script_name_tag(self) + "Simulating combat turn")
 				var construct = constructs[0]
 				
 				# Make construct attack player
 				var damage = 5
 				player.current_health -= damage
-				if debug: print(construct.name + " attacked player for " + str(damage) + " damage!")
-				if debug: print("Player health: " + str(player.current_health) + "/" + str(player.max_health))
+				if debug: print(GameState.script_name_tag(self) + construct.name + " attacked player for " + str(damage) + " damage!")
+				if debug: print(GameState.script_name_tag(self) + "Player health: " + str(player.current_health) + "/" + str(player.max_health))
 				
 				# Update the UI to show the change
 				if combat_ui and combat_ui.has_method("update_player_stats"):
 					combat_ui.update_player_stats()
 		else:
-			if debug: print("Cannot start combat - missing component")
+			if debug: print(GameState.script_name_tag(self) + "Cannot start combat - missing component")
 
 
 func setup_player():
 	player = $Player
 	if player:
-		if debug: print("Player found in scene")
+		if debug: print(GameState.script_name_tag(self) + "Player found in scene")
 		# Make sure the player's input settings are correct
 		if not InputMap.has_action("interact"):
-			print("Adding 'interact' action to InputMap")
+			print(GameState.script_name_tag(self) + "Adding 'interact' action to InputMap")
 			InputMap.add_action("interact")
 			var event = InputEventKey.new()
 			event.keycode = KEY_E
 			InputMap.action_add_event("interact", event)
 		else:
-			if debug: print("'interact' action already exists in InputMap")
+			if debug: print(GameState.script_name_tag(self) + "'interact' action already exists in InputMap")
 	else:
-		if debug: print("ERROR: Player not found in scene!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Player not found in scene!")
 
 func setup_visit_areas():
 	# Find all Area2D nodes in the "visitable_area" group
 	var areas = get_tree().get_nodes_in_group("visitable_area")
-	if debug: print("Found " + str(areas.size()) + " visitable areas in the scene")
+	if debug: print(GameState.script_name_tag(self) + "Found " + str(areas.size()) + " visitable areas in the scene")
 	
 	# Set up tracking for each area
 	for area in areas:
@@ -217,17 +217,17 @@ func setup_visit_areas():
 func setup_npcs():
 	# Setup Professor Moss
 	if professor_moss:
-		if debug: print("Professor Moss found in scene")
+		if debug: print(GameState.script_name_tag(self) + "Professor Moss found in scene")
 		# Ensure Professor Moss has the correct collision settings
 		if professor_moss.get_collision_layer() != 2:
-			if debug: print("Setting Professor Moss collision layer to 2")
+			if debug: print(GameState.script_name_tag(self) + "Setting Professor Moss collision layer to 2")
 			professor_moss.set_collision_layer(2)
 	else:
-		if debug: print("ERROR: Professor Moss not found in scene!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Professor Moss not found in scene!")
 	
 	# Find and setup all NPCs
 	var npcs = get_tree().get_nodes_in_group("interactable")
-	if debug: print("Found ", npcs.size(), " interactable NPCs in scene")
+	if debug: print(GameState.script_name_tag(self) + "Found ", npcs.size(), " interactable NPCs in scene")
 
 func setup_items():
 	pass
@@ -240,39 +240,39 @@ func initialize_systems():
 	var relationship_system = get_node_or_null("/root/RelationshipSystem")
 	
 	if dialog_system:
-		if debug: print("Dialog System found")
+		if debug: print(GameState.script_name_tag(self) + "Dialog System found")
 	else:
-		if debug: print("WARNING: Dialog System not found! Adding a temporary one.")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Dialog System not found! Adding a temporary one.")
 		var new_dialog_system = Node.new()
 		new_dialog_system.name = "DialogSystem"
 		new_dialog_system.set_script(load("res://scripts/systems/dialog_system.gd"))
 		get_tree().root.add_child(new_dialog_system)
 	
 	if relationship_system:
-		if debug: print("Relationship System found")
+		if debug: print(GameState.script_name_tag(self) + "Relationship System found")
 		
 		# Initialize relationship with Professor Moss if needed
 		if not relationship_system.relationships.has("professor_moss"):
-			if debug: print("Initializing relationship with Professor Moss")
+			if debug: print(GameState.script_name_tag(self) + "Initializing relationship with Professor Moss")
 			relationship_system.initialize_relationship("professor_moss", "Professor Moss")
 	else:
-		if debug: print("WARNING: Relationship System not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Relationship System not found")
 
 func _on_visit_area_entered(body, area_name):
 	if not body.is_in_group("player"):
 		return
 		
-	if debug: print("Player entered area: " + area_name)
+	if debug: print(GameState.script_name_tag(self) + "Player entered area: " + area_name)
 	
 	# Mark as visited
 	if visit_areas.has(area_name):
 		# If already visited, no need to process again
 		if visit_areas[area_name].visited:
-			if debug: print("Area already visited: " + area_name)
+			if debug: print(GameState.script_name_tag(self) + "Area already visited: " + area_name)
 			return
 			
 		visit_areas[area_name].visited = true
-		if debug: print("Marked area as visited: " + area_name)
+		if debug: print(GameState.script_name_tag(self) + "Marked area as visited: " + area_name)
 		
 		# Change visual indicator to show it's been visited
 		var area = visit_areas[area_name].area
@@ -285,18 +285,18 @@ func _on_visit_area_entered(body, area_name):
 		
 		# Check if we've visited all areas
 		var all_visited = check_all_areas_visited()
-		if debug: print("All areas visited: ", all_visited)
+		if debug: print(GameState.script_name_tag(self) + "All areas visited: ", all_visited)
 		
 		# Notify quest system
 		var quest_system = get_node_or_null("/root/QuestSystem")
 		if quest_system:
 			if quest_system.has_method("on_area_visited"):
-				if debug: print("Calling quest_system.on_area_visited with ", area_name, " and campus_quad")
+				if debug: print(GameState.script_name_tag(self) + "Calling quest_system.on_area_visited with ", area_name, " and campus_quad")
 				quest_system.on_area_visited(area_name, "campus_quad")
 				
 			# If all areas visited, also notify for a complete exploration
 			if all_visited and quest_system.has_method("on_area_exploration_completed"):
-				if debug: print("Calling quest_system.on_area_exploration_completed with campus_quad")
+				if debug: print(GameState.script_name_tag(self) + "Calling quest_system.on_area_exploration_completed with campus_quad")
 				quest_system.on_area_exploration_completed("campus_quad")
 
 func check_all_areas_visited():
@@ -310,11 +310,11 @@ func check_all_areas_visited():
 	
 	# If we get here, all areas have been visited
 	all_areas_visited = true
-	if debug: print("All areas in campus quad have been visited!")
+	if debug: print(GameState.script_name_tag(self) + "All areas in campus quad have been visited!")
 	return true
 	
 func spawn_test_constructs():
-	if debug: print("Spawning test constructs manually")
+	if debug: print(GameState.script_name_tag(self) + "Spawning test constructs manually")
 	
 	# Create two constructs directly
 	for i in range(2):
@@ -367,14 +367,14 @@ func spawn_test_constructs():
 			# Add visual health bar
 			construct.add_visual_health_bar()
 			
-			if debug: print("Created test construct at position ", construct.global_position)
+			if debug: print(GameState.script_name_tag(self) + "Created test construct at position ", construct.global_position)
 		else:
-			if debug: print("ERROR: Failed to attach script to construct")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to attach script to construct")
 
 
 # Helper function to add combat properties to player if needed
 func _add_combat_properties_to_player():
-	if debug: print("Adding combat properties to player")
+	if debug: print(GameState.script_name_tag(self) + "Adding combat properties to player")
 	
 	# Add combat properties if they don't exist
 	if not player.get("max_health"):
@@ -429,11 +429,11 @@ func _add_combat_properties_to_player():
 			player.emit_signal("stamina_changed", player.current_stamina, player.max_stamina)
 			return {"success": true, "damage": actual_damage}
 	
-	if debug: print("Player combat properties added successfully")
+	if debug: print(GameState.script_name_tag(self) + "Player combat properties added successfully")
 
 # Helper function to ensure constructs have required combat methods
 func _ensure_construct_combat_methods(construct):
-	if debug: print("Ensuring combat methods for construct: " + construct.name)
+	if debug: print(GameState.script_name_tag(self) + "Ensuring combat methods for construct: " + construct.name)
 	
 	# Add combat properties if they don't exist
 	if not construct.get("max_health"):
@@ -497,14 +497,14 @@ func _ensure_construct_combat_methods(construct):
 	
 	if not construct.has_method("take_combat_turn"):
 		construct.take_combat_turn = func():
-			print(construct.name + " taking combat turn")
+			print(GameState.script_name_tag(self) + construct.name + " taking combat turn")
 			if combat_manager and combat_manager.current_combatants.size() > 0:
 				player = combat_manager.current_combatants[0]
 				if player and not player.is_defeated():
 					construct.perform_attack(player, {})
-					print(construct.name + " attacked player for damage")
+					print(GameState.script_name_tag(self) + construct.name + " attacked player for damage")
 	
-	if debug: print("Construct combat methods added successfully")
+	if debug: print(GameState.script_name_tag(self) + "Construct combat methods added successfully")
 
 func ensure_player_combat_ready():
 	# Ensure player has necessary signals
@@ -539,4 +539,4 @@ func ensure_player_combat_ready():
 	if not player.get("status_effects"):
 		player.status_effects = {}
 	
-	if debug: print("Player combat stats initialized")
+	if debug: print(GameState.script_name_tag(self) + "Player combat stats initialized")

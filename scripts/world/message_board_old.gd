@@ -16,7 +16,7 @@ signal interaction_ended(board_id)
 var dialogue_system
 
 func _ready():
-	print("MessageBoard initialized: ", character_id)
+	print(GameState.script_name_tag(self) + "MessageBoard initialized: ", character_id)
 	add_to_group("interactable")
 	add_to_group("z_Objects")  # Important for your z-indexing system
 	$Label.visible = false
@@ -24,15 +24,15 @@ func _ready():
 	# Get reference to the dialogue system
 	dialogue_system = get_node_or_null("/root/DialogSystem")
 	if not dialogue_system:
-		print("WARNING: DialogSystem not found!")
+		print(GameState.script_name_tag(self) + "WARNING: DialogSystem not found!")
 	
 	# Make sure the collision shape is enabled
 	for child in get_children():
 		if child is CollisionShape2D:
 			if not child.disabled:
-				print("Collision shape for ", character_id, " is enabled")
+				print(GameState.script_name_tag(self) + "Collision shape for ", character_id, " is enabled")
 			else:
-				print("Enabling collision shape for ", character_id)
+				print(GameState.script_name_tag(self) + "Enabling collision shape for ", character_id)
 				child.disabled = false
 				
 	# Set z-index based on y position (same as your other objects)
@@ -40,22 +40,22 @@ func _ready():
 
 func interact():
 	if not interactable:
-		print(character_name, " is not interactable")
+		print(GameState.script_name_tag(self) + character_name, " is not interactable")
 		return
 		
-	print("Interacting with: ", character_name)
+	print(GameState.script_name_tag(self) + "Interacting with: ", character_name)
 	interaction_started.emit(character_id)
 	
 	# Start dialogue using the Dialogue Manager
 	if dialogue_system:
 		var result = dialogue_system.start_dialog(character_id, initial_dialogue_title)
 		if result:
-			print("Dialogue started successfully")
+			print(GameState.script_name_tag(self) + "Dialogue started successfully")
 		else:
-			print("Failed to start dialogue!")
+			print(GameState.script_name_tag(self) + "Failed to start dialogue!")
 			show_notification("You read various announcements on the bulletin board.")
 	else:
-		print("Dialogue system not found!")
+		print(GameState.script_name_tag(self) + "Dialogue system not found!")
 		show_notification("You read various announcements on the bulletin board.")
 
 func show_notification(message):
@@ -63,7 +63,7 @@ func show_notification(message):
 	if notification_system and notification_system.has_method("show_notification"):
 		notification_system.show_notification(message)
 	else:
-		print(message)
+		print(GameState.script_name_tag(self) + message)
 		
 func end_interaction():
 	interaction_ended.emit(character_id)

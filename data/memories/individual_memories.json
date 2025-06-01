@@ -1,0 +1,51 @@
+{
+  "_comment": "Individual memory definitions with dialogue integration",
+  
+  "poison_first_look": {
+	"trigger_type": 0,
+	"target_id": "poison",
+	"unlock_tag": "poison_observed",
+	"description": "You notice Poison's sharp wit barely conceals a deeper loyalty.",
+	"character_id": "poison",
+	"condition_tags": []
+  },
+  
+  "poison_necklace_memory": {
+	"trigger_type": 0,
+	"target_id": "poison_necklace",
+	"unlock_tag": "poison_necklace_seen",
+	"description": "You notice Poison's unusual necklace - a small metal vial they touch unconsciously.",
+	"character_id": "poison",
+	"dialogue_title": "ask_about_necklace",
+	"condition_tags": []
+  },
+  
+  "dusty_examination": {
+	"trigger_type": 0,
+	"target_id": "dusty",
+	"unlock_tag": "dusty_observed", 
+	"description": "You notice Dusty's protective, warm demeanor.",
+	"character_id": "dusty",
+	"condition_tags": []
+  },
+  
+  "dusty_bracelet_memory": {
+	"trigger_type": 0,
+	"target_id": "dusty_bracelet",
+	"unlock_tag": "dusty_bracelet_seen",
+	"description": "You notice Dusty's handmade wooden bracelet.",
+	"character_id": "dusty", 
+	"dialogue_title": "ask_about_bracelet",
+	"condition_tags": []
+  },
+  
+  "erik_gummies_memory": {
+	"trigger_type": 0,
+	"target_id": "erik_gummy_pack",
+	"unlock_tag": "erik_gummies_seen",
+	"description": "You notice Erik's emergency stash of THC gummies.",
+	"character_id": "erik",
+	"dialogue_title": "ask_about_gummies", 
+	"condition_tags": []
+  }
+}

@@ -14,7 +14,7 @@
 		"gummy_pack": {
 			"description": "Erik carries a crumpled foil bag of THC gummies — an emergency stash, apparently.",
 			"observed": false,
-			"memory_tag": "erik_gummies_seen",
+			"memory_tag": "gummies_known",
 			"dialogue_title": "ask_about_gummies"
 		}
 	},

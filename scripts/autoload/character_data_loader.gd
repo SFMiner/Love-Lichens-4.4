@@ -11,7 +11,7 @@ var debug
 
 func _ready() -> void:
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("Character Data Loader initialized")
+	if debug: print(GameState.script_name_tag(self) + "Character Data Loader initialized")
 	
 	# Ensure character directory exists
 	_ensure_character_directory()
@@ -23,20 +23,20 @@ func _ready() -> void:
 func _ensure_character_directory() -> void:
 	var dir = DirAccess.open("res://data/")
 	if not dir:
-		if debug: print("ERROR: Could not open data directory")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Could not open data directory")
 		return
 		
 	if not dir.dir_exists("characters"):
-		if debug: print("Creating characters directory")
+		if debug: print(GameState.script_name_tag(self) + "Creating characters directory")
 		dir.make_dir("characters")
 	
-	if debug: print("Character directory ready")
+	if debug: print(GameState.script_name_tag(self) + "Character directory ready")
 
 # Load all character data from JSON files
 func _load_all_character_data() -> void:
 	var dir = DirAccess.open(CHARACTER_DATA_PATH)
 	if not dir:
-		if debug: print("ERROR: Could not open character data directory")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Could not open character data directory")
 		return
 	
 	dir.list_dir_begin()
@@ -48,13 +48,13 @@ func _load_all_character_data() -> void:
 			_load_character_file(path)
 		file_name = dir.get_next()
 	
-	if debug: print("Loaded ", characters.size(), " characters")
+	if debug: print(GameState.script_name_tag(self) + "Loaded ", characters.size(), " characters")
 
 # Load a single character file
 func _load_character_file(path: String) -> void:
-	if debug: print("_load_character_file called.")
+	if debug: print(GameState.script_name_tag(self) + "_load_character_file called.")
 	if not FileAccess.file_exists(path):
-		if debug: print("ERROR: Character file does not exist: ", path)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Character file does not exist: ", path)
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -64,12 +64,12 @@ func _load_character_file(path: String) -> void:
 	var json_result = JSON.new()
 	var parse_result = json_result.parse(json_text)
 	if parse_result != OK:
-		if debug: print("ERROR: Failed to parse character JSON (", path, "): ", json_result.get_error_message())
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to parse character JSON (", path, "): ", json_result.get_error_message())
 		return
 	
 	var character_data = json_result.get_data()
 	if typeof(character_data) != TYPE_DICTIONARY:
-		if debug: print("ERROR: Character JSON must be a dictionary (", path, ")")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Character JSON must be a dictionary (", path, ")")
 		return
 	
 	# Create and store character data
@@ -81,9 +81,9 @@ func _load_character_file(path: String) -> void:
 	var font_manager = get_node_or_null("/root/CharacterFontManager")
 	if font_manager and character.font_path != "":
 		font_manager.register_character_style(character.id, character.font_path, character.text_color)
-		if debug: print("Registered font style for: ", character.id)
+		if debug: print(GameState.script_name_tag(self) + "Registered font style for: ", character.id)
 			
-	if debug: print("Loaded character: ", character.id)
+	if debug: print(GameState.script_name_tag(self) + "Loaded character: ", character.id)
 
 # Get a character's data by ID
 func get_character(character_id: String) -> CharacterData:
@@ -92,21 +92,22 @@ func get_character(character_id: String) -> CharacterData:
 	else:
 		# Try to load the character file directly - using lowercase filename
 		var path = CHARACTER_DATA_PATH + character_id.to_lower() + ".json"
-		if debug: print(character_id + " character path is " + path)
+		if debug: print(GameState.script_name_tag(self) + character_id + " character path is " + path)
 		if FileAccess.file_exists(path):
-			if debug: print(path + " exists.")
+			if debug: print(GameState.script_name_tag(self) + path + " exists.")
 			_load_character_file(path)
 			if character_id in characters:
 				return characters[character_id]
 			else:
-				if debug: print(character_id + " does not exist in characters:")
-				if debug: print(characters)
+				if debug: print(GameState.script_name_tag(self) + character_id + " does not exist in characters:")
+				if debug: print(GameState.script_name_tag(self) + characters)
 		else:
-			if debug: print(path + " does not exist.")
+			if debug: print(GameState.script_name_tag(self) + path + " does not exist.")
 
 	
-	if debug: print("ERROR: Character data not found for: ", character_id)
+	if debug: print(GameState.script_name_tag(self) + "ERROR: Character data not found for: ", character_id)
 	return null
+
 
 # Apply character data to an NPC node
 func apply_character_data(npc: Node, character_id: String) -> bool:
@@ -126,9 +127,9 @@ func apply_character_data(npc: Node, character_id: String) -> bool:
 	if "initial_dialogue_title" in npc:
 		if npc.initial_dialogue_title == "" and character_data.initial_dialogue_title != "":
 			npc.initial_dialogue_title = character_data.initial_dialogue_title
-			if debug: print("Setting " + character_id + " dialogue title to: " + character_data.initial_dialogue_title)
+			if debug: print(GameState.script_name_tag(self) + "Setting " + character_id + " dialogue title to: " + character_data.initial_dialogue_title)
 		else:
-			if debug: print("Keeping scene-defined dialogue title for " + character_id + ": " + npc.initial_dialogue_title)
+			if debug: print(GameState.script_name_tag(self) + "Keeping scene-defined dialogue title for " + character_id + ": " + npc.initial_dialogue_title)
 	
 	# Apply portrait if available
 	if "portrait" in npc and ResourceLoader.exists(character_data.portrait_path):

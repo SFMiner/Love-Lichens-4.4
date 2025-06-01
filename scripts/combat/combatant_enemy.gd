@@ -21,7 +21,7 @@ func _ready():
 
 	# Add to the construct_enemies group
 	add_to_group("construct_enemies")
-	print("Added to construct_enemies group")
+	print(GameState.script_name_tag(self) + "Added to construct_enemies group")
 	
 	# Set up visual appearance
 	visual.color = construct_color
@@ -116,7 +116,7 @@ func start_combat_with_player():
 			var combat_manager = get_node_or_null("/root/CombatManager")
 			if combat_manager:
 				combat_manager.start_combat(player, self)
-				print("Combat started with " + construct_name)
+				print(GameState.script_name_tag(self) + "Combat started with " + construct_name)
 
 func interact():
 	# Handle player interaction

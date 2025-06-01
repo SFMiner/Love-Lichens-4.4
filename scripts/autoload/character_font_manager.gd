@@ -14,18 +14,18 @@ var debug
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug if Engine.has_singleton("GameController") else scr_debug
-	if debug: print("Character Font Manager initialized")
+	if debug: print(GameState.script_name_tag(self) + "Character Font Manager initialized")
 	
 	# Load default font
 	if ResourceLoader.exists("res://assets/fonts/default_font.ttf"):
 		default_font = load("res://assets/fonts/default_font.ttf")
-		if debug: print("Loaded default font")
+		if debug: print(GameState.script_name_tag(self) + "Loaded default font")
 	else:
 		# Try to use the default theme font
 		var theme = ThemeDB.get_default_theme()
 		if theme:
 			default_font = theme.get_font("normal_font", "RichTextLabel")
-			if debug: print("Using theme default font")
+			if debug: print(GameState.script_name_tag(self) + "Using theme default font")
 
 # Register a character's font and color
 func register_character_style(character_id: String, font_path: String, text_color: Color) -> void:
@@ -34,10 +34,10 @@ func register_character_style(character_id: String, font_path: String, text_colo
 	# Load font if path is valid
 	if font_path and ResourceLoader.exists(font_path):
 		style["font"] = load(font_path)
-		if debug: print("Loaded font for " + character_id + ": " + font_path)
+		if debug: print(GameState.script_name_tag(self) + "Loaded font for " + character_id + ": " + font_path)
 	else:
 		style["font"] = default_font
-		if debug: print("Using default font for " + character_id)
+		if debug: print(GameState.script_name_tag(self) + "Using default font for " + character_id)
 	
 	style["color"] = text_color
 	character_styles[character_id] = style

@@ -10,14 +10,15 @@ signal observed(feature_id)
 @export var character_name: String = "Unknown"
 @export var initial_animation: String = "idle_down"
 @export var portrait: Texture2D
+#@export var description: String = ""
 @export var interactable: bool = true
 @export var initial_dialogue_title: String = ""
-@export var description: String = ""
 @export var character_id: String = ""
 # Observable features for memory discovery
 @export var observable_features: Dictionary = {
 	# Format: "feature_id": {"description": "Feature description", "observed": false, "memory_tag": "optional_tag"}
 }
+var description: String = ""
 
 @onready var sprite = get_node_or_null("Sprite2D")
 @onready var nav_agent : NavigationAgent2D = get_node_or_null("NavigationAgent2D")
@@ -37,77 +38,81 @@ const scr_debug : bool = false
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
-	if debug: print("NPC initialized: ", character_id)
+	if debug: print(GameState.script_name_tag(self) + "NPC initialized: ", character_id)
 	
 	super._ready()
 	
-	if debug: print("--- NPC NODE HIERARCHY DEBUG ---")
+	if debug: print(GameState.script_name_tag(self) + "--- NPC NODE HIERARCHY DEBUG ---")
 	for child in get_children():
-		if debug: print("Child node: " + child.name + ", class: " + child.get_class())
+		if debug: print(GameState.script_name_tag(self) + "Child node: " + child.name + ", class: " + child.get_class())
+	
+	if description == "":
+		description = "You see " + character_name + "."
+		if debug: print(GameState.script_name_tag(self) + "NPC: Set default description for ", character_id)
 	
 	# Debug CharacterAnimator specifically
 	if animator:
-		if debug: print("Found CharacterAnimator")
+		if debug: print(GameState.script_name_tag(self) + "Found CharacterAnimator")
 		
 		# Check if the animator has the required functionality
 		if animator.has_method("set_animation"):
-			print("CharacterAnimator has set_animation method")
+			print(GameState.script_name_tag(self) + "CharacterAnimator has set_animation method")
 		else:
-			if debug: print("ERROR: CharacterAnimator missing set_animation method")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: CharacterAnimator missing set_animation method")
 		
 		# Check if the animator has found its sprite
 		if "sprite" in animator:
-			if debug: print("CharacterAnimator has sprite reference: " + str(animator.sprite != null))
+			if debug: print(GameState.script_name_tag(self) + "CharacterAnimator has sprite reference: " + str(animator.sprite != null))
 		else:
-			if debug: print("ERROR: CharacterAnimator has no sprite property")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: CharacterAnimator has no sprite property")
 			
 		# Check for AnimationPlayer
 		if ap:
-			if debug: print("Found AnimationPlayer, animations: " + str(ap.get_animation_list()))
+			if debug: print(GameState.script_name_tag(self) + "Found AnimationPlayer, animations: " + str(ap.get_animation_list()))
 		else:
-			if debug: print("ERROR: No AnimationPlayer found for animations")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: No AnimationPlayer found for animations")
 	
 	if sprite:
-		if debug: print("Found Sprite2D node for " + character_id)
+		if debug: print(GameState.script_name_tag(self) + "Found Sprite2D node for " + character_id)
 	else:
-		if debug: print("ERROR: Sprite2D node not found for " + character_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Sprite2D node not found for " + character_id)
 		# Try to create it if missing
 		sprite = Sprite2D.new()
 		sprite.name = "Sprite2D"
 		add_child(sprite)
-		if debug: print("Created new Sprite2D node for " + character_id)
+		if debug: print(GameState.script_name_tag(self) + "Created new Sprite2D node for " + character_id)
 		
 	var texture_path = "res://assets/character_sprites/" + character_id + "/standard/idle.png"
-	if debug: print("Loading texture from: " + texture_path)
+	if debug: print(GameState.script_name_tag(self) + "Loading texture from: " + texture_path)
 	
 	var texture = load(texture_path)
 	if texture:
-		if debug: print("Successfully loaded texture")
+		if debug: print(GameState.script_name_tag(self) + "Successfully loaded texture")
 		sprite.texture = texture
 		sprite.hframes = 2
 		sprite.vframes = 4
-		if debug: print("Applied texture to sprite: " + str(texture.get_path()))
+		if debug: print(GameState.script_name_tag(self) + "Applied texture to sprite: " + str(texture.get_path()))
 	else:
-		if debug: print("ERROR: Failed to load texture from " + texture_path)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Failed to load texture from " + texture_path)
 		
 		# Try with a hardcoded path as fallback
 		var fallback_path = "res://assets/character_sprites/kitty/standard/idle.png" 
-		if debug: print("Trying fallback texture: " + fallback_path)
+		if debug: print(GameState.script_name_tag(self) + "Trying fallback texture: " + fallback_path)
 		texture = load(fallback_path)
 		
 		if texture:
-			if debug: print("Fallback texture loaded successfully")
+			if debug: print(GameState.script_name_tag(self) + "Fallback texture loaded successfully")
 			sprite.texture = texture
 			sprite.hframes = 2
 			sprite.vframes = 4
 		else:
-			if debug: print("ERROR: Even fallback texture failed to load")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Even fallback texture failed to load")
 			
 	# Additional debug - verify texture is set
 	if sprite.texture:
-		if debug: print("Sprite texture is set: " + str(sprite.texture.get_path()))
+		if debug: print(GameState.script_name_tag(self) + "Sprite texture is set: " + str(sprite.texture.get_path()))
 	else:
-		if debug: print("WARNING: Sprite texture is still null after setup")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Sprite texture is still null after setup")
 		
 	# Ensure the sprite is visible and properly positioned
 	sprite.visible = true
@@ -123,34 +128,34 @@ func _ready():
 	add_to_group("npc")
 	add_to_group("navigator")
 
-#	GameState.set_current_npcs()
+	GameState.set_current_npcs()
 #	get_tree().get_node_or_null("root").label1.text = GameState.set_current_npcs()
 #	get_tree().get_node_or_null("root").label2.text = get_tree().get_nodes_in_group("npc")
 	# Load character data
-#	load_character_data()
+	load_character_data()
 	
 	# Get reference to the dialogue system
 	dialogue_system = get_node_or_null("/root/DialogSystem")
 	if not dialogue_system:
-		if debug: print("WARNING: DialogSystem not found!")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: DialogSystem not found!")
 	
 	# Get reference to the memory system
 	memory_system = get_node_or_null("/root/MemorySystem")
 	if not memory_system:
-		if debug: print("WARNING: MemorySystem not found!")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: MemorySystem not found!")
 	
 	# Get reference to the game state
 	game_state = get_node_or_null("/root/GameState")
 	if not game_state:
-		if debug: print("WARNING: GameState not found!")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: GameState not found!")
 	
 	# Make sure the collision shape is enabled
 	for child in get_children():
 		if child is CollisionShape2D:
 			if not child.disabled:
-				if debug: print("Collision shape for ", character_id, " is enabled")
+				if debug: print(GameState.script_name_tag(self) + "Collision shape for ", character_id, " is enabled")
 			else:
-				if debug: print("Enabling collision shape for ", character_id)
+				if debug: print(GameState.script_name_tag(self) + "Enabling collision shape for ", character_id)
 				child.disabled = false
 
 	nav_agent.avoidance_enabled = true
@@ -159,13 +164,6 @@ func _ready():
 
 	call_deferred("setup_sprite_deferred")
 	get_node_or_null("AnimationPlayer").play(initial_animation)
-#	var debug_rect = ColorRect.new()
-#	debug_rect.color = Color(1, 0, 0, 0.5)  # Semi-transparent red
-#	debug_rect.size = Vector2(50, 50)
-#	debug_rect.position = Vector2(-25, -25)  # Centered at origin
-#	add_child(debug_rect)
-	
-#	print("Added debug rectangle to show character position")
 
 func move_to(target: Vector2):
 	nav_agent.target_position = target
@@ -195,7 +193,7 @@ func get_movement_input():
 func _unhandled_input(event):
 	if event is InputEventKey and event.keycode == KEY_T and event.pressed and not event.echo:
 		test_all_animations()
-		if debug: print("Started animation test sequence")
+		if debug: print(GameState.script_name_tag(self) + "Started animation test sequence")
 		
 func handle_movement_state(input_vector):
 	# NPCs generally walk unless they're in combat
@@ -214,8 +212,6 @@ func handle_movement_state(input_vector):
 	if is_moving and input_vector != Vector2.ZERO:
 		last_direction = input_vector
 
-
-
 func move_to_position(target_position, run = false):
 	movement_target = target_position
 	is_running = run
@@ -226,8 +222,8 @@ func stop_movement():
 
 func _physics_process(delta):
 	# NPC movement processing
-	var should_wait := false
-	var push_vector := Vector2.ZERO
+	var _should_wait := false
+	var _push_vector := Vector2.ZERO
 	var MIN_SEPARATION := 16.0
 	var REPULSION_STRENGTH := 50.0
 	var next_position = nav_agent.get_next_path_position()
@@ -249,7 +245,7 @@ func _physics_process(delta):
 		var distance := global_position.distance_to(other.global_position)
 		if distance < MIN_SEPARATION and distance > 0:
 			var away = (global_position - other.global_position).normalized()
-			push_vector += away * ((MIN_SEPARATION - distance) / MIN_SEPARATION)
+			_push_vector += away * ((MIN_SEPARATION - distance) / MIN_SEPARATION)
 
 	nav_agent.set_velocity(velocity)
 
@@ -298,31 +294,31 @@ func update_animation(input_vector):
 		
 		# Only update animation if direction changed or animation type changed
 		if old_direction != anim_direction or last_animation != anim_type or !was_moving:
-			if debug: print("Setting " + anim_type + " animation - dir: " + anim_direction)
+			if debug: print(GameState.script_name_tag(self) + "Setting " + anim_type + " animation - dir: " + anim_direction)
 			animator.set_animation(anim_type, anim_direction, get_character_id())
 			last_animation = anim_type
 	elif last_animation != "idle":
 		# Only set idle if we're not already idle
-		if debug: print("Setting idle animation - current anim: " + last_animation)
+		if debug: print(GameState.script_name_tag(self) + "Setting idle animation - current anim: " + last_animation)
 		animator.set_animation("idle", anim_direction, get_character_id())
 		last_animation = "idle"
 	
 func play_animation(anim_name: String):
-	if debug: print("Trying to call animation " + anim_name + " for " + character_id)
+	if debug: print(GameState.script_name_tag(self) + "Trying to call animation " + anim_name + " for " + character_id)
 	
 	# Check if this is a jump animation
 	var is_jump_anim = anim_name.begins_with("jump")
 	
 	# If we're jumping and this isn't the end of a jump, don't interrupt
 	if is_jumping and !is_jump_anim and jump_timer > 0.2:
-		if debug: print("Ignoring animation during jump: " + anim_name)
+		if debug: print(GameState.script_name_tag(self) + "Ignoring animation during jump: " + anim_name)
 		return
 	
 	# Start jump if this is a jump animation
 	if is_jump_anim and !is_jumping:
 		is_jumping = true
 		jump_timer = JUMP_DURATION 
-		if debug: print("Starting jump animation, duration: ", JUMP_DURATION)
+		if debug: print(GameState.script_name_tag(self) + "Starting jump animation, duration: ", JUMP_DURATION)
 	
 	# First update the texture through the character animator
 	if animator and animator.has_method("set_animation"):
@@ -331,10 +327,10 @@ func play_animation(anim_name: String):
 	# Then play the animation through the AnimationPlayer
 	var anim_player = get_node_or_null("AnimationPlayer")
 	if anim_player and anim_player.has_animation(anim_name):
-		if debug: print("Playing animation " + anim_name + " using AnimationPlayer")
+		if debug: print(GameState.script_name_tag(self) + "Playing animation " + anim_name + " using AnimationPlayer")
 		anim_player.play(anim_name)
 	else:
-		if debug: print("ERROR: Animation not found: " + anim_name)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Animation not found: " + anim_name)
 		
 		
 func _is_near_interaction_zone() -> bool:
@@ -345,63 +341,62 @@ func _is_near_interaction_zone() -> bool:
 	
 	
 func load_character_data():
-	# First try to use the CharacterDataLoader if available
+	print(GameState.script_name_tag(self) + "=== NPC LOAD_CHARACTER_DATA DEBUG for ", character_id, " ===")
+	print(GameState.script_name_tag(self) + "Initial description: '", description, "'")
+	print(GameState.script_name_tag(self) + "Initial character_name: '", character_name, "'")
+	
 	var character_loader = get_node_or_null("/root/CharacterDataLoader")
 	if character_loader:
+		print(GameState.script_name_tag(self) + "Found CharacterDataLoader")
+		
 		var loaded_data = character_loader.get_character(character_id)
+		print(GameState.script_name_tag(self) + "get_character returned: ", loaded_data)
+		print(GameState.script_name_tag(self) + "loaded_data type: ", typeof(loaded_data))
+		
 		if loaded_data:
-			print("Loading character data for: ", character_id)
+			print(GameState.script_name_tag(self) + "loaded_data is truthy")
+			print(GameState.script_name_tag(self) + "loaded_data.name: '", loaded_data.name, "'")
+			print(GameState.script_name_tag(self) + "loaded_data.description: '", loaded_data.description, "'")
 			
-			# Set basic properties
+			print(GameState.script_name_tag(self) + "Before assignment - NPC description: '", description, "'")
+			print(GameState.script_name_tag(self) + "Setting character_name...")
 			character_name = loaded_data.name
+			print(GameState.script_name_tag(self) + "character_name is now: '", character_name, "'")
+			
+			print(GameState.script_name_tag(self) + "Setting description...")
 			description = loaded_data.description
+			print(GameState.script_name_tag(self) + "After assignment - NPC description: '", description, "'")
 			
-			# BUGFIX: Properly set the initial_dialogue_title from character data
-			# Only override if the initial_dialogue_title is not already set in the scene
-			if loaded_data.initial_dialogue_title and loaded_data.initial_dialogue_title != "":
-				if initial_dialogue_title == "":
-					initial_dialogue_title = loaded_data.initial_dialogue_title
-					if debug: print("Setting initial dialogue title to: ", initial_dialogue_title)
-				else:
-					if debug: print("Keeping scene-defined initial dialogue title: ", initial_dialogue_title)
+			print(GameState.script_name_tag(self) + "Character data loading completed successfully")
 			
-			# Debug print to verify initial dialogue title
-			if debug: print(character_id, " initial dialogue title: ", initial_dialogue_title)
+			if "observable_features" in loaded_data:
+				print(GameState.script_name_tag(self) + "=== LOADING OBSERVABLE FEATURES DEBUG ===")
+				var features = loaded_data["observable_features"]
+				print(GameState.script_name_tag(self) + "Features from JSON: ", features)
+				print(GameState.script_name_tag(self) + "Features type: ", typeof(features))
 			
-			# Load portrait if available
-			if ResourceLoader.exists(loaded_data.portrait_path):
-				portrait = load(loaded_data.portrait_path)
-			
-			# Set observable features from character data
-			for feature_id in loaded_data.observable_features:
-				var feature = loaded_data.observable_features[feature_id]
-				add_observable_feature(feature_id, feature.description)
-				if debug: print("Added feature ", feature_id, " to ", character_id)
-			
-			# Create character_data object with interests
-			self.character_data = {
-				"id": character_id,
-				"name": character_name,
-				"interests": loaded_data.interests,
-				"relationship_level": relationship_level,
-				"initial_dialogue_title": initial_dialogue_title  # Store for reference
-			}
-			
-			if debug: print("Character data loaded for: ", character_name)
+				for feature_id in features:
+					var feature = features[feature_id]
+					print(GameState.script_name_tag(self) + "Loading feature: ", feature_id, " = ", feature)
+					add_observable_feature(feature_id, feature.get("description", ""))
+				
+				print(GameState.script_name_tag(self) + "Final observable_features: ", observable_features)
+				print(GameState.script_name_tag(self) + "=== END LOADING OBSERVABLE FEATURES DEBUG ===")
+			else:
+				print(GameState.script_name_tag(self) + "No observable_features found in character data")
 			return
+		else:
+			print(GameState.script_name_tag(self) + "loaded_data is falsy (null/empty)")
+		
+	else:
+		print(GameState.script_name_tag(self) + "CharacterDataLoader not found")
 	
-	if debug: print("Using fallback character data loading for: ", character_id)
-	# For now, set default data
-	character_data = {
-		"id": character_id,
-		"name": character_name,
-		"interests": ["ecology", "lichens", "sustainability"],
-		"relationship_level": relationship_level,
-		"initial_dialogue_title": initial_dialogue_title  # Store for reference
-	}
-	if debug: print("Character data loaded for: ", character_name)
-	
+	print(GameState.script_name_tag(self) + "Falling back to default character data")
+	_set_default_character_data()
+	print(GameState.script_name_tag(self) + "=== END NPC LOAD_CHARACTER_DATA DEBUG ===")
 
+
+		
 # Set default data if no file is found
 func _set_default_character_data():
 	character_data = {
@@ -411,18 +406,18 @@ func _set_default_character_data():
 		"relationship_level": relationship_level
 	}
 	
-	if debug: print("Using default data for: ", character_name)
+	if debug: print(GameState.script_name_tag(self) + "Using default data for: ", character_name)
 
 func change_facing(dir):
-	print("Changing facing toward: ", dir)
+	print(GameState.script_name_tag(self) + "Changing facing toward: ", dir)
 	animator.set_animation(last_animation, dir, character_id)
 
 func interact():
 	if not interactable:
-		if debug: print(character_name, " is not interactable")
+		if debug: print(GameState.script_name_tag(self) + character_name, " is not interactable")
 		return
 		
-	if debug: print("Interacting with: ", character_name)
+	if debug: print(GameState.script_name_tag(self) + "Interacting with: ", character_name)
 	interaction_started.emit(character_id)
 	var player = get_tree().get_first_node_in_group("player")
 	face_target(player)
@@ -437,25 +432,25 @@ func interact():
 		if initial_dialogue_title != null and initial_dialogue_title != "":
 			dialogue_title = initial_dialogue_title
 		
-		if debug: print(str(character_id) + " is speaking from title '" + str(dialogue_title) + "'")
+		if debug: print(GameState.script_name_tag(self) + str(character_id) + " is speaking from title '" + str(dialogue_title) + "'")
 		
 		var result = dialogue_system.start_dialog(character_id, dialogue_title)
 		if result:
-			if debug: print("Dialogue started successfully")
+			if debug: print(GameState.script_name_tag(self) + "Dialogue started successfully")
 			
 			# Notify quest system directly that dialogue has started with this NPC
 			var quest_system = get_node_or_null("/root/QuestSystem")
 			if quest_system and quest_system.has_method("_check_talk_objectives"):
 				quest_system.call_deferred("_check_talk_objectives", character_id)
-				if debug: print("Directly notified quest system about interaction with: ", character_id)
+				if debug: print(GameState.script_name_tag(self) + "Directly notified quest system about interaction with: ", character_id)
 		else:
-			if debug: print("Failed to start dialogue!")
+			if debug: print(GameState.script_name_tag(self) + "Failed to start dialogue!")
 	else:
-		if debug: print("Dialogue system not found!")
+		if debug: print(GameState.script_name_tag(self) + "Dialogue system not found!")
 	
 func update_relationship(new_level):
 	relationship_level = new_level
-	if debug: print(character_name, " relationship updated to level ", relationship_level)
+	if debug: print(GameState.script_name_tag(self) + character_name, " relationship updated to level ", relationship_level)
 	
 	# Notify memory system of relationship change
 	if memory_system:
@@ -467,38 +462,62 @@ func end_interaction():
 
 # Memory discovery system functions
 func get_look_description() -> String:
-	if description.is_empty():
-		return character_name
-	return description
+	print(GameState.script_name_tag(self) + "=== NPC GET_LOOK_DESCRIPTION DEBUG for ", character_id, " ===")
+	print(GameState.script_name_tag(self) + "Current description value: '", description, "'")
+	print(GameState.script_name_tag(self) + "Current character_name value: '", character_name, "'")
+	
+	var result = ""
+	if description != "" and description != character_id:
+		result = description
+		print(GameState.script_name_tag(self) + "Using description property: '", result, "'")
+	elif character_name != "":
+		result = "You see " + character_name + "."
+		print(GameState.script_name_tag(self) + "Using character_name fallback: '", result, "'")
+	else:
+		result = "You see " + name + "."
+		print(GameState.script_name_tag(self) + "Using node name fallback: '", result, "'")
+	
+	print(GameState.script_name_tag(self) + "Final get_look_description result: '", result, "'")
+	print(GameState.script_name_tag(self) + "=== END GET_LOOK_DESCRIPTION DEBUG ===")
+	return result
 
+# Enhanced npc.gd observable feature handling
 func observe_feature(feature_id: String) -> String:
+	print(GameState.script_name_tag(self) + "=== NPC OBSERVE_FEATURE DEBUG ===")
+	print(GameState.script_name_tag(self) + "character_id: ", character_id)
+	print(GameState.script_name_tag(self) + "feature_id: ", feature_id)
+	print(GameState.script_name_tag(self) + "observable_features: ", observable_features)
+	
 	if not observable_features.has(feature_id):
+		print(GameState.script_name_tag(self) + "ERROR: Feature not found: ", feature_id)
+		print(GameState.script_name_tag(self) + "Available features: ", observable_features.keys())
 		return ""
-		
+	
 	var feature = observable_features[feature_id]
-	if not feature.observed:
-		feature.observed = true
+	print(GameState.script_name_tag(self) + "Feature data: ", feature)
+	print(GameState.script_name_tag(self) + "Feature observed status: ", feature.get("observed", "NO_OBSERVED_FIELD"))
+	
+	# Mark as observed
+	if not feature.get("observed", false):
+		print(GameState.script_name_tag(self) + "Marking feature as observed")
+		feature["observed"] = true
 		observed.emit(feature_id)
 		
-		# Set memory tag if one exists
-		if feature.has("memory_tag") and game_state:
-			game_state.set_tag(feature.memory_tag)
-			if debug: print("Set memory tag: ", feature.memory_tag)
+		# Set memory tag if exists
+		if feature.has("memory_tag") and feature.memory_tag != "":
+			print(GameState.script_name_tag(self) + "Setting memory tag: ", feature.memory_tag)
+			GameState.set_tag(feature.memory_tag, true)
+			print(GameState.script_name_tag(self) + "Memory tag set successfully")
 		
-		# Trigger memory system if available
-		if memory_system:
-			var target_id = character_id + "_" + feature_id
-			memory_system.trigger_look_at(target_id)
-			if debug: print("Triggered memory system for: ", target_id)
-		
-		return feature.description
+		var description = feature.get("description", "")
+		print(GameState.script_name_tag(self) + "Returning description: '", description, "'")
+		return description
 	else:
-		# If already observed, return an abbreviated description
-		var short_desc = feature.get("short_description", "")
-		if short_desc.is_empty():
-			return feature.description
+		# Return short description for already observed features
+		var short_desc = feature.get("short_description", feature.description)
+		print(GameState.script_name_tag(self) + "Feature already observed, returning short description: '", short_desc, "'")
 		return short_desc
-
+		
 func has_observable_feature(feature_id: String) -> bool:
 	return observable_features.has(feature_id)
 
@@ -507,17 +526,14 @@ func is_feature_observed(feature_id: String) -> bool:
 		return observable_features[feature_id].observed
 	return false
 
-func add_observable_feature(feature_id: String, obs_description: String, memory_tag: String = "") -> void:
-	if debug: print("Adding obser5vable features for " + character_id)
+func add_observable_feature(feature_id: String, description: String, memory_tag: String = "") -> void:
 	observable_features[feature_id] = {
-		"description": obs_description,
+		"description": description,
 		"observed": false,
-		"memory_tag": memory_tag
+		"memory_tag": memory_tag,
+		"short_description": "You notice the " + feature_id + " again."
 	}
-	
-	# Optional: add a shorter description for repeat observations
-	var short_description = "You see " + feature_id + " that you noticed earlier."
-	observable_features[feature_id]["short_description"] = short_description
+	if debug: print(GameState.script_name_tag(self) + "Added observable feature: ", feature_id, " to ", character_id)
 
 # Get dialogue options available based on observed memories
 func get_memory_dialogue_options() -> Array:
@@ -542,17 +558,17 @@ func setup_sprite_deferred():
 		sprite.texture = texture
 		sprite.hframes = 2
 		sprite.vframes = 4
-		if debug: print("Deferred sprite setup complete")
+		if debug: print(GameState.script_name_tag(self) + "Deferred sprite setup complete")
 
 
 func test_all_animations():
 	# Make sure animator is loaded
 	if self.character_id == "poison":
 		if not animator:
-			if debug: print("No animator found for NPC: ", character_id)
+			if debug: print(GameState.script_name_tag(self) + "No animator found for NPC: ", character_id)
 			return
 		
-		if debug: print("Testing all animations for NPC: ", character_id)
+		if debug: print(GameState.script_name_tag(self) + "Testing all animations for NPC: ", character_id)
 		
 		# Test sequence of animations with different directions
 		var test_sequence = [
@@ -575,24 +591,24 @@ func test_all_animations():
 			var anim_name = test.anim
 			var direction = test.dir
 			
-			if debug: print("\nTesting animation: ", anim_name, "_", direction)
+			if debug: print(GameState.script_name_tag(self) + "\nTesting animation: ", anim_name, "_", direction)
 			
 			# Print texture before animation
 			if sprite and sprite.texture:
-				if debug: print("BEFORE - Texture: ", sprite.texture.resource_path)
-				if debug: print("BEFORE - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
+				if debug: print(GameState.script_name_tag(self) + "BEFORE - Texture: ", sprite.texture.resource_path)
+				if debug: print(GameState.script_name_tag(self) + "BEFORE - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
 			
 			# Play the animation
 			if animator.has_method("set_animation"):
 				animator.set_animation(anim_name, direction, character_id)
 			else:
-				if debug: print("ERROR: set_animation method not found!")
+				if debug: print(GameState.script_name_tag(self) + "ERROR: set_animation method not found!")
 				return
 			
 			# Print texture after animation
 			if sprite and sprite.texture:
-				if debug: print("AFTER - Texture: ", sprite.texture.resource_path)
-				if debug: print("AFTER - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
+				if debug: print(GameState.script_name_tag(self) + "AFTER - Texture: ", sprite.texture.resource_path)
+				if debug: print(GameState.script_name_tag(self) + "AFTER - Frame: ", sprite.frame, ", hframes: ", sprite.hframes, ", vframes: ", sprite.vframes)
 			
 			# Wait before the next animation
 			timer = get_tree().create_timer(1.6)
@@ -601,7 +617,7 @@ func test_all_animations():
 
 func _on_sprite_2d_frame_changed() -> void:
 	if sprite:
-		if debug: print("Playing NPC Frame " + str(sprite.frame))
+		if debug: print(GameState.script_name_tag(self) + "Playing NPC Frame " + str(sprite.frame))
 func _on_sprite_2d_texture_changed() -> void:
 	if sprite:
-		if debug: print("NPC Texture = ", str(sprite.texture))
+		if debug: print(GameState.script_name_tag(self) + "NPC Texture = ", str(sprite.texture))

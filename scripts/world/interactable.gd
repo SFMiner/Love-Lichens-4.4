@@ -11,7 +11,11 @@ extends InteractionAgent
 var is_highlighted: bool = false
 var original_modulate: Color
 
+const scr_debug :bool = false
+var debug
+
 func _ready():
+	debug = scr_debug or GameController.sys_debug 
 	# Assign the exported properties to the inherited properties
 	interaction_id = int_id
 	display_name = dis_name
@@ -36,9 +40,9 @@ func _ready():
 	# Test direct connection to _input_event
 	var base_method = "_on_input_event"
 	if has_method(base_method):
-		print(name + ": Already has _on_input_event method")
+		if debug: print(GameState.script_name_tag(self) + name + ": Already has _on_input_event method")
 	else:
-		print(name + ": WARNING - does not have _on_input_event method")
+		if debug: print(GameState.script_name_tag(self) + name + ": WARNING - does not have _on_input_event method")
 	
 	# Ensure we're connecting all required signals
 	if not is_connected("input_event", _input_fallback):
@@ -49,33 +53,34 @@ func _ready():
 		connect("mouse_exited", _on_mouse_exited)
 	
 	# Critical debug info
-	print(name + ": Set up direct interactable mouse handling")
+	if debug: print(GameState.script_name_tag(self) + name + ": Set up direct interactable mouse handling")
 	
 	# Add debug output
-	print("Interactable initialized: ", name)
-	print("  interaction_id: ", interaction_id)
-	print("  dialog_id: ", dialog_id)
-	print("  dialog_tit: ", dialog_title)
-	print("  has interact method: ", has_method("interact"))
-	print("  collision shape: ", $CollisionShape2D if has_node("CollisionShape2D") else "None")
+	if debug: 
+		print(GameState.script_name_tag(self) + "Interactable initialized: ", name)
+		print(GameState.script_name_tag(self) + "  interaction_id: ", interaction_id)
+		print(GameState.script_name_tag(self) + "  dialog_id: ", dialog_id)
+		print(GameState.script_name_tag(self) + "  dialog_tit: ", dialog_title)
+		print(GameState.script_name_tag(self) + "  has interact method: ", has_method("interact"))
+		print(GameState.script_name_tag(self) + "  collision shape: ", $CollisionShape2D if has_node("CollisionShape2D") else "None")
 
 # Direct input event handler in case inheritance is causing issues
 func _input_fallback(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		print("DIRECT CLICK ON " + name + "!")
+		if debug: print(GameState.script_name_tag(self) + "DIRECT CLICK ON " + name + "!")
 		var player = GameState.get_player()
 		if global_position.distance_to(player.global_position) <= 30 * player.scale.y:
-			print("Distance to player = " + str(global_position.distance_to(player.global_position)))
+			if debug: print(GameState.script_name_tag(self) + "Distance to player = " + str(global_position.distance_to(player.global_position)))
 			   
 			interact()  # Call interact directly
 
 func _on_mouse_entered():
-	print("MOUSE ENTERED: " + name)
+	if debug: print(GameState.script_name_tag(self) + "MOUSE ENTERED: " + name)
 	if highlight_on_hover:
 		set_highlight(true)
 		
 func _on_mouse_exited():
-	print("MOUSE EXITED: " + name)
+	if debug: print(GameState.script_name_tag(self) + "MOUSE EXITED: " + name)
 	if highlight_on_hover:
 		set_highlight(false)
 		
@@ -85,12 +90,12 @@ func set_highlight(enabled: bool):
 	# Only highlight the object itself, not the parent
 	# This prevents screen-wide color shifts
 	modulate = highlight_color if enabled else Color(1, 1, 1, 1)
-	print("HIGHLIGHT: Set " + name + " highlight to " + str(enabled))
+	if debug: print(GameState.script_name_tag(self) + "HIGHLIGHT: Set " + name + " highlight to " + str(enabled))
 	
 	# Show name popup when highlighted
 	if enabled:
 		var tooltip = display_name
 		if tooltip_text != "":
 			tooltip += "\n" + tooltip_text
-		print("Highlighting: " + tooltip)
+		if debug: print(GameState.script_name_tag(self) + "Highlighting: " + tooltip)
 		# TODO: Show floating tooltip near object

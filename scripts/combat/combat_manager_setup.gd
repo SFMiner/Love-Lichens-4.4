@@ -20,7 +20,7 @@ func _ready():
 	combat_ui.action_selected.connect(_on_action_selected)
 	combat_ui.retreat_requested.connect(_on_retreat_requested)
 	
-	print("Combat system initialized")
+	print(GameState.script_name_tag(self) + "Combat system initialized")
 
 func _on_action_selected(action):
 	# Process player action in UI

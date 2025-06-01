@@ -6,7 +6,7 @@ signal slot_unhovered()
 signal drag_started(item_id, item_data, from_slot)
 signal drag_ended(dropped_on_slot)
 
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 var item_id = null
 var item_data = null
@@ -31,7 +31,7 @@ func _ready():
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	# Debug item presence
-	if debug: print("Item icon node exists: " + str(item_icon != null))
+	if debug: print(GameState.script_name_tag(self) + "Item icon node exists: " + str(item_icon != null))
 
 func clear_slot():
 	item_id = null
@@ -54,7 +54,7 @@ func clear_slot():
 	queue_redraw()
 
 func set_item(id, data):
-	if debug: print("Setting item: " + str(id))
+	if debug: print(GameState.script_name_tag(self) + "Setting item: " + str(id))
 	item_id = id
 	item_data = data
 	
@@ -73,39 +73,39 @@ func set_item(id, data):
 	queue_redraw()
 
 func get_item_texture(item_id):
-	print("Trying to load texture for item_id: ", item_id)
+	print(GameState.script_name_tag(self) + "Trying to load texture for item_id: ", item_id)
 	var texture = null
 	
 	# First attempt: Try to get from inventory system templates
 	if InventorySystem: #Engine.has_singleton("InventorySystem"):
-		print("InventorySystem singleton found")
+		print(GameState.script_name_tag(self) + "InventorySystem singleton found")
 		var inventory_system = InventorySystem #Engine.get_singleton("InventorySystem")
 		
 		if inventory_system.has_method("get_item_template"):
-			print("get_item_template method exists")
+			print(GameState.script_name_tag(self) + "get_item_template method exists")
 			var template = inventory_system.get_item_template(item_id)
 			
 			if template:
-				print("Template found for item: ", item_id)
+				print(GameState.script_name_tag(self) + "Template found for item: ", item_id)
 				if template.has("image_path"):
 					var path = template.image_path
-					print("Image path from template: ", path)
+					print(GameState.script_name_tag(self) + "Image path from template: ", path)
 					
 					if ResourceLoader.exists(path):
-						print("Image file exists at path: ", path)
+						print(GameState.script_name_tag(self) + "Image file exists at path: ", path)
 						texture = load(path)
-						print("Texture loaded successfully from template path")
+						print(GameState.script_name_tag(self) + "Texture loaded successfully from template path")
 						return texture
 					else:
-						print("WARNING: Image file does not exist at path: ", path)
+						print(GameState.script_name_tag(self) + "WARNING: Image file does not exist at path: ", path)
 				else:
-					print("Template has no image_path property")
+					print(GameState.script_name_tag(self) + "Template has no image_path property")
 			else:
-				print("No template found for item: ", item_id)
+				print(GameState.script_name_tag(self) + "No template found for item: ", item_id)
 		else:
-			print("get_item_template method doesn't exist")
+			print(GameState.script_name_tag(self) + "get_item_template method doesn't exist")
 	else:
-		print("InventorySystem singleton not found")
+		print(GameState.script_name_tag(self) + "InventorySystem singleton not found")
 	
 	# Second attempt: Try direct paths as fallback
 	#var direct_paths = { 
@@ -117,17 +117,17 @@ func get_item_texture(item_id):
 	#}
 	
 	#if direct_paths.has(item_id) and ResourceLoader.exists(direct_paths[item_id]):
-	#	print("Loading texture directly for " + item_id)
+	#	print(GameState.script_name_tag(self) + "Loading texture directly for " + item_id)
 	#	texture = load(direct_paths[item_id])
 	#	return texture
 	
-	print("Could not find texture through any method for: ", item_id)
+	print(GameState.script_name_tag(self) + "Could not find texture through any method for: ", item_id)
 	return null
 
 func update_item_icon():
-	if debug: print("update_item_icon running")
+	if debug: print(GameState.script_name_tag(self) + "update_item_icon running")
 	if not item_icon:
-		if debug: print("Error: Item icon node not found")
+		if debug: print(GameState.script_name_tag(self) + "Error: Item icon node not found")
 		return
 		
 	if item_id == null:
@@ -136,11 +136,11 @@ func update_item_icon():
 		return
 		
 	# Get the texture
-	print("calling texture for " + item_id)
+	print(GameState.script_name_tag(self) + "calling texture for " + item_id)
 	var texture = get_item_texture(item_id)
 	
 	if texture:
-		if debug: print("Found texture for " + item_id)
+		if debug: print(GameState.script_name_tag(self) + "Found texture for " + item_id)
 		if not item_icon.has_node("TextureRect"):
 			var texture_rect = TextureRect.new()
 			texture_rect.name = "TextureRect"
@@ -156,7 +156,7 @@ func update_item_icon():
 		texture_rect.visible = true
 		item_icon.color = Color(1, 1, 1, 1)  # Set to transparent
 	else:
-		if debug: print("No texture found for item: " + item_id)
+		if debug: print(GameState.script_name_tag(self) + "No texture found for item: " + item_id)
 		# Remove any existing texture rect
 		if item_icon.has_node("TextureRect"):
 			item_icon.get_node("TextureRect").visible = false

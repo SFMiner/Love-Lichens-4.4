@@ -28,7 +28,7 @@ func _ready():
 	$ColorRect.size.x = 30 * player.scale.y
 	
 	
-	print("Campus Quad scene initialized")
+	print(GameState.script_name_tag(self) + "Campus Quad scene initialized")
 	# Set up the scene components
 	setup_player()
 #	setup_npcs()
@@ -38,7 +38,7 @@ func _ready():
 	initialize_systems()
 	for child in z_objects.get_children():
 			child.z_index = child.global_position.y
-			print(child.name + " now has z-index " + str(child.z_index))
+			print(GameState.script_name_tag(self) + child.name + " now has z-index " + str(child.z_index))
 	
 	# Find and set up visitable areas
 	setup_visit_areas()
@@ -48,29 +48,29 @@ func _ready():
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and quest_system.has_method("on_location_entered"):
 		quest_system.on_location_entered("campus_quad")
-		print("Notified quest system of location: campus_quad")
+		print(GameState.script_name_tag(self) + "Notified quest system of location: campus_quad")
 
 
 func setup_player():
 	var player = $Player
 	if player:
-		print("Player found in scene")
+		print(GameState.script_name_tag(self) + "Player found in scene")
 		# Make sure the player's input settings are correct
 		if not InputMap.has_action("interact"):
-			print("Adding 'interact' action to InputMap")
+			print(GameState.script_name_tag(self) + "Adding 'interact' action to InputMap")
 			InputMap.add_action("interact")
 			var event = InputEventKey.new()
 			event.keycode = KEY_E
 			InputMap.action_add_event("interact", event)
 		else:
-			print("'interact' action already exists in InputMap")
+			print(GameState.script_name_tag(self) + "'interact' action already exists in InputMap")
 	else:
-		print("ERROR: Player not found in scene!")
+		print(GameState.script_name_tag(self) + "ERROR: Player not found in scene!")
 
 func setup_visit_areas():
 	# Find all Area2D nodes in the "visitable_area" group
 	var areas = get_tree().get_nodes_in_group("visitable_area")
-	print("Found " + str(areas.size()) + " visitable areas in the scene")
+	print(GameState.script_name_tag(self) + "Found " + str(areas.size()) + " visitable areas in the scene")
 	
 	# Set up tracking for each area
 	for area in areas:
@@ -88,17 +88,17 @@ func setup_npcs():
 	# Setup Professor Moss
 	var professor_moss = $ProfessorMoss
 	if professor_moss:
-		print("Professor Moss found in scene")
+		print(GameState.script_name_tag(self) + "Professor Moss found in scene")
 		# Ensure Professor Moss has the correct collision settings
 		if professor_moss.get_collision_layer() != 2:
-			print("Setting Professor Moss collision layer to 2")
+			print(GameState.script_name_tag(self) + "Setting Professor Moss collision layer to 2")
 			professor_moss.set_collision_layer(2)
 	else:
-		print("ERROR: Professor Moss not found in scene!")
+		print(GameState.script_name_tag(self) + "ERROR: Professor Moss not found in scene!")
 	
 	# Find and setup all NPCs
 	var npcs = get_tree().get_nodes_in_group("interactable")
-	print("Found ", npcs.size(), " interactable NPCs in scene")
+	print(GameState.script_name_tag(self) + "Found ", npcs.size(), " interactable NPCs in scene")
 
 func setup_items():
 	var interactables = get_tree().get_nodes_in_group("interactable")
@@ -109,23 +109,23 @@ func initialize_systems():
 	var relationship_system = get_node_or_null("/root/RelationshipSystem")
 	
 	if dialog_system:
-		print("Dialog System found")
+		print(GameState.script_name_tag(self) + "Dialog System found")
 	else:
-		print("WARNING: Dialog System not found! Adding a temporary one.")
+		print(GameState.script_name_tag(self) + "WARNING: Dialog System not found! Adding a temporary one.")
 		var new_dialog_system = Node.new()
 		new_dialog_system.name = "DialogSystem"
 		new_dialog_system.set_script(load("res://scripts/systems/dialog_system.gd"))
 		get_tree().root.add_child(new_dialog_system)
 	
 	if relationship_system:
-		print("Relationship System found")
+		print(GameState.script_name_tag(self) + "Relationship System found")
 		
 		# Initialize relationship with Professor Moss if needed
 		if not relationship_system.relationships.has("professor_moss"):
-			print("Initializing relationship with Professor Moss")
+			print(GameState.script_name_tag(self) + "Initializing relationship with Professor Moss")
 			relationship_system.initialize_relationship("professor_moss", "Professor Moss")
 	else:
-		print("WARNING: Relationship System not found")
+		print(GameState.script_name_tag(self) + "WARNING: Relationship System not found")
 
 # Optional function to update debug info on screen
 func _process(delta):
@@ -142,17 +142,17 @@ func _on_visit_area_entered(body, area_name):
 	if not body.is_in_group("player"):
 		return
 		
-	print("Player entered area: " + area_name)
+	print(GameState.script_name_tag(self) + "Player entered area: " + area_name)
 	
 	# Mark as visited
 	if visit_areas.has(area_name):
 		# If already visited, no need to process again
 		if visit_areas[area_name].visited:
-			print("Area already visited: " + area_name)
+			print(GameState.script_name_tag(self) + "Area already visited: " + area_name)
 			return
 			
 		visit_areas[area_name].visited = true
-		print("Marked area as visited: " + area_name)
+		print(GameState.script_name_tag(self) + "Marked area as visited: " + area_name)
 		
 		# Change visual indicator to show it's been visited
 		var area = visit_areas[area_name].area
@@ -165,18 +165,18 @@ func _on_visit_area_entered(body, area_name):
 		
 		# Check if we've visited all areas
 		var all_visited = check_all_areas_visited()
-		print("All areas visited: ", all_visited)
+		print(GameState.script_name_tag(self) + "All areas visited: ", all_visited)
 		
 		# Notify quest system
 		var quest_system = get_node_or_null("/root/QuestSystem")
 		if quest_system:
 			if quest_system.has_method("on_area_visited"):
-				print("Calling quest_system.on_area_visited with ", area_name, " and campus_quad")
+				print(GameState.script_name_tag(self) + "Calling quest_system.on_area_visited with ", area_name, " and campus_quad")
 				quest_system.on_area_visited(area_name, "campus_quad")
 				
 			# If all areas visited, also notify for a complete exploration
 			if all_visited and quest_system.has_method("on_area_exploration_completed"):
-				print("Calling quest_system.on_area_exploration_completed with campus_quad")
+				print(GameState.script_name_tag(self) + "Calling quest_system.on_area_exploration_completed with campus_quad")
 				quest_system.on_area_exploration_completed("campus_quad")
 
 func check_all_areas_visited():
@@ -190,5 +190,5 @@ func check_all_areas_visited():
 	
 	# If we get here, all areas have been visited
 	all_areas_visited = true
-	print("All areas in campus quad have been visited!")
+	print(GameState.script_name_tag(self) + "All areas in campus quad have been visited!")
 	return true

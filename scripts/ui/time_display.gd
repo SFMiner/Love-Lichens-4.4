@@ -27,10 +27,10 @@ func _ready() -> void:
 func _on_day_changed(old_day: int, new_day: int) -> void:
 	day_label.text = "Day %d (%s)" % [new_day, ts.get_day_name()]
 
-func _on_time_changed(old_t: int, new_t: int) -> void:
+func _on_time_changed() -> void: #old_t: int, new_t: int) -> void:
 	time_label.text = ts.get_time_name()
 
-func _on_date_changed(old_val: int, new_val: int) -> void:
+func _on_date_changed() -> void: #old_val: int, new_val: int) -> void:
 	date_label.text = ts.get_formatted_date()
 
 func _on_speed_slider_value_changed(value: float) -> void:

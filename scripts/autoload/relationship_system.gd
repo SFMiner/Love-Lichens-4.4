@@ -16,7 +16,7 @@ var debug : bool
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("Relationship System initialized")
+	if debug: print(GameState.script_name_tag(self) + "Relationship System initialized")
 	# Load relationship data
 	
 func initialize_relationship(character_id, character_name):
@@ -88,7 +88,7 @@ func update_relationship_level(character_id, new_level):
 	var old_level = relationships[character_id]["level"]
 	relationships[character_id]["level"] = new_level
 	
-	if debug: print("Relationship with ", character_id, " changed from ", 
+	if debug: print(GameState.script_name_tag(self) + "Relationship with ", character_id, " changed from ", 
 		get_relationship_name(old_level), " to ", get_relationship_name(new_level))
 	
 	relationship_changed.emit(character_id, old_level, new_level)
@@ -104,7 +104,7 @@ func add_key_moment(character_id, moment_id):
 		
 	if not moment_id in relationships[character_id]["key_moments"]:
 		relationships[character_id]["key_moments"].append(moment_id)
-		if debug: print("Added key moment: ", moment_id, " for character: ", character_id)
+		if debug: print(GameState.script_name_tag(self) + "Added key moment: ", moment_id, " for character: ", character_id)
 		
 func has_key_moment(character_id, moment_id):
 	if not relationships.has(character_id):

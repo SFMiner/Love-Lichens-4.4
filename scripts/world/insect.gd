@@ -16,10 +16,10 @@ var debug
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
 	timer.timeout.connect(_resume_moving)
-	if debug: print("[DEBUG] Sprite frame: ", $Sprite2D.frame)
-	if debug: print("[DEBUG] Sprite size: ", $Sprite2D.texture.get_size())
-	if debug: print("[DEBUG] Sprite visible: ", $Sprite2D.visible)
-	if debug: print("[DEBUG] Global position: ", global_position)
+	if debug: print(GameState.script_name_tag(self) + "[DEBUG] Sprite frame: ", $Sprite2D.frame)
+	if debug: print(GameState.script_name_tag(self) + "[DEBUG] Sprite size: ", $Sprite2D.texture.get_size())
+	if debug: print(GameState.script_name_tag(self) + "[DEBUG] Sprite visible: ", $Sprite2D.visible)
+	if debug: print(GameState.script_name_tag(self) + "[DEBUG] Global position: ", global_position)
 
 func set_flight_area(area: CollisionPolygon2D):
 	flight_polygon = area
@@ -30,7 +30,7 @@ func _process(delta):
 	if not ready_to_move:
 		return
 
-	if debug: print("Moving: ", name, " pos: ", position, " vel: ", velocity)
+	if debug: print(GameState.script_name_tag(self) + "Moving: ", name, " pos: ", position, " vel: ", velocity)
 
 	if resting:
 		anim.play("resting")

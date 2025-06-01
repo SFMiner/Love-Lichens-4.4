@@ -1,0 +1,65 @@
+{
+	"dusty_bracelet_seen": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "You notice Dusty's handmade wooden bracelet.",
+		"target_id": "dusty_bracelet",
+		"trigger_type": 0.0
+	},
+	"dusty_observed": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "You notice Dusty's protective, warm demeanor.",
+		"target_id": "dusty",
+		"trigger_type": 0.0
+	},
+	"erik_gummies_seen": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "You notice Erik's emergency stash of THC gummies.",
+		"target_id": "erik_gummy_pack",
+		"trigger_type": 0.0
+	},
+	"poison_memory_chain_completed": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "",
+		"target_id": "",
+		"trigger_type": -1
+	},
+	"poison_necklace_seen": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize.",
+		"target_id": "Poison_necklace",
+		"trigger_type": 0.0
+	},
+	"poison_observed": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "You notice Poison's sharp wit barely conceals a deeper loyalty.",
+		"target_id": "poison",
+		"trigger_type": 0.0
+	},
+	"poison_peepaw_known": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "Poison laughs awkwardly, explaining it holds some of Pee-Paw's ashes. A way of keeping family close, even now.",
+		"target_id": "ask_poison_necklace",
+		"trigger_type": 3.0
+	},
+	"poison_peepaw_memory_stirred": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.",
+		"target_id": "family_conversation",
+		"trigger_type": 3.0
+	},
+	"poison_peepaw_story_shared": {
+		"character_id": "",
+		"condition_tags": [],
+		"description": "Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
+		"target_id": "poison_peepaw_story",
+		"trigger_type": 3.0
+	}
+}

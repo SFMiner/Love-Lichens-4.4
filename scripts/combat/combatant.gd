@@ -48,7 +48,7 @@ func _ready():
 	current_health = max_health
 	current_stamina = max_stamina
 	animator = get_node_or_null("CharacterAnimator")
-	if debug: print("CharacterAnimator for " + get_character_id() + " is " + animator.name)
+	if debug: print(GameState.script_name_tag(self) + "CharacterAnimator for " + get_character_id() + " is " + animator.name)
 	last_position = position
 	
 
@@ -110,12 +110,12 @@ func update_animation(input_vector):
 		
 		# Only update animation if direction changed or animation type changed
 		if old_direction != anim_direction or last_animation != anim_type or !was_moving:
-			if debug: print("Setting " + anim_type + " animation - dir: " + anim_direction)
+			if debug: print(GameState.script_name_tag(self) + "Setting " + anim_type + " animation - dir: " + anim_direction)
 			animator.set_animation(anim_type, anim_direction, get_character_id())
 			last_animation = anim_type
 	elif last_animation != "idle":
 		# Only set idle if we're not already idle
-		if debug: print("Setting idle animation - current anim: " + last_animation)
+		if debug: print(GameState.script_name_tag(self) + "Setting idle animation - current anim: " + last_animation)
 		animator.set_animation("idle", anim_direction, get_character_id())
 		last_animation = "idle"
 
@@ -150,7 +150,7 @@ func get_initiative():
 # Check if combatant is defeated
 func is_defeated():
 	var defeated = current_health <= 0 or is_retreating
-	if debug: print(name, " is_defeated? ", defeated, " | HP: ", current_health)
+	if debug: print(GameState.script_name_tag(self) + name, " is_defeated? ", defeated, " | HP: ", current_health)
 	return defeated
 	
 # Take damage with nonlethal option
@@ -265,7 +265,7 @@ func remove_status_effect(effect_id):
 
 # Perform a combat action on a target
 func perform_combat_action(target, action):
-	if debug: print(name + " attacked ", target.name)
+	if debug: print(GameState.script_name_tag(self) + name + " attacked ", target.name)
 	match action.type:
 		"attack":
 			return perform_attack(target, action)
@@ -397,7 +397,7 @@ func take_combat_turn():
 func add_visual_health_bar():
 	# Check if health bar already exists
 	if has_node("HealthBar"):
-		if debug: print("Health bar already exists")
+		if debug: print(GameState.script_name_tag(self) + "Health bar already exists")
 		return
 		
 	# Create a ProgressBar for health
@@ -435,7 +435,7 @@ func add_visual_health_bar():
 	if item_effects_system and item_effects_system.has_signal("health_changed"):
 		item_effects_system.health_changed.connect(_on_health_changed)
 	
-	if debug: print("Added health bar to " + name)
+	if debug: print(GameState.script_name_tag(self) + "Added health bar to " + name)
 	
 # Add this function to player.gd as well
 func _on_health_changed(current, maximum):

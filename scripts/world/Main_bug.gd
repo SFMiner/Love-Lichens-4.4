@@ -28,7 +28,7 @@ func _ready():
 
 		add_child(b)
 		b.set_flight_area(area_polygon)
-		if debug: print("Spawned butterfly ", i, " at ", b.position)
+		if debug: print(GameState.script_name_tag(self) + "Spawned butterfly ", i, " at ", b.position)
 
 func _get_area_global_points() -> Array:
 	var global_points = []

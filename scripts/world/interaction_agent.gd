@@ -25,7 +25,11 @@ var can_mouse_interact: bool = false  # True when player is in range
 var player_node = null  # Reference to player node for distance checks
 var debug_mouseover = false  # For debugging mouse interactions
 
+const scr_debug :bool = false
+var debug
+
 func _ready():
+	debug = scr_debug or GameController.sys_debug 
 	add_to_group("interactable")
 	
 	# Always ensure we have a properly sized collision shape
@@ -34,14 +38,14 @@ func _ready():
 		collision = CollisionShape2D.new()
 		collision.name = "CollisionShape2D"
 		add_child(collision)
-		print("Created new CollisionShape2D for " + name)
+		if debug: print(GameState.script_name_tag(self) + "Created new CollisionShape2D for " + name)
 	
 	# Make sure the collision shape has a proper shape
 	if not collision.shape or not collision.shape is CircleShape2D:
 		var shape = CircleShape2D.new()
 		shape.radius = 60  # Increased interaction radius
 		collision.shape = shape
-		print("Set collision shape for " + name)
+		if debug: print(GameState.script_name_tag(self) + "Set collision shape for " + name)
 		
 	# Ensure proper collision settings
 	collision_layer = 2   # Interaction layer
@@ -56,17 +60,17 @@ func _ready():
 	
 	# Connect to mouse events directly
 	if not has_signal("mouse_entered"):
-		print("WARNING: " + name + " does not have mouse_entered signal! This is likely a Godot issue.")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: " + name + " does not have mouse_entered signal! This is likely a Godot issue.")
 		
 	# Force these mouse event connections
-	connect("mouse_entered", func(): print("AGENT: Mouse entered " + name); debug_mouseover = true)
-	connect("mouse_exited", func(): print("AGENT: Mouse exited " + name); debug_mouseover = false)
+	connect("mouse_entered", func(): print(GameState.script_name_tag(self) + "AGENT: Mouse entered " + name); debug_mouseover = true)
+	connect("mouse_exited", func(): print(GameState.script_name_tag(self) + "AGENT: Mouse exited " + name); debug_mouseover = false)
 	
 	# Connect input events - ensure we're not already connected
 	if not is_connected("input_event", _on_input_event):
 		connect("input_event", _on_input_event)
 		
-	print(name + ": Interactive setup - pickable: " + str(input_pickable) + 
+	if debug: print(GameState.script_name_tag(self) + name + ": Interactive setup - pickable: " + str(input_pickable) + 
 		", monitoring: " + str(monitoring) + 
 		", monitorable: " + str(monitorable))
 	
@@ -81,7 +85,7 @@ func find_player():
 #	var players = get_tree().get_nodes_in_group("player")
 #	if players.size() > 0:
 #		player_node = players[0]
-#		print(name + ": Found player node at " + str(player_node.global_position))
+#		print(GameState.script_name_tag(self) + name + ": Found player node at " + str(player_node.global_position))
 
 
 
@@ -124,11 +128,11 @@ func process_interaction():
 func _on_input_event(_viewport, event, _shape_idx):
 	# Debug any mouse event received
 	if event is InputEventMouse:
-		print("MOUSE EVENT on " + name + ": " + str(event.get_class()))
+		if debug: print(GameState.script_name_tag(self) + "MOUSE EVENT on " + name + ": " + str(event.get_class()))
 	
 	# IMPORTANT: ALWAYS interact on ANY left click for immediate testing
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		print("MOUSE CLICK DETECTED on " + name + "! INTERACTING!")
+		if debug: print(GameState.script_name_tag(self) + "MOUSE CLICK DETECTED on " + name + "! INTERACTING!")
 		
 		# Force interaction immediately regardless of distance
 		interact()
@@ -156,4 +160,4 @@ func show_notification(message):
 	if notification_system and notification_system.has_method("show_notification"):
 		notification_system.show_notification(message)
 	else:
-		print(message)
+		if debug: print(GameState.script_name_tag(self) + message)

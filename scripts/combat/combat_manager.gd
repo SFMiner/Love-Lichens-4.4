@@ -54,13 +54,13 @@ func start_combat(player, opponents):
 	# Emit signal that combat has started
 	combat_started.emit(player, opponents)
 
-	print("Combatants in this battle:")
+	print(GameState.script_name_tag(self) + "Combatants in this battle:")
 	for c in current_combatants:
-		print("- ", c.name, " | Defeated?: ", c.is_defeated())
+		print(GameState.script_name_tag(self) + "- ", c.name, " | Defeated?: ", c.is_defeated())
 
-	print("Turn order:")
+	print(GameState.script_name_tag(self) + "Turn order:")
 	for t in turn_order:
-		print("- ", t.name)
+		print(GameState.script_name_tag(self) + "- ", t.name)
 
 	
 	# Start first turn
@@ -98,15 +98,15 @@ func start_next_turn():
 		current_combat_state = CombatState.PLAYER_TURN_ACTIVE
 		waiting_for_player_action = true
 		
-		print("Combat Manager: PLAYER'S TURN - State changed to PLAYER_TURN_ACTIVE")
-		print("Combat Manager: Waiting for player to select an action...")
+		print(GameState.script_name_tag(self) + "Combat Manager: PLAYER'S TURN - State changed to PLAYER_TURN_ACTIVE")
+		print(GameState.script_name_tag(self) + "Combat Manager: Waiting for player to select an action...")
 		
 		# We STOP HERE - the next action will come from player input
 		# The UI will handle player input and eventually call end_turn()
 	else:
 		# Set NPC turn state
 		current_combat_state = CombatState.NPC_TURN_ACTIVE
-		print("Combat Manager: NPC'S TURN - State changed to NPC_TURN_ACTIVE")
+		print(GameState.script_name_tag(self) + "Combat Manager: NPC'S TURN - State changed to NPC_TURN_ACTIVE")
 		
 		# For NPCs, we handle their turn automatically
 		handle_npc_turn(current_character)
@@ -117,31 +117,31 @@ func start_next_turn():
 # End the current character's turn
 func end_turn():
 	if not is_combat_active:
-		print("Combat Manager: end_turn called but combat is not active")
+		print(GameState.script_name_tag(self) + "Combat Manager: end_turn called but combat is not active")
 		return
 	
 	# Get the character whose turn is ending
 	var current_character = turn_order[current_turn_index]
 	var character_type = current_character.get_combatant_type()
 	
-	print("Combat Manager: end_turn called for " + current_character.name + " in state " + str(current_combat_state))
+	print(GameState.script_name_tag(self) + "Combat Manager: end_turn called for " + current_character.name + " in state " + str(current_combat_state))
 	
 	# Validate state transitions
 	if character_type == CombatantType.PLAYER:
 		# Verify we're in a valid state to end player's turn
 		if current_combat_state != CombatState.PLAYER_TURN_ACTIVE and current_combat_state != CombatState.PLAYER_ACTION_PROCESSING:
-			print("Combat Manager: ERROR - Invalid state to end player turn: " + str(current_combat_state))
+			print(GameState.script_name_tag(self) + "Combat Manager: ERROR - Invalid state to end player turn: " + str(current_combat_state))
 			return
 	else:
 		# Verify we're in a valid state to end NPC's turn
 		if current_combat_state != CombatState.NPC_TURN_ACTIVE and current_combat_state != CombatState.NPC_ACTION_PROCESSING:
-			print("Combat Manager: ERROR - Invalid state to end NPC turn: " + str(current_combat_state))
+			print(GameState.script_name_tag(self) + "Combat Manager: ERROR - Invalid state to end NPC turn: " + str(current_combat_state))
 			return
 	
 	# Change to TURN_ENDING state
 	current_combat_state = CombatState.TURN_ENDING
-#	print("Combat Manager: State changed to TURN_ENDING")
-#	print("Combat Manager: Ending turn for " + current_character.name)
+#	print(GameState.script_name_tag(self) + "Combat Manager: State changed to TURN_ENDING")
+#	print(GameState.script_name_tag(self) + "Combat Manager: Ending turn for " + current_character.name)
 	
 	# Reset the waiting flag when turn actually ends
 	waiting_for_player_action = false
@@ -161,53 +161,53 @@ func advance_turn():
 	# It's called at the end of each character's turn
 	
 	if current_combat_state != CombatState.TURN_ENDING:
-		print("Combat Manager: WARNING - advance_turn called in incorrect state: " + str(current_combat_state))
+		print(GameState.script_name_tag(self) + "Combat Manager: WARNING - advance_turn called in incorrect state: " + str(current_combat_state))
 	
 	# Transition back to waiting state
 	current_combat_state = CombatState.WAITING_TO_START
-	print("Combat Manager: State changed to WAITING_TO_START")
+	print(GameState.script_name_tag(self) + "Combat Manager: State changed to WAITING_TO_START")
 	
 	var previous_character = turn_order[current_turn_index]
 	current_turn_index = (current_turn_index + 1) % turn_order.size()
 	var next_character = turn_order[current_turn_index]
 	
-	print("Combat Manager: Advancing turn from " + previous_character.name + " to " + next_character.name)
+	print(GameState.script_name_tag(self) + "Combat Manager: Advancing turn from " + previous_character.name + " to " + next_character.name)
 	
 	# If we've completed a full round, check for combat end conditions
 	if current_turn_index == 0:
-		print("Combat Manager: Completed full round, checking combat state")
+		print(GameState.script_name_tag(self) + "Combat Manager: Completed full round, checking combat state")
 		check_combat_state()
 	
 	# If combat is still active, start the next turn
 	if is_combat_active:
-		print("Combat Manager: Starting next turn for " + next_character.name)
+		print(GameState.script_name_tag(self) + "Combat Manager: Starting next turn for " + next_character.name)
 		start_next_turn()
 
 # Handle automated NPC turns
 func handle_npc_turn(npc):
-	print("Combat Manager: Handling turn for NPC " + npc.name)
+	print(GameState.script_name_tag(self) + "Combat Manager: Handling turn for NPC " + npc.name)
 	
 	# Verify we're in the correct state
 	if current_combat_state != CombatState.NPC_TURN_ACTIVE:
-		print("Combat Manager: ERROR - handle_npc_turn called in incorrect state: " + str(current_combat_state))
+		print(GameState.script_name_tag(self) + "Combat Manager: ERROR - handle_npc_turn called in incorrect state: " + str(current_combat_state))
 	
 	# Transition to NPC action processing state
 	current_combat_state = CombatState.NPC_ACTION_PROCESSING
-	print("Combat Manager: State changed to NPC_ACTION_PROCESSING")
+	print(GameState.script_name_tag(self) + "Combat Manager: State changed to NPC_ACTION_PROCESSING")
 	
 	# Allow NPCs to make decisions based on their AI
 	npc.take_combat_turn()
 	
 	# End the NPC's turn after a short delay for visual clarity
-	print("Combat Manager: NPC " + npc.name + " acted, waiting before ending turn")
+	print(GameState.script_name_tag(self) + "Combat Manager: NPC " + npc.name + " acted, waiting before ending turn")
 	await get_tree().create_timer(1.0).timeout
 	
 	# Only end the turn if combat is still active
 	if is_combat_active:
-		print("Combat Manager: Ending NPC " + npc.name + "'s turn")
+		print(GameState.script_name_tag(self) + "Combat Manager: Ending NPC " + npc.name + "'s turn")
 		end_turn()
 	else:
-		print("Combat Manager: Combat ended during NPC " + npc.name + "'s turn")
+		print(GameState.script_name_tag(self) + "Combat Manager: Combat ended during NPC " + npc.name + "'s turn")
 
 # Check if combat should end
 func check_combat_state():

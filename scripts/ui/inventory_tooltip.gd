@@ -72,7 +72,7 @@ func show_tooltip(item_id, item_data):
 	z_index = 100
 	
 	# Print debug info
-	if debug: print("Showing tooltip for: ", item_id, " - ", item_data.name if item_data.has("name") else "Unknown")
+	if debug: print(GameState.script_name_tag(self) + "Showing tooltip for: ", item_id, " - ", item_data.name if item_data.has("name") else "Unknown")
 
 func hide_tooltip():
 	current_item_id = null

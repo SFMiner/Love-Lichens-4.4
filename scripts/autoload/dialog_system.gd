@@ -26,15 +26,17 @@ var game_state
 	
 # Record that a dialog has been seen
 func record_seen_dialog(character_id, dialog_title):
+	var _fname = "record_seen_dialog"
 	if not seen_dialogs.has(character_id):
 		seen_dialogs[character_id] = []
 		
 	if not dialog_title in seen_dialogs[character_id]:
 		seen_dialogs[character_id].append(dialog_title)
-		if debug: print("Recorded seen dialog: ", character_id, " - ", dialog_title)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Recorded seen dialog: ", character_id, " - ", dialog_title)
 
 # Check if a dialog has been seen
 func has_seen_dialog(character_id, dialog_title):
+	var _fname = "has_seen_dialog"
 	if not seen_dialogs.has(character_id):
 		return false
 		
@@ -42,6 +44,7 @@ func has_seen_dialog(character_id, dialog_title):
 	
 # Check if dialog is currently active
 func is_dialog_active():
+	var _fname = "is_dialog_active"
 	# First check our internal state
 	if current_character_id != "":
 		# Do a sanity check - is the actual balloon present?
@@ -49,7 +52,7 @@ func is_dialog_active():
 		if balloons.size() == 0:
 			# No actual balloon found, but we think we're in dialog
 			# This means our state is out of sync - fix it
-			if debug: print("Dialog state mismatch detected - resetting state")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Dialog state mismatch detected - resetting state")
 			current_character_id = ""
 			return false
 		return true
@@ -66,23 +69,51 @@ func set_seen_dialogs(data):
 # Modify the existing start_dialog function
 # We need to add just one line to record seen dialogs
 func start_dialog(character_id, title = "start"):
+	var _fname = "start_dialog"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting dialog with: ", character_id, " at title: ", title)
+	# Add this line to the beginning of your existing start_dialog function
+	print(GameState.script_name_tag(self, _fname) + "=== DIALOG START DEBUG ===")
+	print(GameState.script_name_tag(self, _fname) + "Starting dialog with: ", character_id)
+	print(GameState.script_name_tag(self, _fname) + "Dialog title: ", title)
+	
 	# Add this line to the beginning of your existing start_dialog function
 	record_seen_dialog(character_id, title)
 	
 	# Then the rest of your existing start_dialog function continues below
 	current_character_id = character_id
 	
+	print(GameState.script_name_tag(self, _fname) + "DIALOG: Checking memory options for ", character_id)
+
+	# Check what memory tags are currently set
+	print(GameState.script_name_tag(self, _fname) + "DIALOG: Current memory tags in GameState:")
+	for tag in GameState.tags.keys():
+		if tag.contains(character_id):
+			print(GameState.script_name_tag(self, _fname) + "  - ", tag, " = ", GameState.tags[tag])
+
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Checking memory options for ", character_id)
+
+	var memory_options = GameState.get_available_dialogue_options(character_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Found ", memory_options.size(), " memory-unlocked options")
+	
+	for option in memory_options:
+		if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Memory option available: ", option.dialogue_title, " (tag: ", option.tag, ")")
+		memory_dialogue_added.emit(character_id, option.dialogue_title)
+	
+	# Check MemorySystem dialogue options
 	if memory_system:
-		var memory_options = memory_system.get_available_dialogue_options(character_id)
-		for option in memory_options:
+		var memory_sys_options = memory_system.get_available_dialogue_options(character_id)
+		print(GameState.script_name_tag(self, _fname) + "DIALOG: Found ", memory_sys_options.size(), " options from MemorySystem")
+		for option in memory_sys_options:
 			memory_dialogue_added.emit(character_id, option.dialogue_title)
-			if debug: print("Added memory dialogue option: ", option.dialogue_title)
-
-
+			print(GameState.script_name_tag(self, _fname) + "DIALOG: Added memory dialogue option: ", option.dialogue_title)
+	
+	print(GameState.script_name_tag(self, _fname) + "=== END DIALOG START DEBUG ===")
+	
 	# Load the dialogue resource if not already loaded
 	if not dialogue_resources.has(character_id):
 		if not preload_dialogue(character_id):
-			if debug: print("ERROR: Failed to load dialogue for: ", character_id)
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Failed to load dialogue for: ", character_id)
 			return false
 	
 
@@ -96,33 +127,34 @@ func start_dialog(character_id, title = "start"):
 			dialogue_resources[character_id], 
 			title
 		)
-		if debug: print("Started dialogue with: ", character_id, " at title: ", title)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Started dialogue with: ", character_id, " at title: ", title)
 		return true
 	else:
-		if debug: print("ERROR: No balloon scene available!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: No balloon scene available!")
 		return false
 
 func _ready():
+	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("Dialog System initialized")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog System initialized")
 	game_state = GameState
 	memory_system = MemorySystem
-	if debug: print("Memory system reference obtained: ", memory_system != null)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory system reference obtained: ", memory_system != null)
 	# Load our custom balloon scene
 	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
-		if debug: print("Loaded enhanced dialogue balloon scene")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded enhanced dialogue balloon scene")
 	elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
-		if debug: print("Loaded custom dialogue balloon scene")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded custom dialogue balloon scene")
 	else:
 		# Load the example balloon scene as fallback
 		if ResourceLoader.exists("res://addons/dialogue_manager/example_balloon/example_balloon.tscn"):
 			balloon_scene = load("res://addons/dialogue_manager/example_balloon/example_balloon.tscn")
-			if debug: print("Loaded example balloon scene as fallback")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Loaded example balloon scene as fallback")
 		else:
-			if debug: print("ERROR: Could not find any dialogue balloon scene")
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find any dialogue balloon scene")
 	
 	if not has_node("DialogMemoryExtension"):
 		var extension_script = load("res://scripts/autoload/dialog_memory_extension.gd")
@@ -130,44 +162,47 @@ func _ready():
 			var extension = extension_script.new()
 			extension.name = "DialogMemoryExtension"
 			add_child(extension)
-			if debug: print("Added DialogMemoryExtension")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Added DialogMemoryExtension")
 
 	# Connect to DialogueManager signals
 	if Engine.has_singleton("DialogueManager"):
 		var dialogue_manager = Engine.get_singleton("DialogueManager")
 		dialogue_manager.dialogue_started.connect(_on_dialogue_started)
 		dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
-		if debug: print("Connected to DialogueManager signals")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Connected to DialogueManager signals")
 	else:
-		if debug: print("ERROR: DialogueManager singleton not found!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: DialogueManager singleton not found!")
 	
 	# Get references to other systems
 	await get_tree().process_frame
 	
 # Preload a dialogue resource
 func preload_dialogue(character_id):
+	var _fname = "preload_dialogue"
 	var file_path = "res://data/dialogues/" + character_id + ".dialogue"
 	
 	if ResourceLoader.exists(file_path):
 		dialogue_resources[character_id] = load(file_path)
-		if debug: print("Preloaded dialogue for: ", character_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Preloaded dialogue for: ", character_id)
 		return true
 	else:
-		if debug: print("ERROR: Could not find dialogue file: ", file_path)
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find dialogue file: ", file_path)
 		return false
 
 # Pass custom signals from DialogueManager to our own signals
 func _on_dialogue_started():
-	if debug: print("DialogueManager started dialogue")
+	var _fname = "_on_dialogue_started"
+	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager started dialogue")
 	# We've already emitted our own signal at this point
 
 func _on_dialogue_ended():
-	if debug: print("DialogueManager ended dialogue")
+	var _fname = "_on_dialogue_ended"
+	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager ended dialogue")
 	
 	# Get the current balloons and force cleanup if any remain
 	var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
 	if balloons.size() > 0:
-		if debug: print("Found " + str(balloons.size()) + " dialogue balloons to force cleanup")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found " + str(balloons.size()) + " dialogue balloons to force cleanup")
 		for balloon in balloons:
 			if balloon.has_method("queue_free"):
 				balloon.queue_free()
@@ -180,16 +215,17 @@ func _on_dialogue_ended():
 	# This ensures the game knows we're no longer in dialogue
 	Engine.time_scale = 1.0
 	get_tree().paused = false
-	if debug: print("Dialog ended - control released")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended - control released")
 
 # For backwards compatibility with existing code
 func end_dialog():
-	if debug: print("Dialog ended manually")
+	var _fname = "end_dialog"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended manually")
 	
 	# Get the current balloons and force cleanup if any remain
 	var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
 	if balloons.size() > 0:
-		if debug: print("Found " + str(balloons.size()) + " dialogue balloons to force cleanup")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found " + str(balloons.size()) + " dialogue balloons to force cleanup")
 		for balloon in balloons:
 			if balloon.has_method("queue_free"):
 				balloon.queue_free()
@@ -203,14 +239,16 @@ func end_dialog():
 	# This ensures the game knows we're no longer in dialogue
 	Engine.time_scale = 1.0
 	get_tree().paused = false
-	if debug: print("Dialog ended manually - control released")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended manually - control released")
 	
 func get_dialog_options():
-	if debug: print("DEPRECATED: get_dialog_options() - Using DialogueManager directly instead")
+	var _fname = "get_dialog_options"
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEPRECATED: get_dialog_options() - Using DialogueManager directly instead")
 	return []
 	
 func make_choice(choice_id):
-	if debug: print("Choice made: " + choice_id)
+	var _fname = "make_choice"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Choice made: " + choice_id)
 	dialog_choice_made.emit(choice_id)
 	
 	# If memory system exists, trigger the dialogue choice event
@@ -220,6 +258,7 @@ func make_choice(choice_id):
 	return ""
 
 func select_memory_dialogue(character_id: String, dialogue_title: String) -> bool:
+	var _fname = "select_memory_dialogue"
 	if memory_system:
 		var memory_tag = memory_system.get_memory_tag_for_dialogue(character_id, dialogue_title)
 		if not memory_tag.is_empty():
@@ -232,7 +271,8 @@ func select_memory_dialogue(character_id: String, dialogue_title: String) -> boo
 
 # Starts a custom dialog from a string
 func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
-	if debug: print("Starting custom dialog at ", entry_point)
+	var _fname = "start_custom_dialog"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting custom dialog at ", entry_point)
 	
 	# Use the Dialogue Manager to parse and start the dialogue
 	var dialogue_resource = DialogueManager.create_resource_from_text(dialog_content)
@@ -250,13 +290,14 @@ func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
 			)
 			return true
 	
-	if debug: print("Failed to start custom dialog")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Failed to start custom dialog")
 	return false
 	
 # Helper functions for memory-based dialogue
 
 # Check if a tag is set in GameState
 func can_unlock(tag: String) -> bool:
+	var _fname = "can_unlock"
 	if game_state:
 		return game_state.has_tag(tag)
 	return false
@@ -272,6 +313,7 @@ func add_conditional_choice(choices: Array, condition_tag: String, text: String,
 
 # Set a memory tag and notify the system
 func unlock_memory(tag: String) -> void:
+	var _fname = "unlock_memory"
 	if game_state:
 		game_state.set_tag(tag)
 		memory_unlocked.emit(tag)
@@ -282,6 +324,7 @@ func unlock_memory(tag: String) -> void:
 	
 # Get all unlocked memory tags for a character
 func get_unlocked_memories_for_character(character_id: String) -> Array:
+	var _fname = "get_unlocked_memories_for_character"
 	var unlocked_memories = []
 	
 	if game_state and memory_system:
@@ -294,7 +337,8 @@ func get_unlocked_memories_for_character(character_id: String) -> Array:
 
 # Add to dialog_system.gd
 func _on_mutated(mutation):
-	if debug: print("Handling mutation: ", mutation.name)
+	var _fname = "_on_mutated"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Handling mutation: ", mutation.name)
 	
 	if mutation.name == "move_character":
 		# Forward the call directly to CutsceneManager
@@ -338,9 +382,9 @@ func _on_mutated(mutation):
 				
 				cutscene_manager.move_character(character_id, target, animation, speed, stop_distance, time)
 			else:
-				if debug: print("ERROR: move_character requires at least character_id and target")
+				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: move_character requires at least character_id and target")
 		else:
-			if debug: print("ERROR: CutsceneManager not found")
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: CutsceneManager not found")
 		return null
 	
 	elif mutation.name == "play_animation":
@@ -352,7 +396,7 @@ func _on_mutated(mutation):
 	elif mutation.name == "wait_for_movements":
 		var cutscene_manager = get_node_or_null("/root/CutsceneManager")
 		if not cutscene_manager:
-			if debug: print("ERROR: CutsceneManager not found")
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: CutsceneManager not found")
 			return null
 		
 		# If no movements are active, return immediately
@@ -365,9 +409,10 @@ func _on_mutated(mutation):
 	return null
 
 func _handle_wait_for_movements_mutation():
+	var _fname = "_handle_wait_for_movements_mutation"
 	var cutscene_manager = get_node_or_null("/root/CutsceneManager")
 	if not cutscene_manager:
-		if debug: print("ERROR: CutsceneManager not found")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: CutsceneManager not found")
 		return
 	
 	# This will pause the dialogue until all movements complete
@@ -380,14 +425,15 @@ func _handle_wait_for_movements_mutation():
 	return true
 
 func _handle_move_character_mutation(mutation):
+	var _fname = "_handle_move_character_mutation"
 	var cutscene_manager = get_node_or_null("/root/CutsceneManager")
 	if not cutscene_manager:
-		if debug: print("ERROR: CutsceneManager not found")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: CutsceneManager not found")
 		return
 	
 	# Check for minimum required arguments
 	if mutation.arguments.size() < 2:
-		if debug: print("ERROR: move_character requires at least character_id and target")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: move_character requires at least character_id and target")
 		return
 	
 	var character_id = mutation.arguments[0]
@@ -412,11 +458,12 @@ func _handle_move_character_mutation(mutation):
 	cutscene_manager.move_character(character_id, target, params)
 
 func _handle_play_animation_mutation(mutation):
+	var _fname = "_handle_play_animation_mutation"
 	var character_id = mutation.arguments.get(0, null)
 	var animation_name = mutation.arguments.get(1, null)
 	
 	if not character_id or not animation_name:
-		if debug: print("ERROR: Missing character ID or animation in play_animation mutation")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Missing character ID or animation in play_animation mutation")
 		return
 	
 	# Find character

@@ -1,7 +1,7 @@
 # quest_panel.gd
 extends Control
 
-const scr_debug :bool = true
+const scr_debug :bool = false
 var debug
 
 
@@ -20,40 +20,40 @@ var selected_quest_id = ""
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
-	if debug: print("Quest panel initializing...")
+	if debug: print(GameState.script_name_tag(self) + "Quest panel initializing...")
 	
 	# Get quest system reference
 	quest_system = get_node_or_null("/root/QuestSystem")
 	if not quest_system:
-		if debug: print("ERROR: QuestSystem not found")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: QuestSystem not found")
 		# We'll still try to reference the UI elements
 	
 	# Make sure we can find the UI elements
 	if not quest_list:
-		if debug: print("ERROR: QuestList node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: QuestList node not found!")
 		# Try to find it manually by path
 		quest_list = get_node_or_null("MarginContainer/VBoxContainer/HBoxContainer2/QuestList")
 	
 	if not available_list:
-		if debug: print("ERROR: AvailableList node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: AvailableList node not found!")
 		available_list = get_node_or_null("MarginContainer/VBoxContainer/HBoxContainer2/AvailableList")
 	
 	if not details_panel:
-		if debug: print("ERROR: DetailsPanel node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: DetailsPanel node not found!")
 		details_panel = get_node_or_null("MarginContainer/VBoxContainer/HBoxContainer2/DetailsPanel")
 	
 	if not quest_title:
-		if debug: print("ERROR: QuestTitle node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: QuestTitle node not found!")
 		if details_panel:
 			quest_title = details_panel.get_node_or_null("MarginContainer/VBoxContainer/QuestTitle")
 	
 	if not quest_description:
-		if debug: print("ERROR: QuestDescription node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: QuestDescription node not found!")
 		if details_panel:
 			quest_description = details_panel.get_node_or_null("MarginContainer/VBoxContainer/QuestDescription")
 	
 	if not objectives_container:
-		if debug: print("ERROR: ObjectivesContainer node not found!")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: ObjectivesContainer node not found!")
 		if details_panel:
 			objectives_container = details_panel.get_node_or_null("MarginContainer/VBoxContainer/ObjectivesContainer")
 	
@@ -63,7 +63,7 @@ func _ready():
 		quest_system.quest_updated.connect(_on_quest_updated)
 		quest_system.quest_completed.connect(_on_quest_completed)
 		quest_system.objective_updated.connect(_on_objective_updated)
-		if debug: print("Connected to QuestSystem signals")
+		if debug: print(GameState.script_name_tag(self) + "Connected to QuestSystem signals")
 	
 	# Hide details panel until a quest is selected
 	if details_panel:
@@ -74,12 +74,12 @@ func _ready():
 	if close_button:
 		close_button.pressed.connect(_on_close_button_pressed)
 	else:
-		if debug: print("WARNING: Close button not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Close button not found")
 		close_button = get_node_or_null("MarginContainer/VBoxContainer/HBoxContainer/CloseButton")
 		if close_button:
 			close_button.pressed.connect(_on_close_button_pressed)
 	
-	if debug: print("Quest panel initialized")
+	if debug: print(GameState.script_name_tag(self) + "Quest panel initialized")
 	
 	# Load the initial quest list
 	call_deferred("refresh_all_lists")
@@ -101,11 +101,11 @@ func refresh_all_lists():
 	refresh_available_quests()
 
 func refresh_active_quests():
-	if debug: print("Refreshing active quests...")
+	if debug: print(GameState.script_name_tag(self) + "Refreshing active quests...")
 	
 	# Safety check
 	if not quest_list:
-		if debug: print("ERROR: Cannot refresh quest list - quest_list is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh quest list - quest_list is null")
 		return
 	
 	# Clear existing items
@@ -141,9 +141,9 @@ func refresh_active_quests():
 				button.add_theme_color_override("font_color", Color(1, 0.9, 0.3))
 			
 			quest_list.add_child(button)
-			if debug: print("Added quest button: ", quest.title if quest.has("title") else quest_id)
+			if debug: print(GameState.script_name_tag(self) + "Added quest button: ", quest.title if quest.has("title") else quest_id)
 		
-		if debug: print("Added " + str(active_quests.size()) + " quests to the list")
+		if debug: print(GameState.script_name_tag(self) + "Added " + str(active_quests.size()) + " quests to the list")
 	else:
 		# Show a message if no quests
 		var label = Label.new()
@@ -151,11 +151,11 @@ func refresh_active_quests():
 		quest_list.add_child(label)
 		
 func refresh_available_quests():
-	if debug: print("Refreshing available quests...")
+	if debug: print(GameState.script_name_tag(self) + "Refreshing available quests...")
 	
 	# Safety check
 	if not available_list:
-		if debug: print("ERROR: Cannot refresh available quests - available_list is null")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh available quests - available_list is null")
 		return
 	
 	# Clear existing items
@@ -187,9 +187,9 @@ func refresh_available_quests():
 			button.pressed.connect(callable)
 			
 			available_list.add_child(button)
-			if debug: print("Added available quest button: ", quest.title if quest.has("title") else quest_id)
+			if debug: print(GameState.script_name_tag(self) + "Added available quest button: ", quest.title if quest.has("title") else quest_id)
 	
-		if debug: print("Added " + str(available_quests.size()) + " available quests")
+		if debug: print(GameState.script_name_tag(self) + "Added " + str(available_quests.size()) + " available quests")
 	else:
 		# Show a message if no available quests
 		var label = Label.new()
@@ -208,12 +208,12 @@ func _on_start_intro_quest():
 	if quest_system:
 		var result = quest_system.load_new_quest("intro_quest", true)
 		if result:
-			if debug: print("Started intro quest")
+			if debug: print(GameState.script_name_tag(self) + "Started intro quest")
 			refresh_all_lists()
 		else:
-			if debug: print("Failed to start intro quest")
+			if debug: print(GameState.script_name_tag(self) + "Failed to start intro quest")
 	else:
-		if debug: print("ERROR: Cannot start quest - QuestSystem not found")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot start quest - QuestSystem not found")
 
 func _on_available_quest_selected(quest_id):
 	if quest_system:
@@ -238,32 +238,32 @@ func _on_start_quest_pressed(quest_id):
 	if quest_system:
 		var result = quest_system.start_quest(quest_id)
 		if result:
-			if debug: print("Started quest: ", quest_id)
+			if debug: print(GameState.script_name_tag(self) + "Started quest: ", quest_id)
 			selected_quest_id = quest_id
 			refresh_all_lists()
 			display_quest_details(quest_id)
 			
 			# Close the panel after accepting the quest
-			if debug: print("Closing quest panel after accepting quest")
+			if debug: print(GameState.script_name_tag(self) + "Closing quest panel after accepting quest")
 			call_deferred("_on_close_button_pressed")
 		else:
-			if debug: print("Failed to start quest: ", quest_id)
+			if debug: print(GameState.script_name_tag(self) + "Failed to start quest: ", quest_id)
 
 func display_quest_details(quest_id):
-	if debug: print("Displaying details for quest: ", quest_id)
+	if debug: print(GameState.script_name_tag(self) + "Displaying details for quest: ", quest_id)
 	
 	if not details_panel or not quest_title or not quest_description or not objectives_container:
-		if debug: print("ERROR: Cannot display quest details - UI components are missing")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot display quest details - UI components are missing")
 		return
 		
 	var quest = quest_system.get_quest(quest_id)
 	
 	if not quest:
-		if debug: print("ERROR: Quest not found: ", quest_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Quest not found: ", quest_id)
 		details_panel.visible = false
 		return
 	
-	if debug: print("Found quest: ", quest.title if quest.has("title") else quest_id)
+	if debug: print(GameState.script_name_tag(self) + "Found quest: ", quest.title if quest.has("title") else quest_id)
 	
 	# Set title and description
 	quest_title.text = quest.title if quest.has("title") else quest_id

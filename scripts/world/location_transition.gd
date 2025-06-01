@@ -26,7 +26,7 @@ func _ready():
 	debug = scr_debug or GameController.sys_debug
 	# Set up collision if one doesn't exist
 	if not has_node("CollisionShape2D"):
-		if debug: print("Creating default collision shape for location transition")
+		if debug: print(GameState.script_name_tag(self) + "Creating default collision shape for location transition")
 		var collision = CollisionShape2D.new()
 		var shape = RectangleShape2D.new()
 		shape.size = Vector2(50, 50)
@@ -39,10 +39,10 @@ func _ready():
 	
 	# Validate target location
 	if target_location.is_empty() and target_scene.is_empty():
-		if debug: print("ERROR: No target location or scene specified for location transition")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: No target location or scene specified for location transition")
 		enabled = false
 	elif not target_scene.is_empty() and not FileAccess.file_exists(target_scene):
-		if debug: print("ERROR: Target scene file does not exist: ", target_scene)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Target scene file does not exist: ", target_scene)
 		enabled = false
 	
 	# Connect area signals
@@ -52,23 +52,23 @@ func _ready():
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		player_in_area = true
-		if debug: print("Player entered transition area: ", name)
+		if debug: print(GameState.script_name_tag(self) + "Player entered transition area: ", name)
 		
 		# Auto-trigger if no interaction required
 		if not require_interaction:
-			if debug: print("Auto-triggering transition")
+			if debug: print(GameState.script_name_tag(self) + "Auto-triggering transition")
 			interact()
 
 func _on_body_exited(body):
 	if body.is_in_group("player"):
 		player_in_area = false
-		if debug: print("Player exited transition area: ", name)
+		if debug: print(GameState.script_name_tag(self) + "Player exited transition area: ", name)
 
 func interact():
-	if debug: print("Location transition triggered: ", name)
+	if debug: print(GameState.script_name_tag(self) + "Location transition triggered: ", name)
 	
 	if not enabled:
-		if debug: print("Transition is disabled")
+		if debug: print(GameState.script_name_tag(self) + "Transition is disabled")
 		_show_locked_hint()
 		return
 	
@@ -76,14 +76,14 @@ func interact():
 	if not require_item.is_empty():
 		var inventory_system = get_node_or_null("/root/InventorySystem")
 		if not inventory_system or not inventory_system.has_item(require_item):
-			if debug: print("Player does not have required item: ", require_item)
+			if debug: print(GameState.script_name_tag(self) + "Player does not have required item: ", require_item)
 			_show_locked_hint()
 			return
 		
 		# Consume item if configured to do so
 		if consume_item:
 			inventory_system.remove_item(require_item, 1)
-			if debug: print("Consumed item: ", require_item)
+			if debug: print(GameState.script_name_tag(self) + "Consumed item: ", require_item)
 	
 	# Determine which scene to load
 	var scene_path = ""
@@ -93,7 +93,7 @@ func interact():
 		# Convert location name to scene path
 		scene_path = "res://scenes/world/locations/" + target_location + ".tscn"
 	
-	if debug: print("Transitioning to: ", scene_path, " at spawn point: ", spawn_point)
+	if debug: print(GameState.script_name_tag(self) + "Transitioning to: ", scene_path, " at spawn point: ", spawn_point)
 	
 	# Save player state before transition
 	_save_player_state()
@@ -106,13 +106,13 @@ func interact():
 	if game_controller:
 		_perform_transition(game_controller, scene_path)
 	else:
-		if debug: print("ERROR: GameController not found")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found")
 		# Fallback to direct scene change
 		get_tree().change_scene_to_file(scene_path)
 
 func _perform_transition(game_controller, scene_path):
 	if game_controller.has_method("change_location"):
-		print("game_controller.change_location("+scene_path+", "+spawn_point+")")
+		print(GameState.script_name_tag(self) + "game_controller.change_location("+scene_path+", "+spawn_point+")")
 		game_controller.change_location(scene_path, spawn_point)
 	else:
 		# Fallback to basic scene change if the enhanced method doesn't exist
@@ -122,13 +122,13 @@ func _save_player_state():
 	# Find the player
 	var player = get_tree().get_first_node_in_group("player")
 	if not player:
-		if debug: print("WARNING: Could not find player to save state")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: Could not find player to save state")
 		return
 	
 	# Get game state singleton
 	var game_state = get_node_or_null("/root/GameState")
 	if not game_state:
-		if debug: print("WARNING: GameState not found")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: GameState not found")
 		return
 	
 	# Save player position
@@ -142,14 +142,14 @@ func _save_player_state():
 	var current_scene_path = get_tree().current_scene.scene_file_path
 	game_state.game_data.current_location = current_scene_path.get_file().get_basename()
 	
-	if debug: print("Saved player state: Position=", player.position, 
+	if debug: print(GameState.script_name_tag(self) + "Saved player state: Position=", player.position, 
 		", Direction=", player.last_direction if "last_direction" in player else Vector2.DOWN)
 
 func _show_locked_hint():
 	if locked_hint.is_empty():
 		return
 		
-	if debug: print("Showing locked hint: ", locked_hint)
+	if debug: print(GameState.script_name_tag(self) + "Showing locked hint: ", locked_hint)
 	
 	# Show a notification if we have a notification system
 	var notification_system = get_node_or_null("/root/NotificationSystem")

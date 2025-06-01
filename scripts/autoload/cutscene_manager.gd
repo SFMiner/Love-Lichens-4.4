@@ -4,8 +4,8 @@ extends Node
 signal movement_started(character_id, target)
 signal movement_completed(character_id)
 
-const scr_debug : bool = true
-var debug : bool = true
+const scr_debug : bool = false
+var debug
 
 # Dictionary to track active movements
 var active_movements = {}
@@ -14,7 +14,8 @@ var movement_queue = {}  # Dictionary of character_id -> Array of movement comma
 var processing_movement_queue = false
 
 func _ready():
-	print("CutsceneManager initialized and ready!")
+	print(GameState.script_name_tag(self) + "CutsceneManager initialized and ready!")
+	debug = scr_debug or GameController.sys_debug
 
 func _process(delta):
 	# Process ongoing movements
@@ -25,14 +26,14 @@ func _process(delta):
 		var character = movement_data.character
 		
 		if not is_instance_valid(character):
-			print("Character no longer valid: ", character_id)
+			if debug: print(GameState.script_name_tag(self) + "Character no longer valid: ", character_id)
 			completed_movements.append(character_id)
 			continue
 			
 		# Process movement
 		var finished = _process_movement(character_id, movement_data, delta)
 		if finished:
-			print("Movement completed for: ", character_id)
+			if debug: print(GameState.script_name_tag(self) + "Movement completed for: ", character_id)
 			completed_movements.append(character_id)
 			movement_completed.emit(character_id)
 	
@@ -52,7 +53,7 @@ func _process_movement(character_id, movement_data, delta):
 	# Check if we're done
 	var stop_distance = movement_data.get("stop_distance", 10.0)
 	if distance <= stop_distance:
-		print("Reached destination")
+		if debug: print(GameState.script_name_tag(self) + "Reached destination")
 		return true
 	
 	# Move the character
@@ -97,7 +98,7 @@ func _update_animation(character, direction, animation_type):
 			anim_player.play(animation_type)
 
 func move_character(character_id, target, animation="walk", speed=100, stop_distance=0, time=null):
-	print("MOVE CHARACTER CALLED: ", character_id, " to ", target)
+	print(GameState.script_name_tag(self) + "MOVE CHARACTER CALLED: ", character_id, " to ", target)
 	
 	# Find the character node using GameState
 	var character
@@ -109,19 +110,19 @@ func move_character(character_id, target, animation="walk", speed=100, stop_dist
 		character = game_state.get_npc_by_id(character_id)
 	
 	if not character:
-		print("ERROR: Character not found: ", character_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Character not found: ", character_id)
 		return false
 	
-	print("Found character: ", character)
+	if debug: print(GameState.script_name_tag(self) + "Found character: ", character)
 	
 	# Calculate target position
 	var target_position = _determine_target_position(target)
 	
 	if target_position == Vector2.ZERO:
-		print("ERROR: Could not determine target position")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Could not determine target position")
 		return false
 	
-	print("Target position: ", target_position)
+	if debug: print(GameState.script_name_tag(self) + "Target position: ", target_position)
 	
 	# Calculate speed
 	var actual_speed = speed
@@ -140,7 +141,7 @@ func move_character(character_id, target, animation="walk", speed=100, stop_dist
 	
 	# Start the movement
 	active_movements[character_id] = movement_data
-	print("Movement started for: ", character_id, " with data: ", movement_data)
+	print(GameState.script_name_tag(self) + "Movement started for: ", character_id, " with data: ", movement_data)
 	movement_started.emit(character_id, target_position)
 	
 	return true
@@ -175,7 +176,7 @@ func _determine_target_position(target):
 	return Vector2.ZERO
 
 func play_animation(character_id, animation_name):
-	print("PLAY ANIMATION CALLED: ", character_id, " animation: ", animation_name)
+	if debug: print(GameState.script_name_tag(self) + "PLAY ANIMATION CALLED: ", character_id, " animation: ", animation_name)
 	
 	# Find the character node using GameState
 	var character
@@ -185,49 +186,49 @@ func play_animation(character_id, animation_name):
 		character = game_state.get_player()
 	else:
 		var npcs = GameState.get_current_npcs()
-		if debug: print("Current NPCs:" + str(npcs))
+		if debug: print(GameState.script_name_tag(self) + "Current NPCs:" + str(npcs))
 		character = game_state.get_npc_by_id(character_id)
 	
 	if not character:
-		print("ERROR: Character not found for animation: ", character_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Character not found for animation: ", character_id)
 		return false
 		
-	print("Found character for animation: ", character)
+	if debug: print(GameState.script_name_tag(self) + "Found character for animation: ", character)
 	
 	if character.has_node("Sprite2D"):
 		var sprite = character.get_node("Sprite2D")
-		print("Sprite info - texture: ", sprite.texture, 
+		if debug: print(GameState.script_name_tag(self) + "Sprite info - texture: ", sprite.texture, 
 			", hframes: ", sprite.hframes, 
 			", vframes: ", sprite.vframes, 
 			", frame: ", sprite.frame)
 		
 		# Check if texture is actually loaded
 		if sprite.texture == null:
-			print("ERROR: No texture loaded for sprite!")
+			if debug: print(GameState.script_name_tag(self) + "ERROR: No texture loaded for sprite!")
 			
 			# Try to load a default texture
 			var texture_path = "res://assets/character_sprites/" + character_id + "/standard/idle.png"
 			if ResourceLoader.exists(texture_path):
 				sprite.texture = load(texture_path)
-				print("Loaded fallback texture: ", texture_path)
+				print(GameState.script_name_tag(self) + "Loaded fallback texture: ", texture_path)
 	
 	# Try different animation methods
 	if character.has_method("play_animation"):
 		character.play_animation(animation_name)
-		print("Called play_animation method")
+		if debug: print(GameState.script_name_tag(self) + "Called play_animation method")
 		return true
 	elif character.has_method("set_animation"):
 		character.set_animation(animation_name, Vector2.ZERO)
-		print("Called set_animation method")
+		if debug: print(GameState.script_name_tag(self) + "Called set_animation method")
 		return true
 	elif character.has_node("AnimationPlayer"):
 		var anim_player = character.get_node("AnimationPlayer")
 		if anim_player.has_animation(animation_name):
 			anim_player.play(animation_name)
-			print("Played animation through AnimationPlayer")
+			if debug: print(GameState.script_name_tag(self) + "Played animation through AnimationPlayer")
 			return true
 		else:
-			print("Animation not found in AnimationPlayer: ", animation_name)
+			if debug: print(GameState.script_name_tag(self) + "Animation not found in AnimationPlayer: ", animation_name)
 	
 	# Create a simple visual effect for simple sprites
 	# Fixed: Use create_tween() method properly
@@ -235,16 +236,16 @@ func play_animation(character_id, animation_name):
 	if animation_name == "jump" or animation_name == "jump_down":
 		tween.tween_property(character, "position:y", character.position.y - 20, 0.2)
 		tween.tween_property(character, "position:y", character.position.y, 0.2)
-		print("Created simple jump tween animation")
+		if debug: print(GameState.script_name_tag(self) + "Created simple jump tween animation")
 	else:
 		tween.tween_property(character, "modulate", Color(1.5, 1.5, 1.5), 0.2)
 		tween.tween_property(character, "modulate", Color(1, 1, 1), 0.2)
-		print("Created simple highlight tween animation")
+		if debug: print(GameState.script_name_tag(self) + "Created simple highlight tween animation")
 	
 	return true
 
 func wait_for_movements():
-	print("Wait for movements called, active movements: ", active_movements.size())
+	if debug: print(GameState.script_name_tag(self) + "Wait for movements called, active movements: ", active_movements.size())
 	
 	# If no movements, return immediately
 	if active_movements.size() == 0:
@@ -254,7 +255,7 @@ func wait_for_movements():
 	return movement_completed
 
 func move_character_to_marker(character_id, marker_id, run=false):
-	if debug: print("Moving character ", character_id, " to marker ", marker_id)
+	if debug: print(GameState.script_name_tag(self) + "Moving character ", character_id, " to marker ", marker_id)
 	
 	# Find the character
 	var character
@@ -264,13 +265,13 @@ func move_character_to_marker(character_id, marker_id, run=false):
 		character = GameState.get_npc_by_id(character_id)
 		
 	if not character:
-		if debug: print("ERROR: Character not found: ", character_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Character not found: ", character_id)
 		return false
 	
 	# Find the marker
 	var marker = GameState.get_marker_by_id(marker_id)
 	if not marker:
-		if debug: print("ERROR: Marker not found: ", marker_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Marker not found: ", marker_id)
 		return false
 	
 	# Get target position
@@ -313,7 +314,7 @@ func _on_navigation_completed(character):
 		return
 	
 	# Mark movement as complete
-	if debug: print("Character ", character_id, " completed navigation")
+	if debug: print(GameState.script_name_tag(self) + "Character ", character_id, " completed navigation")
 	
 	# Remove from active movements
 	active_movements.erase(character_id)

@@ -65,12 +65,12 @@ func initialize_combat(player, opponents):
 
 func _connect_health_signals():
 	if current_player and current_player.has_signal("health_changed"):
-		if not current_player.health_changed.is_connected(func(current, maximum): update_player_stats()):
-			current_player.health_changed.connect(func(current, maximum): update_player_stats())
+		if not current_player.health_changed.is_connected(func(_current, _maximum): update_player_stats()):
+			current_player.health_changed.connect(func(_current, _maximum): update_player_stats())
 	
 	if current_player and current_player.has_signal("stamina_changed"):
-		if not current_player.stamina_changed.is_connected(func(current, maximum): update_player_stats()):
-			current_player.stamina_changed.connect(func(current, maximum): update_player_stats())
+		if not current_player.stamina_changed.is_connected(func(_current, _maximum): update_player_stats()):
+			current_player.stamina_changed.connect(func(_current, _maximum): update_player_stats())
 
 # Show the combat UI
 func show_combat_ui():
@@ -315,7 +315,7 @@ func _on_turn_started(character):
 		if combat_manager:
 			retreat_button.disabled = not combat_manager.allow_retreat
 		
-		print("UI: Player's turn - actions enabled")
+		print(GameState.script_name_tag(self) + "UI: Player's turn - actions enabled")
 	else:
 		# It's an opponent's turn - disable player actions
 		status_label.text = character.name + "'s turn"
@@ -326,7 +326,7 @@ func _on_turn_started(character):
 		
 		retreat_button.disabled = true
 		
-		print("UI: " + character.name + "'s turn - player actions disabled")
+		print(GameState.script_name_tag(self) + "UI: " + character.name + "'s turn - player actions disabled")
 	
 	# Update displays
 	update_player_stats()
@@ -334,7 +334,7 @@ func _on_turn_started(character):
 
 # Handle turn end
 func _on_turn_ended(character):
-	print("UI: Turn ended for " + character.name)
+	print(GameState.script_name_tag(self) + "UI: Turn ended for " + character.name)
 	
 	# Reset UI state to IDLE
 	ui_state = State.IDLE

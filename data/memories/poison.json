@@ -1,42 +1,42 @@
 [
   {
-    "id": "poison_necklace_memory",
-    "character_id": "Poison",
-    "relationship_reward": 10,
-    "completed_tag": "poison_memory_chain_completed",
-    "steps": [
-      {
-        "id": "notice_necklace",
-        "trigger_type": 0,
-        "target_id": "Poison_necklace",
-        "unlock_tag": "poison_necklace_seen",
-        "description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize.",
-        "condition_tags": []
-      },
-      {
-        "id": "ask_about_necklace",
-        "trigger_type": 3,
-        "target_id": "ask_poison_necklace",
-        "unlock_tag": "poison_peepaw_known",
-        "description": "Poison laughs awkwardly, explaining it holds some of Pee-Paw's ashes. A way of keeping family close, even now.",
-        "condition_tags": ["poison_necklace_seen"]
-      },
-      {
-        "id": "family_conversation",
-        "trigger_type": 3,
-        "target_id": "family_conversation",
-        "unlock_tag": "poison_peepaw_memory_stirred",
-        "description": "Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.",
-        "condition_tags": ["poison_peepaw_known"]
-      },
-      {
-        "id": "final_memory",
-        "trigger_type": 3,
-        "target_id": "poison_peepaw_story",
-        "unlock_tag": "poison_peepaw_story_shared",
-        "description": "Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
-        "condition_tags": ["poison_peepaw_memory_stirred"]
-      }
-    ]
+	"id": "poison_necklace_memory",
+	"character_id": "Poison",
+	"relationship_reward": 10,
+	"completed_tag": "poison_memory_chain_completed",
+	"steps": [
+	  {
+		"id": "notice_necklace",
+		"trigger_type": 0,
+		"target_id": "Poison_necklace",
+		"unlock_tag": "poison_necklace_seen",
+		"description": "Poison's wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize.",
+		"condition_tags": []
+	  },
+	  {
+		"id": "ask_about_necklace",
+		"trigger_type": 3,
+		"target_id": "ask_poison_necklace",
+		"unlock_tag": "poison_peepaw_known",
+		"description": "Poison laughs awkwardly, explaining it holds some of Pee-Paw's ashes. A way of keeping family close, even now.",
+		"condition_tags": ["poison_necklace_seen"]
+	  },
+	  {
+		"id": "family_conversation",
+		"trigger_type": 3,
+		"target_id": "family_conversation",
+		"unlock_tag": "poison_peepaw_memory_stirred",
+		"description": "Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.",
+		"condition_tags": ["poison_peepaw_known"]
+	  },
+	  {
+		"id": "final_memory",
+		"trigger_type": 3,
+		"target_id": "poison_peepaw_story",
+		"unlock_tag": "poison_peepaw_story_shared",
+		"description": "Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'",
+		"condition_tags": ["poison_peepaw_memory_stirred"]
+	  }
+	]
   }
 ]

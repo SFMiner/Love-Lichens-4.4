@@ -30,11 +30,11 @@ var time_scale: float = 1.0      # multiplier for speeding up/slowing down time
 
 # Internal tracking
 var time_accumulator: float = 0.0
-var debug: bool = true
+var debug: bool = false
 
 func _ready() -> void:
 	if debug:
-		print("TimeSystem initialized on " + get_formatted_date())
+		print(GameState.script_name_tag(self) + "TimeSystem initialized on " + get_formatted_date())
 
 func _process(delta: float) -> void:
 	time_accumulator += delta * time_scale
@@ -47,7 +47,7 @@ func advance_time_of_day() -> void:
 	var old = current_time_of_day
 	current_time_of_day = (current_time_of_day + 1) % 4
 	if debug:
-		print("Time of day: %s → %s" %
+		print(GameState.script_name_tag(self) + "Time of day: %s → %s" %
 			[_get_time_name(old), _get_time_name(current_time_of_day)])
 	emit_signal("time_of_day_changed", old, current_time_of_day)
 
@@ -59,7 +59,7 @@ func advance_day() -> void:
 	var old_day = current_day
 	current_day += 1
 	if debug:
-		print("Day: %d → %d" % [old_day, current_day])
+		print(GameState.script_name_tag(self) + "Day: %d → %d" % [old_day, current_day])
 	emit_signal("day_changed", old_day, current_day)
 
 	var dim = _days_in_month(current_year, current_month)
@@ -80,7 +80,7 @@ func _rollover_month() -> void:
 	if current_month > 12:
 		_rollover_year()
 	if debug:
-		print("Month: %s → %s" %
+		print(GameState.script_name_tag(self) + "Month: %s → %s" %
 			[month_names[old_mon - 1], month_names[current_month - 1]])
 	emit_signal("month_changed", old_mon, current_month)
 
@@ -88,7 +88,7 @@ func _rollover_year() -> void:
 	var old_year = current_year
 	current_year += 1
 	if debug:
-		print("Year: %d → %d" % [old_year, current_year])
+		print(GameState.script_name_tag(self) + "Year: %d → %d" % [old_year, current_year])
 	emit_signal("year_changed", old_year, current_year)
 
 func _days_in_month(year: int, month: int) -> int:
@@ -165,7 +165,7 @@ func get_formatted_date() -> String:
 func set_time_scale(s: float) -> void:
 	time_scale = max(0.0, s)
 	if debug:
-		print("Time scale set to %f" % time_scale)
+		print(GameState.script_name_tag(self) + "Time scale set to %f" % time_scale)
 
 func get_time_scale() -> float:
 	return time_scale
@@ -173,12 +173,12 @@ func get_time_scale() -> float:
 func pause_time() -> void:
 	time_scale = 0.0
 	if debug:
-		print("Time paused")
+		print(GameState.script_name_tag(self) + "Time paused")
 
 func resume_time() -> void:
 	time_scale = 1.0
 	if debug:
-		print("Time resumed")
+		print(GameState.script_name_tag(self) + "Time resumed")
 
 # Save/load
 func save_data() -> Dictionary:
@@ -202,4 +202,4 @@ func load_data(data: Dictionary) -> void:
 	if data.has("accumulator"):
 		time_accumulator = data.accumulator
 	if debug:
-		print("Loaded time: " + get_formatted_date())
+		print(GameState.script_name_tag(self) + "Loaded time: " + get_formatted_date())

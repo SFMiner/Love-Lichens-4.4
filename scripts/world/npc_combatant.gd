@@ -52,7 +52,7 @@ func can_retreat():
 
 # Perform offensive action
 func perform_offensive_action(target):
-	print("perform_offensive_action called.")
+	print(GameState.script_name_tag(self) + "perform_offensive_action called.")
 	# Simple implementation - just do a basic attack
 	var action = { "type": "attack" }
 	
@@ -63,7 +63,7 @@ func perform_offensive_action(target):
 		action = offensive_skills[skill_index]
 	
 	# Perform the chosen action
-	var result = perform_combat_action(target, action)
+	var _result = perform_combat_action(target, action)
 	
 	# Get combat manager
 	if combat_manager:
@@ -74,14 +74,14 @@ func perform_offensive_action(target):
 # Perform defensive action
 func perform_defensive_action():
 	# Simple implementation - apply a defensive status or heal
-	var action = null
+	var _action = null
 	
 	# Check if health is low
 	var health_percentage = float(current_health) / max_health
 	if health_percentage < 0.5:
 		# Try to heal or improve defense
 		if has_healing_item():
-			action = { "type": "item", "item_id": get_healing_item_id() }
+			_action = { "type": "item", "item_id": get_healing_item_id() }
 		else:
 			# Apply defensive stance
 			apply_status_effect("defensive_stance", {

@@ -32,7 +32,7 @@ var player
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
-	if debug: print("Item Effects System initialized")
+	if debug: print(GameState.script_name_tag(self) + "Item Effects System initialized")
 	
 	player = get_player()
 	# Get references to other systems
@@ -42,9 +42,9 @@ func _ready():
 	# Connect to inventory signals if available
 	if inventory_system:
 		inventory_system.item_used.connect(_on_item_used)
-		if debug: print("Connected to InventorySystem signals")
+		if debug: print(GameState.script_name_tag(self) + "Connected to InventorySystem signals")
 	else:
-		if debug: print("WARNING: InventorySystem not found!")
+		if debug: print(GameState.script_name_tag(self) + "WARNING: InventorySystem not found!")
 	
 	# Connect to game events that would advance time
 	var game_controller = get_node_or_null("/root/GameController")
@@ -54,7 +54,7 @@ func _ready():
 			game_controller.turn_completed.connect(_on_turn_completed)
 		if game_controller.has_signal("day_advanced"):
 			game_controller.day_advanced.connect(_on_day_advanced)
-		if debug: print("Connected to GameController signals")
+		if debug: print(GameState.script_name_tag(self) + "Connected to GameController signals")
 
 # Handle when an item is used through the inventory system
 func _on_item_used(item_id):
@@ -63,18 +63,18 @@ func _on_item_used(item_id):
 # Apply effects for a specific item
 func apply_item_effects(item_id):
 	if not inventory_system:
-		if debug: print("ERROR: Cannot apply effects, InventorySystem not found")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot apply effects, InventorySystem not found")
 		return false
 	
 	# Get item data
 	var item_data = inventory_system.get_item_data(item_id)
 	if not item_data:
-		if debug: print("ERROR: Item data not found for ", item_id)
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Item data not found for ", item_id)
 		return false
 	
 	# Check if item has effects defined
 	if not item_data.has("effects") or item_data.effects.size() == 0:
-		if debug: print("Item has no defined effects: ", item_id)
+		if debug: print(GameState.script_name_tag(self) + "Item has no defined effects: ", item_id)
 		return false
 	
 	# Process each effect
@@ -84,13 +84,13 @@ func apply_item_effects(item_id):
 		if apply_effect(effect, item_id):
 			effects_applied += 1
 	
-	if debug: print("Applied ", effects_applied, " effects from item: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Applied ", effects_applied, " effects from item: ", item_id)
 	return effects_applied > 0
 
 # Apply a specific effect
 func apply_effect(effect, source_item_id):
 	if not effect.has("type") or not effect.has("target"):
-		if debug: print("ERROR: Effect missing required fields")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Effect missing required fields")
 		return false
 	
 	var effect_type = effect.type
@@ -99,7 +99,7 @@ func apply_effect(effect, source_item_id):
 	var duration = effect.duration if effect.has("duration") else 0
 	var effect_id = source_item_id + "_" + target + "_" + str(effect_type)
 	
-	if debug: print("Applying effect: ", effect_id, " with potency ", potency)
+	if debug: print(GameState.script_name_tag(self) + "Applying effect: ", effect_id, " with potency ", potency)
 	
 	# Handle different effect types
 	match effect_type:
@@ -125,7 +125,7 @@ func apply_effect(effect, source_item_id):
 			_apply_equip_passive(target, potency, effect_id)
 		
 		_:
-			if debug: print("ERROR: Unknown effect type: ", effect_type)
+			if debug: print(GameState.script_name_tag(self) + "ERROR: Unknown effect type: ", effect_type)
 			return false
 	
 	# Register as an active effect if it has a duration
@@ -141,7 +141,7 @@ func register_temporary_effect(effect_id, type, target, potency, duration):
 	if active_effects.has(effect_id):
 		# If already active, just reset/extend the duration
 		active_effects[effect_id].turns_remaining = duration
-		if debug: print("Reset duration for existing effect: ", effect_id)
+		if debug: print(GameState.script_name_tag(self) + "Reset duration for existing effect: ", effect_id)
 	else:
 		# Create a new temporary effect
 		active_effects[effect_id] = {
@@ -150,7 +150,7 @@ func register_temporary_effect(effect_id, type, target, potency, duration):
 			"potency": potency,
 			"turns_remaining": duration
 		}
-		if debug: print("Registered new temporary effect: ", effect_id, " for ", duration, " turns")
+		if debug: print(GameState.script_name_tag(self) + "Registered new temporary effect: ", effect_id, " for ", duration, " turns")
 
 # Remove a temporary effect
 func remove_temporary_effect(effect_id):
@@ -171,7 +171,7 @@ func remove_temporary_effect(effect_id):
 		
 		# Remove from active effects
 		active_effects.erase(effect_id)
-		if debug: print("Removed temporary effect: ", effect_id)
+		if debug: print(GameState.script_name_tag(self) + "Removed temporary effect: ", effect_id)
 		
 		# Emit signal
 		effect_removed.emit(effect_id, effect.target)
@@ -249,10 +249,10 @@ func advance_effects(turns = 1):
 # Implementation of different effect types
 func _apply_stat_boost(stat_name, potency, duration, effect_id):
 	if not player:
-		if debug: print("ERROR: Player not found for stat boost")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Player not found for stat boost")
 		return
 	
-	if debug: print("Applying stat boost: ", stat_name, " +", potency)
+	if debug: print(GameState.script_name_tag(self) + "Applying stat boost: ", stat_name, " +", potency)
 	
 	# Implement based on your player stats system
 	# This is a placeholder implementation
@@ -264,15 +264,15 @@ func _apply_stat_boost(stat_name, potency, duration, effect_id):
 		# Fallback - modify a property directly if it exists
 		if player.get(stat_name) != null:
 			player.set(stat_name, player.get(stat_name) + potency)
-			if debug: print("Applied stat boost directly: ", stat_name)
+			if debug: print(GameState.script_name_tag(self) + "Applied stat boost directly: ", stat_name)
 		else:
-			if debug: print("WARNING: Could not apply stat boost, no handler found")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: Could not apply stat boost, no handler found")
 
 func _remove_stat_boost(stat_name, potency, effect_id):
 	if not player:
 		return
 	
-	if debug: print("Removing stat boost: ", stat_name, " -", potency)
+	if debug: print(GameState.script_name_tag(self) + "Removing stat boost: ", stat_name, " -", potency)
 	
 	# Implement based on your player stats system
 	if player.has_method("modify_stat"):
@@ -284,19 +284,19 @@ func _remove_stat_boost(stat_name, potency, effect_id):
 		if player.get(stat_name) != null:
 			player.set(stat_name, player.get(stat_name) - potency)
 		else:
-			if debug: print("WARNING: Could not remove stat boost")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: Could not remove stat boost")
 
 func _apply_relationship_boost(character_id, potency, effect_id):
 	if not relationship_system:
-		if debug: print("ERROR: RelationshipSystem not found for relationship boost")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: RelationshipSystem not found for relationship boost")
 		return
 	
-	if debug: print("Increasing affinity with ", character_id, " by ", potency)
+	if debug: print(GameState.script_name_tag(self) + "Increasing affinity with ", character_id, " by ", potency)
 	relationship_system.increase_affinity(character_id, potency)
 
 func _apply_area_unlock(area_id, effect_id):
 	# This would be implemented based on how you track unlocked areas
-	if debug: print("Unlocking area: ", area_id)
+	if debug: print(GameState.script_name_tag(self) + "Unlocking area: ", area_id)
 	
 	# Example - could set a flag in a global GameState object
 	var game_controller = get_node_or_null("/root/GameController")
@@ -305,12 +305,12 @@ func _apply_area_unlock(area_id, effect_id):
 			game_controller.unlock_area(area_id)
 		else:
 			# You might need to implement this method in GameController
-			if debug: print("WARNING: No unlock_area method in GameController")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: No unlock_area method in GameController")
 	else:
-		if debug: print("ERROR: GameController not found for area unlock")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found for area unlock")
 
 func _apply_quest_progress(quest_id, step, effect_id):
-	if debug: print("Advancing quest: ", quest_id, " to step ", step)
+	if debug: print(GameState.script_name_tag(self) + "Advancing quest: ", quest_id, " to step ", step)
 	
 	# Get reference to quest system
 	var quest_system = get_node_or_null("/root/QuestSystem")
@@ -318,12 +318,12 @@ func _apply_quest_progress(quest_id, step, effect_id):
 		if quest_system.has_method("advance_quest"):
 			quest_system.advance_quest(quest_id, step)
 		else:
-			if debug: print("WARNING: No advance_quest method in QuestSystem")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: No advance_quest method in QuestSystem")
 	else:
-		if debug: print("ERROR: QuestSystem not found for quest progress")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: QuestSystem not found for quest progress")
 
 func _apply_knowledge_gain(knowledge_id, effect_id):
-	if debug: print("Adding knowledge: ", knowledge_id)
+	if debug: print(GameState.script_name_tag(self) + "Adding knowledge: ", knowledge_id)
 	
 	# This would depend on how you track player knowledge
 	# Could be added to a Dictionary in GameController or a separate KnowledgeSystem
@@ -332,16 +332,16 @@ func _apply_knowledge_gain(knowledge_id, effect_id):
 		if game_controller.has_method("add_knowledge"):
 			game_controller.add_knowledge(knowledge_id)
 		else:
-			if debug: print("WARNING: No add_knowledge method in GameController")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: No add_knowledge method in GameController")
 	else:
-		if debug: print("ERROR: GameController not found for knowledge gain")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found for knowledge gain")
 
 func _apply_consumable_heal(stat_name, amount, effect_id):
 	if not player:
-		if debug: print("ERROR: Player not found for consumable heal")
+		if debug: print(GameState.script_name_tag(self) + "ERROR: Player not found for consumable heal")
 		return
 	
-	if debug: print("Healing ", stat_name, " by ", amount)
+	if debug: print(GameState.script_name_tag(self) + "Healing ", stat_name, " by ", amount)
 	
 	# Implement based on your player health/energy system
 	if player.has_method("heal"):
@@ -354,19 +354,19 @@ func _apply_consumable_heal(stat_name, amount, effect_id):
 			var current = player.get(stat_name)
 			var max_stat = player.get("max_" + stat_name) if player.get("max_" + stat_name) != null else 100
 			player.set(stat_name, min(current + amount, max_stat))
-			if debug: print("Applied healing directly: ", stat_name, " to ", player.get(stat_name))
+			if debug: print(GameState.script_name_tag(self) + "Applied healing directly: ", stat_name, " to ", player.get(stat_name))
 		else:
-			if debug: print("WARNING: Could not apply healing, no handler found")
+			if debug: print(GameState.script_name_tag(self) + "WARNING: Could not apply healing, no handler found")
 
 func _apply_equip_passive(stat_name, potency, effect_id):
 	# Similar to stat boost but for equipped items
 	_apply_stat_boost(stat_name, potency, 0, effect_id)
-	if debug: print("Applied equip passive effect to ", stat_name)
+	if debug: print(GameState.script_name_tag(self) + "Applied equip passive effect to ", stat_name)
 
 func _remove_equip_passive(stat_name, potency, effect_id):
 	# Similar to removing stat boost
 	_remove_stat_boost(stat_name, potency, effect_id)
-	if debug: print("Removed equip passive effect from ", stat_name)
+	if debug: print(GameState.script_name_tag(self) + "Removed equip passive effect from ", stat_name)
 
 # Helper function to find the player in the scene
 func get_player():
@@ -430,4 +430,4 @@ func load_active_effects(save_data):
 	for effect_id in save_data:
 		active_effects[effect_id] = save_data[effect_id]
 	
-	if debug: print("Loaded ", active_effects.size(), " active effects from save data")
+	if debug: print(GameState.script_name_tag(self) + "Loaded ", active_effects.size(), " active effects from save data")

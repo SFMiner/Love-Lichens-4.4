@@ -19,8 +19,9 @@ var navigation_map_rid: RID
 
 
 func _ready():
+	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug if Engine.has_singleton("GameController") else scr_debug
-	if debug: print("NavigationManager initialized")
+	if debug: print(GameState.script_name_tag(self, _fname) + "NavigationManager initialized")
 	
 	# Get notified when scenes change
 	var game_controller = get_node_or_null("/root/GameController")
@@ -35,6 +36,7 @@ func _ready():
 	
 
 func _configure_navigation_server():
+	var _fname = "_configure_navigation_server"
 	# Activate the navigation map if using a NavigationRegion2D (assumed)
 	var navigation_region = get_tree().get_root().find_child("NavigationRegion2D", true, false)
 	if navigation_region:
@@ -50,6 +52,7 @@ func _configure_navigation_server():
 			_configure_navigation_agent(agent)
 
 func _configure_navigation_agent(agent: NavigationAgent2D):
+	var _fname = "_configure_navigation_agent"
 	agent.avoidance_enabled = true
 	agent.radius = 40.0
 	agent.max_neighbors = 15
@@ -58,9 +61,11 @@ func _configure_navigation_agent(agent: NavigationAgent2D):
 	agent.time_horizon = 2.0
 
 func _on_location_changed(old_location, new_location):
+	var _fname = "_on_location_changed"
+
 	# Reset navigation when changing location
 	current_scene_path = GameController.current_scene_path
-	if debug: print("Location changed to: ", current_scene_path)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Location changed to: ", current_scene_path)
 	
 	# Try to find and cache the navigation node
 	_find_navigation_node()
@@ -69,6 +74,7 @@ func _on_location_changed(old_location, new_location):
 	call_deferred("_register_all_agents")
 
 func _find_navigation_node():
+	var _fname = "_find_navigation_node"
 	# Get current scene
 	current_scene = get_tree().current_scene
 	
@@ -77,16 +83,17 @@ func _find_navigation_node():
 	
 	if navigation_regions.size() > 0:
 		current_navigation = navigation_regions[0]
-		if debug: print("Found navigation region: ", current_navigation.name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found navigation region: ", current_navigation.name)
 		
 		# Cache for future use
 		navigation_instances[current_scene_path] = current_navigation
 		return true
 	else:
-		if debug: print("No navigation region found in current scene")
+		if debug: print(GameState.script_name_tag(self, _fname) + "No navigation region found in current scene")
 		return false
 
 func _find_navigation_regions_recursive(node):
+	var _fname = "_find_navigation_regions_recursive"
 	var regions = []
 	
 	if node is NavigationRegion2D:
@@ -99,9 +106,10 @@ func _find_navigation_regions_recursive(node):
 	return regions
 
 func _register_all_agents():
+	var _fname = "_register_all_agents"
 	# This function makes sure all agents in the scene are properly registered
 	var all_navigators = get_tree().get_nodes_in_group("navigator")
-	if debug: print("Found ", all_navigators.size(), " navigation agents to register")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Found ", all_navigators.size(), " navigation agents to register")
 	
 	for navigator in all_navigators:
 		if navigator.has_node("NavigationAgent2D"):
@@ -110,6 +118,7 @@ func _register_all_agents():
 
 
 func _on_velocity_computed(safe_velocity, agent_parent):
+	var _fname = "_on_velocity_computed"
 	# This callback handles the safe velocity computed by the navigation agent
 	if agent_parent.has_method("_on_velocity_computed"):
 		# Call the parent's own velocity computed handler
@@ -123,9 +132,10 @@ func _on_velocity_computed(safe_velocity, agent_parent):
 
 
 func find_path(from_position: Vector2, to_position: Vector2) -> Array:
+	var _fname = "find_path"
 	if current_navigation == null:
 		if not _find_navigation_node():
-			if debug: print("Cannot find path - no navigation region")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Cannot find path - no navigation region")
 			path_not_found.emit(from_position, to_position)
 			return []
 	
@@ -141,18 +151,19 @@ func find_path(from_position: Vector2, to_position: Vector2) -> Array:
 	)
 	
 	if path.size() == 0:
-		if debug: print("No path found from ", from_position, " to ", to_position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "No path found from ", from_position, " to ", to_position)
 		path_not_found.emit(from_position, to_position)
 	else:
-		if debug: print("Path found with ", path.size(), " points")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Path found with ", path.size(), " points")
 		path_found.emit(from_position, to_position, path)
 	
 	return path
 
 # Move character along path
 func navigate_character(character: Node2D, target_position: Vector2, run: bool = false) -> bool:
+	var _fname = "navigate_character"
 	if not is_instance_valid(character):
-		if debug: print("Invalid character for navigation")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Invalid character for navigation")
 		return false
 	
 	# Make sure the character has a navigation agent
@@ -164,7 +175,7 @@ func navigate_character(character: Node2D, target_position: Vector2, run: bool =
 		if not nav_agent.avoidance_enabled:
 			_configure_navigation_agent(nav_agent)
 	else:
-		if debug: print("Character lacks NavigationAgent2D node")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Character lacks NavigationAgent2D node")
 		return false
 	
 	# Set the target position
@@ -187,10 +198,11 @@ func navigate_character(character: Node2D, target_position: Vector2, run: bool =
 
 # Navigate character to a marker by ID
 func navigate_to_marker(character: Node2D, marker_id: String, run: bool = false) -> bool:
+	var _fname = "navigate_to_marker"
 	# Find the marker in the scene
 	var marker = _find_marker(marker_id)
 	if not marker:
-		if debug: print("Cannot find marker: ", marker_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Cannot find marker: ", marker_id)
 		return false
 	
 	# Navigate to marker position
@@ -198,6 +210,7 @@ func navigate_to_marker(character: Node2D, marker_id: String, run: bool = false)
 
 # Find a marker by ID
 func _find_marker(marker_id: String) -> Node2D:
+	var _fname = "_find_marker"
 	# Try to find through GameState first
 	var game_state = get_node_or_null("/root/GameState")
 	if game_state and game_state.has_method("get_marker_by_id"):
@@ -218,10 +231,11 @@ func _find_marker(marker_id: String) -> Node2D:
 
 # Test navigation function for debugging
 func debug_find_path(from_pos: Vector2, to_pos: Vector2) -> void:
+	var _fname = "debug_find_path"
 	var path = find_path(from_pos, to_pos)
 	if path.size() > 0:
-		if debug: print("DEBUG: Found path with ", path.size(), " points")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found path with ", path.size(), " points")
 		for i in range(path.size()):
-			if debug: print("Point ", i, ": ", path[i])
+			if debug: print(GameState.script_name_tag(self, _fname) + "Point ", i, ": ", path[i])
 	else:
-		if debug: print("DEBUG: No path found between points")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: No path found between points")

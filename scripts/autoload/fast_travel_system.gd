@@ -54,21 +54,21 @@ func _ready():
 	var game_controller = get_node_or_null("/root/GameController")
 	if game_controller and game_controller.has_signal("location_changed"):
 		game_controller.location_changed.connect(_on_location_changed)
-		if debug: print("Connected to GameController location_changed signal")
+		if debug: print(GameState.script_name_tag(self) + "Connected to GameController location_changed signal")
 	
 	# No need to register with the DialogueManager - the singleton will be 
 # automatically available in dialogue scripts through "FastTravelSystem" since
 # we registered it in the project.godot file as an autoload
-	if debug: print("FastTravelSystem initialized - accessible in dialogue files")
+	if debug: print(GameState.script_name_tag(self) + "FastTravelSystem initialized - accessible in dialogue files")
 
 # Called when the player changes location
 func _on_location_changed(old_location, new_location):
-	if debug: print("Location changed from ", old_location, " to ", new_location)
+	if debug: print(GameState.script_name_tag(self) + "Location changed from ", old_location, " to ", new_location)
 	
 	# Mark this location as visited
 	if available_locations.has(new_location):
 		visited_locations[new_location] = true
-		if debug: print("Marked location as visited: ", new_location)
+		if debug: print(GameState.script_name_tag(self) + "Marked location as visited: ", new_location)
 
 # Get a list of available fast travel locations
 func get_available_locations():
@@ -101,25 +101,25 @@ func get_available_locations():
 
 # Fast travel to a specified location
 func fast_travel(location_id, spawn_point = null):
-	if debug: print("Attempting fast travel to: ", location_id)
+	if debug: print(GameState.script_name_tag(self) + "Attempting fast travel to: ", location_id)
 	
 	# Validate the location
 	if not available_locations.has(location_id):
-		if debug: print("Invalid location: ", location_id)
+		if debug: print(GameState.script_name_tag(self) + "Invalid location: ", location_id)
 		return false
 	
 	var location_data = available_locations[location_id]
 	
 	# Check if location is available
 	if location_data.requires_visit and not visited_locations.has(location_id):
-		if debug: print("Location hasn't been visited yet: ", location_id)
+		if debug: print(GameState.script_name_tag(self) + "Location hasn't been visited yet: ", location_id)
 		return false
 	
 	# Check if required item is available
 	if location_data.has("requires_item") and location_data.requires_item != "":
 		var inventory_system = get_node_or_null("/root/InventorySystem")
 		if not inventory_system or not inventory_system.has_item(location_data.requires_item):
-			if debug: print("Missing required item: ", location_data.requires_item)
+			if debug: print(GameState.script_name_tag(self) + "Missing required item: ", location_data.requires_item)
 			return false
 	
 	# Use specified spawn point or default from location data
@@ -134,12 +134,12 @@ func fast_travel(location_id, spawn_point = null):
 		# If game controller has the enhanced change_location method, use it
 		if game_controller.has_method("change_location"):
 			game_controller.change_location(location_data.scene_path, target_spawn)
-			if debug: print("Fast traveled to: ", location_id, " at spawn point: ", target_spawn)
+			if debug: print(GameState.script_name_tag(self) + "Fast traveled to: ", location_id, " at spawn point: ", target_spawn)
 			return true
 		# Otherwise fallback to basic scene change
 		else:
 			game_controller.change_scene(location_data.scene_path)
-			if debug: print("Fast traveled to: ", location_id, " (basic scene change)")
+			if debug: print(GameState.script_name_tag(self) + "Fast traveled to: ", location_id, " (basic scene change)")
 			return true
 	
 	return false

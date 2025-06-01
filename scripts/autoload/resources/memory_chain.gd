@@ -1,39 +1,63 @@
-extends Resource
+# memory_chain.gd
 class_name MemoryChain
+extends Resource
 
-@export var id: String
-@export var character_id: String
-@export var steps: Array[MemoryTrigger] = []
-@export var relationship_reward: int = 0 
+# Memory chain properties
+@export var id: String = ""
+@export var character_id: String = ""
+@export var relationship_reward: int = 0
 @export var completed_tag: String = ""
+@export var description: String = ""
 
-# Current progress in this memory chain
-var current_step: int = 0
+# Chain state
+var steps: Array[MemoryTrigger] = []
+var current_step_index: int = 0
+var is_completed: bool = false
 
 func get_current_trigger() -> MemoryTrigger:
-	if current_step >= steps.size():
-		return null
-	return steps[current_step]
+	if current_step_index < steps.size() and not is_completed:
+		return steps[current_step_index]
+	return null
 
 func advance() -> bool:
-	if current_step < steps.size() - 1:
-		current_step += 1
-		return true
+	if is_completed:
+		return false
 	
-	# If this was the last step in the chain
-	if not completed_tag.is_empty():
-		GameState.set_tag(completed_tag)
-		
-	# Apply relationship reward if applicable
-	if relationship_reward > 0 and not character_id.is_empty():
-		# Assume the relationship system is implemented and accessible
-		if RelationshipSystem:
-			RelationshipSystem.modify_relationship(character_id, relationship_reward)
+	current_step_index += 1
 	
-	return false # No more steps to advance
+	if current_step_index >= steps.size():
+		is_completed = true
+		return false
+	
+	return true
 
-func is_completed() -> bool:
-	return current_step >= steps.size() - 1 and not completed_tag.is_empty() and GameState.has_tag(completed_tag)
+func reset():
+	current_step_index = 0
+	is_completed = false
+	
+	# Reset all trigger states
+	for trigger in steps:
+		trigger.reset()
 
-func reset() -> void:
-	current_step = 0
+func get_progress() -> Dictionary:
+	return {
+		"current_step": current_step_index,
+		"total_steps": steps.size(),
+		"completed": is_completed,
+		"progress_percent": float(current_step_index) / float(steps.size()) * 100.0
+	}
+
+func add_step(trigger: MemoryTrigger):
+	steps.append(trigger)
+
+func can_advance() -> bool:
+	var current_trigger = get_current_trigger()
+	if not current_trigger:
+		return false
+	
+	# Check if all conditions are met
+	for condition_tag in current_trigger.condition_tags:
+		if not GameState.has_tag(condition_tag):
+			return false
+	
+	return true

@@ -1,6 +1,8 @@
-# game_state.gd
+# Enhanced game_state.gd with memory data storage
+
 extends Node
 
+# Existing signals
 signal game_started(game_id)
 signal game_saved(slot)
 signal game_loaded(slot)
@@ -8,7 +10,11 @@ signal game_ended()
 signal tag_added(tag)
 signal tag_removed(tag)
 
-# Core game state 
+# New memory-related signals
+signal memory_data_loaded()
+signal memory_discovered(memory_tag: String, description: String)
+
+# Existing game state variables
 var current_game_id = ""
 var is_new_game = false
 var start_time = 0
@@ -16,8 +22,9 @@ var play_time = 0
 var last_save_time = 0
 var interaction_range = 0
 var player : CharacterBody2D = null
-# Tag system for memory and game state tracking
 var tags: Dictionary = {}
+var memory_tag_registry 
+# Variables from original GameState that might be missing
 var looking_at_adam_desk = false
 var poison_bugs = ["tarantula"]
 var atlas_emergence : int = 28
@@ -26,12 +33,30 @@ var current_day : float = 0
 var current_scene
 var current_npc_list = []
 var current_marker_list = []
+var knowledge : Array[String] = []
 
+# NEW: Memory data storage (loaded at startup, persisted in saves)
+var memory_definitions: Dictionary = {}
+var memory_chains: Dictionary = {}
+var discovered_memories: Array = []
+var memory_discovery_history: Array = []
+# Dialogue mapping - Key: unlock_tag, Value: {character_id, dialogue_title}
+var dialogue_mapping: Dictionary = {}
 
-const scr_debug : bool = true
-var debug 
+# Optimized lookup - properly typed keys
+var memories_by_trigger: Dictionary = {
+	0: {},  # LOOK_AT
+	1: {},  # ITEM_ACQUIRED
+	2: {},  # LOCATION_VISITED
+	3: {},  # DIALOGUE_CHOICE
+	4: {},  # QUEST_COMPLETED
+	5: {},  # CHARACTER_RELATIONSHIP
+	6: {},  # TIME_PASSED
+	7: {},  # ITEM_USED
+	8: {}   # NPC_TALKED_TO
+}
 
-# Game metadata
+# Existing game data...
 var game_data = {
 	"player_name": "Adam Major",
 	"current_location": "",
@@ -41,18 +66,542 @@ var game_data = {
 	"turns_per_day": 8
 }
 
-# Systems that need resetting when starting a new game
-var systems_to_reset = [
-	"InventorySystem",
-	"QuestSystem",
-	"RelationshipSystem",
-	"DialogSystem"
-]
+const scr_debug : bool = false
+var debug 
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
+	
+	# Load memory data at startup
+	_load_memory_definitions()
 
-# Start a new game
+# NEW: Load all memory definitions into GameState
+func _load_memory_definitions():
+	var _fname = "_load_memory_definitions"
+	if debug: print(script_name_tag(self, _fname) + "Loading memory definitions into GameState...")
+	
+	# Load individual memories
+	_load_individual_memories()
+	
+	# Load memory chains
+	_load_memory_chains()
+	
+	# Load character-specific memory data
+	_load_character_memory_data()
+	
+	# Organize by trigger type for fast lookup
+	_organize_memories_by_trigger()
+	
+	if debug: print(script_name_tag(self, _fname) + "Loaded ", memory_definitions.size(), " memory definitions")
+	
+	# Debug the loaded data
+	call_deferred("debug_memory_definitions")
+	
+	memory_data_loaded.emit()
+
+func _load_individual_memories():
+	var _fname = "_load_individual_memories"
+	var path = "res://data/memories/individual_memories.json"
+	if not FileAccess.file_exists(path):
+		if debug: print(script_name_tag(self, _fname) + "No individual memories file found at: ", path)
+		return
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var json_string = file.get_as_text()
+	file.close()
+	
+	if debug: print(script_name_tag(self, _fname) + "Loaded JSON text length: ", json_string.length())
+	if debug: print(script_name_tag(self, _fname) + "Full JSON content:")
+	if debug: print(script_name_tag(self, _fname) + json_string)
+	
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result != OK:
+		if debug: print(script_name_tag(self, _fname) + "ERROR: Failed to parse individual memories JSON: ", json.get_error_message())
+		return
+	
+	var data = json.data
+	if typeof(data) != TYPE_DICTIONARY:
+		if debug: print(script_name_tag(self, _fname) + "ERROR: Individual memories JSON is not a dictionary")
+		return
+	
+	if debug: print(script_name_tag(self, _fname) + "Successfully parsed JSON with ", data.size(), " entries")
+	if debug: print(script_name_tag(self, _fname) + "JSON keys: ", data.keys())
+	
+	# Process each memory, skipping comments and metadata
+	for memory_id in data:
+		# SKIP COMMENTS AND METADATA
+		if memory_id.begins_with("_"):
+			if debug: print(script_name_tag(self, _fname) + "Skipping metadata entry: ", memory_id)
+			continue
+		
+		var memory_data = data[memory_id]
+		
+		if debug: print(script_name_tag(self, _fname) + "Processing memory: ", memory_id)
+		if debug: print(script_name_tag(self, _fname) + "  Raw data: ", memory_data)
+		if debug: print(script_name_tag(self, _fname) + "  Data type: ", typeof(memory_data))
+		
+		# Ensure memory_data is a dictionary
+		if typeof(memory_data) != TYPE_DICTIONARY:
+			if debug: print(script_name_tag(self, _fname) + "ERROR: Memory data for ", memory_id, " is not a dictionary: ", typeof(memory_data))
+			continue
+		
+		# FIX TYPE CONVERSION: Ensure trigger_type is integer
+		if memory_data.has("trigger_type"):
+			var trigger_type = memory_data["trigger_type"]
+			if typeof(trigger_type) == TYPE_FLOAT:
+				memory_data["trigger_type"] = int(trigger_type)
+				if debug: print(script_name_tag(self, _fname) + "Converted trigger_type from float to int for: ", memory_id)
+		
+		# Store in memory_definitions
+		memory_definitions[memory_id] = memory_data
+		if debug: print(script_name_tag(self, _fname) + "Stored memory: ", memory_id, " with data: ", memory_data)
+		
+
+func _load_memory_chains():
+	var _fname = "_load_memory_chains"
+	var dir = DirAccess.open("res://data/memories/")
+	if not dir:
+		if debug: print(script_name_tag(self, _fname) + "No memories directory found")
+		return
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	
+	while file_name != "":
+		if file_name.ends_with("_chain.json") and not dir.current_is_dir():
+			var path = "res://data/memories/" + file_name
+			_load_memory_chain_file(path)
+		file_name = dir.get_next()
+
+func _load_memory_chain_file(path: String):
+	var _fname = "_load_memory_chain_file"
+	var file = FileAccess.open(path, FileAccess.READ)
+	var json_text = file.get_as_text()
+	file.close()
+	
+	var json_result = JSON.new()
+	if json_result.parse(json_text) == OK:
+		var data = json_result.get_data()
+		if data.has("chains"):
+			for chain_data in data.chains:
+				var chain_id = chain_data.get("id", "")
+				if not chain_id.is_empty():
+					memory_chains[chain_id] = chain_data
+					if debug: print(script_name_tag(self, _fname) + "Loaded memory chain: ", chain_id)
+
+func _load_character_memory_data():
+	var _fname = "_load_character_memory_data()"
+	var character_loader = get_node_or_null("/root/CharacterDataLoader")
+	if not character_loader:
+		return
+	
+	for character_id in character_loader.characters:
+		var character_data = character_loader.get_character(character_id)
+		if character_data and character_data.has("memory_data"):
+			var memory_data = character_data.memory_data
+			
+			# Add individual memories from character data
+			if memory_data.has("individual"):
+				for memory_id in memory_data.individual:
+					var memory = memory_data.individual[memory_id]
+					memory["character_id"] = character_id
+					memory_definitions[memory_id] = memory
+
+func _organize_memories_by_trigger():
+	var _fname = "_organize_memories_by_trigger"
+	print(script_name_tag(self, _fname) + "=== ORGANIZE MEMORIES BY TRIGGER DEBUG ===")
+	print(script_name_tag(self, _fname) + "Total memory_definitions: ", memory_definitions.size())
+	print(script_name_tag(self, _fname) + "memory_definitions keys: ", memory_definitions.keys())
+	
+	# Organize memories by trigger type for O(1) lookup during gameplay
+	for memory_id in memory_definitions:
+		var memory = memory_definitions[memory_id]
+		
+		print("\n" + script_name_tag(self, _fname) + "--- Processing memory: ", memory_id, " ---")
+		print(script_name_tag(self, _fname) + "Memory type: ", typeof(memory))
+		print(script_name_tag(self, _fname) + "Memory contents: ", memory)
+		
+		# Debug: Check if memory is the right type
+		if typeof(memory) != TYPE_DICTIONARY:
+			print(script_name_tag(self, _fname) + "ERROR: Memory ", memory_id, " is not a dictionary, it's a ", typeof(memory))
+			continue
+		
+		# ENSURE INTEGER TRIGGER TYPE
+		var trigger_type = memory.get("trigger_type", 0)
+		if typeof(trigger_type) == TYPE_FLOAT:
+			trigger_type = int(trigger_type)
+		
+		var target_id = memory.get("target_id", "")
+		var unlock_tag = memory.get("unlock_tag", "")
+		var character_id = memory.get("character_id", "")
+		var dialogue_title = memory.get("dialogue_title", "")
+		
+		print(script_name_tag(self, _fname) + "  trigger_type: ", trigger_type)
+		print(script_name_tag(self, _fname) + "  target_id: '", target_id, "'")
+		print(script_name_tag(self, _fname) + "  unlock_tag: '", unlock_tag, "'")
+		print(script_name_tag(self, _fname) + "  character_id: '", character_id, "'")
+		print(script_name_tag(self, _fname) + "  dialogue_title: '", dialogue_title, "'")
+		
+		if target_id == "":
+			print(script_name_tag(self, _fname) + "WARNING: Memory ", memory_id, " has no target_id")
+			continue
+		
+		# Initialize trigger type if not exists
+		if not memories_by_trigger.has(trigger_type):
+			memories_by_trigger[trigger_type] = {}
+		
+		# Initialize target list if not exists
+		if not memories_by_trigger[trigger_type].has(target_id):
+			memories_by_trigger[trigger_type][target_id] = []
+		
+		# Add memory data
+		memories_by_trigger[trigger_type][target_id].append({
+			"memory_id": memory_id,
+			"unlock_tag": unlock_tag,
+			"description": memory.get("description", ""),
+			"condition_tags": memory.get("condition_tags", []),
+			"character_id": character_id,
+			"dialogue_title": dialogue_title
+		})
+		
+		print(script_name_tag(self, _fname) + "  Stored in memories_by_trigger[", trigger_type, "][", target_id, "]")
+		
+		# CREATE DIALOGUE MAPPING if this memory has dialogue_title
+		if dialogue_title != "" and character_id != "" and unlock_tag != "":
+			print(script_name_tag(self, _fname) + "  Creating dialogue mapping: ", unlock_tag, " -> ", character_id, ":", dialogue_title)
+			
+			dialogue_mapping[unlock_tag] = {
+				"character_id": character_id,
+				"dialogue_title": dialogue_title
+			}
+			print(script_name_tag(self, _fname) + "  Dialogue mapping created successfully")
+		else:
+			print(script_name_tag(self, _fname) + "  No dialogue mapping created:")
+			print(script_name_tag(self, _fname) + "    dialogue_title empty: ", dialogue_title == "")
+			print(script_name_tag(self, _fname) + "    character_id empty: ", character_id == "")
+			print(script_name_tag(self, _fname) + "    unlock_tag empty: ", unlock_tag == "")
+		
+		print(script_name_tag(self, _fname) + "--- End processing ", memory_id, " ---")
+	
+	# Debug the final dialogue mappings
+	print("\n" + script_name_tag(self, _fname) + "=== FINAL DIALOGUE MAPPING RESULTS ===")
+	print(script_name_tag(self, _fname) + "dialogue_mapping size: ", dialogue_mapping.size())
+	print(script_name_tag(self, _fname) + "Created dialogue mappings:")
+	for memory_tag in dialogue_mapping:
+		var mapping = dialogue_mapping[memory_tag]
+		print(script_name_tag(self, _fname) + "  ", memory_tag, " -> ", mapping)
+	print(script_name_tag(self, _fname) + "=== END ORGANIZE MEMORIES DEBUG ===")
+
+# Also fix the debug function
+func debug_memory_organization():
+	var _fname = "debug_memory_organization"
+	if not debug:
+		return
+	
+	print("\n" + script_name_tag(self, _fname) + "=== MEMORY ORGANIZATION DEBUG ===")
+	print(script_name_tag(self, _fname) + "memories_by_trigger structure:")
+	
+	for trigger_type in memories_by_trigger:
+		print(script_name_tag(self, _fname) + "Trigger type ", trigger_type, " (", typeof(trigger_type), "):")
+		var targets = memories_by_trigger[trigger_type]
+		for target_id in targets:
+			var memories = targets[target_id]
+			print(script_name_tag(self, _fname) + "  Target '", target_id, "': ", memories.size(), " memories")
+			for memory in memories:
+				print(script_name_tag(self, _fname) + "    - ", memory.memory_id, " (", memory.unlock_tag, ")")
+	
+	print(script_name_tag(self, _fname) + "===================================\n")
+
+# NEW: Fast memory lookup functions for MemorySystem
+func get_memories_for_trigger(trigger_type: int, target_id: String) -> Array:
+	var _fname = "get_memories_for_trigger"
+	var memories = []
+	
+	# Direct lookup
+	if memories_by_trigger.has(trigger_type) and memories_by_trigger[trigger_type].has(target_id):
+		memories.append_array(memories_by_trigger[trigger_type][target_id])
+	
+	# Also check for lowercase version
+	var lowercase_id = target_id.to_lower()
+	if lowercase_id != target_id and memories_by_trigger.has(trigger_type):
+		if memories_by_trigger[trigger_type].has(lowercase_id):
+			memories.append_array(memories_by_trigger[trigger_type][lowercase_id])
+	
+	return memories
+
+func gs_print(string):
+	var _fname = "gs_print"
+	print(script_name_tag(self, _fname) + string) 
+
+func has_memory_definition(memory_id: String) -> bool:
+	var _fname = "has_memory_definition"
+	return memory_definitions.has(memory_id)
+
+func get_memory_definition(memory_id: String) -> Dictionary:
+	var _fname = "get_memory_definition"
+	return memory_definitions.get(memory_id, {})
+
+func get_memory_chain(chain_id: String) -> Dictionary:
+	var _fname = "get_memory_chain"
+	return memory_chains.get(chain_id, {})
+
+# Tag system functions (ensure these exist for memory system compatibility)
+func has_tag(tag: String) -> bool:
+	var _fname = "has_tag"
+	return tags.has(tag)
+
+func set_tag(tag: String, value: Variant = true) -> void:
+	var _fname = "set_tag"
+	tags[tag] = value
+	tag_added.emit(tag)
+	
+func remove_tag(tag: String) -> void:
+	var _fname = "remove_tag"
+	if tags.has(tag):
+		tags.erase(tag)
+		tag_removed.emit(tag)
+		
+func get_tag_value(tag: String, default_value: Variant = null) -> Variant:
+	var _fname = "get_tag_value"
+	if tags.has(tag):
+		return tags[tag]
+	return default_value
+
+# Generate a unique ID for this game session
+func _generate_game_id():
+	var _fname = "_generate_game_id"
+	var time = Time.get_unix_time_from_system()
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var rand = rng.randi() % 10000
+	
+	return "game_" + str(time) + "_" + str(rand)
+
+# Turn completion handlers
+func _on_turn_completed():
+	var _fname = "_on_turn_completed"
+	# Emit signal from GameController
+	var game_controller = get_node_or_null("/root/GameController")
+	if game_controller and game_controller.has_signal("turn_completed"):
+		game_controller.turn_completed.emit()
+
+func _on_day_advanced():
+	var _fname = "_on_day_advanced"
+	# Emit signal from GameController
+	var game_controller = get_node_or_null("/root/GameController")
+	if game_controller and game_controller.has_signal("day_advanced"):
+		game_controller.day_advanced.emit()
+
+# Player and interaction functions (updated to avoid duplicate declarations)
+func set_interaction_range(num):
+	interaction_range = num
+	
+func get_interaction_range():
+	return interaction_range
+
+func get_player():
+	return get_tree().get_first_node_in_group("player")
+
+# Knowledge system functions (updated to avoid duplicate declarations)
+func add_knowledge(tag):
+	var _fname = "add_knowledge"
+	if is_known(tag):
+		if debug: print(script_name_tag(self, _fname) + tag + " is already known.")
+	else:
+		knowledge.append(tag)
+
+func is_known(tag: String):
+	if tag in knowledge:
+		return true
+	return false
+
+# Scene and NPC management (updated to avoid duplicate declarations)
+func set_current_scene(scene):
+	var _fname = "set_current_scene"
+	current_scene = scene
+	if debug: print(script_name_tag(self, _fname) + "GameState: Set current scene to ", scene.name)
+	
+	# Update NPC and marker lists immediately
+	set_current_npcs()
+	set_current_markers()
+
+func get_current_scene():
+	return current_scene
+
+func set_current_npcs():
+	var _fname = "set_current_npcs"
+	current_npc_list = get_tree().get_nodes_in_group("npc")
+	if debug: print(script_name_tag(self, _fname) + "GameState: Updated NPC list with ", current_npc_list.size(), " NPCs")
+	return current_npc_list
+
+func get_current_npcs():
+	return current_npc_list
+
+func set_current_markers():
+	var _fname = "set_current_markers"
+	current_marker_list = get_tree().get_nodes_in_group("marker")
+	if debug: print(script_name_tag(self, _fname) + "GameState: Updated marker list with ", current_marker_list.size(), " markers")
+	return current_marker_list
+
+func get_npc_by_id(npc_id):
+	var _fname = "get_npc_by_id"
+	# First update the list to make sure it's current
+	if current_npc_list.size() == 0:
+		set_current_npcs()
+	
+	# Try to find an NPC with matching name or character_id
+	for npc in current_npc_list:
+		print(script_name_tag(self, _fname) + "found character " + npc.name)
+		if npc.name.to_lower() == npc_id.to_lower(): 
+			return npc
+			
+		if npc.get("character_id") and npc.character_id.to_lower() == npc_id.to_lower():
+			return npc
+	
+	if debug: print(script_name_tag(self, _fname) + "GameState: Could not find NPC with ID: ", npc_id)
+	return null
+
+func get_marker_by_id(marker_id):
+	var _fname = "get_marker_by_id"
+	# First update the list to make sure it's current
+	if current_marker_list.size() == 0:
+		set_current_markers()
+		
+	# Try to find a marker with matching name or marker_id
+	for marker in current_marker_list:
+		if marker.name.to_lower() == marker_id.to_lower():
+			return marker
+			
+		if marker.has_method("get_marker_id") and marker.get_marker_id() == marker_id:
+			return marker
+		elif marker.get("marker_id") and marker.marker_id == marker_id:
+			return marker
+	
+	if debug: print(script_name_tag(self, _fname) + "GameState: Could not find marker with ID: ", marker_id)
+	return null
+
+# Additional state functions (updated to avoid duplicate declarations)
+func set_looking_at_adam_desk(tf : bool):
+	looking_at_adam_desk = tf
+
+func has_in_it(array : Array, tag : String):
+	if tag in array:
+		return true
+	return false
+
+# NEW: Memory discovery tracking
+func discover_memory(memory_tag: String, description: String, discovery_method: String = "", character_id: String = ""):
+	var _fname = "discover_memory"
+	if memory_tag in discovered_memories:
+		return false  # Already discovered
+	
+	# Add to discovered list
+	discovered_memories.append(memory_tag)
+	
+	# Record discovery details
+	var discovery_record = {
+		"memory_tag": memory_tag,
+		"description": description,
+		"discovery_method": discovery_method,
+		"character_id": character_id,
+		"location": game_data.get("current_location", ""),
+		"timestamp": Time.get_unix_time_from_system(),
+		"game_day": game_data.get("current_day", 1)
+	}
+	memory_discovery_history.append(discovery_record)
+	
+	# Set the tag (using existing GameState functionality)
+	tags[memory_tag] = true
+	tag_added.emit(memory_tag)
+	
+	# Emit discovery signal
+	memory_discovered.emit(memory_tag, description)
+	
+	if debug: print(script_name_tag(self, _fname) + "Memory discovered: ", memory_tag, " - ", description)
+	return true
+
+func has_discovered_memory(memory_tag: String) -> bool:
+	return memory_tag in discovered_memories
+
+func get_memory_discovery_history() -> Array:
+	return memory_discovery_history.duplicate()
+
+func get_character_discoveries(character_id: String) -> Array:
+	var character_discoveries = []
+	for record in memory_discovery_history:
+		if record.character_id == character_id:
+			character_discoveries.append(record)
+	return character_discoveries
+
+# Dialogue mapping functions
+func add_dialogue_mapping(memory_tag: String, character_id: String, dialogue_title: String):
+	dialogue_mapping[memory_tag] = {
+		"character_id": character_id,
+		"dialogue_title": dialogue_title
+	}
+
+func get_dialogue_mapping(memory_tag: String) -> Dictionary:
+	return dialogue_mapping.get(memory_tag, {})
+
+func get_available_dialogue_options(character_id: String) -> Array:
+	var _fname = "get_available_dialogue_options"
+	print(script_name_tag(self, _fname) + "=== GAMESTATE GET_AVAILABLE_DIALOGUE_OPTIONS DEBUG ===")
+	print(script_name_tag(self, _fname) + "character_id: ", character_id)
+	print(script_name_tag(self, _fname) + "dialogue_mapping size: ", dialogue_mapping.size())
+	print(script_name_tag(self, _fname) + "dialogue_mapping contents: ", dialogue_mapping)
+	
+	var available_options = []
+	
+	# Check each dialogue mapping entry
+	for memory_tag in dialogue_mapping:
+		var mapping = dialogue_mapping[memory_tag]
+		print(script_name_tag(self, _fname) + "Checking memory_tag: ", memory_tag)
+		print(script_name_tag(self, _fname) + "  Mapping: ", mapping)
+		
+		# Check if this mapping is for our character
+		if mapping.has("character_id") and mapping["character_id"] == character_id:
+			print(script_name_tag(self, _fname) + "  Character matches!")
+			
+			# Check if the memory tag is unlocked
+			if has_tag(memory_tag):
+				print(script_name_tag(self, _fname) + "  Memory tag is unlocked!")
+				
+				var option = {
+					"tag": memory_tag,
+					"dialogue_title": mapping["dialogue_title"],
+					"character_id": character_id
+				}
+				available_options.append(option)
+				print(script_name_tag(self, _fname) + "  Added option: ", option)
+			else:
+				print(script_name_tag(self, _fname) + "  Memory tag not unlocked: ", memory_tag)
+		else:
+			print(script_name_tag(self, _fname) + "  Character doesn't match (", mapping.get("character_id", "NO_CHARACTER"), " vs ", character_id, ")")
+	
+	print(script_name_tag(self, _fname) + "Final available_options: ", available_options)
+	print(script_name_tag(self, _fname) + "=== END GAMESTATE GET_AVAILABLE_DIALOGUE_OPTIONS DEBUG ===")
+	return available_options
+
+func is_dialogue_available(character_id: String, dialogue_title: String) -> bool:
+	for tag in dialogue_mapping.keys():
+		var mapping = dialogue_mapping[tag]
+		
+		if mapping.character_id == character_id and mapping.dialogue_title == dialogue_title:
+			return has_tag(tag)
+	
+	return false
+
+func get_memory_tag_for_dialogue(character_id: String, dialogue_title: String) -> String:
+	for tag in dialogue_mapping.keys():
+		var mapping = dialogue_mapping[tag]
+		
+		if mapping.character_id == character_id and mapping.dialogue_title == dialogue_title:
+			return tag
+	
+	return ""
+
+# Game management functions
 func start_new_game():
 	# Generate a unique ID for this game session
 	current_game_id = _generate_game_id()
@@ -73,8 +622,6 @@ func start_new_game():
 		"current_turn": 0,
 		"turns_per_day": 8
 	}
-	
-	
 	
 	# Add starting items
 	var inventory_system = get_node_or_null("/root/InventorySystem")
@@ -121,24 +668,6 @@ func end_game():
 	if game_controller:
 		game_controller.change_scene("res://scenes/main_menu.tscn")
 
-# Reset all game systems
-func reset_all_systems():
-	# Clear all tags
-	tags.clear()
-	
-	for system_name in systems_to_reset:
-		var system = get_node_or_null("/root/" + system_name)
-		if system and system.has_method("reset"):
-			system.reset()
-		elif system_name == "InventorySystem" and system:
-			# Specific handling for inventory if it doesn't have reset
-			if system.has_method("clear_inventory"):
-				system.clear_inventory()
-		elif system_name == "QuestSystem" and system:
-			# Quest system reset
-			if system.has_method("load_quests"):
-				system.load_quests({"active_quests": {}, "completed_quests": {}, "available_quests": {}, "visited_areas": {}})
-
 # Advance the turn
 func advance_turn():
 	game_data.current_turn += 1
@@ -179,7 +708,7 @@ func load_game(slot):
 	
 	return false
 
-# Collect all game state data for saving
+# Enhanced save/load to include memory data
 func _collect_save_data():
 	# Update play time before saving
 	if start_time > 0:
@@ -191,7 +720,11 @@ func _collect_save_data():
 		"save_time": Time.get_unix_time_from_system(),
 		"play_time": play_time,
 		"game_data": game_data.duplicate(true),
-		"tags": tags.duplicate(true)
+		"tags": tags.duplicate(true),
+		# NEW: Memory data in saves
+		"discovered_memories": discovered_memories.duplicate(),
+		"memory_discovery_history": memory_discovery_history.duplicate(true),
+		"dialogue_mapping": dialogue_mapping.duplicate(true)
 	}
 	
 	var time_system = get_node_or_null("/root/TimeSystem")
@@ -200,22 +733,27 @@ func _collect_save_data():
 	
 	return save_data
 
-# Apply loaded data to restore game state
 func _apply_save_data(save_data):
 	if typeof(save_data) != TYPE_DICTIONARY:
 		return false
 	
+	# Existing save data loading...
 	if save_data.has("game_id"):
 		current_game_id = save_data.game_id
-	
 	if save_data.has("play_time"):
 		play_time = save_data.play_time
-	
 	if save_data.has("game_data"):
 		game_data = save_data.game_data.duplicate(true)
-	
 	if save_data.has("tags"):
 		tags = save_data.tags.duplicate(true)
+	
+	# NEW: Load memory data
+	if save_data.has("discovered_memories"):
+		discovered_memories = save_data.discovered_memories.duplicate()
+	if save_data.has("memory_discovery_history"):
+		memory_discovery_history = save_data.memory_discovery_history.duplicate(true)
+	if save_data.has("dialogue_mapping"):
+		dialogue_mapping = save_data.dialogue_mapping.duplicate(true)
 	
 	# Load time system data
 	if save_data.has("time_system"):
@@ -228,136 +766,93 @@ func _apply_save_data(save_data):
 	
 	return true
 
-# Generate a unique ID for this game session
-func _generate_game_id():
-	var time = Time.get_unix_time_from_system()
-	var rng = RandomNumberGenerator.new()
-	rng.randomize()
-	var rand = rng.randi() % 10000
+# Enhanced reset for new games
+func reset_all_systems():
+	# Clear all tags
+	tags.clear()
 	
-	return "game_" + str(time) + "_" + str(rand)
-
-# Turn completion handlers
-func _on_turn_completed():
-	# Emit signal from GameController
-	var game_controller = get_node_or_null("/root/GameController")
-	if game_controller and game_controller.has_signal("turn_completed"):
-		game_controller.turn_completed.emit()
-
-func _on_day_advanced():
-	# Emit signal from GameController
-	var game_controller = get_node_or_null("/root/GameController")
-	if game_controller and game_controller.has_signal("day_advanced"):
-		game_controller.day_advanced.emit()
-
-func set_interaction_range(num):
-	interaction_range = num
+	# NEW: Clear memory progress
+	discovered_memories.clear()
+	memory_discovery_history.clear()
 	
-func get_interaction_range():
-	return interaction_range
-
-# Tag system functions
-func has_tag(tag: String) -> bool:
-	return tags.has(tag)
-
-func set_tag(tag: String, value: Variant = true) -> void:
-	tags[tag] = value
-	tag_added.emit(tag)
+	# Reset other systems (using the existing systems list from your current GameState)
+	var systems_to_reset = [
+		"InventorySystem",
+		"QuestSystem", 
+		"RelationshipSystem",
+		"DialogSystem"
+	]
 	
-func remove_tag(tag: String) -> void:
-	if tags.has(tag):
-		tags.erase(tag)
-		tag_removed.emit(tag)
-		
-func get_tag_value(tag: String, default_value: Variant = null) -> Variant:
-	if tags.has(tag):
-		return tags[tag]
-	return default_value
+	for system_name in systems_to_reset:
+		var system = get_node_or_null("/root/" + system_name)
+		if system and system.has_method("reset"):
+			system.reset()
+		elif system_name == "InventorySystem" and system:
+			if system.has_method("clear_inventory"):
+				system.clear_inventory()
+		elif system_name == "QuestSystem" and system:
+			if system.has_method("load_quests"):
+				system.load_quests({"active_quests": {}, "completed_quests": {}, "available_quests": {}, "visited_areas": {}})
 
-func get_player():
-	return 	get_tree().get_first_node_in_group("player")
+# Debug function
+func debug_memory_state():
+	var _fname = "debug_memory_state"
+	if not debug:
+		return
 	
-var knowledge : Array[String]= []
+	print("\n" + script_name_tag(self, _fname) + "=== GAMESTATE MEMORY DEBUG ===")
+	print(script_name_tag(self, _fname) + "Memory definitions loaded: ", memory_definitions.size())
+	print(script_name_tag(self, _fname) + "Memory chains loaded: ", memory_chains.size())
+	print(script_name_tag(self, _fname) + "Discovered memories: ", discovered_memories.size())
+	print(script_name_tag(self, _fname) + "Discovery history entries: ", memory_discovery_history.size())
+	
+	print("\n" + script_name_tag(self, _fname) + "Memories by trigger type:")
+	for trigger_type in memories_by_trigger:
+		var count = 0
+		for target_id in memories_by_trigger[trigger_type]:
+			count += memories_by_trigger[trigger_type][target_id].size()
+		print(script_name_tag(self, _fname) + "  Type ", trigger_type, ": ", count, " memories")
+	
+	print(script_name_tag(self, _fname) + "============================\n")
 
-func add_knowledge(tag):
-	if is_known(tag):
-		if debug: print(tag + " is already known.")
+# Debug function to check memory data structure
+func debug_memory_definitions():
+	var _fname = "debug_memory_definitions"
+	if not debug:
+		return
+	
+	print("\n" + script_name_tag(self, _fname) + "=== MEMORY DEFINITIONS DEBUG ===")
+	print(script_name_tag(self, _fname) + "Total memory definitions: ", memory_definitions.size())
+	
+	for memory_id in memory_definitions:
+		var memory = memory_definitions[memory_id]
+		print(script_name_tag(self, _fname) + "Memory ID: ", memory_id)
+		print(script_name_tag(self, _fname) + "  Type: ", typeof(memory))
+		if typeof(memory) == TYPE_DICTIONARY:
+			print(script_name_tag(self, _fname) + "  Keys: ", memory.keys())
+			print(script_name_tag(self, _fname) + "  Trigger type: ", memory.get("trigger_type", "MISSING"))
+			print(script_name_tag(self, _fname) + "  Target ID: ", memory.get("target_id", "MISSING"))
+		else:
+			print(script_name_tag(self, _fname) + "  Value: ", memory)
+		print(script_name_tag(self, _fname) + "---")
+	
+	print(script_name_tag(self, _fname) + "Memories by trigger:")
+	for trigger_type in memories_by_trigger:
+		print(script_name_tag(self, _fname) + "  Type ", trigger_type, ": ", memories_by_trigger[trigger_type].size(), " targets")
+	
+	print(script_name_tag(self, _fname) + "===============================\n")
+	
+func script_name(node):
+	var path_string = str(node.get_script().get_path())
+	var slash_place = path_string.rfind("/", -1)
+	var name_length = path_string.length() - slash_place - 1
+	return path_string.right(name_length)
+	#return(path_string.right(path_string.length() - 14))
+
+func script_name_tag(node, function_name = null):
+	var this_tag : String
+	if function_name:
+		this_tag = script_name(node) + "." + function_name + ": "
 	else:
-		knowledge.append(tag)
-
-func is_known(tag: String):
-	if tag in knowledge:
-		return true
-	return false
-	
-func set_looking_at_adam_desk(tf : bool):
-	looking_at_adam_desk = tf
-
-func has_in_it(array : Array, tag : String):
-	if tag in array:
-		return true
-	return false
-
-
-func set_current_scene(scene):
-	current_scene = scene
-	if debug: print("GameState: Set current scene to ", scene.name)
-	
-	# Update NPC and marker lists immediately
-	set_current_npcs()
-	set_current_markers()
-
-func get_current_scene():
-	return current_scene
-
-func set_current_npcs():
-	current_npc_list = get_tree().get_nodes_in_group("npc")
-	if debug: print("GameState: Updated NPC list with ", current_npc_list.size(), " NPCs")
-	return current_npc_list
-
-func get_current_npcs():
-	return current_npc_list
-
-func set_current_markers():
-	current_marker_list = get_tree().get_nodes_in_group("marker")
-	if debug: print("GameState: Updated marker list with ", current_marker_list.size(), " markers")
-	return current_marker_list
-
-func get_npc_by_id(npc_id):
-	# First update the list to make sure it's current
-	if current_npc_list.size() == 0:
-		set_current_npcs()
-	
-	# Try to find an NPC with matching name or character_id
-	for npc in current_npc_list:
-		print("found character " + npc.name)
-		if npc.name.to_lower() == npc_id.to_lower(): 
-			return npc
-			
-		if npc.get("character_id") and npc.character_id.to_lower() == npc_id.to_lower():
-			return npc
-	
-	if debug: print("GameState: Could not find NPC with ID: ", npc_id)
-	return null
-
-func get_marker_by_id(marker_id):
-	# First update the list to make sure it's current
-	if current_marker_list.size() == 0:
-		set_current_markers()
-		
-	# Try to find a marker with matching name or marker_id
-	for marker in current_marker_list:
-		if marker.name.to_lower() == marker_id.to_lower():
-			return marker
-			
-		if marker.has_method("get_marker_id") and marker.get_marker_id() == marker_id:
-			return marker
-		elif marker.get("marker_id") and marker.marker_id == marker_id:
-			return marker
-	
-	if debug: print("GameState: Could not find marker with ID: ", marker_id)
-	return null
-	
-func get_current_date_string():
-	var current_date_string = str(TimeSystem.current_day) + "_" + str(TimeSystem.current_month) + "_" + str(TimeSystem.current_year)
-	return (current_date_string)
+		this_tag = script_name(node) + ": "
+	return this_tag

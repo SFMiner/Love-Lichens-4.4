@@ -9,8 +9,9 @@ const scr_debug : bool = false
 var debug 
 
 func _ready():
-	print("game.tscn main logic ready.")
 	debug = scr_debug or GameController.sys_debug
+	if debug: print("game.tscn main logic ready.")
+	# GameState.memory_tag_registry = registry
 	# Example: Accessing the autoload GameController
 	# if GameController:
 	#     GameController.perform_some_initialization_if_needed()

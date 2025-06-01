@@ -22,7 +22,7 @@ Poison carries a necklace containing the ashes of their grandfather, affectionat
 
   * Display text:
 
-     "Poison’s wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize."
+	 "Poison’s wearing a small metal vial necklace. It catches the light strangely, and they touch it without seeming to realize."
 
 * **Unlock Dialogue Choice:**
 
@@ -40,7 +40,7 @@ Poison carries a necklace containing the ashes of their grandfather, affectionat
 
   * Display text:
 
-     "Poison laughs awkwardly, explaining it holds some of Pee-Paw’s ashes. A way of keeping family close, even now."
+	 "Poison laughs awkwardly, explaining it holds some of Pee-Paw’s ashes. A way of keeping family close, even now."
 
 * **Unlock Dialogue Choice (now or later):**
 
@@ -60,7 +60,7 @@ Poison carries a necklace containing the ashes of their grandfather, affectionat
 
   * Poison offers, quietly:
 
-     "Hey... remind me later. I got a story about Pee-Paw. Might make you laugh."
+	 "Hey... remind me later. I got a story about Pee-Paw. Might make you laugh."
 
 ---
 
@@ -72,7 +72,7 @@ Poison carries a necklace containing the ashes of their grandfather, affectionat
 
   * Dialogue:
 
-     "*Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'*"
+	 "*Poison recounts sitting on a creaky porch swing, drinking gas station root beer, while Pee-Paw solemnly advised them: 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'*"
 
 * **Reward:**
 
@@ -84,4 +84,3 @@ Poison carries a necklace containing the ashes of their grandfather, affectionat
 
 ✅ **Designed to feel natural and emotional, not mechanical.**  
  ✅ **Fully optional — can be missed if players aren’t observant.**
-

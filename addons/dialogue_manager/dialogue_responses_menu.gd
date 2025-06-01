@@ -6,7 +6,7 @@ class_name DialogueResponsesMenu extends Container
 
 ## Emitted when a response is selected.
 signal response_selected(response)
-
+var debug = true
 
 ## Optionally specify a control to duplicate for each response
 @export var response_template: Control
@@ -23,7 +23,7 @@ var responses: Array = []:
 		return responses
 	set(value):
 		responses = value
-		print("get_children = " + str(get_children()))
+		if debug: print(GameState.script_name_tag(self, "var responses") + "get_children = " + str(get_children()))
 
 		# Remove any current items
 		for item in get_children():
@@ -90,8 +90,9 @@ func get_menu_items() -> Array:
 
 # Prepare the menu for keyboard and mouse navigation.
 func _configure_focus() -> void:
+	var _fname = "_configure_focus"
 	var items = get_menu_items()
-	print("items = " + str(items))
+	if debug: print(GameState.script_name_tag(self, _fname) + "items = " + str(items))
 	for i in items.size():
 		var item: Control = items[i]
 

@@ -26,10 +26,10 @@ func _ready():
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
 	for child in z_objects.get_children():
 		child.z_index = child.global_position.y
-		print(child.name + " now has z-index " + str(child.z_index))
+		print(GameState.script_name_tag(self) + child.name + " now has z-index " + str(child.z_index))
 	for bugzone in bugzones.get_children():
 		bugzone.z_index = bugzone.global_position.y + 10	
-		print(bugzone.name + " now has z-index " + str(bugzone.z_index))
+		print(GameState.script_name_tag(self) + bugzone.name + " now has z-index " + str(bugzone.z_index))
 
 	
 func spawn_player():
