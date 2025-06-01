@@ -1,13 +1,12 @@
 extends Node
 
 # Signals for other systems
-signal memory_discovered(memory_tag: String, description: String)
 signal memory_chain_completed(character_id: String, chain_id: String)
+signal memory_discovered(memory_tag: String, description: String)
 signal dialogue_option_unlocked(character_id: String, dialogue_title: String, memory_tag: String)
 
 signal quest_unlocked_by_memory(quest_id: String, memory_tag: String)
 
-# Memory trigger types
 enum TriggerType {
 	LOOK_AT,
 	ITEM_ACQUIRED,
@@ -66,94 +65,138 @@ func _connect_to_other_systems():
 	if dialog_system:
 		if dialog_system.has_signal("dialog_ended"):
 			dialog_system.dialog_ended.connect(_on_dialog_ended)
-		if dialog_system.has_signal("memory_unlocked"):
-			dialog_system.memory_unlocked.connect(_on_memory_unlocked)
 
-# Main API - now just queries GameState and triggers discoveries
+# SIMPLIFIED: Main trigger functions now use registry
+func trigger_look_at(target_id: String) -> bool:
+	var _fname = "trigger_look_at"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Look at ", target_id)
+	
+	return _process_memory_triggers(TriggerType.LOOK_AT, target_id, "look_at")
+
 func trigger_item_acquired(item_id: String) -> bool:
 	var _fname = "trigger_item_acquired"
 	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Item acquired ", item_id)
 	
-	# Validate item exists
-	var inventory_system = get_node_or_null("/root/InventorySystem")
-	if inventory_system:
-		var item_template = inventory_system.get_item_template(item_id)
-		if not item_template:
-			if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Memory trigger for non-existent item: ", item_id)
-			return false
-	
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.ITEM_ACQUIRED, item_id)
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "item_acquired", item_id)
-			triggered_any = true
-	
-	return triggered_any
-
-func trigger_npc_talked_to(npc_id: String) -> bool:
-	var _fname = "trigger_npc_talked_to"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Talked to NPC ", npc_id)
-	
-	# Try both the exact ID and lowercase version
-	var ids_to_try = [npc_id, npc_id.to_lower()]
-	var triggered_any = false
-	
-	for id in ids_to_try:
-		var matching_memories = GameState.get_memories_for_trigger(TriggerType.NPC_TALKED_TO, id)
-		
-		for memory_data in matching_memories:
-			if _check_memory_conditions(memory_data):
-				_process_memory_unlock(memory_data, "npc_interaction", id)
-				triggered_any = true
-	
-	return triggered_any
+	return _process_memory_triggers(TriggerType.ITEM_ACQUIRED, item_id, "item_acquired")
 
 func trigger_location_visited(location_id: String) -> bool:
 	var _fname = "trigger_location_visited"
 	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Location visited ", location_id)
 	
-	# VALIDATION: Check if location exists (basic scene file check)
-	var location_path = "res://scenes/world/locations/" + location_id + ".tscn"
-	if not ResourceLoader.exists(location_path):
-		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Memory trigger for non-existent location: ", location_id, " (", location_path, ")")
-		# Don't return false here - location might be an area within a scene, not a full scene
+	return _process_memory_triggers(TriggerType.LOCATION_VISITED, location_id, "location_visit")
+
+func trigger_npc_talked_to(npc_id: String) -> bool:
+	var _fname = "trigger_npc_talked_to"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Talked to NPC ", npc_id)
 	
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.LOCATION_VISITED, location_id)
+	return _process_memory_triggers(TriggerType.NPC_TALKED_TO, npc_id, "npc_interaction")
+
+func trigger_quest_completed(quest_id: String) -> bool:
+	var _fname = "trigger_quest_completed"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Quest completed ", quest_id)
+	
+	return _process_memory_triggers(TriggerType.QUEST_COMPLETED, quest_id, "quest_completed")
+
+func trigger_dialogue_choice(choice_id: String) -> bool:
+	var _fname = "trigger_dialogue_choice"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Dialogue choice ", choice_id)
+	
+	return _process_memory_triggers(TriggerType.DIALOGUE_CHOICE, choice_id, "dialogue_choice")
+
+func trigger_item_used(item_id: String) -> bool:
+	var _fname = "trigger_item_used"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Item used ", item_id)
+	
+	return _process_memory_triggers(TriggerType.ITEM_USED, item_id, "item_used")
+
+func trigger_character_relationship(character_id: String) -> bool:
+	var _fname = "trigger_character_relationship"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Character relationship change ", character_id)
+	
+	return _process_memory_triggers(TriggerType.CHARACTER_RELATIONSHIP, character_id, "relationship_change")
+
+# CORE: Process memory triggers using registry
+func _process_memory_triggers(trigger_type: int, target_id: String, discovery_method: String) -> bool:
+	var _fname = "_process_memory_triggers"
+	var triggered_any = false
+	
+	# Get matching memories from registry
+	var matching_memories = GameState.get_memories_for_trigger_type(trigger_type, target_id)
 	
 	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for location: ", location_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for: ", target_id)
 		return false
 	
-	var triggered_any = false
 	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "location_visit", location_id)
-			triggered_any = true
+		var tag_name = memory_data.tag_name
+		var metadata = memory_data.metadata
+		
+		# Check if memory can be unlocked using registry-based function
+		if GameState.can_unlock_memory(tag_name):
+			# Discover the memory
+			if GameState.discover_memory_from_registry(tag_name, discovery_method):
+				triggered_any = true
+				
+				# Check for dialogue unlocks
+				var dialogue_title = metadata.get("dialogue_title", "")
+				var character_id = metadata.get("character_id", "")
+				
+				if dialogue_title != "" and character_id != "":
+					dialogue_option_unlocked.emit(character_id, dialogue_title, tag_name)
+					if debug: print(GameState.script_name_tag(self, _fname) + "Unlocked dialogue option: ", character_id, " -> ", dialogue_title)
+				
+				# Show notification
+				var notification_system = get_node_or_null("/root/NotificationSystem")
+				if notification_system and notification_system.has_method("show_notification"):
+					notification_system.show_notification(metadata.get("description", ""))
 	
 	return triggered_any
 
-func trigger_look_at(target_id: String) -> bool:
-	var _fname = "trigger_look_at"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Look at ", target_id)
-	
-	# Get memories from GameState
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.LOOK_AT, target_id)
-	
-	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for looking at: ", target_id)
-		return false
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "look_at", target_id)
-			triggered_any = true
-	
-	return triggered_any
+# SIMPLIFIED: Dialogue integration functions
+func get_available_dialogue_options(character_id: String) -> Array:
+	"""Get available dialogue options for a character - now uses registry"""
+	return GameState.get_dialogue_options_from_registry(character_id)
 
-# Add other trigger functions following the same pattern...
+func is_dialogue_available(character_id: String, dialogue_title: String) -> bool:
+	"""Check if dialogue is available - now uses registry"""
+	return GameState.is_dialogue_available_from_registry(character_id, dialogue_title)
+
+func get_memory_tag_for_dialogue(character_id: String, dialogue_title: String) -> String:
+	"""Get memory tag for dialogue - now uses registry"""
+	return GameState.get_memory_tag_for_dialogue_from_registry(character_id, dialogue_title)
+
+# Utility functions remain the same
+func has_memory(memory_tag: String) -> bool:
+	return GameState.has_tag(memory_tag)
+
+func get_discovered_memories() -> Array:
+	return GameState.discovered_memories.duplicate()
+
+func get_character_memories(character_id: String) -> Array:
+	return GameState.get_character_discoveries(character_id)
+
+# Signal handlers
+func _on_item_acquired(item_id: String, item_data: Dictionary):
+	var _fname = "_on_item_acquired"
+	trigger_item_acquired(item_id)
+	
+	# Also check for item tags
+	if item_data.has("tags"):
+		for tag in item_data.tags:
+			trigger_item_acquired(tag)
+
+func _on_dialog_ended(character_id: String):
+	var _fname = "_on_dialog_ended"
+	# Trigger NPC talked to memory
+	trigger_npc_talked_to(character_id)
+
+func _on_memory_unlocked(memory_tag: String):
+	var _fname = "_on_memory_unlocked"
+	# Direct memory unlock from dialogue - use registry to get metadata
+	var metadata = GameState.get_memory_metadata(memory_tag)
+	var description = metadata.get("description", "Memory unlocked through dialogue")
+	GameState.discover_memory_from_registry(memory_tag, "dialogue")
+
 
 # VALIDATION: Helper functions to verify IDs exist in their respective systems
 func _validate_item_id(item_id: String) -> bool:
@@ -196,94 +239,6 @@ func _validate_quest_id(quest_id: String) -> bool:
 	if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Cannot validate quest_id - QuestSystem not found")
 	return true
 
-
-func trigger_quest_completed(quest_id: String) -> bool:
-	var _fname = "trigger_quest_completed"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Quest completed ", quest_id)
-	
-	# VALIDATION: Check if quest exists
-	if not _validate_quest_id(quest_id):
-		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Memory trigger for non-existent quest: ", quest_id)
-		return false
-	
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.QUEST_COMPLETED, quest_id)
-	
-	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for quest completion: ", quest_id)
-		return false
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "quest_completed", quest_id)
-			triggered_any = true
-	
-	return triggered_any
-
-func trigger_dialogue_choice(choice_id: String) -> bool:
-	var _fname = "trigger_dialogue_choice"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Dialogue choice ", choice_id)
-	
-	# Note: Dialogue choices are dynamic, so no validation here
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.DIALOGUE_CHOICE, choice_id)
-	
-	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for dialogue choice: ", choice_id)
-		return false
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "dialogue_choice", choice_id)
-			triggered_any = true
-	
-	return triggered_any
-
-func trigger_item_used(item_id: String) -> bool:
-	var _fname = "trigger_item_used"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Item used ", item_id)
-	
-	# VALIDATION: Check if item exists
-	if not _validate_item_id(item_id):
-		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Memory trigger for non-existent item usage: ", item_id)
-		return false
-	
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.ITEM_USED, item_id)
-	
-	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for item usage: ", item_id)
-		return false
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "item_used", item_id)
-			triggered_any = true
-	
-	return triggered_any
-
-func trigger_character_relationship(character_id: String) -> bool:
-	var _fname = "trigger_character_relationship"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory trigger: Character relationship change ", character_id)
-	
-	# VALIDATION: Check if character exists
-	if not _validate_character_id(character_id):
-		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Memory trigger for non-existent character relationship: ", character_id)
-		return false
-	
-	var matching_memories = GameState.get_memories_for_trigger(TriggerType.CHARACTER_RELATIONSHIP, character_id)
-	
-	if matching_memories.is_empty():
-		if debug: print(GameState.script_name_tag(self, _fname) + "No memory triggers found for character relationship: ", character_id)
-		return false
-	
-	var triggered_any = false
-	for memory_data in matching_memories:
-		if _check_memory_conditions(memory_data):
-			_process_memory_unlock(memory_data, "relationship_change", character_id)
-			triggered_any = true
-	
-	return triggered_any
 
 func _check_memory_conditions(memory_data: Dictionary) -> bool:
 	var _fname = "_check_memory_conditions"
@@ -339,46 +294,3 @@ func _on_memory_discovered_in_gamestate(memory_tag: String, description: String)
 	var _fname = "_on_memory_discovered_in_gamestate"
 	# GameState discovered a memory, re-emit our signal for other systems
 	memory_discovered.emit(memory_tag, description)
-
-func _on_item_acquired(item_id: String, item_data: Dictionary):
-	var _fname = "_on_item_acquired"
-	trigger_item_acquired(item_id)
-	
-	# Also check for item tags
-	if item_data.has("tags"):
-		for tag in item_data.tags:
-			trigger_item_acquired(tag)
-
-func _on_dialog_ended(character_id: String):
-	var _fname = "_on_dialog_ended"
-	# Trigger NPC talked to memory
-	trigger_npc_talked_to(character_id)
-
-func _on_memory_unlocked(memory_tag: String):
-	var _fname = "_on_memory_unlocked"
-	# Direct memory unlock from dialogue
-	var description = "Memory unlocked through dialogue"
-	GameState.discover_memory(memory_tag, description, "dialogue")
-
-# Utility functions that just query GameState
-func has_memory(memory_tag: String) -> bool:
-	return GameState.has_tag(memory_tag)
-
-func get_discovered_memories() -> Array:
-	return GameState.discovered_memories.duplicate()
-
-func get_memory_history() -> Array:
-	return GameState.get_memory_discovery_history()
-
-func get_character_memories(character_id: String) -> Array:
-	return GameState.get_character_discoveries(character_id)
-
-# Dialogue integration functions (now using GameState)
-func get_available_dialogue_options(character_id: String) -> Array:
-	return GameState.get_available_dialogue_options(character_id)
-
-func is_dialogue_available(character_id: String, dialogue_title: String) -> bool:
-	return GameState.is_dialogue_available(character_id, dialogue_title)
-
-func get_memory_tag_for_dialogue(character_id: String, dialogue_title: String) -> String:
-	return GameState.get_memory_tag_for_dialogue(character_id, dialogue_title)

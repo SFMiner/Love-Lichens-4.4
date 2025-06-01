@@ -8,7 +8,18 @@
 	"font_path": "res://assets/fonts/numb_bunny/Numbbunny-L7L5.otf",
 	"text_color": "#74ff33",
 	"font_size": 22,
-
+	"observable_features": {
+		"necklace": {
+			"description": "Poison wears a silver necklace with a large pendant. He occasionally touches it, apparenly without thinking.",
+			"observed": false,
+			"memory_tag": "poison_necklace_seen",
+			"dialogue_title": "ask_poison_about_necklace"
+			},
+		"stance": {
+			"description": "They stand in a way that makes others feel safe — a protective presence without needing to say much.",
+			"observed": false
+			}
+		},
 	"personality_traits": [
 		"sarcastic",
 		"loyal",

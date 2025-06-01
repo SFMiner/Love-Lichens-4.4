@@ -23,7 +23,203 @@ var balloon_scene
 var memory_system = null
 var game_state
 
+func _ready():
+	var _fname = "_ready"
+	debug = scr_debug or GameController.sys_debug
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog System initialized")
+	game_state = GameState
+	memory_system = MemorySystem
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory system reference obtained: ", memory_system != null)
+	# Load our custom balloon scene
+	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn"):
+		balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded enhanced dialogue balloon scene")
+	elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
+	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
+		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded custom dialogue balloon scene")
+	else:
+		# Load the example balloon scene as fallback
+		if ResourceLoader.exists("res://addons/dialogue_manager/example_balloon/example_balloon.tscn"):
+			balloon_scene = load("res://addons/dialogue_manager/example_balloon/example_balloon.tscn")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Loaded example balloon scene as fallback")
+		else:
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find any dialogue balloon scene")
 	
+	if not has_node("DialogMemoryExtension"):
+		var extension_script = load("res://scripts/autoload/dialog_memory_extension.gd")
+		if extension_script:
+			var extension = extension_script.new()
+			extension.name = "DialogMemoryExtension"
+			add_child(extension)
+			if debug: print(GameState.script_name_tag(self, _fname) + "Added DialogMemoryExtension")
+
+	# Connect to DialogueManager signals
+	if Engine.has_singleton("DialogueManager"):
+		var dialogue_manager = Engine.get_singleton("DialogueManager")
+		dialogue_manager.dialogue_started.connect(_on_dialogue_started)
+		dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Connected to DialogueManager signals")
+	else:
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: DialogueManager singleton not found!")
+	
+	# Get references to other systems
+	await get_tree().process_frame
+	
+
+#SIMPLIFIED: Memory-based dialogue functions using registry
+func unlock_memory(tag: String) -> void:
+	"""Set a memory tag and notify the system - now uses registry validation"""
+	var _fname = "unlock_memory"
+	
+	# Validate that this is a real memory tag
+	if not GameState.is_valid_memory_tag(tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Attempting to unlock invalid memory tag: ", tag)
+		return
+	
+	# Check if conditions are met
+	if not GameState.can_unlock_memory(tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Cannot unlock memory tag (conditions not met): ", tag)
+		return
+	
+	# Discover the memory using registry
+	if GameState.discover_memory_from_registry(tag, "dialogue"):
+		memory_unlocked.emit(tag)
+		
+		# Also notify the memory system if available
+		if memory_system and memory_system.has_method("_on_memory_unlocked"):
+			memory_system._on_memory_unlocked(tag)
+		
+		if debug: print(GameState.script_name_tag(self, _fname) + "Successfully unlocked memory: ", tag)
+
+# SIMPLIFIED: Check if a tag can be unlocked using registry
+func can_unlock(tag: String) -> bool:
+	"""Check if a tag can be unlocked - now uses registry conditions"""
+	return GameState.can_unlock_memory(tag)
+
+# SIMPLIFIED: Get unlocked memories for a character using registry
+func get_unlocked_memories_for_character(character_id: String) -> Array:
+	"""Get all unlocked memory tags for a character - now uses registry"""
+	var _fname = "get_unlocked_memories_for_character"
+	var unlocked_memories = []
+	
+	# Check all memory tags in registry for this character
+	for tag_name in GameState.memory_registry.keys():
+		var metadata = GameState.memory_registry[tag_name]
+		
+		if metadata.get("character_id", "") == character_id and GameState.has_tag(tag_name):
+			unlocked_memories.append(tag_name)
+	
+	return unlocked_memories
+
+# UPDATED: Enhanced memory dialogue selection using registry
+func select_memory_dialogue(character_id: String, dialogue_title: String) -> bool:
+	"""Select a memory-unlocked dialogue option - now uses registry"""
+	var _fname = "select_memory_dialogue"
+	
+	# Get the memory tag for this dialogue using registry
+	var memory_tag = GameState.get_memory_tag_for_dialogue_from_registry(character_id, dialogue_title)
+	
+	if memory_tag.is_empty():
+		if debug: print(GameState.script_name_tag(self, _fname) + "No memory tag found for dialogue: ", character_id, " -> ", dialogue_title)
+		return false
+	
+	# Check if the memory is unlocked
+	if not GameState.has_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Memory tag not unlocked: ", memory_tag)
+		return false
+	
+	# Emit signal and start dialogue
+	memory_dialogue_selected.emit(character_id, dialogue_title, memory_tag)
+	return start_dialog(character_id, dialogue_title)
+
+# ENHANCED: Memory condition checking using registry
+func check_dialogue_conditions(character_id: String, dialogue_title: String) -> bool:
+	"""Check if dialogue conditions are met using registry metadata"""
+	var _fname = "check_dialogue_conditions"
+	
+	# Get memory tag for this dialogue
+	var memory_tag = GameState.get_memory_tag_for_dialogue_from_registry(character_id, dialogue_title)
+	
+	if memory_tag.is_empty():
+		# No memory requirements
+		return true
+	
+	# Get metadata from registry
+	var metadata = GameState.get_memory_metadata(memory_tag)
+	if metadata.is_empty():
+		if debug: print(GameState.script_name_tag(self, _fname) + "No metadata found for memory tag: ", memory_tag)
+		return false
+	
+	# Check if memory is unlocked
+	if not GameState.has_tag(memory_tag):
+		return false
+	
+	# Check additional conditions from metadata
+	var condition_tags = metadata.get("condition_tags", [])
+	for condition_tag in condition_tags:
+		if not GameState.has_tag(condition_tag):
+			if debug: print(GameState.script_name_tag(self, _fname) + "Condition not met: ", condition_tag)
+			return false
+	
+	return true
+
+# NEW: Validate memory tag before operations
+func validate_memory_operation(tag_name: String, operation: String) -> bool:
+	"""Validate that a memory operation is valid using registry"""
+	var _fname = "validate_memory_operation"
+	
+	if not GameState.is_valid_memory_tag(tag_name):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Invalid memory tag for ", operation, ": ", tag_name)
+		return false
+	
+	var metadata = GameState.get_memory_metadata(tag_name)
+	if metadata.is_empty():
+		if debug: print(GameState.script_name_tag(self, _fname) + "No metadata found for ", operation, ": ", tag_name)
+		return false
+	
+	return true
+
+# UPDATED: Enhanced start_dialog function with registry support
+func start_dialog(character_id, title = "start"):
+	var _fname = "start_dialog"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting dialog with: ", character_id, " at title: ", title)
+	
+	record_seen_dialog(character_id, title)
+	current_character_id = character_id
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Checking memory options for ", character_id)
+	
+	# Get memory-unlocked dialogue options using registry
+	var memory_options = GameState.get_dialogue_options_from_registry(character_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Found ", memory_options.size(), " memory-unlocked options from registry")
+	
+	for option in memory_options:
+		if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Memory option available: ", option.dialogue_title, " (tag: ", option.tag, ")")
+		memory_dialogue_added.emit(character_id, option.dialogue_title)
+	
+	# Load the dialogue resource if not already loaded
+	if not dialogue_resources.has(character_id):
+		if not preload_dialogue(character_id):
+			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Failed to load dialogue for: ", character_id)
+			return false
+	
+	# Emit our own signal before DialogueManager does
+	dialog_started.emit(character_id)
+	
+	# Show the dialogue balloon
+	if balloon_scene:
+		var balloon = DialogueManager.show_dialogue_balloon_scene(
+			balloon_scene, 
+			dialogue_resources[character_id], 
+			title
+		)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Started dialogue with: ", character_id, " at title: ", title)
+		return true
+	else:
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: No balloon scene available!")
+		return false
+
 # Record that a dialog has been seen
 func record_seen_dialog(character_id, dialog_title):
 	var _fname = "record_seen_dialog"
@@ -68,114 +264,8 @@ func set_seen_dialogs(data):
 
 # Modify the existing start_dialog function
 # We need to add just one line to record seen dialogs
-func start_dialog(character_id, title = "start"):
-	var _fname = "start_dialog"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Starting dialog with: ", character_id, " at title: ", title)
-	# Add this line to the beginning of your existing start_dialog function
-	print(GameState.script_name_tag(self, _fname) + "=== DIALOG START DEBUG ===")
-	print(GameState.script_name_tag(self, _fname) + "Starting dialog with: ", character_id)
-	print(GameState.script_name_tag(self, _fname) + "Dialog title: ", title)
-	
-	# Add this line to the beginning of your existing start_dialog function
-	record_seen_dialog(character_id, title)
-	
-	# Then the rest of your existing start_dialog function continues below
-	current_character_id = character_id
-	
-	print(GameState.script_name_tag(self, _fname) + "DIALOG: Checking memory options for ", character_id)
 
-	# Check what memory tags are currently set
-	print(GameState.script_name_tag(self, _fname) + "DIALOG: Current memory tags in GameState:")
-	for tag in GameState.tags.keys():
-		if tag.contains(character_id):
-			print(GameState.script_name_tag(self, _fname) + "  - ", tag, " = ", GameState.tags[tag])
 
-	
-	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Checking memory options for ", character_id)
-
-	var memory_options = GameState.get_available_dialogue_options(character_id)
-	if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Found ", memory_options.size(), " memory-unlocked options")
-	
-	for option in memory_options:
-		if debug: print(GameState.script_name_tag(self, _fname) + "DIALOG: Memory option available: ", option.dialogue_title, " (tag: ", option.tag, ")")
-		memory_dialogue_added.emit(character_id, option.dialogue_title)
-	
-	# Check MemorySystem dialogue options
-	if memory_system:
-		var memory_sys_options = memory_system.get_available_dialogue_options(character_id)
-		print(GameState.script_name_tag(self, _fname) + "DIALOG: Found ", memory_sys_options.size(), " options from MemorySystem")
-		for option in memory_sys_options:
-			memory_dialogue_added.emit(character_id, option.dialogue_title)
-			print(GameState.script_name_tag(self, _fname) + "DIALOG: Added memory dialogue option: ", option.dialogue_title)
-	
-	print(GameState.script_name_tag(self, _fname) + "=== END DIALOG START DEBUG ===")
-	
-	# Load the dialogue resource if not already loaded
-	if not dialogue_resources.has(character_id):
-		if not preload_dialogue(character_id):
-			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Failed to load dialogue for: ", character_id)
-			return false
-	
-
-	# Emit our own signal before DialogueManager does
-	dialog_started.emit(character_id)
-	
-	# Show the dialogue balloon
-	if balloon_scene:
-		var balloon = DialogueManager.show_dialogue_balloon_scene(
-			balloon_scene, 
-			dialogue_resources[character_id], 
-			title
-		)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Started dialogue with: ", character_id, " at title: ", title)
-		return true
-	else:
-		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: No balloon scene available!")
-		return false
-
-func _ready():
-	var _fname = "_ready"
-	debug = scr_debug or GameController.sys_debug
-	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog System initialized")
-	game_state = GameState
-	memory_system = MemorySystem
-	if debug: print(GameState.script_name_tag(self, _fname) + "Memory system reference obtained: ", memory_system != null)
-	# Load our custom balloon scene
-	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn"):
-		balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
-		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded enhanced dialogue balloon scene")
-	elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
-	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
-		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
-		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded custom dialogue balloon scene")
-	else:
-		# Load the example balloon scene as fallback
-		if ResourceLoader.exists("res://addons/dialogue_manager/example_balloon/example_balloon.tscn"):
-			balloon_scene = load("res://addons/dialogue_manager/example_balloon/example_balloon.tscn")
-			if debug: print(GameState.script_name_tag(self, _fname) + "Loaded example balloon scene as fallback")
-		else:
-			if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find any dialogue balloon scene")
-	
-	if not has_node("DialogMemoryExtension"):
-		var extension_script = load("res://scripts/autoload/dialog_memory_extension.gd")
-		if extension_script:
-			var extension = extension_script.new()
-			extension.name = "DialogMemoryExtension"
-			add_child(extension)
-			if debug: print(GameState.script_name_tag(self, _fname) + "Added DialogMemoryExtension")
-
-	# Connect to DialogueManager signals
-	if Engine.has_singleton("DialogueManager"):
-		var dialogue_manager = Engine.get_singleton("DialogueManager")
-		dialogue_manager.dialogue_started.connect(_on_dialogue_started)
-		dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Connected to DialogueManager signals")
-	else:
-		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: DialogueManager singleton not found!")
-	
-	# Get references to other systems
-	await get_tree().process_frame
-	
 # Preload a dialogue resource
 func preload_dialogue(character_id):
 	var _fname = "preload_dialogue"
@@ -257,18 +347,6 @@ func make_choice(choice_id):
 	
 	return ""
 
-func select_memory_dialogue(character_id: String, dialogue_title: String) -> bool:
-	var _fname = "select_memory_dialogue"
-	if memory_system:
-		var memory_tag = memory_system.get_memory_tag_for_dialogue(character_id, dialogue_title)
-		if not memory_tag.is_empty():
-			memory_dialogue_selected.emit(character_id, dialogue_title, memory_tag)
-			
-			# Start the dialogue at the specified title
-			return start_dialog(character_id, dialogue_title)
-	
-	return false
-
 # Starts a custom dialog from a string
 func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
 	var _fname = "start_custom_dialog"
@@ -295,12 +373,6 @@ func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
 	
 # Helper functions for memory-based dialogue
 
-# Check if a tag is set in GameState
-func can_unlock(tag: String) -> bool:
-	var _fname = "can_unlock"
-	if game_state:
-		return game_state.has_tag(tag)
-	return false
 
 # Add a dialogue choice if a tag condition is met
 func add_conditional_choice(choices: Array, condition_tag: String, text: String, target: String) -> Array:
@@ -310,30 +382,6 @@ func add_conditional_choice(choices: Array, condition_tag: String, text: String,
 			"target": target
 		})
 	return choices
-
-# Set a memory tag and notify the system
-func unlock_memory(tag: String) -> void:
-	var _fname = "unlock_memory"
-	if game_state:
-		game_state.set_tag(tag)
-		memory_unlocked.emit(tag)
-		
-		# Also notify the memory system if available
-		if memory_system and memory_system.has_method("_on_memory_unlocked"):
-			memory_system._on_memory_unlocked(tag)
-	
-# Get all unlocked memory tags for a character
-func get_unlocked_memories_for_character(character_id: String) -> Array:
-	var _fname = "get_unlocked_memories_for_character"
-	var unlocked_memories = []
-	
-	if game_state and memory_system:
-		# Iterate through all tags to find character-related ones
-		for tag in game_state.tags.keys():
-			if tag.begins_with(character_id + "_") and memory_system.character_has_memory(character_id, tag):
-				unlocked_memories.append(tag)
-	
-	return unlocked_memories
 
 # Add to dialog_system.gd
 func _on_mutated(mutation):

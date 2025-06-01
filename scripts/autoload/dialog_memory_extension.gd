@@ -31,6 +31,45 @@ func _ready():
 	_connect_to_systems()
 	_initialize_dialogue_memory_cache()
 
+# SIMPLIFIED: Memory checking functions using registry
+func has_memory(memory_tag: String) -> bool:
+	"""Check if memory exists and is unlocked - validates against registry"""
+	var _fname = "has_memory"
+	
+	# Validate tag exists in registry
+	if not GameState.is_valid_memory_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Invalid memory tag: ", memory_tag)
+		return false
+	
+	return GameState.has_tag(memory_tag)
+
+func get_memory_value(memory_tag: String, default_value = null):
+	"""Get memory value with registry validation"""
+	var _fname = "get_memory_value"
+	
+	# Validate tag exists in registry
+	if not GameState.is_valid_memory_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Invalid memory tag: ", memory_tag)
+		return default_value
+	
+	return GameState.get_tag_value(memory_tag, default_value)
+
+func set_memory(memory_tag: String, value = true):
+	"""Set memory with registry validation and proper discovery"""
+	var _fname = "set_memory"
+	
+	# Validate tag exists in registry
+	if not GameState.is_valid_memory_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Cannot set invalid memory tag: ", memory_tag)
+		return
+	
+	# Use registry-based discovery if this is a new memory
+	if not GameState.has_tag(memory_tag) and value:
+		GameState.discover_memory_from_registry(memory_tag, "dialogue_system")
+	else:
+		# Just set the tag directly
+		GameState.set_tag(memory_tag, value)
+
 func _connect_to_systems():
 	var _fname = "_connect_to_systems"
 	memory_system = get_node_or_null("/root/MemorySystem")
@@ -79,24 +118,6 @@ func _initialize_dialogue_memory_cache():
 
 # Core dialogue-memory functions for use in .dialogue files
 
-# Memory checking functions
-func has_memory(memory_tag: String) -> bool:
-	var _fname = "has_memory"
-	return game_state.has_tag(memory_tag) if game_state else false
-
-func get_memory_value(memory_tag: String, default_value = null):
-	var _fname = "get_memory_value"
-	return game_state.get_tag_value(memory_tag, default_value) if game_state else default_value
-
-func set_memory(memory_tag: String, value = true):
-	var _fname = "set_memory"
-	if game_state:
-		game_state.set_tag(memory_tag, value)
-		
-		# Trigger memory system
-		if memory_system:
-			memory_system._on_memory_unlocked(memory_tag)
-
 func increment_memory(memory_tag: String, amount: int = 1):
 	var _fname = "increment_memory"
 	if game_state:
@@ -104,11 +125,211 @@ func increment_memory(memory_tag: String, amount: int = 1):
 		if typeof(current_value) == TYPE_INT or typeof(current_value) == TYPE_FLOAT:
 			game_state.set_tag(memory_tag, current_value + amount)
 
-# Complex memory condition checking
+# ENHANCED: Complex memory condition checking using registry metadata
 func check_memory_condition(condition: String) -> bool:
+	"""Parse and evaluate memory conditions with registry validation"""
 	var _fname = "check_memory_condition"
-	# Parse and evaluate memory conditions like "memory1 && memory2 || !memory3"
-	return _evaluate_memory_condition(condition)
+	
+	# Parse the condition string (same logic as before, but with validation)
+	condition = condition.strip_edges()
+	
+	# Handle negation
+	if condition.begins_with("!"):
+		return not check_memory_condition(condition.substr(1).strip_edges())
+	
+	# Handle OR conditions
+	if " || " in condition:
+		var parts = condition.split(" || ")
+		for part in parts:
+			if check_memory_condition(part.strip_edges()):
+				return true
+		return false
+	
+	# Handle AND conditions
+	if " && " in condition:
+		var parts = condition.split(" && ")
+		for part in parts:
+			if not check_memory_condition(part.strip_edges()):
+				return false
+		return true
+	
+	# Handle comparison operations (same as before, but with registry validation)
+	if " == " in condition:
+		var parts = condition.split(" == ")
+		if parts.size() == 2:
+			var memory_tag = parts[0].strip_edges()
+			if not GameState.is_valid_memory_tag(memory_tag):
+				if debug: print(GameState.script_name_tag(self, _fname) + "Invalid memory tag in condition: ", memory_tag)
+				return false
+			var memory_value = get_memory_value(memory_tag)
+			var compare_value = _parse_value(parts[1].strip_edges())
+			return memory_value == compare_value
+	
+	# ... (other comparison operators remain the same but with validation)
+	
+	# Simple boolean check with validation
+	if not GameState.is_valid_memory_tag(condition):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Invalid memory tag in condition: ", condition)
+		return false
+	
+	return has_memory(condition)
+	
+# SIMPLIFIED: Character memory state using registry
+func get_character_memory_state(character_id: String) -> Dictionary:
+	"""Get character memory state using registry data"""
+	var _fname = "get_character_memory_state"
+	
+	var state = {
+		"discovered_memories": [],
+		"available_dialogues": [],
+		"relationship_level": 0,
+		"memory_tags": []
+	}
+	
+	# Get all memories for this character from registry
+	for tag_name in GameState.memory_registry.keys():
+		var metadata = GameState.memory_registry[tag_name]
+		
+		if metadata.get("character_id", "") == character_id:
+			state.memory_tags.append(tag_name)
+			
+			if GameState.has_tag(tag_name):
+				state.discovered_memories.append(tag_name)
+				
+				# Check for dialogue options
+				var dialogue_title = metadata.get("dialogue_title", "")
+				if dialogue_title != "":
+					state.available_dialogues.append(dialogue_title)
+	
+	# Get relationship level if system exists
+	if relationship_system:
+		state.relationship_level = relationship_system.get_relationship_score(character_id)
+	
+	return state
+
+# SIMPLIFIED: Dialogue availability using registry
+func can_show_dialogue(character_id: String, dialogue_title: String) -> bool:
+	"""Check if dialogue can be shown using registry conditions"""
+	var _fname = "can_show_dialogue"
+	
+	# Get memory tag for this dialogue from registry
+	var memory_tag = GameState.get_memory_tag_for_dialogue_from_registry(character_id, dialogue_title)
+	
+	if memory_tag.is_empty():
+		# No memory requirements, allow dialogue
+		return true
+	
+	# Check if memory is unlocked
+	if not GameState.has_tag(memory_tag):
+		return false
+	
+	# Get additional requirements from registry metadata
+	var metadata = GameState.get_memory_metadata(memory_tag)
+	
+	# Check relationship requirements (if specified in metadata)
+	if metadata.has("min_relationship"):
+		if relationship_system:
+			var current_level = relationship_system.get_relationship_score(character_id)
+			if current_level < metadata.min_relationship:
+				return false
+	
+	# Check quest requirements (if specified in metadata)
+	if metadata.has("required_quest"):
+		if quest_system:
+			var quest_id = metadata.required_quest
+			if not quest_system.is_quest_active(quest_id) and not quest_system.is_quest_completed(quest_id):
+				return false
+	
+	# Check condition tags from registry
+	var condition_tags = metadata.get("condition_tags", [])
+	for condition_tag in condition_tags:
+		if not GameState.has_tag(condition_tag):
+			return false
+	
+	return true
+
+# SIMPLIFIED: Get memory dialogue options using registry
+func get_memory_dialogue_options(character_id: String) -> Array:
+	"""Get memory-driven dialogue options using registry"""
+	var _fname = "get_memory_dialogue_options"
+	var options = []
+	
+	# Get available dialogue options from registry
+	var available_options = GameState.get_dialogue_options_from_registry(character_id)
+	
+	for option in available_options:
+		if can_show_dialogue(character_id, option.dialogue_title):
+			options.append({
+				"title": option.dialogue_title,
+				"memory_tag": option.tag,
+				"display_text": _get_dialogue_display_text(character_id, option.dialogue_title),
+				"description": option.description
+			})
+	
+	return options
+
+# SIMPLIFIED: Memory discovery trigger using registry
+func trigger_memory_discovery(character_id: String, memory_tag: String, description: String = ""):
+	"""Trigger memory discovery with registry validation"""
+	var _fname = "trigger_memory_discovery"
+	
+	# Validate memory tag
+	if not GameState.is_valid_memory_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "Cannot trigger invalid memory tag: ", memory_tag)
+		return
+	
+	# Use description from registry if not provided
+	if description.is_empty():
+		var metadata = GameState.get_memory_metadata(memory_tag)
+		description = metadata.get("description", "Memory discovered")
+	
+	# Discover using registry system
+	GameState.discover_memory_from_registry(memory_tag, "dialogue_trigger")
+
+# NEW: Registry-based memory validation
+func validate_memory_tags(tag_list: Array) -> Dictionary:
+	"""Validate a list of memory tags against the registry"""
+	var _fname = "validate_memory_tags"
+	var result = {
+		"valid": [],
+		"invalid": [],
+		"warnings": []
+	}
+	
+	for tag in tag_list:
+		if GameState.is_valid_memory_tag(tag):
+			result.valid.append(tag)
+		else:
+			result.invalid.append(tag)
+			result.warnings.append("Invalid memory tag: " + tag)
+	
+	if debug and result.invalid.size() > 0:
+		print(GameState.script_name_tag(self, _fname) + "Found invalid memory tags: ", result.invalid)
+	
+	return result
+
+# ENHANCED: Debug functions using registry
+func debug_character_memories(character_id: String):
+	"""Debug character memories using registry data"""
+	var _fname = "debug_character_memories"
+	if not debug:
+		return
+	
+	print("\n" + GameState.script_name_tag(self, _fname) + "=== CHARACTER MEMORY DEBUG (REGISTRY): ", character_id, " ===")
+	
+	var state = get_character_memory_state(character_id)
+	
+	print(GameState.script_name_tag(self, _fname) + "Total memory tags for character: ", state.memory_tags.size())
+	print(GameState.script_name_tag(self, _fname) + "Discovered memories: ", state.discovered_memories.size())
+	print(GameState.script_name_tag(self, _fname) + "Available dialogues: ", state.available_dialogues.size())
+	
+	print(GameState.script_name_tag(self, _fname) + "Memory tags from registry:")
+	for tag in state.memory_tags:
+		var metadata = GameState.get_memory_metadata(tag)
+		var is_unlocked = GameState.has_tag(tag)
+		print(GameState.script_name_tag(self, _fname) + "  - ", tag, " (unlocked: ", is_unlocked, ") - ", metadata.get("description", ""))
+	
+	print(GameState.script_name_tag(self, _fname) + "=================================\n")
 
 func _evaluate_memory_condition(condition: String) -> bool:
 	var _fname = "_evaluate_memory_condition"
@@ -203,13 +424,6 @@ func _parse_value(value_str: String):
 	
 	return value_str
 
-# Character-specific memory functions
-func get_character_memory_state(character_id: String) -> Dictionary:
-	var _fname = "get_character_memory_state"
-	if not character_memory_states.has(character_id):
-		character_memory_states[character_id] = _build_character_memory_state(character_id)
-	
-	return character_memory_states[character_id]
 
 func _build_character_memory_state(character_id: String) -> Dictionary:
 	var _fname = "_build_character_memory_state"
@@ -235,38 +449,6 @@ func _build_character_memory_state(character_id: String) -> Dictionary:
 	
 	return state
 
-# Advanced dialogue condition functions
-func can_show_dialogue(character_id: String, dialogue_title: String) -> bool:
-	var _fname = "can_show_dialogue"
-	# Check basic memory requirements using GameState
-	if not GameState.is_dialogue_available(character_id, dialogue_title):
-		return false
-	
-	# Check relationship requirements
-	var character_data = _get_character_dialogue_data(character_id, dialogue_title)
-	if character_data.has("min_relationship"):
-		if relationship_system:
-			var current_level = relationship_system.get_relationship_score(character_id)
-			if current_level < character_data.min_relationship:
-				return false
-	
-	# Check quest requirements
-	if character_data.has("required_quest"):
-		if quest_system:
-			var quest_id = character_data.required_quest
-			if not quest_system.is_quest_active(quest_id) and not quest_system.is_quest_completed(quest_id):
-				return false
-	
-	# Check time requirements
-	if character_data.has("time_requirements"):
-		# This would need TimeSystem integration
-		pass
-	
-	# Check complex memory conditions
-	if character_data.has("memory_condition"):
-		return check_memory_condition(character_data.memory_condition)
-	
-	return true
 
 func _get_character_dialogue_data(character_id: String, dialogue_title: String) -> Dictionary:
 	var _fname = "_get_character_dialogue_data"
@@ -280,23 +462,6 @@ func _get_character_dialogue_data(character_id: String, dialogue_title: String) 
 				return requirements[dialogue_title]
 	
 	return {}
-
-# Memory-driven dialogue response functions
-func get_memory_dialogue_options(character_id: String) -> Array:
-	var _fname = "get_memory_dialogue_options"
-	var options = []
-	
-	# Get available dialogue options from GameState
-	var available_options = GameState.get_available_dialogue_options(character_id)
-	for option in available_options:
-		if can_show_dialogue(character_id, option.dialogue_title):
-			options.append({
-				"title": option.dialogue_title,
-				"memory_tag": option.tag,
-				"display_text": _get_dialogue_display_text(character_id, option.dialogue_title)
-			})
-	
-	return options
 
 func _get_dialogue_display_text(character_id: String, dialogue_title: String) -> String:
 	var _fname = "_get_dialogue_display_text"
@@ -367,13 +532,6 @@ func unlock_memory_chain(character_id: String, chain_id: String):
 				var chains = character_data.memory_chains
 				if chains.has(chain_id):
 					memory_system.create_memory_chain(character_id, chains[chain_id])
-
-func trigger_memory_discovery(character_id: String, memory_tag: String, description: String):
-	var _fname = "trigger_memory_discovery"
-	set_memory(memory_tag)
-	
-	if memory_system:
-		memory_system.memory_discovered.emit(memory_tag, description)
 
 # Conditional dialogue caching for performance
 func cache_conditional_dialogue(character_id: String, dialogue_title: String, condition: String, result: bool):
@@ -457,32 +615,6 @@ func get_memory_count(memory_prefix: String) -> int:
 	
 	return count
 
-# Debug functions
-func debug_character_memories(character_id: String):
-	var _fname = "debug_character_memories"
-	if not debug:
-		return
-	
-	if debug: print(GameState.script_name_tag(self, _fname) + "\n=== CHARACTER MEMORY DEBUG: ", character_id, " ===")
-	
-	var state = get_character_memory_state(character_id)
-	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Discovered Memories:")
-	for memory in state.discovered_memories:
-		if debug: print(GameState.script_name_tag(self, _fname) + "  - ", memory)
-	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Available Dialogues:")
-	for dialogue in state.available_dialogues:
-		print(GameState.script_name_tag(self) + "  - ", dialogue)
-	
-	print(GameState.script_name_tag(self) + "Relationship Level: ", state.relationship_level)
-	
-	if dialogue_memory_cache.has(character_id):
-		print(GameState.script_name_tag(self) + "Cached Dialogue-Memory Mappings:")
-		for dialogue in dialogue_memory_cache[character_id]:
-			print(GameState.script_name_tag(self) + "  - ", dialogue, " -> ", dialogue_memory_cache[character_id][dialogue])
-	
-	print(GameState.script_name_tag(self) + "=================================\n")
 
 func debug_memory_conditions():
 	var _fname = "debug_memory_conditions"

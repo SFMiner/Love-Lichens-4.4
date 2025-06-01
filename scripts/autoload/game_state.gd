@@ -9,10 +9,10 @@ signal game_loaded(slot)
 signal game_ended()
 signal tag_added(tag)
 signal tag_removed(tag)
+signal memory_discovered(memory_tag: String, description: String)
 
 # New memory-related signals
 signal memory_data_loaded()
-signal memory_discovered(memory_tag: String, description: String)
 
 # Existing game state variables
 var current_game_id = ""
@@ -29,6 +29,7 @@ var looking_at_adam_desk = false
 var poison_bugs = ["tarantula"]
 var atlas_emergence : int = 28
 var current_day : float = 0
+var memory_registry : Dictionary
 
 var current_scene
 var current_npc_list = []
@@ -71,9 +72,167 @@ var debug
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
+	_load_memory_registry()
+
+# SIMPLIFIED: Load only the registry
+func _load_memory_registry():
+	var _fname = "_load_memory_registry"
+	var file := FileAccess.open("res://data/generated/memory_tag_registry.json", FileAccess.READ)
+	if file:
+		var json_string := file.get_as_text()
+		file.close()
+		var json_result := JSON.new()
+		if json_result.parse(json_string) == OK:
+			memory_registry = json_result.get_data()
+			if debug: print(script_name_tag(self, _fname) + "Loaded ", memory_registry.size(), " memory tags from registry")
+		else:
+			if debug: print(script_name_tag(self, _fname) + "ERROR: Failed to parse memory registry JSON")
+	else:
+		if debug: print(script_name_tag(self, _fname) + "ERROR: Could not load memory registry file")
+
+# NEW: Core registry access functions
+func get_memory_metadata(tag_name: String) -> Dictionary:
+	"""Get all metadata for a memory tag from the registry"""
+	return memory_registry.get(tag_name, {})
+
+func is_valid_memory_tag(tag_name: String) -> bool:
+	"""Check if a memory tag exists in the registry"""
+	return memory_registry.has(tag_name)
+
+func can_unlock_memory(tag_name: String) -> bool:
+	"""Check if all condition_tags are met for this memory tag"""
+	var metadata = get_memory_metadata(tag_name)
+	if metadata.is_empty():
+		return false
 	
-	# Load memory data at startup
-	_load_memory_definitions()
+	# Check if already discovered
+	if has_tag(tag_name):
+		return false
+	
+	# Check condition tags
+	var condition_tags = metadata.get("condition_tags", [])
+	for condition_tag in condition_tags:
+		if not has_tag(condition_tag):
+			return false
+	
+	return true
+
+func discover_memory_from_registry(tag_name: String, discovery_method: String = "") -> bool:
+	"""Discover a memory using registry metadata"""
+	var _fname = "discover_memory_from_registry"
+	
+	if not can_unlock_memory(tag_name):
+		return false
+	
+	var metadata = get_memory_metadata(tag_name)
+	var description = metadata.get("description", "")
+	var character_id = metadata.get("character_id", "")
+	
+	# Set the tag
+	set_tag(tag_name, true)
+	
+	# Add to discovered list
+	if tag_name not in discovered_memories:
+		discovered_memories.append(tag_name)
+	
+	# Emit discovery signal
+	memory_discovered.emit(tag_name, description)
+	
+	if debug: print(script_name_tag(self, _fname) + "Memory discovered: ", tag_name, " - ", description)
+	return true
+
+# NEW: Get memories by trigger type using registry
+func get_memories_for_trigger_type(trigger_type: int, target_id: String) -> Array:
+	"""Get all memory tags that match trigger_type and target_id"""
+	var matching_memories = []
+	
+	for tag_name in memory_registry.keys():
+		var metadata = memory_registry[tag_name]
+		
+		# Convert float trigger_type to int if needed
+		var meta_trigger_type = metadata.get("trigger_type", -1)
+		if typeof(meta_trigger_type) == TYPE_FLOAT:
+			meta_trigger_type = int(meta_trigger_type)
+		
+		var meta_target_id = metadata.get("target_id", "")
+		
+		if meta_trigger_type == trigger_type and (meta_target_id == target_id or meta_target_id == target_id.to_lower()):
+			matching_memories.append({
+				"tag_name": tag_name,
+				"metadata": metadata
+			})
+	
+	return matching_memories
+
+# NEW: Get available dialogue options using registry
+func get_dialogue_options_from_registry(character_id: String) -> Array:
+	"""Get available dialogue options for a character using registry"""
+	var _fname = "get_dialogue_options_from_registry"
+	var available_options = []
+	
+	for tag_name in memory_registry.keys():
+		var metadata = memory_registry[tag_name]
+		
+		# Check if this is for our character and has dialogue_title
+		if metadata.get("character_id", "") == character_id and metadata.get("dialogue_title", "") != "":
+			# Check if the memory tag is unlocked
+			if has_tag(tag_name):
+				var option = {
+					"tag": tag_name,
+					"dialogue_title": metadata["dialogue_title"],
+					"character_id": character_id,
+					"description": metadata.get("description", "")
+				}
+				available_options.append(option)
+				if debug: print(script_name_tag(self, _fname) + "Added dialogue option: ", option)
+	
+	return available_options
+
+# NEW: Check if specific dialogue is available
+func is_dialogue_available_from_registry(character_id: String, dialogue_title: String) -> bool:
+	"""Check if a specific dialogue option is available"""
+	for tag_name in memory_registry.keys():
+		var metadata = memory_registry[tag_name]
+		
+		if (metadata.get("character_id", "") == character_id and 
+			metadata.get("dialogue_title", "") == dialogue_title and
+			has_tag(tag_name)):
+			return true
+	
+	return false
+
+# NEW: Get memory tag for specific dialogue
+func get_memory_tag_for_dialogue_from_registry(character_id: String, dialogue_title: String) -> String:
+	"""Get the memory tag associated with a character's dialogue option"""
+	for tag_name in memory_registry.keys():
+		var metadata = memory_registry[tag_name]
+		
+		if (metadata.get("character_id", "") == character_id and 
+			metadata.get("dialogue_title", "") == dialogue_title):
+			return tag_name
+	
+	return ""
+
+# BACKWARD COMPATIBILITY: Keep existing functions but make them use registry
+func get_available_dialogue_options(character_id: String) -> Array:
+	"""Legacy function - now uses registry"""
+	return get_dialogue_options_from_registry(character_id)
+
+func is_dialogue_available(character_id: String, dialogue_title: String) -> bool:
+	"""Legacy function - now uses registry"""
+	return is_dialogue_available_from_registry(character_id, dialogue_title)
+
+func get_memory_tag_for_dialogue(character_id: String, dialogue_title: String) -> String:
+	"""Legacy function - now uses registry"""
+	return get_memory_tag_for_dialogue_from_registry(character_id, dialogue_title)
+
+# Existing tag system functions remain the same...
+func has_tag(tag: String) -> bool:
+	return tags.has(tag)
+
+func set_tag(tag: String, value: Variant = true) -> void:
+	tags[tag] = value
+	tag_added.emit(tag)
 
 # NEW: Load all memory definitions into GameState
 func _load_memory_definitions():
@@ -345,16 +504,6 @@ func get_memory_definition(memory_id: String) -> Dictionary:
 func get_memory_chain(chain_id: String) -> Dictionary:
 	var _fname = "get_memory_chain"
 	return memory_chains.get(chain_id, {})
-
-# Tag system functions (ensure these exist for memory system compatibility)
-func has_tag(tag: String) -> bool:
-	var _fname = "has_tag"
-	return tags.has(tag)
-
-func set_tag(tag: String, value: Variant = true) -> void:
-	var _fname = "set_tag"
-	tags[tag] = value
-	tag_added.emit(tag)
 	
 func remove_tag(tag: String) -> void:
 	var _fname = "remove_tag"
@@ -544,62 +693,6 @@ func add_dialogue_mapping(memory_tag: String, character_id: String, dialogue_tit
 func get_dialogue_mapping(memory_tag: String) -> Dictionary:
 	return dialogue_mapping.get(memory_tag, {})
 
-func get_available_dialogue_options(character_id: String) -> Array:
-	var _fname = "get_available_dialogue_options"
-	print(script_name_tag(self, _fname) + "=== GAMESTATE GET_AVAILABLE_DIALOGUE_OPTIONS DEBUG ===")
-	print(script_name_tag(self, _fname) + "character_id: ", character_id)
-	print(script_name_tag(self, _fname) + "dialogue_mapping size: ", dialogue_mapping.size())
-	print(script_name_tag(self, _fname) + "dialogue_mapping contents: ", dialogue_mapping)
-	
-	var available_options = []
-	
-	# Check each dialogue mapping entry
-	for memory_tag in dialogue_mapping:
-		var mapping = dialogue_mapping[memory_tag]
-		print(script_name_tag(self, _fname) + "Checking memory_tag: ", memory_tag)
-		print(script_name_tag(self, _fname) + "  Mapping: ", mapping)
-		
-		# Check if this mapping is for our character
-		if mapping.has("character_id") and mapping["character_id"] == character_id:
-			print(script_name_tag(self, _fname) + "  Character matches!")
-			
-			# Check if the memory tag is unlocked
-			if has_tag(memory_tag):
-				print(script_name_tag(self, _fname) + "  Memory tag is unlocked!")
-				
-				var option = {
-					"tag": memory_tag,
-					"dialogue_title": mapping["dialogue_title"],
-					"character_id": character_id
-				}
-				available_options.append(option)
-				print(script_name_tag(self, _fname) + "  Added option: ", option)
-			else:
-				print(script_name_tag(self, _fname) + "  Memory tag not unlocked: ", memory_tag)
-		else:
-			print(script_name_tag(self, _fname) + "  Character doesn't match (", mapping.get("character_id", "NO_CHARACTER"), " vs ", character_id, ")")
-	
-	print(script_name_tag(self, _fname) + "Final available_options: ", available_options)
-	print(script_name_tag(self, _fname) + "=== END GAMESTATE GET_AVAILABLE_DIALOGUE_OPTIONS DEBUG ===")
-	return available_options
-
-func is_dialogue_available(character_id: String, dialogue_title: String) -> bool:
-	for tag in dialogue_mapping.keys():
-		var mapping = dialogue_mapping[tag]
-		
-		if mapping.character_id == character_id and mapping.dialogue_title == dialogue_title:
-			return has_tag(tag)
-	
-	return false
-
-func get_memory_tag_for_dialogue(character_id: String, dialogue_title: String) -> String:
-	for tag in dialogue_mapping.keys():
-		var mapping = dialogue_mapping[tag]
-		
-		if mapping.character_id == character_id and mapping.dialogue_title == dialogue_title:
-			return tag
-	
-	return ""
 
 # Game management functions
 func start_new_game():

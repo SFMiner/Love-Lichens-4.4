@@ -165,6 +165,201 @@ func _ready():
 	call_deferred("setup_sprite_deferred")
 	get_node_or_null("AnimationPlayer").play(initial_animation)
 
+# ENHANCED: Observable feature handling with registry validation
+func observe_feature(feature_id: String) -> String:
+	"""Observe a feature and trigger memory using registry"""
+	var _fname = "observe_feature"
+	print(GameState.script_name_tag(self, _fname) + "=== NPC OBSERVE_FEATURE DEBUG (REGISTRY) ===")
+	print(GameState.script_name_tag(self, _fname) + "character_id: ", character_id)
+	print(GameState.script_name_tag(self, _fname) + "feature_id: ", feature_id)
+	print(GameState.script_name_tag(self, _fname) + "observable_features: ", observable_features)
+	
+	if not observable_features.has(feature_id):
+		print(GameState.script_name_tag(self, _fname) + "ERROR: Feature not found: ", feature_id)
+		return ""
+	
+	var feature = observable_features[feature_id]
+	print(GameState.script_name_tag(self, _fname) + "Feature data: ", feature)
+	
+	# Mark as observed
+	if not feature.get("observed", false):
+		print(GameState.script_name_tag(self, _fname) + "Marking feature as observed")
+		feature["observed"] = true
+		observed.emit(feature_id)
+		
+		# ENHANCED: Use registry to find and trigger memory
+		var memory_tag = _find_memory_tag_for_feature(feature_id)
+		if memory_tag != "":
+			print(GameState.script_name_tag(self, _fname) + "Found memory tag in registry: ", memory_tag)
+			
+			# Validate and trigger memory using registry
+			if GameState.is_valid_memory_tag(memory_tag):
+				if GameState.can_unlock_memory(memory_tag):
+					if GameState.discover_memory_from_registry(memory_tag, "observable_feature"):
+						print(GameState.script_name_tag(self, _fname) + "Successfully triggered memory: ", memory_tag)
+					else:
+						print(GameState.script_name_tag(self, _fname) + "Failed to trigger memory: ", memory_tag)
+				else:
+					print(GameState.script_name_tag(self, _fname) + "Memory conditions not met: ", memory_tag)
+			else:
+				print(GameState.script_name_tag(self, _fname) + "Invalid memory tag: ", memory_tag)
+		else:
+			print(GameState.script_name_tag(self, _fname) + "No memory tag found for feature: ", feature_id)
+		
+		var description = feature.get("description", "")
+		print(GameState.script_name_tag(self, _fname) + "Returning description: '", description, "'")
+		return description
+	else:
+		# Return short description for already observed features
+		var short_desc = feature.get("short_description", feature.description)
+		print(GameState.script_name_tag(self, _fname) + "Feature already observed, returning short description: '", short_desc, "'")
+		return short_desc
+
+# NEW: Find memory tag for a feature using registry
+func _find_memory_tag_for_feature(feature_id: String) -> String:
+	"""Find memory tag associated with a feature using registry"""
+	var _fname = "_find_memory_tag_for_feature"
+	
+	# Construct potential target_ids for this feature
+	var potential_targets = [
+		character_id + "_" + feature_id,  # e.g., "poison_necklace"
+		feature_id,                       # e.g., "necklace"
+		character_id + "_" + feature_id + "_seen"  # e.g., "poison_necklace_seen"
+	]
+	
+	# Search registry for matching target_ids with LOOK_AT trigger
+	for tag_name in GameState.memory_registry.keys():
+		var metadata = GameState.memory_registry[tag_name]
+		
+		# Check if this is a LOOK_AT trigger (trigger_type 0)
+		var trigger_type = metadata.get("trigger_type", -1)
+		if typeof(trigger_type) == TYPE_FLOAT:
+			trigger_type = int(trigger_type)
+		
+		if trigger_type == 0:  # LOOK_AT
+			var target_id = metadata.get("target_id", "")
+			var meta_character_id = metadata.get("character_id", "")
+			
+			# Check if target matches our feature and character
+			if (target_id in potential_targets and meta_character_id == character_id):
+				if debug: print(GameState.script_name_tag(self, _fname) + "Found matching memory tag: ", tag_name, " for target: ", target_id)
+				return tag_name
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "No memory tag found for feature: ", feature_id, " with character: ", character_id)
+	return ""
+
+# ENHANCED: Add observable feature with registry integration
+func add_observable_feature(feature_id: String, description: String, memory_tag: String = "") -> void:
+	"""Add observable feature with optional memory tag validation"""
+	var _fname = "add_observable_feature"
+	
+	# If memory_tag is provided, validate it
+	if memory_tag != "" and not GameState.is_valid_memory_tag(memory_tag):
+		if debug: print(GameState.script_name_tag(self, _fname) + "WARNING: Invalid memory tag for feature: ", feature_id, " tag: ", memory_tag)
+		memory_tag = ""  # Clear invalid tag
+	
+	observable_features[feature_id] = {
+		"description": description,
+		"observed": false,
+		"memory_tag": memory_tag,
+		"short_description": "You notice the " + feature_id + " again."
+	}
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Added observable feature: ", feature_id, " to ", character_id)
+
+# ENHANCED: Load character data with registry validation
+func load_character_data():
+	"""Load character data with registry-based memory validation"""
+	var _fname = "load_character_data"
+	print(GameState.script_name_tag(self, _fname) + "=== NPC LOAD_CHARACTER_DATA DEBUG (REGISTRY) for ", character_id, " ===")
+	
+	var character_loader = get_node_or_null("/root/CharacterDataLoader")
+	if character_loader:
+		var loaded_data = character_loader.get_character(character_id)
+		
+		if loaded_data:
+			character_name = loaded_data.name
+			description = loaded_data.description
+			
+			if "observable_features" in loaded_data:
+				print(GameState.script_name_tag(self, _fname) + "=== LOADING OBSERVABLE FEATURES WITH REGISTRY VALIDATION ===")
+				var features = loaded_data["observable_features"]
+				
+				for feature_id in features:
+					var feature_data = features[feature_id]
+					var feature_description = feature_data.get("description", "")
+					
+					# Find associated memory tag using registry
+					var registry_memory_tag = _find_memory_tag_for_feature(feature_id)
+					
+					# Use registry tag if found, otherwise use data from JSON
+					var memory_tag = registry_memory_tag
+					if memory_tag == "" and feature_data.has("memory_tag"):
+						memory_tag = feature_data.get("memory_tag", "")
+					
+					print(GameState.script_name_tag(self, _fname) + "Feature: ", feature_id)
+					print(GameState.script_name_tag(self, _fname) + "  Registry memory tag: ", registry_memory_tag)
+					print(GameState.script_name_tag(self, _fname) + "  Final memory tag: ", memory_tag)
+					
+					# Validate memory tag if provided
+					if memory_tag != "":
+						if GameState.is_valid_memory_tag(memory_tag):
+							print(GameState.script_name_tag(self, _fname) + "  ✅ Valid memory tag")
+						else:
+							print(GameState.script_name_tag(self, _fname) + "  ❌ Invalid memory tag: ", memory_tag)
+							memory_tag = ""  # Clear invalid tag
+					
+					# Add the feature
+					add_observable_feature(feature_id, feature_description, memory_tag)
+				
+				print(GameState.script_name_tag(self, _fname) + "Final observable_features: ", observable_features)
+				print(GameState.script_name_tag(self, _fname) + "=== END LOADING OBSERVABLE FEATURES ===")
+			
+			return
+	
+	print(GameState.script_name_tag(self, _fname) + "Falling back to default character data")
+	_set_default_character_data()
+
+# NEW: Validate all observable features against registry
+func validate_observable_features() -> Dictionary:
+	"""Validate all observable features against the memory registry"""
+	var _fname = "validate_observable_features"
+	var validation_result = {
+		"valid_features": [],
+		"invalid_memory_tags": [],
+		"missing_registry_entries": [],
+		"warnings": []
+	}
+	
+	for feature_id in observable_features.keys():
+		var feature = observable_features[feature_id]
+		var memory_tag = feature.get("memory_tag", "")
+		
+		if memory_tag != "":
+			if GameState.is_valid_memory_tag(memory_tag):
+				validation_result.valid_features.append(feature_id)
+			else:
+				validation_result.invalid_memory_tags.append({
+					"feature_id": feature_id,
+					"invalid_tag": memory_tag
+				})
+		else:
+			# Check if there should be a memory tag based on registry
+			var registry_tag = _find_memory_tag_for_feature(feature_id)
+			if registry_tag != "":
+				validation_result.missing_registry_entries.append({
+					"feature_id": feature_id,
+					"suggested_tag": registry_tag
+				})
+	
+	if debug and (validation_result.invalid_memory_tags.size() > 0 or validation_result.missing_registry_entries.size() > 0):
+		print(GameState.script_name_tag(self, _fname) + "Observable feature validation issues for ", character_id, ":")
+		print(GameState.script_name_tag(self, _fname) + "  Invalid tags: ", validation_result.invalid_memory_tags)
+		print(GameState.script_name_tag(self, _fname) + "  Missing registry entries: ", validation_result.missing_registry_entries)
+	
+	return validation_result
+
+
 func move_to(target: Vector2):
 	nav_agent.target_position = target
 	
@@ -339,62 +534,6 @@ func _is_near_interaction_zone() -> bool:
 			return true
 	return false
 	
-	
-func load_character_data():
-	print(GameState.script_name_tag(self) + "=== NPC LOAD_CHARACTER_DATA DEBUG for ", character_id, " ===")
-	print(GameState.script_name_tag(self) + "Initial description: '", description, "'")
-	print(GameState.script_name_tag(self) + "Initial character_name: '", character_name, "'")
-	
-	var character_loader = get_node_or_null("/root/CharacterDataLoader")
-	if character_loader:
-		print(GameState.script_name_tag(self) + "Found CharacterDataLoader")
-		
-		var loaded_data = character_loader.get_character(character_id)
-		print(GameState.script_name_tag(self) + "get_character returned: ", loaded_data)
-		print(GameState.script_name_tag(self) + "loaded_data type: ", typeof(loaded_data))
-		
-		if loaded_data:
-			print(GameState.script_name_tag(self) + "loaded_data is truthy")
-			print(GameState.script_name_tag(self) + "loaded_data.name: '", loaded_data.name, "'")
-			print(GameState.script_name_tag(self) + "loaded_data.description: '", loaded_data.description, "'")
-			
-			print(GameState.script_name_tag(self) + "Before assignment - NPC description: '", description, "'")
-			print(GameState.script_name_tag(self) + "Setting character_name...")
-			character_name = loaded_data.name
-			print(GameState.script_name_tag(self) + "character_name is now: '", character_name, "'")
-			
-			print(GameState.script_name_tag(self) + "Setting description...")
-			description = loaded_data.description
-			print(GameState.script_name_tag(self) + "After assignment - NPC description: '", description, "'")
-			
-			print(GameState.script_name_tag(self) + "Character data loading completed successfully")
-			
-			if "observable_features" in loaded_data:
-				print(GameState.script_name_tag(self) + "=== LOADING OBSERVABLE FEATURES DEBUG ===")
-				var features = loaded_data["observable_features"]
-				print(GameState.script_name_tag(self) + "Features from JSON: ", features)
-				print(GameState.script_name_tag(self) + "Features type: ", typeof(features))
-			
-				for feature_id in features:
-					var feature = features[feature_id]
-					print(GameState.script_name_tag(self) + "Loading feature: ", feature_id, " = ", feature)
-					add_observable_feature(feature_id, feature.get("description", ""))
-				
-				print(GameState.script_name_tag(self) + "Final observable_features: ", observable_features)
-				print(GameState.script_name_tag(self) + "=== END LOADING OBSERVABLE FEATURES DEBUG ===")
-			else:
-				print(GameState.script_name_tag(self) + "No observable_features found in character data")
-			return
-		else:
-			print(GameState.script_name_tag(self) + "loaded_data is falsy (null/empty)")
-		
-	else:
-		print(GameState.script_name_tag(self) + "CharacterDataLoader not found")
-	
-	print(GameState.script_name_tag(self) + "Falling back to default character data")
-	_set_default_character_data()
-	print(GameState.script_name_tag(self) + "=== END NPC LOAD_CHARACTER_DATA DEBUG ===")
-
 
 		
 # Set default data if no file is found
@@ -481,43 +620,7 @@ func get_look_description() -> String:
 	print(GameState.script_name_tag(self) + "=== END GET_LOOK_DESCRIPTION DEBUG ===")
 	return result
 
-# Enhanced npc.gd observable feature handling
-func observe_feature(feature_id: String) -> String:
-	print(GameState.script_name_tag(self) + "=== NPC OBSERVE_FEATURE DEBUG ===")
-	print(GameState.script_name_tag(self) + "character_id: ", character_id)
-	print(GameState.script_name_tag(self) + "feature_id: ", feature_id)
-	print(GameState.script_name_tag(self) + "observable_features: ", observable_features)
-	
-	if not observable_features.has(feature_id):
-		print(GameState.script_name_tag(self) + "ERROR: Feature not found: ", feature_id)
-		print(GameState.script_name_tag(self) + "Available features: ", observable_features.keys())
-		return ""
-	
-	var feature = observable_features[feature_id]
-	print(GameState.script_name_tag(self) + "Feature data: ", feature)
-	print(GameState.script_name_tag(self) + "Feature observed status: ", feature.get("observed", "NO_OBSERVED_FIELD"))
-	
-	# Mark as observed
-	if not feature.get("observed", false):
-		print(GameState.script_name_tag(self) + "Marking feature as observed")
-		feature["observed"] = true
-		observed.emit(feature_id)
-		
-		# Set memory tag if exists
-		if feature.has("memory_tag") and feature.memory_tag != "":
-			print(GameState.script_name_tag(self) + "Setting memory tag: ", feature.memory_tag)
-			GameState.set_tag(feature.memory_tag, true)
-			print(GameState.script_name_tag(self) + "Memory tag set successfully")
-		
-		var description = feature.get("description", "")
-		print(GameState.script_name_tag(self) + "Returning description: '", description, "'")
-		return description
-	else:
-		# Return short description for already observed features
-		var short_desc = feature.get("short_description", feature.description)
-		print(GameState.script_name_tag(self) + "Feature already observed, returning short description: '", short_desc, "'")
-		return short_desc
-		
+
 func has_observable_feature(feature_id: String) -> bool:
 	return observable_features.has(feature_id)
 
@@ -526,14 +629,6 @@ func is_feature_observed(feature_id: String) -> bool:
 		return observable_features[feature_id].observed
 	return false
 
-func add_observable_feature(feature_id: String, description: String, memory_tag: String = "") -> void:
-	observable_features[feature_id] = {
-		"description": description,
-		"observed": false,
-		"memory_tag": memory_tag,
-		"short_description": "You notice the " + feature_id + " again."
-	}
-	if debug: print(GameState.script_name_tag(self) + "Added observable feature: ", feature_id, " to ", character_id)
 
 # Get dialogue options available based on observed memories
 func get_memory_dialogue_options() -> Array:

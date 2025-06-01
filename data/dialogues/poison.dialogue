@@ -8,7 +8,7 @@ Poison: [#wry] What's up?
 - I've been exploring campus
 	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 	=> general_chat
 - What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen")]
-	=> ask_about_necklace
+	=> ask_poison_about_necklace
 
 ~ general_chat
 
@@ -19,8 +19,8 @@ Poison: So... biology major, huh? Must be fun to stare at moss all day.
 	Poison: [#amused] Oh, excuse my botanical faux pas. Lichens, not moss. Got it, Professor.
 	Poison: [#genuine] For real though, what made you pick that specific field?
 - What are you studying?
-	Poison: Entomology. Someone's gotta eat up all out=r messes, right? 
-	Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.
+	Poison: Entomology. Someone's gotta eat up all our messes, right? 
+	Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.  [if not GameState.has_tag("poison_necklace_seen")]
 	do GameState.set_tag("poison_peepaw_known") [next]
 	do GameState.gs_print("Tag poison_peepaw_known set")
  
@@ -32,7 +32,7 @@ Poison: Anyway, I should get going. Have a lab to pretend to care about.
 	Poison: [#surprised] Yeah, he was... is.
 	=> peepaw_brief
 - That necklace seems special [if GameState.has_tag("poison_necklace_seen")]
-	=> ask_about_necklace
+	=> ask_poison_about_necklace
 
 
 
@@ -49,7 +49,7 @@ Poison: [#shifting] Sorry, not really trying to get all sentimental in the middl
 - You mentioned a story about him? [if GameState.has_tag("poison_peepaw_memory_stirred")]
 	=> peepaw_story
 
-~ ask_about_necklace
+~ ask_poison_about_necklace
 
 Poison: [#surprised] Oh, this?
 Poison: [#awkward_laugh] It's, uh... it's got some of Pee-Paw's ashes in it. My grandfather.

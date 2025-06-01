@@ -11,8 +11,6 @@ extends InteractionAgent
 var is_highlighted: bool = false
 var original_modulate: Color
 
-const scr_debug :bool = false
-var debug
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 

@@ -65,10 +65,12 @@ var character_font_sizes = {}  # New dictionary for font sizes
 # Store references to loaded fonts to avoid reloading
 var loaded_fonts = {}
 
-
+const scr_debug :bool = false
+var debug
 
 func _ready() -> void:
-
+	var _fname = "_ready"
+	debug = scr_debug or GameController.sys_debug
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 
@@ -89,14 +91,15 @@ func _ready() -> void:
 
 # New function to load fonts from character data
 func load_character_fonts() -> void:
+	var _fname = "load_character_fonts"
 	var character_loader = get_node_or_null("/root/CharacterDataLoader")
 	if not character_loader:
-		print("Character Data Loader not found - using default fonts only")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Character Data Loader not found - using default fonts only")
 		return
 	
 	# Access the loaded characters dictionary
 	var characters = character_loader.characters
-	print("Loading fonts for " + str(characters.size()) + " characters")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Loading fonts for " + str(characters.size()) + " characters")
 	
 	for character_id in characters:
 		var character_data = characters[character_id]
@@ -108,9 +111,9 @@ func load_character_fonts() -> void:
 				character_fonts[character_id] = character_data.font_path
 				# Load the font right away
 				loaded_fonts[character_id] = load(character_data.font_path)
-				print("Loaded font for " + character_id + ": " + character_data.font_path)
+				if debug: print(GameState.script_name_tag(self, _fname) + "Loaded font for " + character_id + ": " + character_data.font_path)
 			else:
-				print("Font path not found for " + character_id + ": " + character_data.font_path)
+				if debug: print(GameState.script_name_tag(self, _fname) + "Font path not found for " + character_id + ": " + character_data.font_path)
 		
 		# Store character color if specified
 		if character_data.text_color:
@@ -123,16 +126,17 @@ func load_character_fonts() -> void:
 		if character_data.name and character_data.name != "":
 			character_font_sizes[character_data.name.to_lower()] = character_data.font_size
 
-	print("Loaded " + str(loaded_fonts.size()) + " character fonts")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Loaded " + str(loaded_fonts.size()) + " character fonts")
 
 
 func _on_dialogue_line_started(dialogue_line):
+	var _fname = "_on_dialogue_line_started"
 	# Get the character name from the dialogue line
 	var character_name = "Default"
 	
 	if dialogue_line.character and !dialogue_line.character.is_empty():
 		character_name = dialogue_line.character
-		print("Character detected from dialogue_line.character: ", character_name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Character detected from dialogue_line.character: ", character_name)
 		
 	apply_font_for_character(character_name)
 	
@@ -145,10 +149,11 @@ func _on_dialogue_line_started(dialogue_line):
 
 # Apply font based on character name
 func apply_font_for_character(character_name):
+	var _fname = "apply_font_for_character"
 	if not dialogue_label:
 		return
 		
-	print("Applying font for character: ", character_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Applying font for character: ", character_name)
 	var font_to_use = loaded_fonts.get("Default")
 	var color_to_use = Color(1, 1, 1, 1)  # Default white
 	var font_size = 20  # Default font size	
@@ -156,19 +161,19 @@ func apply_font_for_character(character_name):
 	var character_id = character_name.to_lower()  # First try: direct lowercase match
 	var character_id_normalized = character_id.replace(" ", "_")  # Second try: replace spaces with underscores
 	
-	print("Trying to match character name: ", character_name)
-	print("Normalized ID for lookup: ", character_id_normalized)
-	print("Available loaded fonts: ", loaded_fonts.keys())
+	if debug: print(GameState.script_name_tag(self, _fname) + "Trying to match character name: ", character_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Normalized ID for lookup: ", character_id_normalized)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Available loaded fonts: ", loaded_fonts.keys())
 	
 	# Try to find font - first with original character_id, then with normalized version
 	if character_id in loaded_fonts:
 		font_to_use = loaded_fonts[character_id]
-		print("Found font using direct match: ", character_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found font using direct match: ", character_id)
 	elif character_id_normalized in loaded_fonts:
 		font_to_use = loaded_fonts[character_id_normalized]
-		print("Found font using normalized ID: ", character_id_normalized)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found font using normalized ID: ", character_id_normalized)
 	else:
-		print("No font match found, using default font")
+		if debug: print(GameState.script_name_tag(self, _fname) + "No font match found, using default font")
 	
 	# Same approach for colors
 	if character_id in character_colors:
@@ -189,10 +194,12 @@ func apply_font_for_character(character_name):
 	dialogue_label.add_theme_font_size_override("normal_font_size", font_size)
 	
 func _unhandled_input(_event: InputEvent) -> void:
+	var _fname = _unhandled_input
 	# Only the balloon is allowed to handle input while it's showing
 	get_viewport().set_input_as_handled()
 
 func _notification(what: int) -> void:
+	var _fname = "_notification"
 	## Detect a change of locale and update the current dialogue line to show the new language
 	if what == NOTIFICATION_TRANSLATION_CHANGED and _locale != TranslationServer.get_locale() and is_instance_valid(dialogue_label):
 		_locale = TranslationServer.get_locale()
@@ -204,28 +211,30 @@ func _notification(what: int) -> void:
 
 ## Start some dialogue
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
-	print("Start method called")
-	print("Dialogue resource: ", dialogue_resource)
-	print("Title: ", title)
+	var _fname = "start"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Start method called")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue resource: ", dialogue_resource)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Title: ", title)
 	
 	resource = dialogue_resource
 	temporary_game_states = [self] + extra_game_states
 	
-	print("About to get dialogue line")
+	if debug: print(GameState.script_name_tag(self, _fname) + "About to get dialogue line")
 	self.dialogue_line = await resource.get_next_dialogue_line(title, temporary_game_states)
-	print("Dialogue line received: ", self.dialogue_line)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue line received: ", self.dialogue_line)
 	
 	if self.dialogue_line:
-		print("Dialogue text: ", self.dialogue_line.text)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue text: ", self.dialogue_line.text)
 		_on_dialogue_line_started(self.dialogue_line)
-		print("Font applied for character")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Font applied for character")
 	else:
-		print("No dialogue line returned!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "No dialogue line returned!")
 
 
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
-	print("Apply dialogue line called")
+	var _fname = "apply_dialogue_line"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Apply dialogue line called")
 	
 	
 	if dialogue_line and dialogue_line.text:
@@ -233,35 +242,35 @@ func apply_dialogue_line() -> void:
 	
 	mutation_cooldown.stop()
 	
-	print("Character: ", dialogue_line.character)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Character: ", dialogue_line.character)
 	is_waiting_for_input = false
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	print("Character: ", dialogue_line.character)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Character: ", dialogue_line.character)
 	character_label.visible = not dialogue_line.character.is_empty()
 	character_label.text = tr(dialogue_line.character, "dialogue")
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
-	print("Dialogue text in apply: ", dialogue_line.text)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue text in apply: ", dialogue_line.text)
 	
 	responses_menu.hide()
 	responses_menu.responses = dialogue_line.responses
 
 	# Show our balloon
-	print("About to show balloon")
+	if debug: print(GameState.script_name_tag(self, _fname) + "About to show balloon")
 	balloon.show()
 	will_hide_balloon = false
 
 	dialogue_label.show()
-	print("Dialogue label shown")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue label shown")
 	if not dialogue_line.text.is_empty():
-		print("Starting typing")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Starting typing")
 		dialogue_label.type_out()
-		print("Waiting for typing to finish")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Waiting for typing to finish")
 		await dialogue_label.finished_typing
-		print("Typing finished")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Typing finished")
 
 	# Wait for input
 	if dialogue_line.responses.size() > 0:
@@ -279,6 +288,7 @@ func apply_dialogue_line() -> void:
 
 ## Go to the next line
 func next(next_id: String) -> void:
+	var _fname = "next"
 	self.dialogue_line = await resource.get_next_dialogue_line(next_id, temporary_game_states)
 	_on_dialogue_line_started(self.dialogue_line)  # Add this line
 
@@ -286,13 +296,15 @@ func next(next_id: String) -> void:
 
 
 func _on_mutation_cooldown_timeout() -> void:
+	var _fname = "_on_mutation_cooldown_timeout"
 	if will_hide_balloon:
 		will_hide_balloon = false
 		balloon.hide()
 
 
 func _on_mutated(mutation):
-	print(mutation)
+	var _fname = "_on_mutated"
+	if debug: print(GameState.script_name_tag(self, _fname) + mutation)
 	
 	if mutation.has("expression") and mutation["expression"].size() >= 3:
 		var expr = mutation["expression"][2]
@@ -315,6 +327,7 @@ func _on_mutated(mutation):
 
 
 func _on_balloon_gui_input(event: InputEvent) -> void:
+	var _fname = "_on_balloon_gui_input"
 	# See if we need to skip typing of the dialogue
 	if dialogue_label.is_typing:
 		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
@@ -337,6 +350,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
+	var _fname = "_on_responses_menu_response_selected"
 	next(response.next_id)
 
 
