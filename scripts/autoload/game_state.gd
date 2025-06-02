@@ -231,8 +231,20 @@ func has_tag(tag: String) -> bool:
 	return tags.has(tag)
 
 func set_tag(tag: String, value: Variant = true) -> void:
+	var _fname = "set_tag"
+	
+	# COMPREHENSIVE DEBUG TRACKER
+	print("🔥🔥🔥 TAG TRACKER: Setting '", tag, "' = ", value)
+	print("🔥🔥🔥 Called from stack: ")
+	var stack = get_stack()
+	for i in range(min(3, stack.size())):  # Show top 3 stack frames
+		print("🔥🔥🔥   ", stack[i].source, ":", stack[i].line, " in ", stack[i].function)
+	
 	tags[tag] = value
 	tag_added.emit(tag)
+	
+	# Verify it was actually set
+	print("🔥🔥🔥 Verification: tags['", tag, "'] = ", tags.get(tag, "NOT_FOUND"))
 
 # NEW: Load all memory definitions into GameState
 func _load_memory_definitions():

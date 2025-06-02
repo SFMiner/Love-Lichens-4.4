@@ -1,8 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://by56nppcy6bhp"]
+[gd_scene load_steps=24 format=3 uid="uid://by56nppcy6bhp"]
 
 [ext_resource type="Script" uid="uid://d26xfq8cm1o5b" path="res://scripts/world/npc.gd" id="1_2mokx"]
 [ext_resource type="Script" uid="uid://cjtctlf6h32pl" path="res://scripts/world/character_animator.gd" id="1_6eakx"]
-[ext_resource type="Texture2D" uid="uid://to53odusol38" path="res://assets/character_sprites/iris_bookwright/standard/walk.png" id="2_rv78h"]
 [ext_resource type="Texture2D" uid="uid://bg31bgtqgiwv5" path="res://assets/character_sprites/kitty/standard/jump.png" id="3_7n8xq"]
 
 [sub_resource type="Animation" id="Animation_qa0xf"]
@@ -725,7 +724,6 @@ radius = 30.0
 
 [node name="NPC" type="CharacterBody2D"]
 script = ExtResource("1_2mokx")
-portrait = ExtResource("2_rv78h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-3.41061e-13, -24)

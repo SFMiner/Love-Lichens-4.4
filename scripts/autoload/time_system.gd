@@ -1,9 +1,9 @@
 extends Node
 
-signal time_of_day_changed()#old_time: int, new_time: int)
-signal day_changed(old_day: int, new_day: int)
-signal month_changed(old_month: int, new_month: int)
-signal year_changed(old_year: int, new_year: int)
+signal time_of_day_changed()#d_time: int, new_time: int)
+signal day_changed()#old_day: int, new_day: int)
+signal month_changed()#old_month: int, new_month: int)
+signal year_changed()#old_year: int, new_year: int)
 
 enum TimeOfDay {
 	MORNING,
@@ -49,7 +49,7 @@ func advance_time_of_day() -> void:
 	if debug:
 		print(GameState.script_name_tag(self) + "Time of day: %s → %s" %
 			[_get_time_name(old), _get_time_name(current_time_of_day)])
-	emit_signal("time_of_day_changed")#, old, current_time_of_day)
+	emit_signal("time_of_day_changed", old, current_time_of_day)
 
 	# rollover to next day
 	if old == TimeOfDay.NIGHT and current_time_of_day == TimeOfDay.MORNING:

@@ -19,6 +19,29 @@ func _ready():
 	# Test memory system connection
 #	call_deferred("test_memory_system_connection")
 
+# Add this to GameController._ready() temporarily:
+func find_old_character_system_references():
+	print("=== CHECKING FOR OLD CHARACTER SYSTEM REFERENCES ===")
+	
+	# Check if old autoloads still exist
+	var old_loader = get_node_or_null("/root/CharacterDataLoader")
+	if old_loader:
+		print("⚠️ CharacterDataLoader still exists - remove from autoloads")
+	else:
+		print("✅ CharacterDataLoader removed")
+	
+	# Check if NPCs are self-contained
+	var npcs = get_tree().get_nodes_in_group("npc")
+	for npc in npcs:
+		if npc.character_id == "":
+			print("⚠️ NPC missing character_id: ", npc.name)
+		elif npc.observable_features.is_empty():
+			print("⚠️ NPC missing observable features: ", npc.character_id)
+		else:
+			print("✅ NPC properly configured: ", npc.character_id)
+	
+	print("=== END CHECK ===")
+
 func test_memory_system_connection():
 	var fname = "test_memory_system_connection"
 	if debug:

@@ -19,7 +19,7 @@
 			"dialogue_title": "ask_li_about_glasses"
 		}
 	},
-	"special_items": [],
+	"special_items": ["two pairs of glasses"],
 	"relationships": {
 		"Adam": {
 			"type": "distant_friend",

@@ -16,7 +16,7 @@
 			"observed": false
 		}
 	},
-	"special_items": [],
+	"special_items": ["belled collar"],
 	"relationships": {
 		"Fate": {
 			"type": "emotional_anchor",

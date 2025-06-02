@@ -4,7 +4,7 @@
 Li: Don’t mind me, just observing the local chaos.
 - "Anything interesting?" => li_snark
 - Adam: You always wear two pairs of glasses? [if GameState.has_tag("li_lucky_glasses_seen")]
-	=> ask_li_about_glasses 
+		=> ask_li_about_glasses 
 - Leave Li to their observations => END!
 
 ~ li_snark
