@@ -7,7 +7,8 @@ The Memory Discovery System allows players to organically discover personal stor
 1. **Memory Triggers** - Events that unlock memories when specific conditions are met
 2. **Memory Chains** - Sequences of related memories that tell a complete story
 3. **Observable Features** - Visual elements on characters/objects that players can notice
-4. **Tag System** - Persistent tracking of player discoveries and story progression
+4. **Tag System** - Centralized and simplified system for persistent tracking of player discoveries and story progression
+5. **Memory Tag Registry** - A centralized storage for memory tags (currently inactive but code remains for future use)
 
 ## Usage
 
@@ -85,13 +86,23 @@ The memory system supports various trigger types:
 - `QUEST_COMPLETED` (4): Triggered when a quest is completed
 - `CHARACTER_RELATIONSHIP` (5): Triggered when relationship level changes
 
+## Tag System
+
+The centralized tag system was recently updated and simplified:
+
+- ~~All memory tags are registered in a central registry file~~ (registry feature is currently inactive but code remains for future use)
+- Observable features are now fully functional, allowing players to notice visual elements on characters
+- Tags are consistently tracked across game sessions through the GameState tag system
+- Memory tags can be viewed and managed using the debug commands listed below
+
 ## Integration with Other Systems
 
 The Memory System integrates with:
 
-- **Dialogue System**: For conditional dialogue options based on discoveries
+- **Dialogue System**: For conditional dialogue options based on discoveries (now with character-specific fonts)
 - **Quest System**: For quest objectives based on memory discovery
 - **Relationship System**: To award relationship points for memory discoveries
+- **Phone Interface**: Content in apps can be filtered and unlocked based on memory tags
 
 ## Example Test Quest
 

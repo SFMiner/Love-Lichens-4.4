@@ -79,7 +79,7 @@ var debug
 func _ready():
 	var _fname = "_ready" 
 	debug = scr_debug or GameController.sys_debug
-	_load_memory_registry()
+#	_load_memory_registry()
 
 func get_npc(npc_name):
 	var _fname = "get_npc" 

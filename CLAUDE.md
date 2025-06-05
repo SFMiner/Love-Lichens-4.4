@@ -23,15 +23,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Core Systems
 - **Game Controller**: Central coordinator that manages scene transitions, pause functionality, and UI
-- **Memory System**: Tracks character memories and story discoveries through observable features and triggers
-- **Dialog System**: Handles character conversations with conditional responses based on player choices
+- **Memory System**: Tracks character memories and story discoveries through observable features and triggers (note: memory_tag_registry feature remains in code but is not currently active)
+- **Dialog System**: Handles character conversations with conditional responses based on player choices and character-specific font styling
 - **Quest System**: Manages objectives, progress tracking, and rewards
 - **Inventory System**: Item management with effect handling
 - **Relationship System**: Tracks player standing with different characters
 - **Time System**: Manages in-game time progression with day/night cycles
-- **Save/Load System**: Persists game state between sessions
+- **Save/Load System**: Persists game state between sessions with support for multiple save slots
 - **Fast Travel System**: Allows player to move between unlocked locations
 - **Character Data System**: Manages character information and fonts
+- **Phone System**: Provides an in-game smartphone interface with apps for narrative content
 
 ## Coding Style Guidelines
 
@@ -99,9 +100,10 @@ The game features an extensive memory system for character backstories and playe
 - **Memory Triggers**: Events that unlock memories (look_at, item_acquired, location_visited, etc.)
 - **Memory Chains**: Sequential memories that tell complete character stories
 - **Observable Features**: Visual elements players can notice on characters
-- **Tag System**: Tracks player discoveries across the game
+- **Tag System**: Centralized and simplified system that tracks player discoveries across the game
 - Memory data stored in JSON format in `data/memories/` directory
 - Integrates with dialogue for conditional options and quest objectives
+- Memory tag registry system in `data/generated/memory_tag_registry.json`
 
 ## Scene Transitions
 
@@ -122,6 +124,9 @@ The game includes a phone interface with multiple apps:
 - Content tagged using the game's tag framework for filtering/unlocking
 - Integrated with timestamp system for narrative flexibility
 - Structured as a full-screen UI built around a base phone scene
+- Basic phone system framework implemented and functioning
+- Snake app fully implemented and working as a mini-game
+- Other apps (messaging, social, email, etc.) still under development
 
 ## Debugging Features
 
@@ -129,3 +134,12 @@ The game includes a phone interface with multiple apps:
 - Scene transition debugging in GameController
 - Most systems include debug flags (`scr_debug`, `sys_debug`)
 - Quest debugging with `debug_complete_quest_objective`
+- Improved debugging output with script and function names in debug messages
+
+## Recent Updates (as of June 2025)
+
+- Dialog system now correctly displays character-specific font styles
+- Memory tag system fully operational with observable features working as expected
+- Centralized and simplified tag system for better organization
+- Basic phone interface framework functioning with Snake app playable
+- Fixed dialogue option display issues and improved UI

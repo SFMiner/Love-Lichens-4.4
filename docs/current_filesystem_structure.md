@@ -1,4 +1,4 @@
-Last updates Jun 1. 2025, 13:58
+Last updated Jun 5. 2025, 18:30
 
 res://
   ├── addons/
@@ -106,7 +106,7 @@ res://
   │   │   ├── professor_moss.dialogue
   │   │   └── various dialogue files...
   │   ├── generated/
-  │   │   └── memory_tag_registry.json
+  │   │   └── memory_tag_registry.json  # Currently inactive but code remains for future use
   │   ├── grades/
   │   │   └── year1_sem1_grades.json
   │   ├── items/

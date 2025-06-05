@@ -1,4 +1,11 @@
 # poison.dialogue
+~ tages
+	"poison_necklace_seen" - have seen Poison's necklace
+	"poison_necklace_shared" - Poison explained necklace
+	"poison_peepaw_known" - Poison said who PeePaw is
+	"poison_peepaw_memory_stirred" - Poison has recalled the PeePaw story
+	"poison_peepaw_story_shared" - Poison has told the PeePaw story
+
 ~ start
 
 Poison: [#wry] What's up?
@@ -6,10 +13,17 @@ Poison: [#wry] What's up?
 	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. 
 	=> general_chat
 - I've been exploring campus
-	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 	=> general_chat
-- What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen")]
+	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 
+	=> general_chat
+- What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared") ]
 	=> ask_poison_about_necklace
-
+- Would you tell me about that necklace again? [if GameState.has_tag("poison_necklace_seen") and GameState.has_tag("poison_necklace_shared") ]
+	=> ask_poison_about_necklace
+- You mentioned a story about your PeePaw? Would you like to tell me now? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
+	=> peepaw_story 
+- Hey, how did that story about your PeePaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and GameState.has_tag("poison_peepaw_story_shared")]
+	=> peepaw_story 
+	
 ~ general_chat
 
 Poison: So... biology major, huh? Must be fun to stare at moss all day.
@@ -20,40 +34,48 @@ Poison: So... biology major, huh? Must be fun to stare at moss all day.
 	Poison: [#genuine] For real though, what made you pick that specific field?
 - What are you studying?
 	Poison: Entomology. Someone's gotta eat up all our messes, right? 
-	Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.  [if not GameState.has_tag("poison_necklace_seen")]
-	do GameState.set_tag("poison_peepaw_known") [next]
-	do GameState.gs_print("Tag poison_peepaw_known set")
- 
+	if not GameState.has_tag("poison_peepaw_known")
+		Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation. 
+		do GameState.set_tag("poison_peepaw_known") [next]
+		do GameState.gs_print("Tag poison_peepaw_known set")
+- You mentioned a story about your peepaw? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
+	- Hey, hwo did that story about your peepaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and  GameState.has_tag("poison_peepaw_story_shared")]
+	=> peepaw_story 
 Poison: Anyway, I should get going. Have a lab to pretend to care about.
 - See you around
 	Poison: Later, lichen lover.
 	=> END!
-- Your grandfather sounds important to you [if GameState.has_tag("poison_peepaw_known")]
+	=> peepaw_story 
+- Hey, how did that story about your PeePaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and GameState.has_tag("poison_peepaw_story_shared")]
+	=> peepaw_story 
+
+- Your grandfather sounds important to you [if GameState.has_tag("poison_peepaw_known") and not GameState.has_tag("poison_peepaw_shared")]
 	Poison: [#surprised] Yeah, he was... is.
 	=> peepaw_brief
-- That necklace seems special [if GameState.has_tag("poison_necklace_seen")]
+if GameState.has_tag("poison_necklace_seen")
+	- That necklace seems special [if not GameState.has_tag("poison_necklace_shared")]
 	=> ask_poison_about_necklace
 
 
 
 ~ peepaw_brief
-
 Poison: [#thoughtful] Pee-Paw practically raised me. Taught me how to fish, how to fix things, how to call out BS when I saw it.
 Poison: [#shifting] Sorry, not really trying to get all sentimental in the middle of the quad.
 - No problem, I understand
 	Poison: [#grateful] Thanks. Catch you later.
+	=> END!
 - My parents weren't around much either
 	Poison: [#connecting] It's weird, right? How you can miss something you never really had.
 	Poison: Anyway, I should go. Later.
-	=> END!
-- You mentioned a story about him? [if GameState.has_tag("poison_peepaw_memory_stirred")]
-	=> peepaw_story
+	=> family_conversation
+	
 
 ~ ask_poison_about_necklace
 
 Poison: [#surprised] Oh, this?
 Poison: [#awkward_laugh] It's, uh... it's got some of Pee-Paw's ashes in it. My grandfather.
 do GameState.set_tag("poison_peepaw_known")
+do GameState.set_tag("poison_necklace_shared")
 - That's a beautiful way to remember someone
 	Poison: [#genuine] Yeah. Keeps him close, you know? He was always there for me when I needed him.
 	Poison: [#shifting] Anyway, not trying to get all heavy on you.
@@ -66,20 +88,17 @@ do GameState.set_tag("poison_peepaw_known")
 Poison: [#changing_subject] We should probably get to class. Catch you later?
 - Sure, see you
 	Poison: Later.
-- Before you go, you mentioned a story about your grandfather? [if GameState.has_tag("poison_peepaw_memory_stirred")]
-	=> peepaw_story
 
 ~ family_conversation
 # This would be triggered during a separate conversation event
-# where Dusty mentions missing their grandmother
+# where Poison mentions his grandfather
 
-if GameState.has_tag("poison_peepaw_known") and not GameState.has_tag("poison_peepaw_memory_stirred")
+if GameState.has_tag("poison_peepaw_known") and not GameState.has_tag("poison_peepaw_memory_shared") and not GameState.has_tag("poison_peepaw_memory_stirred")
 	Poison: [#thoughtful] Hey... remind me later. I got a story about Pee-Paw. Might make you laugh.
 	do GameState.set_tag("poison_peepaw_memory_stirred")
 => END
 
 ~ peepaw_story
-
 Poison: [#wistful] So there was this one time, I must have been maybe twelve? 
 Poison: We were sitting on his porch swing, drinking these gas station root beers he always bought me.
 Poison: [#smile] And out of nowhere, completely serious, he goes: "If you ever find yourself on a roof with a goat and a weathervane, bet on the goat."
@@ -93,7 +112,6 @@ Poison: [#smile] And out of nowhere, completely serious, he goes: "If you ever f
 - Did you ever ask him what he meant?
 	Poison: [#shaking_head] Nah. That wasn't really how we worked. He'd say something wild, I'd roll my eyes, and years later it would somehow make sense.
 	Poison: [#laughing] Or at least I'd convince myself it did.
-
 Poison: [#grateful] Thanks for listening to my random Pee-Paw story. Not many people I share that stuff with.
 do GameState.set_tag("poison_peepaw_story_shared")
 do RelationshipSystem.increase_affinity("Poison", 5)

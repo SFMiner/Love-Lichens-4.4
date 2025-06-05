@@ -68,42 +68,51 @@ Each app is a Control scene containing its own layout and logic. All apps must b
 
 ## 4. Supported Apps and Core Features
 
-### MessagesApp
+### Current Implementation Status
+
+As of June 2025:
+- Basic phone system framework is implemented and functioning
+- Snake app is fully working as a mini-game
+- Other apps are still under development
+
+### MessagesApp (Planned)
 - SMS-style chat interface
 - One `DialogueRunner` per conversation thread
 - Timestamp per message
 - Displays avatar, name, and timestamp
+- Saves to files
+- Reads information from dialogue files via dialogue system, but stores all output in the 
 
-### DiscordApp
+### DiscordApp (Planned)
 - Simulated group chat view (scrolling log)
 - One `DialogueRunner` per session (e.g., daily or topic-based)
 - Timestamp header per block
 - Username, icon, and message body display
 
-### SocialFeedApp
+### SocialFeedApp (Planned)
 - Scrollable feed of social posts
 - Each post can be a single Dialogue node or static text
 - Timestamps below each post
 - Image thumbnails optional
 
-### JournalApp
+### JournalApp (Planned)
 - Static long-form entries
 - One entry per tagged resource
 - Optional timestamp and title per entry
 - Read-only text
 
-### EmailApp
+### EmailApp (Planned)
 - Email list view: subject, sender, date
 - Click to open full message view
 - Timestamps in both list and message view
 - Attachment support: image or audio links
 
-### GradesApp
+### GradesApp (Planned)
 - Table: Course | Professor | Grade
 - Clicking entries can open related dialogue nodes or notes
 - Distorted or glitched entries are possible for narrative effect
 
-### CameraRollApp
+### CameraRollApp (Planned)
 - Grid of image thumbnails (tagged)
 - Clicking opens viewer:
   - Full image
@@ -113,7 +122,13 @@ Each app is a Control scene containing its own layout and logic. All apps must b
 - Timestamps displayed only when viewing metadata
 - Supports standard and anomalous time formats
 
-### SporeApp
+### SnakeApp (Implemented)
+- Classic snake game mini-game
+- Fully functional gameplay
+- Score tracking and game over screen
+- Pause and resume functionality
+
+### SporeApp (Planned)
 - Displayed as a normal app button
 - No internal narrative behavior defined in this system
 - Exists as a triggerable interface element
