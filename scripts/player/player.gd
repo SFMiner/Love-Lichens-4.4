@@ -1047,3 +1047,5 @@ func set_navigation_path(path: Array, run: bool = false):
 	path_to_target = path
 	is_navigating = true
 	is_running = run
+
+#comment
