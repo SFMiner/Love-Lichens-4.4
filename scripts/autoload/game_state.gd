@@ -830,34 +830,77 @@ func load_game(slot):
 
 # Enhanced save/load to include memory data
 func _collect_save_data():
+	var _fname = "_collect_save_data"
+	if debug: print(script_name_tag(self, _fname) + "Collecting save data from all systems")
+	
 	# Update play time before saving
 	if start_time > 0:
 		play_time += Time.get_unix_time_from_system() - start_time
 		start_time = Time.get_unix_time_from_system()
 	
 	var save_data = {
+		"save_format_version": 2,
 		"game_id": current_game_id,
 		"save_time": Time.get_unix_time_from_system(),
 		"play_time": play_time,
 		"game_data": game_data.duplicate(true),
 		"tags": tags.duplicate(true),
-		# NEW: Memory data in saves
+		# Core GameState memory data
 		"discovered_memories": discovered_memories.duplicate(),
 		"memory_discovery_history": memory_discovery_history.duplicate(true),
 		"dialogue_mapping": dialogue_mapping.duplicate(true)
 	}
 	
-	var time_system = get_node_or_null("/root/TimeSystem")
-	if time_system:
-		save_data["time_system"] = time_system.save_data()
+	# Inventory System
+	var inventory_system = get_node_or_null("/root/InventorySystem")
+	if inventory_system and inventory_system.has_method("get_save_data"):
+		save_data["inventory_system"] = inventory_system.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected inventory data")
 	
+	# Quest System  
+	var quest_system = get_node_or_null("/root/QuestSystem")
+	if quest_system and quest_system.has_method("get_save_data"):
+		save_data["quest_system"] = quest_system.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected quest data")
+	
+	# Relationship System
+	var relationship_system = get_node_or_null("/root/RelationshipSystem")
+	if relationship_system and relationship_system.has_method("get_save_data"):
+		save_data["relationship_system"] = relationship_system.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected relationship data")
+	
+	# Time System
+	var time_system = get_node_or_null("/root/TimeSystem")
+	if time_system and time_system.has_method("save_data"):
+		save_data["time_system"] = time_system.save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected time data")
+	
+	# Memory System
+	var memory_system = get_node_or_null("/root/MemorySystem")
+	if memory_system and memory_system.has_method("get_save_data"):
+		save_data["memory_system"] = memory_system.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected memory system data")
+	
+	# Phone Apps (if phone scene exists)
+	var phone_scene = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	if not phone_scene:
+		phone_scene = get_node_or_null("/root/PhoneScene")
+	if phone_scene and phone_scene.has_method("get_save_data"):
+		save_data["phone_apps"] = phone_scene.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected phone app data")
+	
+	if debug: print(script_name_tag(self, _fname) + "Save data collection complete. Keys: ", save_data.keys())
 	return save_data
 
 func _apply_save_data(save_data):
+	var _fname = "_apply_save_data"
 	if typeof(save_data) != TYPE_DICTIONARY:
+		if debug: print(script_name_tag(self, _fname) + "ERROR: Save data is not a dictionary")
 		return false
 	
-	# Existing save data loading...
+	if debug: print(script_name_tag(self, _fname) + "Applying save data to all systems")
+	
+	# Core GameState data
 	if save_data.has("game_id"):
 		current_game_id = save_data.game_id
 	if save_data.has("play_time"):
@@ -867,7 +910,7 @@ func _apply_save_data(save_data):
 	if save_data.has("tags"):
 		tags = save_data.tags.duplicate(true)
 	
-	# NEW: Load memory data
+	# GameState memory data
 	if save_data.has("discovered_memories"):
 		discovered_memories = save_data.discovered_memories.duplicate()
 	if save_data.has("memory_discovery_history"):
@@ -875,15 +918,54 @@ func _apply_save_data(save_data):
 	if save_data.has("dialogue_mapping"):
 		dialogue_mapping = save_data.dialogue_mapping.duplicate(true)
 	
-	# Load time system data
+	# Inventory System
+	if save_data.has("inventory_system"):
+		var inventory_system = get_node_or_null("/root/InventorySystem")
+		if inventory_system and inventory_system.has_method("load_save_data"):
+			inventory_system.load_save_data(save_data.inventory_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied inventory data")
+	
+	# Quest System
+	if save_data.has("quest_system"):
+		var quest_system = get_node_or_null("/root/QuestSystem")
+		if quest_system and quest_system.has_method("load_save_data"):
+			quest_system.load_save_data(save_data.quest_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied quest data")
+	
+	# Relationship System
+	if save_data.has("relationship_system"):
+		var relationship_system = get_node_or_null("/root/RelationshipSystem")
+		if relationship_system and relationship_system.has_method("load_save_data"):
+			relationship_system.load_save_data(save_data.relationship_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied relationship data")
+	
+	# Time System
 	if save_data.has("time_system"):
 		var time_system = get_node_or_null("/root/TimeSystem")
-		if time_system:
+		if time_system and time_system.has_method("load_data"):
 			time_system.load_data(save_data.time_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied time data")
+	
+	# Memory System
+	if save_data.has("memory_system"):
+		var memory_system = get_node_or_null("/root/MemorySystem")
+		if memory_system and memory_system.has_method("load_save_data"):
+			memory_system.load_save_data(save_data.memory_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied memory system data")
+	
+	# Phone Apps
+	if save_data.has("phone_apps"):
+		var phone_scene = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+		if not phone_scene:
+			phone_scene = get_node_or_null("/root/PhoneScene")
+		if phone_scene and phone_scene.has_method("load_save_data"):
+			phone_scene.load_save_data(save_data.phone_apps)
+			if debug: print(script_name_tag(self, _fname) + "Applied phone app data")
 	
 	# Reset start time to now
 	start_time = Time.get_unix_time_from_system()
 	
+	if debug: print(script_name_tag(self, _fname) + "Save data application complete")
 	return true
 
 # Enhanced reset for new games

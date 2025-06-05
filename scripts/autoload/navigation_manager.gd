@@ -53,7 +53,7 @@ func _configure_navigation_server():
 
 func _configure_navigation_agent(agent: NavigationAgent2D):
 	var _fname = "_configure_navigation_agent"
-	agent.avoidance_enabled = true
+	agent.avoidance_enabled = false
 	agent.radius = 40.0
 	agent.max_neighbors = 15
 	agent.max_speed = 400.0
@@ -239,3 +239,53 @@ func debug_find_path(from_pos: Vector2, to_pos: Vector2) -> void:
 			if debug: print(GameState.script_name_tag(self, _fname) + "Point ", i, ": ", path[i])
 	else:
 		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: No path found between points")
+
+
+func get_save_data() -> Dictionary:
+	var _fname = "get_save_data"
+	var save_data := {
+		"navigation_instances": navigation_instances.duplicate(true),
+		"current_scene_path": current_scene_path.duplicate(true),
+		"": current_navigation.duplicate(true),
+		"navigation_state": current_scene_path.duplicate(true),
+	}
+
+	if debug:
+		print(GameState.script_name_tag(self, _fname) + "Collected navigation data: ", 
+			"navigation_instances=",  str(navigation_instances), 
+			", current_scene_path=", str(current_scene_path), 
+			", current_navigation=", str(current_navigation))
+	return save_data
+
+# Legacy compatibility wrapper
+func save_navigation() -> Dictionary:
+	return get_save_data()
+
+
+func load_save_data(data: Dictionary) -> bool:
+	var _fname = "load_save_data"
+	if typeof(data) != TYPE_DICTIONARY:
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Invalid data type for navigation system load")
+		return false
+
+	if data.has("navigation_instances"):
+		navigation_instances = data.navigation_instances
+	if data.has("current_scene_path"):
+		current_scene_path = data.current_scene_path
+	if data.has("current_navigation"):
+		current_navigation = data.current_navigation
+
+
+	if debug:
+		print(GameState.script_name_tag(self, _fname) + "Navigation system restoration complete: ",
+			"navigation_instances=",  str(navigation_instances), 
+			", current_scene_path=", str(current_scene_path), 
+			", current_navigation=", str(current_navigation))
+
+	# If necessary, re-validate or reset agent behaviors
+	call_deferred("_reinitialize_navigation_agents")
+	return true
+
+# Legacy compatibility wrapper
+func load_navigation(data: Dictionary) -> bool:
+	return load_save_data(data)

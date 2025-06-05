@@ -10,7 +10,7 @@
 	"background": "Once had a tense rivalry with Poison over a shared manipulative ex, but they resolved it on the last day of high school.",
 	"font_path": "res://assets/fonts/rough_dusty_chalk/RoughDustyChalk-VmLZ.otf",
 	"font_color": "#e1d1c2",
-	"font_size": 24,
+	"font_size": 4,
 	"observable_features": {
 		"bracelet": {
 			"description": "Dusty wears a wooden bracelet that looks handmade — maybe by a family member.",

@@ -877,37 +877,58 @@ func debug_print_all_quests():
 		print(GameState.script_name_tag(self) + "Quest: ", quest_id, " - ", completed_quests[quest_id].title)
 
 # Save quest data
-func save_quests():
+# Enhanced Save/Load System Integration  
+func get_save_data():
+	var _fname = "get_save_data"
 	var save_data = {
 		"active_quests": active_quests.duplicate(true),
 		"completed_quests": completed_quests.duplicate(true),
 		"available_quests": available_quests.duplicate(true),
-		"visited_areas": visited_areas.duplicate(true)  # Add this line
+		"visited_areas": visited_areas.duplicate(true),
+		"area_exploration": area_exploration.duplicate(true)
 	}
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Collected quest data: ", active_quests.size(), " active, ", completed_quests.size(), " completed, ", available_quests.size(), " available")
 	return save_data
+	
+# Legacy compatibility wrapper
+func save_quests():
+	return get_save_data()
 
 # Load quest data
-func load_quests(save_data):
-	if save_data.has("active_quests"):
-		active_quests = save_data.active_quests.duplicate(true)
+func load_save_data(data):
+	var _fname = "load_save_data"
+	if typeof(data) != TYPE_DICTIONARY:
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Invalid data type for quest system load")
+		return false
 	
-	if save_data.has("completed_quests"):
-		completed_quests = save_data.completed_quests.duplicate(true)
+	# Restore quest states
+	if data.has("active_quests"):
+		active_quests = data.active_quests.duplicate(true)
+	if data.has("completed_quests"):
+		completed_quests = data.completed_quests.duplicate(true)
+	if data.has("available_quests"):
+		available_quests = data.available_quests.duplicate(true)
 	
-	if save_data.has("available_quests"):
-		available_quests = save_data.available_quests.duplicate(true)
+	# Restore exploration progress
+	if data.has("visited_areas"):
+		visited_areas = data.visited_areas.duplicate(true)
+	if data.has("area_exploration"):
+		area_exploration = data.area_exploration.duplicate(true)
 	
-	if save_data.has("visited_areas"):
-		visited_areas = save_data.visited_areas.duplicate(true)
-	
-	if debug: print(GameState.script_name_tag(self) + "Loaded quest data: ", 
+	if debug: print(GameState.script_name_tag(self, _fname) + "Quest system restoration complete: ", 
 		active_quests.size(), " active quests, ", 
 		completed_quests.size(), " completed quests, ",
 		available_quests.size(), " available quests, ",
 		visited_areas.size(), " visited areas")
-
-	# After loading, validate tag-based objectives against current inventory
+	
+	# Re-validate inventory-based objectives after loading
 	call_deferred("check_inventory_against_tag_objectives")
+	return true
+
+# Legacy compatibility wrapper  
+func load_quests(save_data):
+	return load_save_data(save_data)
 
 # Handle when a specific area within a location is visited
 func on_area_visited(area_name, location_id=""):

@@ -736,7 +736,6 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(-0.5, -4)
 shape = SubResource("RectangleShape2D_54to2")
 
@@ -746,7 +745,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
-visible = false
 shape = SubResource("CircleShape2D_6eakx")
 
 [node name="Label" type="Label" parent="."]

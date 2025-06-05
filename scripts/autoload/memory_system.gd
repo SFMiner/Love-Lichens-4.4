@@ -294,3 +294,31 @@ func _on_memory_discovered_in_gamestate(memory_tag: String, description: String)
 	var _fname = "_on_memory_discovered_in_gamestate"
 	# GameState discovered a memory, re-emit our signal for other systems
 	memory_discovered.emit(memory_tag, description)
+	
+# Save/Load System Integration
+func get_save_data():
+	var _fname = "get_save_data"
+	var save_data = {
+		"examination_history": examination_history.duplicate(),
+		"current_target": null  # Don't save node references, just reset
+	}
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Collected memory system data: ", examination_history.size(), " examination entries")
+	return save_data
+
+func load_save_data(data):
+	var _fname = "load_save_data"
+	if typeof(data) != TYPE_DICTIONARY:
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Invalid data type for memory system load")
+		return false
+	
+	# Restore examination history
+	if data.has("examination_history"):
+		examination_history = data.examination_history.duplicate()
+		if debug: print(GameState.script_name_tag(self, _fname) + "Restored ", examination_history.size(), " examination history entries")
+	
+	# Reset current target (node references don't persist across saves)
+	current_target = null
+	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Memory system restoration complete")
+	return true

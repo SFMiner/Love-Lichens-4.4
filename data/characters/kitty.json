@@ -10,6 +10,7 @@
 	"background": "Appears in dreams, laps, beds, and occasionally lecture halls without explanation.",
 	"font_path": "res://assets/fonts/cat_cafe/Catcafe-v5yM.ttf",
 	"font_color": "#fd75ff",
+	"font_size": 0,
 	"observable_features": {
 		"bell": {
 			"description": "A tiny brass bell on a faded purple collar. Barely makes a sound.",

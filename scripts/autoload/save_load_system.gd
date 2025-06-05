@@ -219,10 +219,7 @@ func _collect_save_data():
 		
 	return save_data
 
-# Modify the existing _apply_save_data function in save_load_system.gd
 
-# Apply loaded save data to game systems
-# Apply loaded save data to game systems
 # Apply loaded save data to game systems
 func _apply_save_data(save_data):
 	if debug: print(GameState.script_name_tag(self) + "Applying save data...")
@@ -251,6 +248,13 @@ func _apply_save_data(save_data):
 	if relationship_system and save_data.has("relationships"):
 		if debug: print(GameState.script_name_tag(self) + "Restoring relationship data...")
 		relationship_system.relationships = save_data.relationships
+		
+	# Apply to navigtion system
+	var navigation_manager = get_node_or_null("/root/NavigtionManager")
+	if navigation_manager and save_data.has("navigation") and navigation_manager.has_method("load_navigtion"):
+		if debug: print(GameState.script_name_tag(self) + "Restoring nvigation data...")
+		navigation_manager.load_navigation(save_data.navigation)
+		
 		
 	# Apply to quest system
 	var quest_system = get_node_or_null("/root/QuestSystem")

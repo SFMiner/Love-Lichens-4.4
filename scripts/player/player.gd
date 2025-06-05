@@ -245,12 +245,20 @@ func _physics_process(delta):
 		
 	# PRIORITY 2: Navigation takes precedence if active
 	if is_navigating:
+		if not $NavigationAgent2D.avoidance_enabled:
+			$NavigationAgent2D.avoidance_enabled = true
+
 		if debug: print(GameState.script_name_tag(self) + "Navigation is active - processing navigation")
 		process_navigation(delta)
 		return
 
 	# PRIORITY 3: Player control if not navigating and not in dialogue
 	if is_player_controlled:
+		if debug: print(GameState.script_name_tag(self) + "in_dialogue = " + str(in_dialogue))
+		# Temporarily disable avoidance
+		if $NavigationAgent2D.avoidance_enabled:
+			$NavigationAgent2D.avoidance_enabled = false
+
 		handle_dialogue_state()
 		
 		# Get input and update movement state

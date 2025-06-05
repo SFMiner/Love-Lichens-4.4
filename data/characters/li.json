@@ -9,7 +9,7 @@
 	"interests": ["comics", "dark humor", "personal autonomy"],
 	"background": "Tends to dodge emotional intimacy. Rarely appears in group photos clearly, possibly due to subtle magical phenomena.",
 	"font_path": "res://assets/fonts/wiffles/Wiffles-JJ8M.ttf",
-	"font_size": 24,
+	"font_size": 4,
 	"font_color": "#cbd10a",
 	"observable_features": {
 		"double_glasses": {

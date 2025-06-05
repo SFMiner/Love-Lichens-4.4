@@ -7,7 +7,7 @@
 	"initial_dialogue_title": "start",
 	"font_path": "res://assets/fonts/numb_bunny/Numbbunny-L7L5.otf",
 	"font_color": "#74ff33",
-	"font_size": 22,
+	"font_size": 2,
 	"observable_features": {
 		"necklace": {
 			"description": "Poison wears a silver necklace with a large pendant. He occasionally touches it, apparenly without thinking.",

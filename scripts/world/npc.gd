@@ -95,8 +95,8 @@ func _ready():
 	if debug: 
 		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable features: ", observable_features.keys())
 		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_path: ", font_path)
-		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable font_color: ", font_color)
-		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable font_size: ", str(font_size))
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_color: ", font_color)
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_size: ", str(font_size))
 
 
 func _sync_to_character_data():
@@ -496,6 +496,7 @@ func get_look_description() -> String:
 	return result
 
 func interact():
+	if debug: print(GameState.script_name_tag(self) + "Interaction pressed")
 	"""Handle player interaction with this NPC"""
 	if not interactable:
 		if debug: print(GameState.script_name_tag(self) + character_name, " is not interactable")

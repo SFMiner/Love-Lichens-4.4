@@ -7,7 +7,7 @@
 	"initial_dialogue_title": "librarian_greeting",
 	"font_path": "res://assets/fonts/quango/Quango-xlVR.otf",
 	"font_color": "#ff9d0f",
-	"font_size": 22,
+	"font_size": 2,
 
 	"personality_traits": ["whimsical", "organized", "knowledgeable", "eccentric"],
 	"interests": ["living libraries", "mycological literature", "environmental history", "symbiotic relationships"],
