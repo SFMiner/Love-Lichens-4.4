@@ -9,7 +9,7 @@
 	"interests": ["dreams", "memory theory", "spirituality", "cats"],
 	"background": "Carries a mysterious and loving presence. Maintains emotional equilibrium through their cat, Kitty.",
 	"font_path": "res://assets/fonts/medieval_sharp_tool/MedievalSharp-xOZ5.ttf",
-	"text_color": "#8c42ff",
+	"font_color": "#8c42ff",
 	"observable_features": {
 		"kitty_collar": {
 			"description": "A small bell dangles from Fate’s wrist. It’s clearly the duplicate of kity's collar charm.",

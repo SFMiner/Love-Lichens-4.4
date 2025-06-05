@@ -6,7 +6,7 @@
 	"dialogue_file": "res://data/dialogues/poison.dialogue",
 	"initial_dialogue_title": "start",
 	"font_path": "res://assets/fonts/numb_bunny/Numbbunny-L7L5.otf",
-	"text_color": "#74ff33",
+	"font_color": "#74ff33",
 	"font_size": 22,
 	"observable_features": {
 		"necklace": {

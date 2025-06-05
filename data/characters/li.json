@@ -10,7 +10,7 @@
 	"background": "Tends to dodge emotional intimacy. Rarely appears in group photos clearly, possibly due to subtle magical phenomena.",
 	"font_path": "res://assets/fonts/wiffles/Wiffles-JJ8M.ttf",
 	"font_size": 24,
-	"text_color": "#cbd10a",
+	"font_color": "#cbd10a",
 	"observable_features": {
 		"double_glasses": {
 			"description": "Li is wearing two pairs of glasses — the second, broken and lensless, looks worn from childhood.",

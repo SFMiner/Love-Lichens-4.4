@@ -55,14 +55,14 @@ func _ready():
 	debug = sys_debug or scr_debug
 	print(GameState.script_name_tag(self, _fname) + "Game Controller initialized")
 	quest_system = QuestSystem
-	var linter := MemoryTagLinter.new()
-	add_child(linter)  # Optional: if it has side effects or needs signals
-	linter._run()
+	#var linter := MemoryTagLinter.new()
+	#add_child(linter)  # Optional: if it has side effects or needs signals
+	#linter._run()
 
-	var file := FileAccess.open("res://data/generated/memory_tag_registry.json", FileAccess.READ)
-	if file:
-		var json_string := file.get_as_text()
-		GameState.memory_registry = JSON.parse_string(json_string)
+#	var file := FileAccess.open("res://data/generated/memory_tag_registry.json", FileAccess.READ)
+#	if file:
+#		var json_string := file.get_as_text()
+#		GameState.memory_registry = JSON.parse_string(json_string)
 
 	var time_system = get_node_or_null("/root/TimeSystem")
 	if time_system:
@@ -142,7 +142,7 @@ func _ready():
 		event.keycode = KEY_J
 		InputMap.action_add_event("toggle_quest_panel", event)
 		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_quest_panel' action with J key")
-
+	GameState.load_npcs()
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
 

@@ -50,22 +50,15 @@ var mutation_cooldown: Timer = Timer.new()
 ## The menu of responses
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
 
-
+# Character font and styling dictionaries
 var character_fonts = {}
 var character_colors = {}
-var character_font_sizes = {}  # New dictionary for font sizes
-
-# Map character names to font paths
-#var character_fonts = {
-#	"Nathan": "res://FfPathSpect-4nKGl.ttf",
-#	"Player": "res://JaggedDreams-5XBv.ttf",
-#	"Default": "res://CupOfSea-05qz.ttf"  # Default font
-#}
+var character_font_sizes = {}
 
 # Store references to loaded fonts to avoid reloading
 var loaded_fonts = {}
 
-const scr_debug :bool = false
+const scr_debug :bool = true
 var debug
 
 func _ready() -> void:
@@ -83,123 +76,79 @@ func _ready() -> void:
 	if ResourceLoader.exists(default_font_path):
 		loaded_fonts["Default"] = load(default_font_path)
 	
-	# Load character fonts from CharacterDataLoader
-	load_character_fonts()
-
 	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
 	add_child(mutation_cooldown)
 
-# New function to load fonts from character data
-func load_character_fonts() -> void:
-	var _fname = "load_character_fonts"
-	var character_loader = get_node_or_null("/root/CharacterDataLoader")
-	if not character_loader:
-		if debug: print(GameState.script_name_tag(self, _fname) + "Character Data Loader not found - using default fonts only")
-		return
-	
-	# Access the loaded characters dictionary
-	var characters = character_loader.characters
-	if debug: print(GameState.script_name_tag(self, _fname) + "Loading fonts for " + str(characters.size()) + " characters")
-	
-	for character_id in characters:
-		var character_data = characters[character_id]
-		
-		# Check if character has a specified font
-		if character_data.font_path and character_data.font_path != "":
-			if ResourceLoader.exists(character_data.font_path):
-				# Add to character_fonts dictionary
-				character_fonts[character_id] = character_data.font_path
-				# Load the font right away
-				loaded_fonts[character_id] = load(character_data.font_path)
-				if debug: print(GameState.script_name_tag(self, _fname) + "Loaded font for " + character_id + ": " + character_data.font_path)
-			else:
-				if debug: print(GameState.script_name_tag(self, _fname) + "Font path not found for " + character_id + ": " + character_data.font_path)
-		
-		# Store character color if specified
-		if character_data.text_color:
-			character_colors[character_id] = character_data.text_color
 
-		character_font_sizes[character_id] = character_data.font_size
-		var display_id = character_id.replace("_", " ")
-		character_font_sizes[display_id] = character_data.font_size
-
-		if character_data.name and character_data.name != "":
-			character_font_sizes[character_data.name.to_lower()] = character_data.font_size
-
-	if debug: print(GameState.script_name_tag(self, _fname) + "Loaded " + str(loaded_fonts.size()) + " character fonts")
-
-
-func _on_dialogue_line_started(dialogue_line):
+# Enhanced character name extraction and font application
+func _on_dialogue_line_started(dialogue_line: DialogueLine):
 	var _fname = "_on_dialogue_line_started"
-	# Get the character name from the dialogue line
-	var character_name = "Default"
 	
-	if dialogue_line.character and !dialogue_line.character.is_empty():
+	# Extract character name with multiple fallback methods
+	var character_name = ""
+	
+	# Method 1: Use dialogue_line.character if available
+	if dialogue_line.character and not dialogue_line.character.is_empty():
 		character_name = dialogue_line.character
-		if debug: print(GameState.script_name_tag(self, _fname) + "Character detected from dialogue_line.character: ", character_name)
-		
-	apply_font_for_character(character_name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Character from dialogue_line.character: '", character_name, "'")
 	
-	# The character name should be the part before the colon in the dialogue text
-	if ":" in dialogue_line.text:
+	# Method 2: Extract from dialogue text if character field is empty
+	if character_name.is_empty() and ":" in dialogue_line.text:
 		character_name = dialogue_line.text.split(":")[0].strip_edges()
+		if debug: print(GameState.script_name_tag(self, _fname) + "Character extracted from text: '", character_name, "'")
+	
+	# Method 3: Use current character ID from dialog system as fallback
+	if character_name.is_empty():
+		var dialog_system = get_node_or_null("/root/DialogSystem")
+		if dialog_system and dialog_system.current_character_id != "":
+			character_name = dialog_system.current_character_id
+			if debug: print(GameState.script_name_tag(self, _fname) + "Character from dialog system: '", character_name, "'")
+	
+	if character_name.is_empty():
+		character_name = "Default"
+		if debug: print(GameState.script_name_tag(self, _fname) + "No character found, using Default")
 	
 	# Apply the appropriate font
 	apply_font_for_character(character_name)
 
-# Apply font based on character name
-func apply_font_for_character(character_name):
+# Enhanced font application with better character matching
+func apply_font_for_character(character_name: String):
 	var _fname = "apply_font_for_character"
 	if not dialogue_label:
+		if debug: print(GameState.script_name_tag(self, _fname) + "No dialogue label available")
 		return
+
+	var character_id = character_name.to_lower().replace(" ","_")
+
 		
-	if debug: print(GameState.script_name_tag(self, _fname) + "Applying font for character: ", character_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Applying font for character: '", character_name, "' with character_id '" + character_id + "'")
+
+	var character = GameState.get_npc_by_id(character_id) 
+	
+	# Default values
 	var font_to_use = loaded_fonts.get("Default")
 	var color_to_use = Color(1, 1, 1, 1)  # Default white
-	var font_size = 20  # Default font size	
-	# Try multiple ways to match the character
-	var character_id = character_name.to_lower()  # First try: direct lowercase match
-	var character_id_normalized = character_id.replace(" ", "_")  # Second try: replace spaces with underscores
+	var font_size = 20  # Default font size
 	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Trying to match character name: ", character_name)
-	if debug: print(GameState.script_name_tag(self, _fname) + "Normalized ID for lookup: ", character_id_normalized)
-	if debug: print(GameState.script_name_tag(self, _fname) + "Available loaded fonts: ", loaded_fonts.keys())
+	if character.font_path:
+		font_to_use = load(character.font_path)
+	if character.font_color:
+		color_to_use = character.font_color
+	if character.font_size:
+		font_size = character.font_size
 	
-	# Try to find font - first with original character_id, then with normalized version
-	if character_id in loaded_fonts:
-		font_to_use = loaded_fonts[character_id]
-		if debug: print(GameState.script_name_tag(self, _fname) + "Found font using direct match: ", character_id)
-	elif character_id_normalized in loaded_fonts:
-		font_to_use = loaded_fonts[character_id_normalized]
-		if debug: print(GameState.script_name_tag(self, _fname) + "Found font using normalized ID: ", character_id_normalized)
-	else:
-		if debug: print(GameState.script_name_tag(self, _fname) + "No font match found, using default font")
+	dialogue_label.add_theme_font_override("normal_font", font_to_use)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Applied font: ", font_to_use.resource_path if font_to_use.resource_path else "built-in")
 	
-	# Same approach for colors
-	if character_id in character_colors:
-		color_to_use = character_colors[character_id]
-	elif character_id_normalized in character_colors:
-		color_to_use = character_colors[character_id_normalized]
-
-	# Look up font size
-	if character_id in character_font_sizes:
-		font_size = character_font_sizes[character_id]
-	elif character_id_normalized in character_font_sizes:
-		font_size = character_font_sizes[character_id_normalized]
-
-	# Apply font, color and size to the dialogue label
-	if font_to_use:
-		dialogue_label.add_theme_font_override("normal_font", font_to_use)
 	dialogue_label.add_theme_color_override("default_color", color_to_use)
 	dialogue_label.add_theme_font_size_override("normal_font_size", font_size)
-	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Applied color: ", color_to_use, " and size: ", font_size)
+
 func _unhandled_input(_event: InputEvent) -> void:
-	var _fname = _unhandled_input
 	# Only the balloon is allowed to handle input while it's showing
 	get_viewport().set_input_as_handled()
 
 func _notification(what: int) -> void:
-	var _fname = "_notification"
 	## Detect a change of locale and update the current dialogue line to show the new language
 	if what == NOTIFICATION_TRANSLATION_CHANGED and _locale != TranslationServer.get_locale() and is_instance_valid(dialogue_label):
 		_locale = TranslationServer.get_locale()
@@ -207,7 +156,6 @@ func _notification(what: int) -> void:
 		self.dialogue_line = await resource.get_next_dialogue_line(dialogue_line.id)
 		if visible_ratio < 1:
 			dialogue_label.skip_typing()
-
 
 ## Start some dialogue
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
@@ -230,24 +178,21 @@ func start(dialogue_resource: DialogueResource, title: String, extra_game_states
 	else:
 		if debug: print(GameState.script_name_tag(self, _fname) + "No dialogue line returned!")
 
-
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
 	var _fname = "apply_dialogue_line"
 	if debug: print(GameState.script_name_tag(self, _fname) + "Apply dialogue line called")
 	
-	
+	# Apply character styling first
 	if dialogue_line and dialogue_line.text:
 		_on_dialogue_line_started(dialogue_line)
 	
 	mutation_cooldown.stop()
 	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Character: ", dialogue_line.character)
 	is_waiting_for_input = false
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	if debug: print(GameState.script_name_tag(self, _fname) + "Character: ", dialogue_line.character)
 	character_label.visible = not dialogue_line.character.is_empty()
 	character_label.text = tr(dialogue_line.character, "dialogue")
 
@@ -285,26 +230,24 @@ func apply_dialogue_line() -> void:
 		balloon.focus_mode = Control.FOCUS_ALL
 		balloon.grab_focus()
 
-
 ## Go to the next line
 func next(next_id: String) -> void:
 	var _fname = "next"
 	self.dialogue_line = await resource.get_next_dialogue_line(next_id, temporary_game_states)
-	_on_dialogue_line_started(self.dialogue_line)  # Add this line
+	# Apply character styling when moving to next line
+	if self.dialogue_line:
+		_on_dialogue_line_started(self.dialogue_line)
 
 #region Signals
 
-
 func _on_mutation_cooldown_timeout() -> void:
-	var _fname = "_on_mutation_cooldown_timeout"
 	if will_hide_balloon:
 		will_hide_balloon = false
 		balloon.hide()
 
-
 func _on_mutated(mutation):
 	var _fname = "_on_mutated"
-	if debug: print(GameState.script_name_tag(self, _fname) + mutation)
+	if debug: print(GameState.script_name_tag(self, _fname) + str(mutation))
 	
 	if mutation.has("expression") and mutation["expression"].size() >= 3:
 		var expr = mutation["expression"][2]
@@ -322,12 +265,8 @@ func _on_mutated(mutation):
 			elif func_name == "wait_for_movements": 
 				if CutsceneManager:
 					return CutsceneManager.wait_for_movements()
-				
-				# This will pause the dialogue until all movements complete
-
 
 func _on_balloon_gui_input(event: InputEvent) -> void:
-	var _fname = "_on_balloon_gui_input"
 	# See if we need to skip typing of the dialogue
 	if dialogue_label.is_typing:
 		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
@@ -348,10 +287,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(next_action) and get_viewport().gui_get_focus_owner() == balloon:
 		next(dialogue_line.next_id)
 
-
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
-	var _fname = "_on_responses_menu_response_selected"
 	next(response.next_id)
-
 
 #endregion

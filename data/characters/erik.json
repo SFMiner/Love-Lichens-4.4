@@ -9,7 +9,7 @@
 	"interests": ["camping", "survival gear", "gummies", "cloud watching"],
 	"background": "Keeps his cool in most situations. Often ends up supporting the group during chaos with an understated sense of humor.",
 	"font_path": "res://assets/fonts/bored_in_science/BoredInScience-9GXL.ttf",
-	"text_color": "#d97c1f",
+	"font_color": "#d97c1f",
 	"observable_features": {
 		"gummy_pack": {
 			"description": "Erik carries a crumpled foil bag of THC gummies — an emergency stash, apparently.",

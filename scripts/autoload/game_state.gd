@@ -23,7 +23,7 @@ var last_save_time = 0
 var interaction_range = 0
 var player : CharacterBody2D = null
 var tags: Dictionary = {}
-var memory_tag_registry 
+#var memory_tag_registry 
 # Variables from original GameState that might be missing
 var looking_at_adam_desk = false
 var poison_bugs = ["tarantula"]
@@ -35,6 +35,7 @@ var current_scene
 var current_npc_list = []
 var current_marker_list = []
 var knowledge : Array[String] = []
+var npcs : Array[NPC] = []
 
 # NEW: Memory data storage (loaded at startup, persisted in saves)
 var memory_definitions: Dictionary = {}
@@ -43,6 +44,11 @@ var discovered_memories: Array = []
 var memory_discovery_history: Array = []
 # Dialogue mapping - Key: unlock_tag, Value: {character_id, dialogue_title}
 var dialogue_mapping: Dictionary = {}
+
+
+func load_npcs():
+	for npc in get_tree().get_nodes_in_group("npc"):
+		npcs.append(npc)
 
 # Optimized lookup - properly typed keys
 var memories_by_trigger: Dictionary = {
@@ -67,12 +73,21 @@ var game_data = {
 	"turns_per_day": 8
 }
 
-const scr_debug : bool = false
+const scr_debug : bool = true
 var debug 
 
 func _ready():
+	var _fname = "_ready" 
 	debug = scr_debug or GameController.sys_debug
 	_load_memory_registry()
+
+func get_npc(npc_name):
+	var _fname = "get_npc" 
+	for npc in npcs:
+		if npc.character_id == npc_name:
+			return npc
+	if debug: print(script_name_tag(self, _fname) + "npc not found")
+		
 
 # SIMPLIFIED: Load only the registry
 func _load_memory_registry():

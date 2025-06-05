@@ -1,5 +1,5 @@
 extends NPCCombatant
-
+class_name NPC
 # Base script for all NPCs in the game
 # Now includes all character data with optimal access patterns
 
@@ -37,7 +37,7 @@ signal observed(feature_id)
 
 @export_group("UI Styling")
 @export var font_path: String = ""
-@export var text_color: Color = Color(1, 1, 1, 1)
+@export var font_color: Color = Color(1, 1, 1, 1)
 @export var font_size: int = 20
 
 @export_group("Special Items")
@@ -70,7 +70,7 @@ var current_animation: String = "idle_down"
 var dialogue_system
 var memory_system
 
-const scr_debug: bool = false
+const scr_debug: bool = true
 
 # ==========================================
 # INITIALIZATION
@@ -92,7 +92,12 @@ func _ready():
 	# Initialize game behavior
 	_initialize_game_behavior()
 	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable features: ", observable_features.keys())
+	if debug: 
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable features: ", observable_features.keys())
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_path: ", font_path)
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable font_color: ", font_color)
+		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable font_size: ", str(font_size))
+
 
 func _sync_to_character_data():
 	"""Sync @export variables to character_data dictionary and load additional data from JSON"""
@@ -111,11 +116,12 @@ func _sync_to_character_data():
 		"background": background,
 		"base_relationship_level": base_relationship_level,
 		"font_path": font_path,
-		"text_color": text_color,
+		"font_color": font_color,
 		"font_size": font_size,
 		"special_items": special_items.duplicate()
 	}
-	
+	if debug: print(GameState.script_name_tag(self, _fname) + "character_data for " + character_id + " = " + str(character_data))
+
 	# Then, load and merge additional data from JSON file if it exists
 	_load_additional_data_from_json()
 	
@@ -153,7 +159,19 @@ func _load_additional_data_from_json():
 	if json_data.has("description") and json_data.description != "":
 		description = json_data.description  
 		character_data.description = json_data.description
-	
+
+	if json_data.has("font_path") and json_data.font_path != "":
+		font_path = json_data.font_path  
+		character_data.font_path = json_data.font_path
+
+	if json_data.has("font_size") and json_data.font_size:
+		font_size = json_data.font_size  
+		character_data.font_size = json_data.font_size
+		
+	if json_data.has("font_color") and json_data.font_color != "":
+		font_color = json_data.font_color  
+		character_data.font_color = json_data.font_color
+
 	if json_data.has("personality_traits") and json_data.personality_traits.size() > 0:
 		personality_traits.assign(json_data.personality_traits)
 		character_data.personality_traits = json_data.personality_traits
@@ -342,7 +360,8 @@ func set_character_data(data: Dictionary):
 	background = data.get("background", background)
 	base_relationship_level = data.get("base_relationship_level", base_relationship_level)
 	font_path = data.get("font_path", font_path)
-	text_color = data.get("text_color", text_color)
+	if debug: print(GameState.script_name_tag(self, _fname) + "font_path for " + character_id + " = " + font_path)
+	font_color = data.get("font_color", font_color)
 	font_size = data.get("font_size", font_size)
 	special_items = data.get("special_items", special_items)
 	
@@ -890,13 +909,13 @@ func _setup_sprite_deferred():
 
 func _on_sprite_2d_frame_changed() -> void:
 	"""Handle sprite frame changes"""
-	if sprite and debug:
-		print(GameState.script_name_tag(self) + "Playing NPC Frame " + str(sprite.frame))
+#	if sprite and debug:
+#		print(GameState.script_name_tag(self) + "Playing NPC Frame " + str(sprite.frame))
 
 func _on_sprite_2d_texture_changed() -> void:
 	"""Handle sprite texture changes"""
-	if sprite and debug:
-		print(GameState.script_name_tag(self) + "NPC Texture = ", str(sprite.texture))
+#	if sprite and debug:
+#		print(GameState.script_name_tag(self) + "NPC Texture = ", str(sprite.texture))
 
 # ==========================================
 # UTILITY AND VALIDATION (from original NPC)

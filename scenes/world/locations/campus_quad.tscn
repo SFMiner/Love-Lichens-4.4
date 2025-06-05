@@ -727,44 +727,40 @@ tile_set = SubResource("TileSet_e0xc3")
 [node name="Erik" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1424, 852)
 scale = Vector2(2.51613, 2.52745)
-character_name = "Erik"
-initial_dialogue_title = "fire_alarm"
 character_id = "erik"
+character_name = "Erik"
+dialogue_file = "res://data/dialogues/erik.dialogue"
+initial_dialogue_title = "fire_alarm"
 
 [node name="Kitty" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1908, 1085)
 scale = Vector2(2.537, 2.537)
-character_name = "Kitty"
-initial_dialogue_title = "start"
 character_id = "kitty"
+character_name = "Kitty"
 
 [node name="Poison" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1381, 1290)
 scale = Vector2(2.537, 2.537)
-character_name = "Poison"
-initial_dialogue_title = "start"
 character_id = "poison"
+character_name = "Poison"
 
 [node name="Dusty" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1172, 1382)
 scale = Vector2(2.537, 2.537)
-character_name = "Dusty"
-initial_dialogue_title = "start"
 character_id = "dusty"
+character_name = "Dusty"
 
 [node name="Li" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1773, 1468)
 scale = Vector2(2.537, 2.537)
-character_name = "Li"
-initial_dialogue_title = "start"
 character_id = "li"
+character_name = "Li"
 
 [node name="ProfessorMoss" parent="z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(926, 956)
 scale = Vector2(2.537, 2.537)
-character_name = "Professor Moss"
-initial_dialogue_title = "start"
 character_id = "professor_moss"
+character_name = "Professor Moss"
 
 [node name="ParkBench" type="Sprite2D" parent="z_Objects"]
 position = Vector2(931, 937)
