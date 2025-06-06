@@ -8,6 +8,9 @@ signal item_picked_up(item_id, item_data)
 @export var auto_pickup: bool = false
 @export var pickup_range: float = 50.0
 
+# NEW: Unique identifier for this pickup instance
+@export var pickup_instance_id: String = ""
+
 # Keep these as fallbacks in case template loading fails
 @export_group("Fallback Data (Only used if template loading fails)")
 @export var fallback_name: String = ""
@@ -16,7 +19,7 @@ signal item_picked_up(item_id, item_data)
 @export var fallback_tags: Array[String] = []
 
 const item_type : int = 2
-const scr_debug :bool = false
+const scr_debug :bool = true
 static var debug
 
 var item_data = {}
@@ -26,8 +29,21 @@ var label_node
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
+	
+	# NEW: Generate unique ID if not set
+	if pickup_instance_id.is_empty():
+		pickup_instance_id = _generate_pickup_id()
+	
 	add_to_group("interactable")
-	if debug: print(GameState.script_name_tag(self) + "Pickup item added to interactable group: ", item_id)
+	# NEW: Add to pickup group for tracking
+	add_to_group("pickup")
+	
+	if debug: print(GameState.script_name_tag(self) + "Pickup item ready: ", item_id, " ID: ", pickup_instance_id)
+	
+	# NEW: Register with pickup system
+	var pickup_system = get_node_or_null("/root/PickupSystem")
+	if pickup_system:
+		pickup_system.register_pickup(self)
 	
 	# Get label node reference
 	label_node = $Label
@@ -60,6 +76,12 @@ func _ready():
 		var player = get_tree().get_first_node_in_group("player")
 		if player and global_position.distance_to(player.global_position) <= pickup_range:
 			interact()
+
+# NEW: Generate a unique pickup ID based on scene and position
+func _generate_pickup_id() -> String:
+	var scene_name = get_tree().current_scene.scene_file_path.get_file().get_basename()
+	var pos_str = str(int(global_position.x)) + "_" + str(int(global_position.y))
+	return scene_name + "_" + item_id + "_" + pos_str
 
 # Load item data from the template
 func load_from_template():
@@ -164,6 +186,14 @@ func interact():
 		if inventory_system.add_item(item_id, item_amount):
 			if debug: print(GameState.script_name_tag(self) + "Item added to inventory: ", item_id)
 			
+			# NEW: Mark as collected in pickup system
+			var pickup_system = get_node_or_null("/root/PickupSystem")
+			if pickup_system:
+				pickup_system.mark_pickup_collected(pickup_instance_id)
+			
+			# NEW: Remove from pickup group before destroying
+			remove_from_group("pickup")
+			
 			# Emit signal
 			item_picked_up.emit(item_id, item_data)
 			
@@ -173,6 +203,21 @@ func interact():
 			if debug: print(GameState.script_name_tag(self) + "Failed to add item to inventory: ", item_id)
 	else:
 		if debug: print(GameState.script_name_tag(self) + "ERROR: InventorySystem not found!")
+
+# NEW: Get save data for this pickup
+func get_pickup_save_data() -> Dictionary:
+	return {
+		"pickup_instance_id": pickup_instance_id,
+		"item_id": item_id,
+		"item_amount": item_amount,
+		"auto_pickup": auto_pickup,
+		"pickup_range": pickup_range,
+		"position": {
+			"x": global_position.x,
+			"y": global_position.y
+		},
+		"scene_path": get_tree().current_scene.scene_file_path
+	}
 
 # Static method to create a pickup item in the world
 static func create_in_world(parent, new_position, new_item_id, custom_data=null):
@@ -185,6 +230,10 @@ static func create_in_world(parent, new_position, new_item_id, custom_data=null)
 		# Set amount if provided
 		if custom_data and custom_data.has("amount"):
 			instance.item_amount = custom_data.amount
+		
+		# Set custom pickup ID if provided
+		if custom_data and custom_data.has("pickup_instance_id"):
+			instance.pickup_instance_id = custom_data.pickup_instance_id
 		
 		# Set position
 		instance.global_position = new_position

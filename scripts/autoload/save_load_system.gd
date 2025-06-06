@@ -10,7 +10,7 @@ const SAVE_FOLDER = "user://saves/"
 const SAVE_EXTENSION = ".json"
 const MAX_SAVE_SLOTS = 5
 
-const scr_debug :bool = false
+const scr_debug : bool = false
 var debug
 
 var current_save_slot = -1
@@ -174,7 +174,13 @@ func _collect_save_data():
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and quest_system.has_method("get_all_quests"):
 		save_data["quests"] = quest_system.get_all_quests()
-		
+
+	# NEW: Get pickup system data
+	var pickup_system = get_node_or_null("/root/PickupSystem")
+	if pickup_system and pickup_system.has_method("get_save_data"):
+		save_data["pickup_system"] = pickup_system.get_save_data()
+		if debug: print(GameState.script_name_tag(self) + "Collected pickup system data")
+
 	# Get dialog system data - track seen dialogs
 	var dialog_system = get_node_or_null("/root/DialogSystem")
 	if dialog_system:
@@ -255,12 +261,17 @@ func _apply_save_data(save_data):
 		if debug: print(GameState.script_name_tag(self) + "Restoring nvigation data...")
 		navigation_manager.load_navigation(save_data.navigation)
 		
-		
 	# Apply to quest system
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and save_data.has("quests") and quest_system.has_method("load_quests"):
 		if debug: print(GameState.script_name_tag(self) + "Restoring quest data...")
 		quest_system.load_quests(save_data.quests)
+		
+	# NEW: Apply to pickup system
+	var pickup_system = get_node_or_null("/root/PickupSystem")
+	if pickup_system and save_data.has("pickup_system") and pickup_system.has_method("load_save_data"):
+		if debug: print(GameState.script_name_tag(self) + "Restoring pickup system data...")
+		pickup_system.load_save_data(save_data.pickup_system)
 		
 	# Apply to dialog system
 	var dialog_system = get_node_or_null("/root/DialogSystem")

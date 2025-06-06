@@ -1,6 +1,6 @@
 {
 	"library_map": {
-		"name": "Libraruy Map",
+		"name": "Library Map",
 		"description": "A hand-drawn map with moisture warnings.",
 		"category": 2,
 		"image_path": "res://assets/images/items/library_map.png",

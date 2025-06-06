@@ -4,8 +4,7 @@ signal path_found(from_position, to_position, path)
 signal path_not_found(from_position, to_position)
 signal navigation_completed(character)
 
-const scr_debug : bool = true  # Enable debug for agent avoidance testing
-var debug : bool
+
 
 # Cache the navigation instances based on scene path
 var navigation_instances = {}
@@ -16,7 +15,8 @@ var current_scene
 var current_navigation
 var navigation_map_rid: RID
 
-
+const scr_debug : bool = true  # Enable debug for agent avoidance testing
+var debug : bool
 
 func _ready():
 	var _fname = "_ready"

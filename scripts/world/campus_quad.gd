@@ -4,7 +4,7 @@ extends Node2D
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
-const scr_debug :bool = false
+const scr_debug :bool = true
 var debug
 var scene_item_num : int = 0
 var visit_areas = {}
@@ -25,7 +25,7 @@ func _ready():
 	var debug_label = $CanvasLayer/GameInfo
 	debug = scr_debug or GameController.sys_debug 
 	GameState.set_current_scene(self)
-			
+	if debug: print(GameState.script_name_tag(self) + "loaded scene")
 	player = GameState.get_player()
 	if debug:
 		if debug_label:
@@ -34,8 +34,6 @@ func _ready():
 			else:
 				debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
 				
-	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
-
 
 	if construct_spawner:
 		if debug:print(GameState.script_name_tag(self) + "Setting up construct spawner")

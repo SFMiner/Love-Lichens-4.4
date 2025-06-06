@@ -4,7 +4,7 @@ extends Node2D
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
-const scr_debug :bool = false
+const scr_debug :bool = true
 var debug
 var visit_areas = {}
 var all_areas_visited = false
@@ -18,9 +18,12 @@ var zoom_factor = 1.0
 @onready var player = $Player
 
 func _ready():
+	var _fname = "_ready"
+	debug = scr_debug or GameController.sys_debug
+	
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
 	GameState.set_current_scene(self)
-	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
+
 	if debug_label:
 		var player = $Player
 		if player and player.interactable_object:
@@ -29,17 +32,21 @@ func _ready():
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
 	
 	
-	if debug: print(GameState.script_name_tag(self) + "Drom Room scene initialized")
+	print("Dorm Room scene initialized")
 	# Set up the scene components
 	setup_player()
 #	setup_npcs()
 	setup_items()
-	
-	# Initialize necessary systems
-	initialize_systems()
+		
 	for child in z_objects.get_children():
 			child.z_index = child.global_position.y
 			if debug: print(GameState.script_name_tag(self) + child.name + " now has z-index " + str(child.z_index))
+	
+	
+
+	# Initialize necessary systems
+	initialize_systems()
+
 	
 	# Find and set up visitable areas
 	setup_visit_areas()
@@ -97,11 +104,12 @@ func setup_items():
 	var interactables = get_tree().get_nodes_in_group("interactable")
 			 
 func initialize_systems():
+	const _fname = "initialize_systems"
 	# Get references to necessary systems
 	var dialog_system = get_node_or_null("/root/DialogSystem")
 	var relationship_system = get_node_or_null("/root/RelationshipSystem")
 #	var relationship_system = get_node_or_null("/root/SoundManager")
-	
+		
 	if dialog_system:
 		if debug: print(GameState.script_name_tag(self) + "Dialog System found")
 	else:

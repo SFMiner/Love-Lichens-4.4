@@ -478,10 +478,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Player" parent="." instance=ExtResource("2_jfo7o")]
-position = Vector2(1670.96, 1783.96)
-scale = Vector2(3.80019, 3.80019)
-
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = -1
 anchor_left = 1.91975
@@ -943,3 +939,7 @@ position = Vector2(759, 1002)
 scale = Vector2(1.4697, 1.4697)
 texture = ExtResource("51_b70eq")
 offset = Vector2(-4, -16)
+
+[node name="Player" parent="." instance=ExtResource("2_jfo7o")]
+position = Vector2(1670.96, 1783.96)
+scale = Vector2(3.80019, 3.80019)

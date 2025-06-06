@@ -31,7 +31,7 @@ var in_dialog = false
 @export var curr_animation_frame : int = 0
 
 @onready var label : Label = $Label
-@onready var camera = $Camera2D
+@onready var camera : Camera2D = $Camera2D
 
 # Sleep interface reference
 var sleep_interface_scene
@@ -109,7 +109,6 @@ func _ready():
 	add_to_group("z_Objects")
 	add_to_group("navigator")
 
-
 	# Connect to item pickup signals
 	connect_to_pickup_signals()
 	# Initialize with idle animation
@@ -143,6 +142,7 @@ func _ready():
 	
 	# Check if navigation is available in current scene
 	call_deferred("_check_navigation_region")
+
 		
 func move_to(target: Vector2):
 	nav_agent.target_position = target
@@ -796,13 +796,17 @@ func set_dialog_mode(active):
 	in_dialog = active
 	print(GameState.script_name_tag(self) + "Dialog mode set to: ", in_dialog)  
 
-func set_camera_limits(right, bottom, left, top, zoom_factor := 1.0):
-	camera.limit_right = right
-	camera.limit_bottom = bottom
-	camera.limit_left = left
-	camera.limit_top = top
-	camera.zoom = Vector2(zoom_factor, zoom_factor)
-	speed = base_speed / zoom_factor
+func set_camera_limits():
+	var _fname = "set_camera_limits"
+	var currScene = GameState.get_current_scene()
+	print(GameState.script_name_tag(self, _fname) + "Parent = " + str(currScene.name))
+	print(GameState.script_name_tag(self, _fname) + "set_camera_limits set")
+	camera.limit_right = currScene.camera_limit_right
+	camera.limit_bottom = currScene.camera_limit_bottom
+	camera.limit_left = currScene.camera_limit_left
+	camera.limit_top = currScene.camera_limit_top
+	camera.zoom = Vector2(currScene.zoom_factor, currScene.zoom_factor)
+	speed = base_speed /currScene.zoom_factor
 
 func _input(event):
 	# F key debug option - lists all interactable objects and their distances

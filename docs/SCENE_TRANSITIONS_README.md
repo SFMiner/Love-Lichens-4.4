@@ -70,11 +70,11 @@ NPC: Do you need to travel somewhere else?
   set locations = FastTravelSystem.get_available_locations()
   NPC: Where would you like to go?
   - {{ locations[0].name if locations.size() > 0 else "No locations available" }}
-    do FastTravelSystem.fast_travel(locations[0].id) if locations.size() > 0
-    => END
+	do FastTravelSystem.fast_travel(locations[0].id) if locations.size() > 0
+	=> END
   - I'll stay here.
-    NPC: As you wish.
-    => END
+	NPC: As you wish.
+	=> END
 - No, I'll stay here.
   NPC: Very well.
   => END
@@ -95,10 +95,10 @@ The following need to be updated in the Godot editor:
 
 1. **Add the spawn_point.gd script to marker nodes**:
    - In campus_quad.tscn:
-     - CampusQuadSpawn (Marker2D)
-     - CemeteryExitSpawn (Marker2D)
+	 - CampusQuadSpawn (Marker2D)
+	 - CemeteryExitSpawn (Marker2D)
    - In cemetery.tscn:
-     - EntranceSpawn (Marker2D)
+	 - EntranceSpawn (Marker2D)
    
    You can either add the script manually or instance the spawn_point_sample.tscn.
 

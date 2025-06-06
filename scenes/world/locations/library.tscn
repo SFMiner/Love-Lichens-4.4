@@ -1,9 +1,10 @@
-[gd_scene load_steps=36 format=4 uid="uid://bo31lr7ap86m1"]
+[gd_scene load_steps=37 format=4 uid="uid://bo31lr7ap86m1"]
 
 [ext_resource type="Script" uid="uid://b31hm284o47i" path="res://scripts/world/library.gd" id="1_jyrkq"]
 [ext_resource type="Texture2D" uid="uid://ci2p11or3sxg5" path="res://assets/images/scenes/library/parquet1.png" id="1_varv3"]
 [ext_resource type="Texture2D" uid="uid://dqvmqgb1n65x4" path="res://assets/images/scenes/library/bookshelves1.png" id="2_mo8sp"]
 [ext_resource type="Texture2D" uid="uid://bplwuuq64gf00" path="res://assets/tilesets/1_Room_Builder_Office/Room_Builder_Office_16x16.png" id="2_wtert"]
+[ext_resource type="Script" uid="uid://ct2svr68dq8xl" path="res://scripts/world/reasearch_lab_node.gd" id="2_xmarw"]
 [ext_resource type="Texture2D" uid="uid://cmm5r7mgobjpq" path="res://assets/images/scenes/library/bookshelves_wide_1.png" id="3_jyrkq"]
 [ext_resource type="Texture2D" uid="uid://cylnquxsdl5aj" path="res://assets/images/scenes/library/bookshelves_wide_2.png" id="4_ylxtg"]
 [ext_resource type="Texture2D" uid="uid://c2v2rn28iwebg" path="res://assets/images/scenes/library/bookshelves_wide_3.png" id="5_x7m4w"]
@@ -235,6 +236,7 @@ size = Vector2(56.5, 21)
 script = ExtResource("1_jyrkq")
 
 [node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("2_xmarw")
 
 [node name="Walls" type="TileMapLayer" parent="Node2D"]
 position = Vector2(-55.8333, 7.5)
@@ -364,10 +366,6 @@ offset = Vector2(0, -44.5)
 position = Vector2(924.5, 509)
 texture = ExtResource("8_12qbq")
 offset = Vector2(0.5, -74)
-
-[node name="Player" parent="Node2D/z_Objects" instance=ExtResource("9_wtert")]
-position = Vector2(711, 339.5)
-scale = Vector2(1.5, 1.5)
 
 [node name="TableVertical" type="Sprite2D" parent="Node2D/z_Objects"]
 position = Vector2(105, 349)
@@ -684,10 +682,10 @@ shape = SubResource("CircleShape2D_mbogy")
 [node name="Iris Boowkright" parent="Node2D/z_Objects" instance=ExtResource("18_x5p3v")]
 position = Vector2(28.5, 438.5)
 scale = Vector2(1.5, 1.5)
-character_name = "Iris Bookwright"
-initial_dialogue_title = "librarian_greeting"
-description = "iris_bookwright"
 character_id = "iris_bookwright"
+character_name = "Iris Bookwright"
+description = "iris_bookwright"
+initial_dialogue_title = "librarian_greeting"
 
 [node name="Bottom Right Bookshelf Interactable7" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
 position = Vector2(336.5, 289.5)
@@ -900,6 +898,10 @@ shape = SubResource("RectangleShape2D_3v7kx")
 position = Vector2(50.7783, 365.982)
 scale = Vector2(4.84038, 6.3852)
 polygon = PackedVector2Array(-9.8879, 8.99217, 8.96686, 8.9269, 9.13905, -4.06087, -1.88108, -4.06087, -1.79499, 3.24883, -9.71571, 3.1183)
+
+[node name="Player" parent="Node2D" instance=ExtResource("9_wtert")]
+position = Vector2(1422, 679)
+scale = Vector2(3, 3)
 
 [node name="Library Exit" parent="." instance=ExtResource("10_mo8sp")]
 position = Vector2(822, 1059)

@@ -70,7 +70,8 @@ var current_animation: String = "idle_down"
 var dialogue_system
 var memory_system
 
-const scr_debug: bool = true
+const scr_debug : bool = false
+
 
 # ==========================================
 # INITIALIZATION

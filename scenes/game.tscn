@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0p7owuaem3nk"]
 
-[ext_resource type="Script" uid="uid://c367g84woylmp" path="res://scenes/game_scene_logic.gd" id="1_g3xwj"]
-[ext_resource type="PackedScene" uid="uid://psku74tm8111" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://c367g84woylmp" path="res://scripts/game_scene_logic.gd" id="1_g3xwj"]
+[ext_resource type="PackedScene" uid="uid://co0t5m2qa8e1n" path="res://scenes/ui/time_display.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://bu2a7w5c22x0i" path="res://scenes/ui/phone/PhoneScene.tscn" id="3_abcde"]
 
 [node name="Game" type="Node"]
@@ -45,5 +45,6 @@ text = "NPCs: "
 
 [node name="PhoneCanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
+visible = false
 
 [node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_abcde")]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=76 format=4 uid="uid://6s7mlfm1l0vc"]
+[gd_scene load_steps=77 format=4 uid="uid://6s7mlfm1l0vc"]
 
 [ext_resource type="Script" uid="uid://c6jfvv10wt7vt" path="res://scripts/world/research_lab.gd" id="1_pb8ne"]
+[ext_resource type="Script" uid="uid://ct2svr68dq8xl" path="res://scripts/world/reasearch_lab_node.gd" id="2_g6sj1"]
 [ext_resource type="Texture2D" uid="uid://dg0t3x8eoaxj5" path="res://assets/images/items/lab_floor_tile.png" id="3_ffuqb"]
 [ext_resource type="Texture2D" uid="uid://dopmx2y23k4vj" path="res://assets/images/items/lab_flasks-Sheet.png" id="3_v0xx4"]
 [ext_resource type="Texture2D" uid="uid://bi4ubeu6v6xig" path="res://assets/images/items/countertop2_.png" id="4_4yh5b"]
@@ -247,6 +248,7 @@ script = ExtResource("1_pb8ne")
 
 [node name="Node2D" type="Node2D" parent="."]
 scale = Vector2(0.8, 0.8)
+script = ExtResource("2_g6sj1")
 
 [node name="Floor" type="TileMapLayer" parent="Node2D"]
 position = Vector2(-132, -4)
@@ -1455,10 +1457,6 @@ position = Vector2(21.0354, -294.839)
 scale = Vector2(1.09556, 0.712555)
 texture = ExtResource("15_7jjgu")
 
-[node name="Player" parent="Node2D/z_Objects" instance=ExtResource("45_y3l2i")]
-position = Vector2(-250.5, 585.25)
-scale = Vector2(7.5, 7.5)
-
 [node name="nonwalkable_areas" type="StaticBody2D" parent="Node2D/z_Objects"]
 position = Vector2(-488.076, -287.103)
 scale = Vector2(0.478506, 0.478506)
@@ -1612,6 +1610,10 @@ polygon = PackedVector2Array(172.411, -130.615, 12959.6, -135.839, 12970.1, -416
 [node name="CollisionShape2D15" type="CollisionShape2D" parent="Node2D/z_Objects/nonwalkable_areas"]
 position = Vector2(4218.98, 1088.27)
 shape = SubResource("RectangleShape2D_yt5uf")
+
+[node name="Player" parent="Node2D" instance=ExtResource("45_y3l2i")]
+position = Vector2(2743.75, 1557.5)
+scale = Vector2(7.5, 7.5)
 
 [node name="LibraryExit" parent="." instance=ExtResource("39_pb8ne")]
 unique_name_in_owner = true

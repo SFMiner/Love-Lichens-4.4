@@ -30,9 +30,12 @@ var time_scale: float = 1.0      # multiplier for speeding up/slowing down time
 
 # Internal tracking
 var time_accumulator: float = 0.0
+const scr_debug : bool = false
 var debug: bool = false
 
 func _ready() -> void:
+	debug = scr_debug or GameController.sys_debug 
+
 	if debug:
 		print(GameState.script_name_tag(self) + "TimeSystem initialized on " + get_formatted_date())
 

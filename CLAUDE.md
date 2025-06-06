@@ -43,7 +43,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Inventory System**: Item management with effect handling
 - **Relationship System**: Tracks player standing with different characters
 - **Time System**: Manages in-game time progression with day/night cycles
-- **Save/Load System**: Persists game state between sessions with support for multiple save slots
+- **Save/Load System**: Persists game state between sessions with support for multiple save slots. Current;y saves current scene, inventory, 
 - **Fast Travel System**: Allows player to move between unlocked locations
 - **Character Data System**: Manages character information and fonts
 - **Phone System**: Provides an in-game smartphone interface with apps for narrative content

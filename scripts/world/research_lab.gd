@@ -23,7 +23,7 @@ func _ready():
 	var debug = scr_debug or GameController.sys_debug
 	GameState.set_current_scene(self)
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
-	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
+	
 	if debug_label:
 		if player and player.interactable_object:
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nCan interact with: " + player.interactable_object.name

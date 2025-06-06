@@ -863,6 +863,12 @@ func _collect_save_data():
 		save_data["quest_system"] = quest_system.get_save_data()
 		if debug: print(script_name_tag(self, _fname) + "Collected quest data")
 	
+	# Pickup System
+	var pickup_system = get_node_or_null("/root/PickupSystem")
+	if pickup_system and pickup_system.has_method("get_save_data"):
+		save_data["pickup_system"] = pickup_system.get_save_data()
+		if debug: print(script_name_tag(self, _fname) + "Collected pickup system data")
+		
 	# Relationship System
 	var relationship_system = get_node_or_null("/root/RelationshipSystem")
 	if relationship_system and relationship_system.has_method("get_save_data"):
@@ -932,6 +938,13 @@ func _apply_save_data(save_data):
 			quest_system.load_save_data(save_data.quest_system)
 			if debug: print(script_name_tag(self, _fname) + "Applied quest data")
 	
+	# Pickup System
+	if save_data.has("pickup_system"):
+		var pickup_system = get_node_or_null("/root/PickupSystem")
+		if pickup_system and pickup_system.has_method("load_save_data"):
+			pickup_system.load_save_data(save_data.pickup_system)
+			if debug: print(script_name_tag(self, _fname) + "Applied pickup system data")
+	
 	# Relationship System
 	if save_data.has("relationship_system"):
 		var relationship_system = get_node_or_null("/root/RelationshipSystem")
@@ -970,6 +983,7 @@ func _apply_save_data(save_data):
 
 # Enhanced reset for new games
 func reset_all_systems():
+	var _fname = "reset_all_systems"
 	# Clear all tags
 	tags.clear()
 	
@@ -982,8 +996,11 @@ func reset_all_systems():
 		"InventorySystem",
 		"QuestSystem", 
 		"RelationshipSystem",
-		"DialogSystem"
+		"DialogSystem",
+		"PickupSystem"
 	]
+	
+		# NEW: Reset pickup system
 	
 	for system_name in systems_to_reset:
 		var system = get_node_or_null("/root/" + system_name)
@@ -995,6 +1012,10 @@ func reset_all_systems():
 		elif system_name == "QuestSystem" and system:
 			if system.has_method("load_quests"):
 				system.load_quests({"active_quests": {}, "completed_quests": {}, "available_quests": {}, "visited_areas": {}})
+		elif system_name == "PickupSystem" and system:
+			if system.has_method("reset"):
+				system.reset()
+				if debug: print(script_name_tag(self, _fname) + "Reset pickup system")
 
 # Debug function
 func debug_memory_state():

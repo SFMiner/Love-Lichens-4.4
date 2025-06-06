@@ -13,6 +13,7 @@ const scr_debug : bool = false
 var debug 
 var active_scene
 var is_phone_active: bool = false
+var player : CharacterBody2D
 
 # Current scene tracking
 var current_scene_node
@@ -55,15 +56,6 @@ func _ready():
 	debug = sys_debug or scr_debug
 	print(GameState.script_name_tag(self, _fname) + "Game Controller initialized")
 	quest_system = QuestSystem
-	#var linter := MemoryTagLinter.new()
-	#add_child(linter)  # Optional: if it has side effects or needs signals
-	#linter._run()
-
-#	var file := FileAccess.open("res://data/generated/memory_tag_registry.json", FileAccess.READ)
-#	if file:
-#		var json_string := file.get_as_text()
-#		GameState.memory_registry = JSON.parse_string(json_string)
-
 	var time_system = get_node_or_null("/root/TimeSystem")
 	if time_system:
 		time_system.day_changed.connect(_on_day_changed)
@@ -73,9 +65,6 @@ func _ready():
 
 	# Get reference to the current scene node
 	current_scene_node = get_node_or_null("/root/Game/CurrentScene")
-
-
-	# If we're not using the main scene structure, find another suitable container
 	if not current_scene_node:
 		var root = get_tree().root
 		current_scene_node = root.get_child(root.get_child_count() - 1)
@@ -145,7 +134,7 @@ func _ready():
 	GameState.load_npcs()
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
-
+	player = GameState.get_player()
 
 func _on_day_changed(old_day, new_day):
 	var _fname = "_on_day_changed"
@@ -312,7 +301,8 @@ func load_game(slot):
 		# Fallback to old method
 		if save_load_system:
 			save_load_system.load_game(slot)
-
+	player =get_tree().get_first_node_in_group("player")
+	
 # Save a game
 func save_game(slot):
 	var _fname = "save_game"
@@ -347,10 +337,10 @@ func toggle_pause_menu():
 	var is_main_menu = current_scene_path.find("main_menu") != -1
 
 	# Extra check - see if we can find player in the scene
-	var player_exists = get_tree().get_first_node_in_group("z_Objects") != null
+	player =get_tree().get_first_node_in_group("player")
 
 	# Even if current_scene_path says we're in main menu, if there's a player, we're in gameplay
-	if is_main_menu and player_exists:
+	if is_main_menu and player:
 		is_main_menu = false
 		# Fix the scene path
 		current_scene_path = "res://scenes/world/locations/dorm_room.tscn"
@@ -444,8 +434,9 @@ func change_scene(new_scene_path):
 		# Free the current scene if it exists
 		if current_scene_container.get_child_count() > 0:
 			for child in current_scene_container.get_children():
+				current_scene_container.remove_child(child)
 				child.queue_free()
-
+		
 		# Load the new scene
 		var scene_resource = load(new_scene_path)
 		if scene_resource:
@@ -454,6 +445,9 @@ func change_scene(new_scene_path):
 			active_scene = scene_instance
 			current_scene_path = new_scene_path
 			if debug: print(GameState.script_name_tag(self, _fname) + "Scene changed to: ", new_scene_path)
+			GameState.set_current_scene(scene_instance)
+			if "location_scene" in scene_instance:
+				GameState.get_player().set_camera_limits()
 		else:
 			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to load scene: ", new_scene_path)
 	else:
@@ -477,7 +471,7 @@ func change_scene(new_scene_path):
 		quest_system = get_node_or_null("/root/QuestSystem")
 		if quest_system and quest_system.has_method("on_location_entered"):
 			quest_system.call_deferred("on_location_entered", current_location)
-
+	
 # Enhanced scene change method that preserves player state and handles spawn points
 func change_location(new_scene_path, spawn_point="default"):
 	var _fname = "change_location"
@@ -514,8 +508,6 @@ func change_location(new_scene_path, spawn_point="default"):
 	print(GameState.script_name_tag(self, _fname) + "DEBUG: Transitioning to location: ", location_name)
 
 	# Use basic scene change
-
-
 	change_scene(new_scene_path)
 
 	# Wait a frame to ensure scene is fully loaded

@@ -1,7 +1,6 @@
-[gd_scene load_steps=48 format=4 uid="uid://bdmcytf16gdh6"]
+[gd_scene load_steps=47 format=4 uid="uid://bdmcytf16gdh6"]
 
 [ext_resource type="Script" uid="uid://gq7aml27ux5u" path="res://scripts/world/campus_quad.gd" id="1_hybx1"]
-[ext_resource type="Texture2D" uid="uid://dcj7q18fp13ul" path="res://assets/images/scenes/CampusQuad_big.png" id="2_exl3o"]
 [ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="2_hybx1"]
 [ext_resource type="Texture2D" uid="uid://jfyxscpsnaaq" path="res://assets/tilesets/TX Tileset Grass-export.png" id="3_163tt"]
 [ext_resource type="Texture2D" uid="uid://5oq3wwguyfbx" path="res://assets/tilesets/plains.png" id="4_163tt"]
@@ -540,11 +539,6 @@ script = ExtResource("1_hybx1")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_t30kj")
-
-[node name="Background2" type="Sprite2D" parent="."]
-position = Vector2(1528, 1523)
-scale = Vector2(3, 3)
-texture = ExtResource("2_exl3o")
 
 [node name="z_Objects" type="Node2D" parent="."]
 
@@ -1160,10 +1154,6 @@ item_id = "rare_lichen1"
 position = Vector2(1064, 1803)
 item_id = "rare_lichen2"
 
-[node name="Player" parent="." instance=ExtResource("2_hybx1")]
-position = Vector2(1169, 1112)
-scale = Vector2(2.53736, 2.53736)
-
 [node name="DormEntrance" parent="." instance=ExtResource("8_6tb1a")]
 position = Vector2(2394, 774)
 scale = Vector2(1.66489, 1.66489)
@@ -1247,3 +1237,13 @@ position = Vector2(1621, 886)
 
 [node name="right_marker" parent="." instance=ExtResource("36_bm7ek")]
 position = Vector2(1981, 1193)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 3064.0
+offset_top = 3044.0
+offset_right = 3104.0
+offset_bottom = 3084.0
+
+[node name="Player" parent="." instance=ExtResource("2_hybx1")]
+position = Vector2(1169, 1112)
+scale = Vector2(2.53736, 2.53736)

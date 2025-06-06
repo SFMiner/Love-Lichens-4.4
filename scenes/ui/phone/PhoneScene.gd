@@ -24,7 +24,11 @@ const APP_SCENE_PATHS = {
 	"AppButton_Snake": "res://scenes/ui/phone/apps/SnakeApp.tscn"
 }
 
-func _ready():
+const scr_debug : bool = false
+var debug: bool = false
+
+func _ready() -> void:
+	debug = scr_debug or GameController.sys_debug 
 	# Initial visibility
 	app_panel.hide()
 	phone_shell.show()
