@@ -27,7 +27,7 @@ func save_game(slot):
 	if slot < 0 or slot >= MAX_SAVE_SLOTS:
 		if debug: print(GameState.script_name_tag(self) + "Invalid save slot: ", slot)
 		return false
-		
+	
 	var save_data = _collect_save_data()
 	var save_path = SAVE_FOLDER + "save_" + str(slot) + SAVE_EXTENSION
 	

@@ -7,7 +7,7 @@ extends Node
 signal pickup_collected(pickup_id, item_id)
 signal pickup_dropped(pickup_id, item_id, position)
 
-const scr_debug: bool = false
+const scr_debug: bool = true
 var debug
 
 # Dictionary to track pickup states by scene
@@ -39,11 +39,11 @@ func _on_location_changed(old_location, new_location):
 	active_pickups.clear()
 	
 	# Wait for new scene to fully load
-	await get_tree().process_frame
+#	await get_tree().process_frame
 	await get_tree().process_frame
 	
 	# Manage pickups in the new scene
-	manage_scene_pickups()
+#	manage_scene_pickups()
 
 func save_current_scene_pickup_state():
 	var _fname = "save_current_scene_pickup_state"
@@ -52,36 +52,36 @@ func save_current_scene_pickup_state():
 	if debug: print(GameState.script_name_tag(self, _fname) + "Saving pickup state for scene: ", scene_path)
 	
 	# Get all pickup items currently in the scene
-	var pickups = get_tree().get_nodes_in_group("pickup")
-	var pickup_states = {}
+#	var pickups_to_save = GameState.scenes #get_tree().get_nodes_in_group("pickup")
+#	var pickup_states = {}
 	
-	for pickup in pickups:
-		if pickup.has_method("get_pickup_save_data"):
-			var pickup_data = pickup.get_pickup_save_data()
-			var pickup_id = pickup_data.pickup_instance_id
+#	for pickup in pickups:
+#		if pickup.has_method("get_pickup_save_data"):
+#			var pickup_data = pickup.get_pickup_save_data()
+#			var pickup_id = pickup_data.pickup_instance_id
 			
 			# Store the pickup data (it exists, so it's not collected)
-			pickup_states[pickup_id] = {
-				"collected": false,
-				"data": pickup_data
-			}
+#			pickup_states[pickup_id] = {
+#				"collected": false,
+#				"data": pickup_data
+#			}
 			
-			if debug: print(GameState.script_name_tag(self, _fname) + "Saved uncollected pickup: ", pickup_id)
+#			if debug: print(GameState.script_name_tag(self, _fname) + "Saved uncollected pickup: ", pickup_id)
 	
 	# Also check our active_pickups for any that were collected this session
-	for pickup_id in active_pickups:
-		if not pickup_states.has(pickup_id):
-			# This pickup was collected (not in scene anymore)
-			pickup_states[pickup_id] = {
-				"collected": true,
-				"data": null
-			}
-			if debug: print(GameState.script_name_tag(self, _fname) + "Marked collected pickup: ", pickup_id)
+#	for pickup_id in active_pickups:
+#		if not pickup_states.has(pickup_id):
+#			# This pickup was collected (not in scene anymore)
+#			pickup_states[pickup_id] = {
+#				"collected": true,
+#				"data": null
+#			}
+#			if debug: print(GameState.script_name_tag(self, _fname) + "Marked collected pickup: ", pickup_id)
 	
 	# Store the state for this scene
-	scene_pickup_states[scene_path] = pickup_states
+#	scene_pickup_states[scene_path] = pickup_states
 	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Saved ", pickup_states.size(), " pickup states for scene")
+#	if debug: print(GameState.script_name_tag(self, _fname) + "Saved ", pickup_states.size(), " pickup states for scene")
 
 func manage_scene_pickups():
 	var _fname = "manage_scene_pickups"
@@ -89,39 +89,60 @@ func manage_scene_pickups():
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Managing pickups for scene: ", scene_path)
 	
+	GameState.clear_pickups_save_data()
+	if debug: GameState.print_pickups(GameState.script_name_tag(self, _fname))
+	GameState.load_pickups_save_data()
+	if debug: GameState.print_pickups(GameState.script_name_tag(self, _fname))
+	GameState.clear_pickups()
+	if debug: GameState.print_pickups(GameState.script_name_tag(self, _fname))
+	
 	# Check if we have saved state for this scene
-	if scene_pickup_states.has(scene_path):
+#	if scene_pickup_states.has(scene_path):
 		# We've been here before - restore from saved state
-		if debug: print(GameState.script_name_tag(self, _fname) + "Scene has saved state, restoring pickups")
-		restore_scene_from_saved_state(scene_path)
-	else:
+#		if debug: print(GameState.script_name_tag(self, _fname) + "Scene has saved state, restoring pickups")
+	restore_scene_from_saved_state()
+#	else:
 		# First time in this scene - initialize from scene file
-		if debug: print(GameState.script_name_tag(self, _fname) + "First time in scene, initializing from scene file")
-		initialize_scene_pickups_from_scene_file(scene_path)
+#		if debug: print(GameState.script_name_tag(self, _fname) + "First time in scene, initializing from scene file")
+#		initialize_scene_pickups_from_scene_file(scene_path)
 
-func restore_scene_from_saved_state(scene_path: String):
+func restore_scene_from_saved_state():
 	var _fname = "restore_scene_from_saved_state"
+	var scene_instance = GameState.get_current_scene()
+	var restored_pickup
+	GameState.get_player().set_camera_limits()
+	if debug: print(GameState.script_name_tag(self, _fname) + "scene_visited = " + str(GameState.scene_visited(scene_instance.name)))
+	if GameState.scene_visited(scene_instance.name):
+		GameState.clear_pickups()
+		if debug: print(GameState.script_name_tag(self, _fname) + str(GameState.get_pickups()))
+		var pickups_to_put_down = GameState.get_scene_pickups_save_data()
+		for pickup in pickups_to_put_down:
+			restored_pickup = PickupSystem.create_pickup_from_data(pickup)
+			if debug: print(GameState.script_name_tag(self, _fname) + "Pickup " + restored_pickup.item_id + " restored at " + str(restored_pickup.position))
+			scene_instance.z_objects.add_child(restored_pickup)
+	else:
+		GameState.visit_scene(scene_instance.name)
 	
 	# Step 1: Remove all pickup items that were placed in the scene file
-	remove_all_scene_pickups()
+#	remove_all_scene_pickups()
 	
 	# Step 2: Recreate only the uncollected pickups from saved state
-	var saved_states = scene_pickup_states[scene_path]
-	var restored_count = 0
+#	var saved_states = scene_pickup_states[scene_path]
+#	var restored_count = 0
 	
-	for pickup_id in saved_states:
-		var pickup_state = saved_states[pickup_id]
+#	for pickup_id in saved_states:
+#		var pickup_state = saved_states[pickup_id]
 		
-		if not pickup_state.collected:
-			# Recreate this pickup
-			var pickup_data = pickup_state.data
-			create_pickup_from_data(pickup_data)
-			restored_count += 1
-			if debug: print(GameState.script_name_tag(self, _fname) + "Restored pickup: ", pickup_id)
-		else:
-			if debug: print(GameState.script_name_tag(self, _fname) + "Skipped collected pickup: ", pickup_id)
+#		if not pickup_state.collected:
+#			# Recreate this pickup
+#			var pickup_data = pickup_state.data
+#			create_pickup_from_data(pickup_data)
+#			restored_count += 1
+#			if debug: print(GameState.script_name_tag(self, _fname) + "Restored pickup: ", pickup_id)
+#		else:
+#			if debug: print(GameState.script_name_tag(self, _fname) + "Skipped collected pickup: ", pickup_id)
 	
-	if debug: print(GameState.script_name_tag(self, _fname) + "Restored ", restored_count, " uncollected pickups")
+	#if debug: print(GameState.script_name_tag(self, _fname) + "Restored ", restored_count, " uncollected pickups")
 
 func initialize_scene_pickups_from_scene_file(scene_path: String):
 	var _fname = "initialize_scene_pickups_from_scene_file"
@@ -173,8 +194,10 @@ func remove_all_scene_pickups():
 
 func create_pickup_from_data(pickup_data: Dictionary):
 	var _fname = "create_pickup_from_data"
-	
+	print(GameState.script_name_tag(self, _fname) + " called")
 	# Create the pickup item
+	var player : Player = GameState.get_player()
+	var current_scene = GameState.get_current_scene()
 	var pickup_scene = load("res://scenes/pickups/pickup_item.tscn")
 	if not pickup_scene:
 		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not load pickup_item.tscn")
@@ -182,21 +205,30 @@ func create_pickup_from_data(pickup_data: Dictionary):
 	
 	var pickup_instance = pickup_scene.instantiate()
 	pickup_instance.item_id = pickup_data.item_id
+	pickup_instance.item_data.item_name = pickup_data.item_name
+	pickup_instance.name = pickup_data.item_name
 	pickup_instance.item_amount = pickup_data.item_amount
 	pickup_instance.auto_pickup = pickup_data.auto_pickup
+	pickup_instance.scale = pickup_data.scale
+	if debug: print(GameState.script_name_tag(self, _fname) + "pickup scale = ", str(pickup_instance.scale))
 	pickup_instance.pickup_range = pickup_data.pickup_range
 	pickup_instance.pickup_instance_id = pickup_data.pickup_instance_id
-	pickup_instance.global_position = Vector2(pickup_data.position.x, pickup_data.position.y)
+	if pickup_data.has("position"):
+		pickup_instance.position = pickup_data.position
 	
 	# Add to scene
-	get_tree().current_scene.add_child(pickup_instance)
-	
+	#get_tree().current_scene.z_objects.add_child(pickup_instance)
+
+
+	## pickup_instance.global_position = GameState.get_player().global_position
+#	pickup_instance.position *= Vector2(1,1)/GameState.get_current_scene().get_node_or_null("Node2D").scale
 	# Register as active
 	active_pickups[pickup_data.pickup_instance_id] = pickup_instance
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Created pickup: ", pickup_data.pickup_instance_id)
-	return pickup_instance
 
+	return pickup_instance
+	
 func mark_pickup_collected(pickup_id: String):
 	var _fname = "mark_pickup_collected"
 	
@@ -223,10 +255,43 @@ func register_pickup(pickup_node):
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Registered pickup: ", pickup_id)
 
-func drop_item_in_world(item_id: String, amount: int, position: Vector2) -> String:
+
+
+func drop_item_in_world(pickup_data : Dictionary) -> void:
 	var _fname = "drop_item_in_world"
-	var scene_path = get_tree().current_scene.scene_file_path
+	if debug: print(GameState.script_name_tag(self, _fname) + " function called")
+	var current_scene = GameState.get_current_scene()
+	var scene_path = current_scene.scene_file_path
 	
+	var player = GameState.get_player()
+	
+	var position = Vector2(pickup_data.position)
+	var drop_pos = player.get_position()
+	if is_instance_valid(player) and player.get("last_direction") != null:
+		drop_pos += player.last_direction.normalized() * 40
+
+	# Create the actual pickup in the scene
+	
+	var pickup_id = pickup_data.pickup_instance_id
+	
+	pickup_data["position"] = drop_pos
+	var pickup_instance = create_pickup_from_data(pickup_data)
+	current_scene.add_child(pickup_instance)
+	pickup_instance.add_to_group("pickup")
+
+
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dropped item " + pickup_data.item_id + " at " + str(pickup_data.position) + " with ID: " + pickup_id)
+	pickup_dropped.emit(pickup_id, pickup_data.item_id, position)
+
+
+
+
+
+func drop_item_in_world_original(item_id: String, amount: int, position: Vector2) -> String:
+	var _fname = "drop_item_in_world"
+	if debug: print(GameState.script_name_tag(self, _fname) + " function called")
+	var scene_path = get_tree().current_scene.scene_file_path
+	var player = GameState.get_player()
 	# Generate unique pickup ID for dropped item
 	var pos_str = str(int(position.x)) + "_" + str(int(position.y))
 	var scene_name = scene_path.get_file().get_basename()
@@ -237,12 +302,9 @@ func drop_item_in_world(item_id: String, amount: int, position: Vector2) -> Stri
 		"pickup_instance_id": pickup_id,
 		"item_id": item_id,
 		"item_amount": amount,
+		"scale": player.scale * 0.4,
 		"auto_pickup": false,
 		"pickup_range": 50.0,
-		"position": {
-			"x": position.x,
-			"y": position.y
-		},
 		"scene_path": scene_path
 	}
 	
@@ -260,17 +322,20 @@ func drop_item_in_world(item_id: String, amount: int, position: Vector2) -> Stri
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Dropped item ", item_id, " at ", position, " with ID: ", pickup_id)
 	pickup_dropped.emit(pickup_id, item_id, position)
+#	pickup_id.position = player.get_position()
+#	pickup_id.scale = player.scale * Vector2(0.4, 0.4)
 	
 	return pickup_id
+
 
 func get_save_data() -> Dictionary:
 	var _fname = "get_save_data"
 	
 	# Save current scene state before saving
-	save_current_scene_pickup_state()
-	
+#	save_current_scene_pickup_state()
+	GameState.load_pickups_save_data()
 	var save_data = {
-		"scene_pickup_states": scene_pickup_states.duplicate(true)
+		"scene_pickup_states": GameState.scenes# cene_pickup_states.duplicate(true)
 	}
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Collected pickup data for ", scene_pickup_states.size(), " scenes")
@@ -278,23 +343,29 @@ func get_save_data() -> Dictionary:
 
 func load_save_data(data: Dictionary) -> bool:
 	var _fname = "load_save_data"
-	if typeof(data) != TYPE_DICTIONARY:
-		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Invalid data type for pickup system load")
-		return false
-	
+#	if typeof(data) != TYPE_DICTIONARY:
+#		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Invalid data type for pickup system load")
+#		return false
+	GameState.load_pickups_save_data()
 	# Restore scene pickup states
 	if data.has("scene_pickup_states"):
-		scene_pickup_states = data.scene_pickup_states.duplicate(true)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Restored pickup states for ", scene_pickup_states.size(), " scenes")
+		GameState.scenes = data.scene_pickup_states.duplicate(true)
+
+#		scene_pickup_states = data.scene_pickup_states.duplicate(true)
+#		if debug: print(GameState.script_name_tag(self, _fname) + "Restored pickup states for ", scene_pickup_states.size(), " scenes")
 	
 	# Re-manage current scene with loaded data
-	call_deferred("manage_scene_pickups")
+#	call_deferred("manage_scene_pickups")
+
 	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Pickup system restoration complete")
 	return true
 
 func reset():
 	var _fname = "reset"
+	for scene in GameState.scenes.keys():
+		GameState.scenes[scene]["pickups"] = []
+	GameState.scenes_visited = []
 	scene_pickup_states.clear()
 	active_pickups.clear()
 	if debug: print(GameState.script_name_tag(self, _fname) + "Pickup system reset")

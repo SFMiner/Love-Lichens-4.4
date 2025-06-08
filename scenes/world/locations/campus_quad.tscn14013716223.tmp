@@ -1060,22 +1060,62 @@ texture = ExtResource("31_bm7ek")
 [node name="CommonLichen1" parent="Node2D/z_Objects" instance=ExtResource("7_6tb1a")]
 position = Vector2(610, 1998)
 item_id = "common_lichen1"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="CommonLichen2" parent="Node2D/z_Objects" instance=ExtResource("7_6tb1a")]
 position = Vector2(1976, 1874)
 item_id = "common_lichen2"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="CommonLichen3" parent="Node2D/z_Objects" instance=ExtResource("7_6tb1a")]
 position = Vector2(2442, 1029)
 item_id = "common_lichen3"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="RareLichen1" parent="Node2D/z_Objects" instance=ExtResource("7_6tb1a")]
 position = Vector2(2129, 1160)
 item_id = "rare_lichen1"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="RareLichen2" parent="Node2D/z_Objects" instance=ExtResource("7_6tb1a")]
 position = Vector2(1064, 1803)
 item_id = "rare_lichen2"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="nonwalkable areas" type="StaticBody2D" parent="Node2D"]
 collision_layer = 3
@@ -1176,13 +1216,13 @@ position = Vector2(2387, 787)
 position = Vector2(3025, 134)
 
 [node name="LabEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(2575, 1894)
+position = Vector2(2568, 1914)
 scale = Vector2(1.66489, 1.66489)
 target_location = "research_lab"
 transition_name = "Research Lab"
 
 [node name="lab_exit" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(2571, 1948)
+position = Vector2(2578, 1925)
 scale = Vector2(0.85348, 0.85348)
 
 [node name="LibraryEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]

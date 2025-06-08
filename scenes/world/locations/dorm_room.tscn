@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://cexat8mt4n8pk"]
+[gd_scene load_steps=28 format=4 uid="uid://cexat8mt4n8pk"]
 
 [ext_resource type="Script" uid="uid://b485yhr8p6gf3" path="res://scripts/world/dorm_room.gd" id="1_ny2cb"]
 [ext_resource type="Texture2D" uid="uid://bplwuuq64gf00" path="res://assets/tilesets/1_Room_Builder_Office/Room_Builder_Office_16x16.png" id="4_117n6"]
@@ -529,119 +529,124 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbj4a"]
 radius = 30.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nl8ga"]
-radius = 72.1804
-
 [node name="DormRoom" type="Node2D"]
 script = ExtResource("1_ny2cb")
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-offset_left = -10.0
-offset_right = 2116.0
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ColorRect2" type="ColorRect" parent="Node2D"]
+offset_left = -2.71739
+offset_right = 2123.28
 offset_bottom = 1395.0
 color = Color(0, 0, 0, 1)
 
-[node name="LayerHolder2" type="Node2D" parent="."]
-position = Vector2(261, 316)
-scale = Vector2(6, 6)
+[node name="LayerHolder2" type="Node2D" parent="Node2D"]
+scale = Vector2(1.63043, 1.63043)
 
-[node name="Walls" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-55.8333, 7.5)
+[node name="Walls" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-45.1667, 28.6666)
 tile_map_data = PackedByteArray("AAAEAP//AAANAAUAAAAEAAAAAAANAAYAAAAFAP//AAAOAAUAAAAFAAAAAAAOAAYAAAAGAP//AAAPAAUAAAAGAAAAAAAPAAYAAAAHAP//AAANAAUAAAAHAAAAAAANAAYAAAAIAP//AAAOAAUAAAAIAAAAAAAOAAYAAAAJAP//AAAPAAUAAAAJAAAAAAAPAAYAAAAKAP//AAANAAUAAAAKAAAAAAANAAYAAAALAP//AAAOAAUAAAALAAAAAAAOAAYAAAAMAP//AAAPAAUAAAAMAAAAAAAPAAYAAAANAP//AAANAAUAAAANAAAAAAANAAYAAAAOAP//AAAOAAUAAAAOAAAAAAAOAAYAAAAPAP//AAAPAAUAAAAPAAAAAAAPAAYAAAAQAP//AAANAAUAAAAQAAAAAAANAAYAAAARAP//AAAOAAUAAAARAAAAAAAOAAYAAAASAP//AAAPAAUAAAASAAAAAAAPAAYAAAATAP//AAANAAUAAAATAAAAAAANAAYAAAA=")
 tile_set = SubResource("TileSet_2w1fr")
 
-[node name="Window1" type="Sprite2D" parent="LayerHolder2"]
-position = Vector2(33.3333, 1.5)
+[node name="Window1" type="Sprite2D" parent="Node2D/LayerHolder2"]
+position = Vector2(43.9999, 22.6666)
 scale = Vector2(0.416667, 0.416667)
 texture = ExtResource("5_2w1fr")
 
-[node name="Floor" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-55.6667, 5.66667)
+[node name="Floor" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-45.0001, 26.8333)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAANAAEAAAATAAgAAAAFAAEAAAATAAgAAAASAAEAAAASAAgAAAAEAAEAAAASAAgAAAAEAAIAAAASAAgAAAAFAAIAAAATAAgAAAAEAAMAAAASAAgAAAAFAAMAAAATAAgAAAAEAAQAAAASAAgAAAAFAAQAAAATAAgAAAAEAAUAAAASAAgAAAAFAAUAAAATAAgAAAAGAAEAAAASAAgAAAAHAAEAAAATAAgAAAAGAAIAAAASAAgAAAAHAAIAAAATAAgAAAAGAAMAAAASAAgAAAAHAAMAAAATAAgAAAAGAAQAAAASAAgAAAAHAAQAAAATAAgAAAAGAAUAAAASAAgAAAAHAAUAAAATAAgAAAAIAAEAAAASAAgAAAAJAAEAAAATAAgAAAAIAAIAAAASAAgAAAAJAAIAAAATAAgAAAAIAAMAAAASAAgAAAAJAAMAAAATAAgAAAAIAAQAAAASAAgAAAAJAAQAAAATAAgAAAAIAAUAAAASAAgAAAAJAAUAAAATAAgAAAAKAAEAAAASAAgAAAALAAEAAAATAAgAAAAKAAIAAAASAAgAAAALAAIAAAATAAgAAAAKAAMAAAASAAgAAAALAAMAAAATAAgAAAAKAAQAAAASAAgAAAALAAQAAAATAAgAAAAKAAUAAAASAAgAAAALAAUAAAATAAgAAAAMAAEAAAASAAgAAAAMAAIAAAASAAgAAAANAAIAAAATAAgAAAAMAAMAAAASAAgAAAANAAMAAAATAAgAAAAMAAQAAAASAAgAAAANAAQAAAATAAgAAAAMAAUAAAASAAgAAAANAAUAAAATAAgAAAAOAAEAAAASAAgAAAAPAAEAAAATAAgAAAAOAAIAAAASAAgAAAAPAAIAAAATAAgAAAAOAAMAAAASAAgAAAAPAAMAAAATAAgAAAAOAAQAAAASAAgAAAAPAAQAAAATAAgAAAAOAAUAAAASAAgAAAAPAAUAAAATAAgAAAAQAAEAAAASAAgAAAARAAEAAAATAAgAAAAQAAIAAAASAAgAAAARAAIAAAATAAgAAAAQAAMAAAASAAgAAAARAAMAAAATAAgAAAAQAAQAAAASAAgAAAARAAQAAAATAAgAAAAQAAUAAAASAAgAAAARAAUAAAATAAgAAAATAAEAAAATAAgAAAASAAIAAAASAAgAAAATAAIAAAATAAgAAAASAAMAAAASAAgAAAATAAMAAAATAAgAAAASAAQAAAASAAgAAAATAAQAAAATAAgAAAASAAUAAAASAAgAAAATAAUAAAATAAgAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furniture" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-55.6667, 0)
+[node name="Furniture" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-45.0001, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAKAAAAAAASAAMAAAAKAAEAAAASAAQAAAALAAAAAAATAAMAAAALAAEAAAATAAQAAAAMAAAAAAAUAAMAAAAMAAEAAAAUAAQAAAAGAAAAAAAQAAMAAAAGAAEAAAAQAAQAAAAHAAAAAAARAAMAAAAHAAEAAAARAAQAAAAIAAEAAAAFAAAAAAAOAAEAAAARAAAAAAAQAAEAAAARAAAAAAATAAEAAAARAAAAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-55.6667, 0)
+[node name="Furnishings" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-45.0001, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAHAP//AAATAAkAAAAHAAAAAAATAAoAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings Half_V" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-55.6667, -10.3333)
+[node name="Furnishings Half_V" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-45.0001, 10.8333)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAKAAEAAAAFAAYAAAAOAAEAAAAEAAMAAAAFAAEAAAAOAAAAAAAFAAIAAAAOAAEAAAANAAEAAAAOAAAAAAANAAIAAAAOAAEAAAASAAEAAAAOAAAAAAASAAIAAAAOAAEAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings Half_H" type="TileMapLayer" parent="LayerHolder2"]
-position = Vector2(-47.8333, 0)
+[node name="Furnishings Half_H" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+position = Vector2(-37.1667, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(1338, 1258)
-scale = Vector2(3.68, 3.68)
-
 [node name="nonwalkable_areas" type="StaticBody2D" parent="Node2D"]
-position = Vector2(-488.076, -287.103)
 scale = Vector2(0.478506, 0.478506)
 collision_layer = 3
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(519.12, 151.476)
+position = Vector2(145.948, 160.824)
 shape = SubResource("RectangleShape2D_70ukd")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(958.1, 151.476)
+position = Vector2(584.928, 160.824)
+shape = SubResource("RectangleShape2D_70ukd")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(747.344, 148.219)
+shape = SubResource("RectangleShape2D_70ukd")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
+position = Vector2(909.761, 145.948)
 shape = SubResource("RectangleShape2D_70ukd")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(1230.12, 151.476)
+position = Vector2(856.948, 160.824)
 shape = SubResource("RectangleShape2D_70ukd")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(1009.78, 137.168)
+position = Vector2(636.608, 146.516)
 shape = SubResource("RectangleShape2D_70ukd")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(600.044, 146.822)
+position = Vector2(226.872, 156.17)
 shape = SubResource("RectangleShape2D_117n6")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(846.225, 146.538)
+position = Vector2(473.053, 155.886)
 shape = SubResource("RectangleShape2D_385yi")
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(872.348, 109.341)
+position = Vector2(498.607, 111.307)
 shape = SubResource("RectangleShape2D_nl8ga")
 
 [node name="CollisionShape2D10" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(872.348, 460.866)
+position = Vector2(498.607, 462.832)
 shape = SubResource("RectangleShape2D_nl8ga")
 
 [node name="CollisionShape2D8" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(423.147, 242.228)
+position = Vector2(49.4064, 244.194)
 shape = SubResource("RectangleShape2D_k1mv0")
 
 [node name="CollisionShape2D9" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(1322.12, 242.228)
+position = Vector2(948.379, 244.194)
 shape = SubResource("RectangleShape2D_k1mv0")
 
 [node name="CollisionShape2D11" type="CollisionShape2D" parent="Node2D/nonwalkable_areas"]
-position = Vector2(1199.74, 271.19)
+position = Vector2(825.999, 273.156)
 shape = SubResource("RectangleShape2D_2w1fr")
 
 [node name="z_Objects" type="Node2D" parent="Node2D"]
 
+[node name="Player" parent="Node2D/z_Objects" instance=ExtResource("41_xy0uw")]
+position = Vector2(75.8152, 134.511)
+scale = Vector2(0.815217, 0.815217)
+
 [node name="Microwave Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-3.53259, -197.554)
+position = Vector2(305.435, 91.0326)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "microwave"
@@ -658,7 +663,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Poison\'s Bed interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-30.4348, -194.837)
+position = Vector2(279.348, 96.4675)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "poisons_bed"
@@ -675,7 +680,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Poison\'s Desk interactable2" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-58.9674, -199.185)
+position = Vector2(249.728, 92.1195)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "poisons_desk"
@@ -693,7 +698,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="ShortDesk" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(84.7826, -151.359)
+position = Vector2(393.478, 136.685)
 scale = Vector2(1.64279, 1.64279)
 texture = ExtResource("7_j5xem")
 offset = Vector2(0.511292, -11.1654)
@@ -704,7 +709,7 @@ scale = Vector2(0.165413, 0.165413)
 texture = ExtResource("7_csjam")
 
 [node name="Fate\'s Desk interactable6" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(92.1196, -152.717)
+position = Vector2(400.815, 138.588)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "fates_desk"
@@ -721,13 +726,21 @@ object_type = 4
 position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
+[node name="ColorRect" type="ColorRect" parent="Node2D/z_Objects"]
+offset_left = 125.815
+offset_top = 135.054
+offset_right = 139.815
+offset_bottom = 149.054
+scale = Vector2(0.926844, 0.814197)
+metadata/_edit_use_anchors_ = true
+
 [node name="Chair1" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(92.663, -142.935)
+position = Vector2(401.359, 145.109)
 texture = ExtResource("8_csjam")
 offset = Vector2(-0.815216, -15.2174)
 
 [node name="Bug Area" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(45.3805, -196.467)
+position = Vector2(358.424, 94.8375)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "bug_area"
@@ -745,7 +758,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Poison\'s Desk interactable3" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-101.63, -199.185)
+position = Vector2(207.066, 92.1195)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "poisons_desk"
@@ -762,7 +775,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Adam\'s Bed" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-237.5, -199.185)
+position = Vector2(71.1956, 92.1195)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "adams_bed"
@@ -780,7 +793,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Adam\'s Desk interactable5" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-198.37, -199.185)
+position = Vector2(110.326, 92.1195)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "adams_desk"
@@ -798,7 +811,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="Fate\'s Bed" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(100.543, -196.467)
+position = Vector2(409.239, 94.8375)
 scale = Vector2(0.284277, 0.284277)
 script = ExtResource("5_385yi")
 int_id = "fates_bed"
@@ -830,23 +843,24 @@ libraries = {
 &"": SubResource("AnimationLibrary_7mnoe")
 }
 
-[node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
-position = Vector2(811, 886)
-scale = Vector2(0.881168, 0.881168)
+[node name="entrance" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
+position = Vector2(158.916, 177.394)
+scale = Vector2(0.239448, 0.239448)
 
-[node name="CampusExitPoint" type="Area2D" parent="." groups=["interactable"]]
-position = Vector2(812, 884)
+[node name="CampusExitPoint" type="Area2D" parent="Node2D" groups=["interactable"]]
+position = Vector2(159.188, 176.851)
+scale = Vector2(0.271739, 0.271739)
 collision_layer = 2
 script = ExtResource("40_dy7y6")
 target_location = "campus_quad"
 spawn_point = "DormExitSpawn"
 transition_name = "Return to Campus"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CampusExitPoint"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/CampusExitPoint"]
 position = Vector2(0.687977, -26.6937)
 shape = SubResource("CircleShape2D_dbj4a")
 
-[node name="ColorRect" type="ColorRect" parent="CampusExitPoint"]
+[node name="ColorRect" type="ColorRect" parent="Node2D/CampusExitPoint"]
 visible = false
 offset_left = -23.6753
 offset_top = -50.9018
@@ -855,7 +869,7 @@ offset_bottom = -2.90179
 color = Color(0.235294, 0.172549, 0.0862745, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CampusExitPoint"]
+[node name="Label" type="Label" parent="Node2D/CampusExitPoint"]
 offset_left = -78.1284
 offset_top = -5.66785
 offset_right = 82.8716
@@ -864,23 +878,3 @@ text = "Return to Campus"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
-
-[node name="Player" parent="." instance=ExtResource("41_xy0uw")]
-position = Vector2(550, 733)
-scale = Vector2(3, 3)
-
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = -1
-anchor_left = 1.91975
-anchor_top = 1.63461
-anchor_right = 1.91975
-anchor_bottom = 1.63461
-offset_left = 2037.0
-offset_top = 1104.0
-offset_right = 2077.0
-offset_bottom = 1144.0
-scale = Vector2(0.926844, 0.814197)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-4.77948, -123.072)
-shape = SubResource("CircleShape2D_nl8ga")

@@ -247,7 +247,6 @@ size = Vector2(1914.37, 297.353)
 script = ExtResource("1_pb8ne")
 
 [node name="Node2D" type="Node2D" parent="."]
-scale = Vector2(0.8, 0.8)
 script = ExtResource("2_g6sj1")
 
 [node name="Floor" type="TileMapLayer" parent="Node2D"]
@@ -257,10 +256,9 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAA
 tile_set = SubResource("TileSet_ssb25")
 
 [node name="z_Objects" type="Node2D" parent="Node2D"]
-position = Vector2(2994.25, 972.25)
 
 [node name="GlassPane1" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-2997.28, -520.532)
+position = Vector2(34.23, 472.343)
 scale = Vector2(1.90972, 1.90972)
 
 [node name="ColorRect" type="ColorRect" parent="Node2D/z_Objects/GlassPane1"]
@@ -271,7 +269,7 @@ offset_bottom = -0.593979
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="CubicleBarV" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-225, -498.75)
+position = Vector2(2806.51, 494.125)
 scale = Vector2(1.90972, 1.90972)
 texture = ExtResource("16_uac7m")
 offset = Vector2(-3.59998, -110.045)
@@ -302,7 +300,7 @@ scale = Vector2(0.223297, 0.523636)
 texture = ExtResource("6_7jjgu")
 
 [node name="Table1" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-2818.75, -381.25)
+position = Vector2(212.76, 611.625)
 scale = Vector2(1.81928, 1.53646)
 
 [node name="Countertop3" type="Sprite2D" parent="Node2D/z_Objects/Table1"]
@@ -322,13 +320,13 @@ scale = Vector2(0.692371, 0.819817)
 texture = ExtResource("13_i8u6o")
 
 [node name="FileCabinet" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-1867.5, -412.5)
+position = Vector2(1164.01, 580.375)
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("12_n863o")
 offset = Vector2(7, -169)
 
 [node name="Table2" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1742.5, -382.5)
+position = Vector2(1289.01, 610.375)
 scale = Vector2(1.50301, 1.26042)
 
 [node name="Countertop4" type="Sprite2D" parent="Node2D/z_Objects/Table2"]
@@ -364,13 +362,13 @@ scale = Vector2(0.807902, 0.9634)
 texture = ExtResource("10_i8u6o")
 
 [node name="Stool4" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-1525, -345)
+position = Vector2(1506.51, 647.876)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(6.10352e-05, -46.8409)
 
 [node name="Table 3" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1020, -436.25)
+position = Vector2(2011.51, 556.625)
 
 [node name="TableLeg" type="Sprite2D" parent="Node2D/z_Objects/Table 3"]
 position = Vector2(410, -62.9066)
@@ -418,19 +416,19 @@ position = Vector2(-8.36409, -212.687)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="FileCabinet2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-446.25, -407.5)
+position = Vector2(2585.26, 585.375)
 scale = Vector2(1.44622, 1.25)
 texture = ExtResource("12_n863o")
 offset = Vector2(6.48242, -178)
 
 [node name="Corkboard1" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(961.25, -520)
+position = Vector2(3992.76, 472.875)
 scale = Vector2(1.01411, 1.01411)
 texture = ExtResource("7_tnt05")
 offset = Vector2(2.09546, -232.745)
 
 [node name="Table 4" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(473.125, -555)
+position = Vector2(3504.64, 437.875)
 scale = Vector2(0.968875, 1.1875)
 
 [node name="TableLeg3" type="Sprite2D" parent="Node2D/z_Objects/Table 4"]
@@ -455,7 +453,7 @@ hframes = 3
 frame = 1
 
 [node name="Poster Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(738.75, -336.25)
+position = Vector2(3770.26, 656.625)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "poster1"
@@ -472,7 +470,7 @@ position = Vector2(-4.77948, -222.246)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Small Messageboard  Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(1002.5, -336.25)
+position = Vector2(4034.01, 656.625)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "bulletin_small"
@@ -489,13 +487,13 @@ position = Vector2(-4.77948, -222.246)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Poster1" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(746.25, -516.25)
+position = Vector2(3777.76, 476.625)
 scale = Vector2(1.04614, 1.04614)
 texture = ExtResource("6_3afub")
 offset = Vector2(9.59204, -219.259)
 
 [node name="LabStand" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1850, -353.75)
+position = Vector2(4881.51, 639.125)
 texture = ExtResource("17_mf0bu")
 offset = Vector2(3.75, -159)
 
@@ -509,7 +507,7 @@ vframes = 2
 frame = 1
 
 [node name="ChemicalRack" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1332.5, -342.5)
+position = Vector2(4364.01, 650.375)
 texture = ExtResource("32_8b1fy")
 offset = Vector2(6.25, -266.25)
 
@@ -577,18 +575,18 @@ hframes = 5
 vframes = 2
 
 [node name="PottedPlant" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1660, -362.5)
+position = Vector2(4691.51, 630.375)
 texture = ExtResource("18_acmvb")
 offset = Vector2(0, -243.75)
 
 [node name="Corkboard4" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(2593.75, -313.75)
+position = Vector2(5625.26, 679.125)
 scale = Vector2(1.82345, 1.82345)
 texture = ExtResource("10_ffuqb")
 offset = Vector2(9.34473, -220.393)
 
 [node name="Table 5" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(1952.5, -197.5)
+position = Vector2(4984.01, 795.375)
 metadata/_edit_group_ = true
 
 [node name="TableLeg5" type="Sprite2D" parent="Node2D/z_Objects/Table 5"]
@@ -665,7 +663,7 @@ scale = Vector2(0.394922, 0.615385)
 texture = ExtResource("11_4yh5b")
 
 [node name="Map Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(2711.25, -170)
+position = Vector2(5742.76, 822.875)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "map"
@@ -682,13 +680,13 @@ position = Vector2(-4.77948, -130.241)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Stool3" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(2478.75, -94.9998)
+position = Vector2(5510.26, 897.876)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(-2.09741, -56.6286)
 
 [node name="GlassPane2" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-2998.39, 77.934)
+position = Vector2(33.1201, 1070.81)
 
 [node name="ColorRect2" type="ColorRect" parent="Node2D/z_Objects/GlassPane2"]
 offset_left = -7.61383
@@ -699,7 +697,7 @@ pivot_offset = Vector2(2911, 412.75)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane3" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(613.02, 113.505)
+position = Vector2(3644.53, 1106.38)
 metadata/_edit_group_ = true
 
 [node name="ColorRect3" type="ColorRect" parent="Node2D/z_Objects/GlassPane3"]
@@ -711,7 +709,7 @@ pivot_offset = Vector2(1.25, 380.25)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane4" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(1072.5, 283.75)
+position = Vector2(4104.01, 1276.63)
 metadata/_edit_group_ = true
 
 [node name="ColorRect4" type="ColorRect" parent="Node2D/z_Objects/GlassPane4"]
@@ -723,7 +721,7 @@ pivot_offset = Vector2(466.25, 607.5)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane5" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(2571.45, 343.654)
+position = Vector2(5602.96, 1336.53)
 metadata/_edit_group_ = true
 
 [node name="ColorRect5" type="ColorRect" parent="Node2D/z_Objects/GlassPane5"]
@@ -735,16 +733,16 @@ pivot_offset = Vector2(-11.7505, 426.5)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="HorizontalBartLong" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-762.5, 83.75)
+position = Vector2(2269.01, 1076.63)
 texture = ExtResource("6_7jjgu")
 
 [node name="HorizontalBartLong2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1529.25, 213.75)
+position = Vector2(4560.76, 1206.63)
 scale = Vector2(0.426436, 1)
 texture = ExtResource("6_7jjgu")
 
 [node name="Table 6" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-3012.68, 312.218)
+position = Vector2(18.8303, 1305.09)
 scale = Vector2(1.81928, 1.4349)
 metadata/_edit_group_ = true
 
@@ -780,13 +778,13 @@ vframes = 2
 frame = 7
 
 [node name="Stool6" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2897.5, 363.75)
+position = Vector2(134.01, 1356.63)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(-0.698944, -54.5312)
 
 [node name="Table 7" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-2420.84, 207.878)
+position = Vector2(610.67, 1200.75)
 scale = Vector2(1.76161, 1.29427)
 metadata/_edit_group_ = true
 
@@ -813,13 +811,13 @@ hframes = 3
 frame = 1
 
 [node name="Stool5" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2138.75, 335)
+position = Vector2(892.76, 1327.88)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(7.69037, -44.7435)
 
 [node name="Table 8" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1678.64, 143.516)
+position = Vector2(1352.87, 1136.39)
 scale = Vector2(1.50301, 1.11979)
 
 [node name="TableLeg15" type="Sprite2D" parent="Node2D/z_Objects/Table 8"]
@@ -846,7 +844,7 @@ vframes = 2
 frame = 8
 
 [node name="Table 9" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1035, 192.5)
+position = Vector2(1996.51, 1185.38)
 scale = Vector2(2.21874, 2.21874)
 metadata/_edit_group_ = true
 
@@ -883,12 +881,12 @@ vframes = 3
 frame = 4
 
 [node name="Whiteboard" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-70, 105)
+position = Vector2(2961.51, 1097.88)
 texture = ExtResource("28_uac7m")
 offset = Vector2(-10, -211.25)
 
 [node name="Whiteboard Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-90, 153.75)
+position = Vector2(2941.51, 1146.63)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "whiteboard"
@@ -905,13 +903,13 @@ position = Vector2(-4.77948, -123.072)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Corkboard2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(813.75, 117.5)
+position = Vector2(3845.26, 1110.38)
 scale = Vector2(0.785416, 0.785416)
 texture = ExtResource("8_f47cv")
 offset = Vector2(43.5928, -312.334)
 
 [node name="Table 10" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(932.01, 120.266)
+position = Vector2(3963.52, 1113.14)
 scale = Vector2(1.36797, 1.29167)
 metadata/_edit_group_ = true
 
@@ -930,7 +928,7 @@ position = Vector2(-75.4839, 14.31)
 texture = ExtResource("11_i8u6o")
 
 [node name="Medium Bulleting Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(846.25, 336.25)
+position = Vector2(3877.76, 1329.13)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "bulletin_medium1"
@@ -947,13 +945,13 @@ position = Vector2(-4.77948, -130.241)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Corkboard3" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1283.75, 306.25)
+position = Vector2(4315.26, 1299.13)
 scale = Vector2(1.40982, 1.40982)
 texture = ExtResource("9_rvbhd")
 offset = Vector2(0.103027, -228.31)
 
 [node name="Board by Cat" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(1283.75, 265)
+position = Vector2(4315.26, 1257.88)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "bulletin_medium1"
@@ -971,7 +969,7 @@ shape = SubResource("CircleShape2D_i520q")
 
 [node name="Table11" type="Node2D" parent="Node2D/z_Objects"]
 z_as_relative = false
-position = Vector2(1117.09, 581.753)
+position = Vector2(4148.6, 1574.63)
 scale = Vector2(1.36797, 1.29167)
 
 [node name="TableLeg5" type="Sprite2D" parent="Node2D/z_Objects/Table11"]
@@ -1005,13 +1003,13 @@ libraries = {
 }
 
 [node name="Stool" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1525, 656.25)
+position = Vector2(4556.51, 1649.13)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(-0.698975, -55.9294)
 
 [node name="Table 12" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(2646.25, 451.25)
+position = Vector2(5677.76, 1444.13)
 scale = Vector2(1.36797, 1.29167)
 
 [node name="TableLeg7" type="Sprite2D" parent="Node2D/z_Objects/Table 12"]
@@ -1041,7 +1039,7 @@ vframes = 2
 frame = 6
 
 [node name="GlassPane6" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-3025.26, 759.143)
+position = Vector2(6.25, 1752.02)
 metadata/_edit_group_ = true
 
 [node name="ColorRect6" type="ColorRect" parent="Node2D/z_Objects/GlassPane6"]
@@ -1053,7 +1051,7 @@ pivot_offset = Vector2(-2.75024, 421.5)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane7" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1765.9, 777.899)
+position = Vector2(1265.61, 1770.77)
 metadata/_edit_group_ = true
 
 [node name="ColorRect7" type="ColorRect" parent="Node2D/z_Objects/GlassPane7"]
@@ -1073,7 +1071,7 @@ pivot_offset = Vector2(-2.49988, 425.25)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane8" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-72.1592, 668.672)
+position = Vector2(2959.35, 1661.55)
 metadata/_edit_group_ = true
 
 [node name="ColorRect9" type="ColorRect" parent="Node2D/z_Objects/GlassPane8"]
@@ -1085,7 +1083,7 @@ pivot_offset = Vector2(-2.49988, 425.25)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="GlassPane9" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(308.06, 709.936)
+position = Vector2(3339.57, 1702.81)
 metadata/_edit_group_ = true
 
 [node name="ColorRect10" type="ColorRect" parent="Node2D/z_Objects/GlassPane9"]
@@ -1097,7 +1095,7 @@ pivot_offset = Vector2(-5.75, 384)
 color = Color(0.364706, 1, 1, 0.243137)
 
 [node name="Table 13" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-3001.64, 890.846)
+position = Vector2(29.8701, 1883.72)
 scale = Vector2(1.61518, 1.3776)
 metadata/_edit_group_ = true
 
@@ -1151,13 +1149,13 @@ vframes = 3
 frame = 4
 
 [node name="Stool7" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2848.75, 966.25)
+position = Vector2(182.76, 1959.13)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(4.1947, -50.3364)
 
 [node name="Table 14" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1720.85, 905.612)
+position = Vector2(1310.66, 1898.49)
 metadata/_edit_group_ = true
 
 [node name="GlowingMachine" type="Sprite2D" parent="Node2D/z_Objects/Table 14"]
@@ -1197,7 +1195,7 @@ vframes = 2
 frame = 6
 
 [node name="GlowingMachine Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(-1490, 912.5)
+position = Vector2(1541.51, 1905.38)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "green_machine"
@@ -1214,7 +1212,7 @@ position = Vector2(-4.77948, -151.748)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Table 15" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(-1049.39, 827.135)
+position = Vector2(1982.12, 1820.01)
 scale = Vector2(1.63214, 1.26042)
 metadata/_edit_group_ = true
 
@@ -1242,7 +1240,7 @@ vframes = 2
 frame = 6
 
 [node name="Table 16" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(355.605, 868.736)
+position = Vector2(3387.12, 1861.61)
 scale = Vector2(1.95179, 1.33854)
 metadata/_edit_group_ = true
 
@@ -1266,7 +1264,7 @@ scale = Vector2(0.512351, 0.747082)
 texture = ExtResource("29_og1cd")
 
 [node name="PinkMushroom Interactable" type="Area2D" parent="Node2D/z_Objects" groups=["interactable"]]
-position = Vector2(515, 890)
+position = Vector2(3546.51, 1882.88)
 scale = Vector2(1.04614, 1.04614)
 script = ExtResource("19_pb8ne")
 int_id = "pink_fungi"
@@ -1283,13 +1281,13 @@ position = Vector2(-4.77948, -123.072)
 shape = SubResource("CircleShape2D_i520q")
 
 [node name="Stool2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(761.25, 958.75)
+position = Vector2(3792.76, 1951.63)
 scale = Vector2(1.78797, 1.78797)
 texture = ExtResource("19_n863o")
 offset = Vector2(2.79663, -56.6285)
 
 [node name="Table17" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(1202.5, 910)
+position = Vector2(4234.01, 1902.88)
 scale = Vector2(1.95179, 1.58594)
 metadata/_edit_group_ = true
 
@@ -1298,7 +1296,7 @@ position = Vector2(165.703, -100.886)
 texture = ExtResource("8_n863o")
 
 [node name="Table 18" type="Node2D" parent="Node2D/z_Objects"]
-position = Vector2(2167.79, 900.966)
+position = Vector2(5199.3, 1893.84)
 scale = Vector2(1.25, 1.25)
 metadata/_edit_group_ = true
 
@@ -1317,97 +1315,97 @@ vframes = 2
 frame = 5
 
 [node name="CubicleBarH5" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-432.5, 113.75)
+position = Vector2(2599.01, 1106.63)
 scale = Vector2(1.19955, 0.929689)
 texture = ExtResource("14_2l356")
 offset = Vector2(289.822, -450.419)
 
 [node name="CubicleBarH7" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-450, 688.75)
+position = Vector2(2581.51, 1681.63)
 scale = Vector2(0.989665, 0.929689)
 texture = ExtResource("14_2l356")
 offset = Vector2(-306.369, -395.294)
 
 [node name="CubicleBarH9" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(302.5, 717.5)
+position = Vector2(3334.01, 1710.38)
 scale = Vector2(1.23782, 0.929689)
 texture = ExtResource("14_2l356")
 offset = Vector2(304.972, -430.252)
 
 [node name="CubicleBarH10" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-61.0784, 660)
+position = Vector2(2970.43, 1652.88)
 scale = Vector2(1.15182, 0.929689)
 texture = ExtResource("14_2l356")
 offset = Vector2(-10.9421, -438.319)
 
 [node name="CubicleBarH2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-1151.25, -523.75)
+position = Vector2(1880.26, 469.126)
 scale = Vector2(1.17459, 1.28693)
 texture = ExtResource("15_7jjgu")
 offset = Vector2(15.431, -308.535)
 
 [node name="CubicleBarH3" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1508.75, -540)
+position = Vector2(4540.26, 452.875)
 scale = Vector2(1.13156, 1.28693)
 texture = ExtResource("15_7jjgu")
 offset = Vector2(-305.166, -295.908)
 
 [node name="CubicleBarH4" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(2025, 315)
+position = Vector2(5056.51, 1307.88)
 scale = Vector2(1.13156, 1.28693)
 texture = ExtResource("15_7jjgu")
 offset = Vector2(-765.538, -481.768)
 
 [node name="CubicleBarV3_1" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2030, -303.75)
+position = Vector2(1001.51, 689.125)
 scale = Vector2(1.52, 1.52)
 texture = ExtResource("17_og1cd")
 offset = Vector2(-4.9342, -222.862)
 
 [node name="CubicleBarV2_2" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1991.25, -288.75)
+position = Vector2(5022.76, 704.125)
 scale = Vector2(1.52, 1.52)
 texture = ExtResource("17_og1cd")
 offset = Vector2(12.3357, -232.73)
 
 [node name="CubicleBarV2_3" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(2037.5, 337.5)
+position = Vector2(5069.01, 1330.38)
 scale = Vector2(1.52, 1.4302)
 texture = ExtResource("17_og1cd")
 offset = Vector2(-19.7366, -227.762)
 
 [node name="CubicleBarV2_4" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(302.5, 700)
+position = Vector2(3334.01, 1692.88)
 scale = Vector2(1.52, 1.4302)
 texture = ExtResource("17_og1cd")
 offset = Vector2(0, -481.223)
 
 [node name="CubicleBarV2_7" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(615, 116.25)
+position = Vector2(3646.51, 1109.13)
 scale = Vector2(1.44751, 0.956983)
 texture = ExtResource("17_og1cd")
 offset = Vector2(-1.36426, -208.337)
 
 [node name="CubicleBarV2_8" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(1062.5, 296.25)
+position = Vector2(4094.01, 1289.13)
 scale = Vector2(1.44751, 1.42768)
 texture = ExtResource("17_og1cd")
 offset = Vector2(0.362793, -199.624)
 
 [node name="CubicleBarV2_5" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-438.75, 682.5)
+position = Vector2(2592.76, 1675.38)
 scale = Vector2(1.52, 1.4302)
 texture = ExtResource("17_og1cd")
 offset = Vector2(-12.3354, -468.987)
 
 [node name="CubicleBarV2_6" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2465, 768.75)
+position = Vector2(566.51, 1761.63)
 scale = Vector2(1.52, 1.4302)
 texture = ExtResource("17_og1cd")
 offset = Vector2(-0.000183105, -529.293)
 
 [node name="CubicleBarV31" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-1765, 803.75)
+position = Vector2(1266.51, 1796.63)
 scale = Vector2(1.52273, 1.52273)
 texture = ExtResource("18_42jst")
 offset = Vector2(0.821045, -142.836)
@@ -1418,25 +1416,25 @@ scale = Vector2(0.730266, 0.610542)
 texture = ExtResource("14_2l356")
 
 [node name="CubicleBarV34" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-447.5, 701.25)
+position = Vector2(2584.01, 1694.13)
 scale = Vector2(1.52273, 1.29512)
 texture = ExtResource("18_42jst")
 offset = Vector2(0, -140.001)
 
 [node name="CubicleBarV36" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-57.5001, 672.5)
+position = Vector2(2974.01, 1665.38)
 scale = Vector2(1.52273, 1.39574)
 texture = ExtResource("18_42jst")
 offset = Vector2(-4.92529, -147.747)
 
 [node name="CubicleBarV35" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(292.5, 732.5)
+position = Vector2(3324.01, 1725.38)
 scale = Vector2(1.61364, 1.35468)
 texture = ExtResource("18_42jst")
 offset = Vector2(6.35181, -152.686)
 
 [node name="CubicleBarV32" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-2471.25, 812.5)
+position = Vector2(560.26, 1805.38)
 scale = Vector2(1.52273, 1.52273)
 texture = ExtResource("18_42jst")
 offset = Vector2(5.74637, -148.582)
@@ -1447,7 +1445,7 @@ scale = Vector2(0.812052, 0.567614)
 texture = ExtResource("14_2l356")
 
 [node name="CubicleBarV33" type="Sprite2D" parent="Node2D/z_Objects"]
-position = Vector2(-1765, 227.5)
+position = Vector2(1266.51, 1220.38)
 scale = Vector2(1.52273, 1.80607)
 texture = ExtResource("18_42jst")
 offset = Vector2(2.46283, -142.575)
@@ -1458,7 +1456,7 @@ scale = Vector2(1.09556, 0.712555)
 texture = ExtResource("15_7jjgu")
 
 [node name="nonwalkable_areas" type="StaticBody2D" parent="Node2D/z_Objects"]
-position = Vector2(-488.076, -287.103)
+position = Vector2(2543.43, 705.772)
 scale = Vector2(0.478506, 0.478506)
 collision_layer = 3
 collision_mask = 0
@@ -1611,19 +1609,20 @@ polygon = PackedVector2Array(172.411, -130.615, 12959.6, -135.839, 12970.1, -416
 position = Vector2(4218.98, 1088.27)
 shape = SubResource("RectangleShape2D_yt5uf")
 
-[node name="Player" parent="Node2D" instance=ExtResource("45_y3l2i")]
+[node name="Player" parent="Node2D/z_Objects" instance=ExtResource("45_y3l2i")]
 position = Vector2(2743.75, 1557.5)
 scale = Vector2(7.5, 7.5)
 
-[node name="LibraryExit" parent="." instance=ExtResource("39_pb8ne")]
+[node name="LabExit" parent="." instance=ExtResource("39_pb8ne")]
 unique_name_in_owner = true
-position = Vector2(2204, 1424)
+position = Vector2(2780, 1875)
 scale = Vector2(2.78774, 2.78774)
 target_location = "campus_quad"
-spawn_point = "library_exit"
-transition_name = "Library Exit"
+target_scene = "uid://bdmcytf16gdh6"
+spawn_point = "lab_exit"
+transition_name = "lab_exit"
 
-[node name="Label" parent="LibraryExit" index="2"]
+[node name="Label" parent="LabExit" index="2"]
 offset_top = 2.67029e-05
 offset_bottom = 26.0
 text = "Exit"
@@ -1631,7 +1630,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
 unique_name_in_owner = true
-position = Vector2(2190, 1261)
+position = Vector2(2796, 1842)
 scale = Vector2(2.8, 2.8)
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1640,4 +1639,4 @@ offset_top = 1552.08
 offset_right = 4858.06
 offset_bottom = 1592.08
 
-[editable path="LibraryExit"]
+[editable path="LabExit"]

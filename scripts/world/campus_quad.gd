@@ -4,7 +4,7 @@ extends Node2D
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
-const scr_debug :bool = true
+const scr_debug :bool = false
 var debug
 var scene_item_num : int = 0
 var visit_areas = {}
@@ -14,15 +14,14 @@ var camera_limit_bottom = 3050
 var camera_limit_left = 0
 var camera_limit_top = 0
 var zoom_factor = 1
-@onready var player = $Player
-@onready var professor_moss = get_node_or_null("z_Objects/ProfessorMoss")
-@onready var construct_spawner = $ConstructSpawner
+@onready var player = $Node2D/Player
+@onready var construct_spawner = $Node2D/ConstructSpawner
 @onready var combat_manager = get_node_or_null("/root/CombatManager")
 @onready var camera = get_node_or_null("Camerad2D")
-	 
-
+@onready var z_objects = get_node_or_null("Node2D/z_Objects") 
+@onready var professor_moss = z_objects.get_node_or_null("ProfessorMoss")
 func _ready():
-	var debug_label = $CanvasLayer/GameInfo
+	var debug_label = $Node2D/CanvasLayer/GameInfo
 	debug = scr_debug or GameController.sys_debug 
 	GameState.set_current_scene(self)
 	if debug: print(GameState.script_name_tag(self) + "loaded scene")
@@ -62,7 +61,7 @@ func _ready():
 	
 	# Initialize necessary systems
 	initialize_systems()
-	for child in get_node_or_null('z_Objects').get_children():
+	for child in z_objects.get_children():
 		if "z_index" in child:
 			child.add_to_group('z_Objects')
 			child.z_index = child.global_position.y
@@ -180,7 +179,6 @@ func _input(event):
 
 
 func setup_player():
-	player = $Player
 	if player:
 		if debug: print(GameState.script_name_tag(self) + "Player found in scene")
 		# Make sure the player's input settings are correct

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bycs0u2r78v24"]
+[gd_scene load_steps=10 format=3 uid="uid://bycs0u2r78v24"]
 
 [ext_resource type="Script" uid="uid://d4mtd1o40tq8b" path="res://addons/dialogue_balloon.gd" id="1_q37v8"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_lo00r"]
@@ -63,6 +63,9 @@ MarginContainer/constants/margin_right = 30
 MarginContainer/constants/margin_top = 15
 Panel/styles/panel = SubResource("StyleBoxFlat_uy0d5")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24d37"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [node name="DialogueBalloon" type="CanvasLayer"]
 layer = 100
 script = ExtResource("1_q37v8")
@@ -97,8 +100,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -14.0
-offset_bottom = 31.0
+offset_top = -4.0
+offset_bottom = 41.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -121,6 +124,7 @@ scroll_active = false
 custom_minimum_size = Vector2(0, 130)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_24d37")
 
 [node name="DialogueLabel" parent="Balloon/Panel/Dialogue/VBoxContainer/ScrollContainer" instance=ExtResource("2_lo00r")]
 unique_name_in_owner = true
@@ -144,9 +148,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -147.0
-offset_top = -558.0
+offset_top = -565.0
 offset_right = 494.0
-offset_bottom = -154.0
+offset_bottom = -161.0
 grow_horizontal = 2
 grow_vertical = 0
 

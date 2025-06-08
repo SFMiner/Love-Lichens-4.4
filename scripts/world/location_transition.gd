@@ -65,6 +65,7 @@ func _on_body_exited(body):
 		if debug: print(GameState.script_name_tag(self) + "Player exited transition area: ", name)
 
 func interact():
+	const _fname : String = "interact"
 	if debug: print(GameState.script_name_tag(self) + "Location transition triggered: ", name)
 	
 	if not enabled:
@@ -97,6 +98,10 @@ func interact():
 	
 	# Save player state before transition
 	_save_player_state()
+	PickupSystem.manage_scene_pickups()
+	if debug: print(GameState.script_name_tag(self) + "Printing pcikups:")
+	
+	GameState.print_pickups(GameState.script_name_tag(self, _fname))
 	
 	# Emit signal for any listeners
 	transition_triggered.emit(target_location, spawn_point)
@@ -105,6 +110,9 @@ func interact():
 	var game_controller = get_node_or_null("/root/GameController")
 	if game_controller:
 		_perform_transition(game_controller, scene_path)
+		PickupSystem.restore_scene_from_saved_state()	
+
+
 	else:
 		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found")
 		# Fallback to direct scene change
@@ -114,6 +122,7 @@ func _perform_transition(game_controller, scene_path):
 	if game_controller.has_method("change_location"):
 		print(GameState.script_name_tag(self) + "game_controller.change_location("+scene_path+", "+spawn_point+")")
 		game_controller.change_location(scene_path, spawn_point)
+		
 	else:
 		# Fallback to basic scene change if the enhanced method doesn't exist
 		game_controller.change_scene(scene_path)

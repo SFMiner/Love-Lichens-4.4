@@ -23,6 +23,40 @@ var last_save_time = 0
 var interaction_range = 0
 var player : CharacterBody2D = null
 var tags: Dictionary = {}
+var scenes: Dictionary = {
+	"CampusQuad":{
+		"pickups":[]
+	},
+	"Library":{
+		"pickups":[]
+	},
+	"ResearchLab":{
+		"pickups":[]
+	},
+	"DormRoom":{
+		"pickups":[]
+	},
+	"OldGrowthForest":{
+		"pickups":[]
+	},
+	"Cemetery":{
+		"pickups":[]
+	},
+	"MemorySpring":{
+		"pickups":[]
+	},
+	"CouncilOfToadstools":{
+		"pickups":[]
+	},
+	"Theater":{
+		"pickups":[]
+	},
+	"PermacultureGarden":{
+		"pickups":[]
+	}	
+}
+var scenes_visited = []
+
 #var memory_tag_registry 
 # Variables from original GameState that might be missing
 var looking_at_adam_desk = false
@@ -35,7 +69,6 @@ var current_scene
 var current_npc_list = []
 var current_marker_list = []
 var knowledge : Array[String] = []
-var npcs : Array[NPC] = []
 
 # NEW: Memory data storage (loaded at startup, persisted in saves)
 var memory_definitions: Dictionary = {}
@@ -45,10 +78,6 @@ var memory_discovery_history: Array = []
 # Dialogue mapping - Key: unlock_tag, Value: {character_id, dialogue_title}
 var dialogue_mapping: Dictionary = {}
 
-
-func load_npcs():
-	for npc in get_tree().get_nodes_in_group("npc"):
-		npcs.append(npc)
 
 # Optimized lookup - properly typed keys
 var memories_by_trigger: Dictionary = {
@@ -77,17 +106,9 @@ const scr_debug : bool = true
 var debug 
 
 func _ready():
-	var _fname = "_ready" 
+	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug
 #	_load_memory_registry()
-
-func get_npc(npc_name):
-	var _fname = "get_npc" 
-	for npc in npcs:
-		if npc.character_id == npc_name:
-			return npc
-	if debug: print(script_name_tag(self, _fname) + "npc not found")
-		
 
 # SIMPLIFIED: Load only the registry
 func _load_memory_registry():
@@ -605,6 +626,13 @@ func set_current_scene(scene):
 func get_current_scene():
 	return current_scene
 
+func visit_scene(scene_name):
+	scenes_visited.append(scene_name)
+
+func scene_visited(scene_name):
+	return scene_name in scenes_visited
+	
+
 func set_current_npcs():
 	var _fname = "set_current_npcs"
 	current_npc_list = get_tree().get_nodes_in_group("npc")
@@ -1016,6 +1044,54 @@ func reset_all_systems():
 			if system.has_method("reset"):
 				system.reset()
 				if debug: print(script_name_tag(self, _fname) + "Reset pickup system")
+
+func get_pickups():
+	var _fname = "get_pickups"
+	return get_tree().get_nodes_in_group("pickup")
+
+func clear_pickups():
+	var pickups = get_pickups()
+	for pickup in pickups:
+		pickup.die()
+
+func print_pickups(called_from : String):
+	var _fname = "print_pickups"
+	var current_scene = get_current_scene()
+	var pickup_names : String = ""
+	if current_scene:
+		if "location_scene" in current_scene: 
+			for pickup in scenes[current_scene.name]["pickups"]:
+				pickup_names += pickup["item_name"] + " at " + str(pickup["position"]) + ", "
+			print(script_name_tag(self, _fname) + "Pickups stored for scene " + current_scene.name+ " = " + pickup_names.left(pickup_names.length()-2))
+			#str(scenes[current_scene.name]["pickups"].size()))
+		else:
+			print(script_name_tag(self, _fname) + "No pickups stored for scene " + current_scene.name)
+		
+
+func clear_pickups_save_data():
+	var _fname = "clear_pickups_save_data"
+	var current_scene = get_current_scene()
+	if current_scene:
+		if "location_scene" in current_scene: 
+			scenes[get_current_scene().name]["pickups"].clear()
+		
+func load_pickups_save_data():
+	var _fname = "load_pickups_save_data"
+	var current_scene = get_current_scene()
+	if current_scene:
+		if "location_scene" in current_scene: 
+			scenes[current_scene.name]["pickups"] = []
+			var pickups = get_pickups()
+			if pickups:
+				for pickup in pickups:
+					scenes[current_scene.name]["pickups"].append(pickup.get_pickup_save_data()) 
+				if debug: print(script_name_tag(self, _fname) + "Pickups for scene " + current_scene.name + " = " + str(scenes[current_scene.name]["pickups"].size()))
+	
+
+func get_scene_pickups_save_data():
+	var _fname = "get_scene_pickups_save_data"
+	var current_scene = get_current_scene()
+	return scenes[get_current_scene().name]["pickups"]
 
 # Debug function
 func debug_memory_state():

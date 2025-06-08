@@ -54,7 +54,7 @@ var knowledge_base = {}
 func _ready():
 	var _fname = "_ready"
 	debug = sys_debug or scr_debug
-	print(GameState.script_name_tag(self, _fname) + "Game Controller initialized")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Game Controller initialized")
 	quest_system = QuestSystem
 	var time_system = get_node_or_null("/root/TimeSystem")
 	if time_system:
@@ -131,7 +131,7 @@ func _ready():
 		event.keycode = KEY_J
 		InputMap.action_add_event("toggle_quest_panel", event)
 		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_quest_panel' action with J key")
-	GameState.load_npcs()
+	GameState.get_current_npcs()
 	# By default, go to main menu
 	call_deferred("change_scene", "res://scenes/main_menu.tscn")
 	player = GameState.get_player()
@@ -302,6 +302,7 @@ func load_game(slot):
 		if save_load_system:
 			save_load_system.load_game(slot)
 	player =get_tree().get_first_node_in_group("player")
+
 	
 # Save a game
 func save_game(slot):
@@ -314,6 +315,7 @@ func save_game(slot):
 		if save_load_system:
 			save_load_system.save_game(slot)
 
+	
 func quick_save():
 	save_game(0)
 
@@ -412,6 +414,7 @@ func _on_quit_to_menu():
 func change_scene(new_scene_path):
 	var _fname = "change_scene"
 	if debug: print(GameState.script_name_tag(self, _fname) + "Changing scene to: ", new_scene_path)
+	var current_scene = GameState.get_current_scene()
 
 	var old_location = current_location
 	var location_id = new_scene_path.get_file().get_basename()
@@ -446,8 +449,7 @@ func change_scene(new_scene_path):
 			current_scene_path = new_scene_path
 			if debug: print(GameState.script_name_tag(self, _fname) + "Scene changed to: ", new_scene_path)
 			GameState.set_current_scene(scene_instance)
-			if "location_scene" in scene_instance:
-				GameState.get_player().set_camera_limits()
+			if debug: print(GameState.script_name_tag(self, _fname) + "location_scene in scene_instance)" + str("location_scene" in scene_instance))
 		else:
 			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to load scene: ", new_scene_path)
 	else:
@@ -471,11 +473,18 @@ func change_scene(new_scene_path):
 		quest_system = get_node_or_null("/root/QuestSystem")
 		if quest_system and quest_system.has_method("on_location_entered"):
 			quest_system.call_deferred("on_location_entered", current_location)
+
+	var scene = GameState.get_current_scene()
+	if "location_scene" in scene:
+		player = GameState.get_player()
+		player.set_camera_limits()
+
+
 	
 # Enhanced scene change method that preserves player state and handles spawn points
 func change_location(new_scene_path, spawn_point="default"):
 	var _fname = "change_location"
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Changing location to: ", new_scene_path, " with spawn point: ", spawn_point)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Changing location to: ", new_scene_path, " with spawn point: ", spawn_point)
 
 	# Save current player state if available
 	var current_player = get_tree().get_first_node_in_group("player")
@@ -499,56 +508,56 @@ func change_location(new_scene_path, spawn_point="default"):
 			"last_direction": player_last_direction
 		}
 
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Saved player state: ", player_state)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Saved player state: ", player_state)
 	else:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: No player found in current scene to save state")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: No player found in current scene to save state")
 
 	# Extract location name for debugging
 	var location_name = new_scene_path.get_file().get_basename()
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Transitioning to location: ", location_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Transitioning to location: ", location_name)
 
 	# Use basic scene change
 	change_scene(new_scene_path)
 
 	# Wait a frame to ensure scene is fully loaded
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Waiting for scene to load fully...")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Waiting for scene to load fully...")
 	await get_tree().process_frame
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Scene processed, looking for player and spawn points")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Scene processed, looking for player and spawn points")
 
 	# Find the player in the new scene
 	var new_player = get_tree().get_first_node_in_group("player")
 	if not new_player:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: ERROR: Could not find player in new scene!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: ERROR: Could not find player in new scene!")
 		return
 	else:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Found new player at position: ", new_player.position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found new player at position: ", new_player.position)
 
 	# Find spawn point in new scene
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Looking for spawn point: ", spawn_point)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Looking for spawn point: ", spawn_point)
 	var spawn_position = _find_spawn_point(spawn_point)
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Spawn position result: ", spawn_position)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Spawn position result: ", spawn_position)
 
 	# Apply saved player state
 	if spawn_position != Vector2.ZERO:
 		# Use spawn point if found and valid
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Moving player to spawn position: ", spawn_position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Moving player to spawn position: ", spawn_position)
 		new_player.global_position = spawn_position  # Using global_position instead of position
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Player position after setting: ", new_player.global_position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Player position after setting: ", new_player.global_position)
 	elif not player_state.is_empty():
 		# Transfer player properties
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: No spawn point found. Using saved player state to position player")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: No spawn point found. Using saved player state to position player")
 		new_player.position = player_state.position
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Player position after setting from saved state: ", new_player.position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Player position after setting from saved state: ", new_player.position)
 
 		if player_state.last_direction != null:
 			new_player.last_direction = player_state.last_direction
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: Restored player direction: ", new_player.last_direction)
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Restored player direction: ", new_player.last_direction)
 
 		if player_state.health != null and "health" in new_player:
 			new_player.health = player_state.health
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: Restored player health: ", new_player.health)
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Restored player health: ", new_player.health)
 	else:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: WARNING: No spawn point found and no player state to restore!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: WARNING: No spawn point found and no player state to restore!")
 
 	# Update game state
 	var game_state = get_node_or_null("/root/GameState")
@@ -559,37 +568,37 @@ func change_location(new_scene_path, spawn_point="default"):
 		if "last_direction" in new_player:
 			game_state.game_data.player_direction = new_player.last_direction
 
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Updated game state with new location and player position")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Updated game state with new location and player position")
 	else:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Game state not found, could not update persistent data")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Game state not found, could not update persistent data")
 
 # Helper function to find a spawn point in the current scene
 func _find_spawn_point(spawn_point_name):
 	var _fname = "_find_spawn_point"
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Looking for spawn point: ", spawn_point_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Looking for spawn point: ", spawn_point_name)
 
 	# Print current scene path for debugging
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Current scene path: ", current_scene_path)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Current scene path: ", current_scene_path)
 
 	# First look for a dedicated spawn point node
 	var spawn_points = get_tree().get_nodes_in_group("spawn_point")
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Found ", spawn_points.size(), " spawn points in the scene")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found ", spawn_points.size(), " spawn points in the scene")
 
 	# Debug: print all spawn points
 	for i in range(spawn_points.size()):
 		var point = spawn_points[i]
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Spawn point ", i, ": name=", point.name, ", position=", point.global_position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Spawn point ", i, ": name=", point.name, ", position=", point.global_position)
 
 		# Handle properties if they exist
 		if point.get("spawn_id") != null:
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: ... has spawn_id property: ", point.get("spawn_id"))
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: ... has spawn_id property: ", point.get("spawn_id"))
 		if point.get("is_default") != null:
 			print(GameState.script_name_tag(self, _fname) + "DEBUG: ... is_default: ", point.get("is_default"))
 
 	# Look for matching spawn point by name first
 	for point in spawn_points:
 		if point.name == spawn_point_name:
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: Found spawn point by name: ", point.name, " at position ", point.global_position)
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found spawn point by name: ", point.name, " at position ", point.global_position)
 			return point.global_position
 
 	# Then look for matching spawn point by spawn_id
@@ -597,7 +606,7 @@ func _find_spawn_point(spawn_point_name):
 		# Try to get the spawn_id property safely
 		var id = point.get("spawn_id")
 		if id != null and id == spawn_point_name:
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: Found spawn point by spawn_id: ", id, " at position ", point.global_position)
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found spawn point by spawn_id: ", id, " at position ", point.global_position)
 			return point.global_position
 
 	# Look for default spawn point if we're looking for "default"
@@ -605,33 +614,33 @@ func _find_spawn_point(spawn_point_name):
 		for point in spawn_points:
 			# Try to get the is_default property safely
 			if point.get("is_default") == true:
-				print(GameState.script_name_tag(self, _fname) + "DEBUG: Found default spawn point: ", point.name, " at position ", point.global_position)
+				if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found default spawn point: ", point.name, " at position ", point.global_position)
 				return point.global_position
 
 	# If no dedicated spawn point is found, look for a location transition with this name
 	var transitions = get_tree().get_nodes_in_group("interactable")
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Found ", transitions.size(), " interactable objects that could be transitions")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found ", transitions.size(), " interactable objects that could be transitions")
 
 	# Debug: print all transitions
 	for i in range(transitions.size()):
 		var transition = transitions[i]
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Transition ", i, ": name=", transition.name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Transition ", i, ": name=", transition.name)
 
 	# Check for matching transition
 	for transition in transitions:
 		if transition.name == spawn_point_name:
-			print(GameState.script_name_tag(self, _fname) + "DEBUG: Found transition point with matching name: ", transition.name, " at position ", transition.global_position)
+			if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Found transition point with matching name: ", transition.name, " at position ", transition.global_position)
 			return transition.global_position
 
 	# Return zero vector if no spawn point is found
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: Could not find any spawn point matching: ", spawn_point_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Could not find any spawn point matching: ", spawn_point_name)
 
 	# If there are any spawn points, use the first one as fallback
 	if spawn_points.size() > 0:
-		print(GameState.script_name_tag(self, _fname) + "DEBUG: Using first available spawn point as fallback: ", spawn_points[0].name, " at position ", spawn_points[0].global_position)
+		if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: Using first available spawn point as fallback: ", spawn_points[0].name, " at position ", spawn_points[0].global_position)
 		return spawn_points[0].global_position
 
-	print(GameState.script_name_tag(self, _fname) + "DEBUG: No fallback spawn points available, returning Vector2.ZERO")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DEBUG: No fallback spawn points available, returning Vector2.ZERO")
 	return Vector2.ZERO
 
 # Advance the game turn

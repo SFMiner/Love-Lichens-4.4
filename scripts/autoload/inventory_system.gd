@@ -120,7 +120,7 @@ func add_item(item_id, amount = 1, custom_data = null):
 	if debug: print(GameState.script_name_tag(self) + "Attempting to add item: ", item_id)
 	if not item_id:
 		return false
-		
+
 	# Create the item entry if it doesn't exist
 	if not inventory.has(item_id):
 		# Get item data from templates
@@ -128,16 +128,16 @@ func add_item(item_id, amount = 1, custom_data = null):
 		if not item_data:
 			if debug: print(GameState.script_name_tag(self) + "Error: Item data not found for ", item_id)
 			return false
-			
+
 		item_data["amount"] = amount
-		
+
 		# If custom data is provided, merge it with the template
 		if custom_data:
 			for key in custom_data:
 				item_data[key] = custom_data[key]
-		
+
 		inventory[item_id] = item_data
-		
+
 		# Register tags for this item
 		_register_item_tags(item_id, item_data)
 	else:

@@ -39,15 +39,18 @@ Poison: So... biology major, huh? Must be fun to stare at moss all day.
 		do GameState.set_tag("poison_peepaw_known") [next]
 		do GameState.gs_print("Tag poison_peepaw_known set")
 - You mentioned a story about your peepaw? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
+	=> peepaw_story 
 	- Hey, hwo did that story about your peepaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and  GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
 Poison: Anyway, I should get going. Have a lab to pretend to care about.
 - See you around
 	Poison: Later, lichen lover.
 	=> END!
-	=> peepaw_story 
+	
 - Hey, how did that story about your PeePaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
+
+
 
 - Your grandfather sounds important to you [if GameState.has_tag("poison_peepaw_known") and not GameState.has_tag("poison_peepaw_shared")]
 	Poison: [#surprised] Yeah, he was... is.

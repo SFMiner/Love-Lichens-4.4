@@ -7,8 +7,8 @@ var debug
 var visit_areas = {}
 var curr_scale : float = 1.0
 var all_areas_visited = false
-@onready var z_objects = $Sprite2D/z_Objects
-@onready var bugzones = $Sprite2D/bugzones
+@onready var z_objects = $Node2D/z_Objects
+@onready var bugzones = $Node2D/bugzones
 @onready var player = $Player
 @onready var entrance = $entrance
 var camera_limit_right = 2000

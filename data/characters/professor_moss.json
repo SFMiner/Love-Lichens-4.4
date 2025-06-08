@@ -10,7 +10,7 @@
 	"background": "Gave Adam a rare Prototaxite fragment — not as a grand gesture, but because he trusted him to appreciate it.",
 	"font_path": "res://assets/fonts/bainsley/Bainsley-VGgJ6.ttf",
 	"font_color": "#74ff33",
-	"font_size": -3,
+	"font_size": -2,
 	"observable_features": {
 		"fossil_sample": {
 			"description": "Professor Moss occasionally wears a fossil shard in a leather pouch. It glints oddly when it catches the light.",

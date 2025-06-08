@@ -8,7 +8,7 @@ const scr_debug :bool = false
 var debug
 var visit_areas = {}
 var all_areas_visited = false
-@onready var z_objects = $Sprite2D/z_Objects
+@onready var z_objects = $Node2D/z_Objects
 var camera_limit_right = 1790	
 var camera_limit_bottom = 1790
 var camera_limit_left = 0

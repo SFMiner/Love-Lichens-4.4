@@ -15,7 +15,7 @@ var current_scene
 var current_navigation
 var navigation_map_rid: RID
 
-const scr_debug : bool = true  # Enable debug for agent avoidance testing
+const scr_debug : bool = false  # Enable debug for agent avoidance testing
 var debug : bool
 
 func _ready():

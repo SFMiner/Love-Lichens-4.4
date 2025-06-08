@@ -2,7 +2,7 @@
 # inventory_panel.gd
 extends Control
 
-const scr_debug :bool = false
+const scr_debug :bool = true
 var debug : bool
 
 # Reference to inventory system
@@ -36,6 +36,7 @@ var is_dragging = false
 var item_slot_scene = null
 
 func _ready():
+	const _fname : String = "_ready"
 	debug = scr_debug or GameController.sys_debug
 	if debug: print(GameState.script_name_tag(self) + "Inventory panel initializing...")
 	
@@ -145,6 +146,7 @@ func _ready():
 	if debug: print(GameState.script_name_tag(self) + "Inventory panel initialization completed")
 
 func create_simple_tooltip():
+	const _fname : String = "create_simple_tooltip"
 	if debug: print(GameState.script_name_tag(self) + "Creating tooltip...")
 	
 	# Create a simple panel as tooltip
@@ -206,6 +208,7 @@ func create_simple_tooltip():
 	if debug: print(GameState.script_name_tag(self) + "Tooltip created successfully")
 
 func create_grid_slots():
+	const _fname : String = "create_grid_slots"
 	if debug: print(GameState.script_name_tag(self) + "Creating grid slots...")
 	
 	# Make sure we have the item slot scene
@@ -260,20 +263,21 @@ func create_grid_slots():
 	if debug: print(GameState.script_name_tag(self) + str(item_slots.size()) + " inventory slots created")
 
 func refresh_inventory():
-	if debug: print(GameState.script_name_tag(self) + "Refreshing inventory...")
+	const _fname : String = "refresh_inventory"	
+	if debug: print(GameState.script_name_tag(self, _fname) + "Refreshing inventory...")
 	
 	if not inventory_system:
-		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh - inventory_system is null")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Cannot refresh - inventory_system is null")
 		return
 	
 	if item_slots.size() == 0:
-		if debug: print(GameState.script_name_tag(self) + "ERROR: Cannot refresh - no item slots available")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Cannot refresh - no item slots available")
 		return
 		
 	# Get current filter
 	var filter_button = $MarginContainer/VBoxContainer/HBoxContainer/FilterButton
 	if not filter_button:
-		if debug: print(GameState.script_name_tag(self) + "ERROR: Filter button not found")
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Filter button not found")
 		return
 		
 	var filter_idx = filter_button.selected
@@ -291,25 +295,25 @@ func refresh_inventory():
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.BOOK)
 			else:
-				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		2: # Quest Items
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.QUEST_ITEM)
 			else:
-				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		3: # Consumables
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.CONSUMABLE)
 			else:
-				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 		4: # Equipment
 			if inventory_system.has_method("get_items_by_category"):
 				filtered_items = inventory_system.get_items_by_category(inventory_system.ItemCategory.EQUIPMENT)
 			else:
-				if debug: print(GameState.script_name_tag(self) + "ERROR: get_items_by_category method not found")
+				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: get_items_by_category method not found")
 				filtered_items = all_items
 	
 	# Save current item positions before clearing slots
@@ -372,10 +376,11 @@ func refresh_inventory():
 			description_panel.visible = false
 			current_selected_item_id = null
 	
-	if debug: print(GameState.script_name_tag(self) + "Inventory refreshed with " + str(filtered_items.size()) + " items")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Inventory refreshed with " + str(filtered_items.size()) + " items")
 
 func _on_close_button_pressed():
-	if debug: print(GameState.script_name_tag(self) + "Close button pressed")
+	const _fname : String = "_on_close_button_pressed"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Close button pressed")
 	
 	# Hide tooltip
 	if tooltip_panel:
@@ -391,7 +396,8 @@ func _on_close_button_pressed():
 	toggle_visibility()
 
 func _on_slot_clicked(item_id):
-	if debug: print(GameState.script_name_tag(self) + "Slot clicked with item_id: ", item_id)
+	const _fname : String = "_on_slot_clicked"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Slot clicked with item_id: ", item_id)
 	
 	# Deselect any previously selected slot
 	for slot in item_slots:
@@ -414,6 +420,7 @@ func _on_slot_clicked(item_id):
 		current_selected_item_id = null
 
 func _on_slot_hovered(item_id, item_data):
+	const _fname : String = "_on_slot_hovered"
 	if item_id and item_data:
 		# Show our simple tooltip
 		if tooltip_panel and tooltip_label and tooltip_description:
@@ -442,15 +449,17 @@ func _on_slot_hovered(item_id, item_data):
 			tooltip_panel.visible = true
 			tooltip_visible = true
 			
-			if debug: print(GameState.script_name_tag(self) + "Tooltip showing for: ", item_id)
+			if debug: print(GameState.script_name_tag(self, _fname) + "Tooltip showing for: ", item_id)
 
 func _on_slot_unhovered():
+	const _fname : String = "_on_slot_unhovered"
 	# Hide tooltip
 	if tooltip_panel:
 		tooltip_panel.visible = false
 		tooltip_visible = false
 
 func select_item(item_id):
+	const _fname : String = "select_item"
 	if debug: print(GameState.script_name_tag(self) + "Selecting item: ", item_id)
 	
 	# Store the currently selected item ID
@@ -532,6 +541,7 @@ func select_item(item_id):
 			drop_button.queue_redraw()
 
 func _on_use_button_pressed():
+	const _fname : String = "_on_use_button_pressed"
 	if current_selected_item_id and inventory_system:
 		if debug: print(GameState.script_name_tag(self) + "Using item: ", current_selected_item_id)
 		inventory_system.use_item(current_selected_item_id)
@@ -539,24 +549,28 @@ func _on_use_button_pressed():
 		# Don't refresh the whole inventory, the _on_item_used signal will handle it
 
 func _on_drop_button_pressed_old():
+	const _fname : String = "_on_drop_button_pressed_old"
 	if current_selected_item_id and inventory_system:
-		if debug: print(GameState.script_name_tag(self) + "Dropping item: ", current_selected_item_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dropping item: ", current_selected_item_id)
 		inventory_system.remove_item(current_selected_item_id, 1)
 		
 		# Don't refresh the whole inventory, the _on_item_removed signal will handle it
 
 func _on_filter_selected(index):
+	const _fname : String = "_on_filter_selected"
 	refresh_inventory()
 
 func _on_item_added(item_id, item_data):
-	if debug: print(GameState.script_name_tag(self) + "Item added signal received: ", item_id)
+	const _fname : String = "_on_item_added"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Item added signal received: ", item_id)
 	refresh_inventory()
 	# Re-select item if it was the current selection
 	if item_id == current_selected_item_id:
 		select_item(item_id)
 
 func _on_item_removed(item_id, amount):
-	if debug: print(GameState.script_name_tag(self) + "Item removed signal received: ", item_id, " amount: ", amount)
+	const _fname : String = "_on_item_removed"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Item removed signal received: ", item_id, " amount: ", amount)
 	var was_selected = (item_id == current_selected_item_id)
 	
 	# Check if the item is completely removed
@@ -574,7 +588,8 @@ func _on_item_removed(item_id, amount):
 		current_selected_item_id = null
 
 func _on_item_used(item_id):
-	if debug: print(GameState.script_name_tag(self) + "Item used signal received: ", item_id)
+	const _fname : String = "_on_item_used"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Item used signal received: ", item_id)
 	var was_selected = (item_id == current_selected_item_id)
 	
 	# Check if the item was completely used up
@@ -596,6 +611,7 @@ func _on_item_used(item_id):
 
 # Handle showing/hiding the inventory
 func toggle_visibility():
+	const _fname : String = "toggle_visibility"
 	visible = !visible
 	
 	# Pause/unpause the game
@@ -630,11 +646,12 @@ func toggle_visibility():
 			if slot:
 				slot.modulate = Color(1, 1, 1)
 	
-	if debug: print(GameState.script_name_tag(self) + "Inventory panel visibility: ", visible)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Inventory panel visibility: ", visible)
 
 # Custom draw function for item icons in the description panel
 # Custom draw function for item icons in the description panel
 func _on_item_icon_draw(icon_control, item_id, category):
+	const _fname : String = "_on_item_icon_draw"
 	var icon_size = icon_control.size
 	var rect = Rect2(Vector2(0, 0), icon_size)
 	
@@ -653,7 +670,8 @@ func _on_item_icon_draw(icon_control, item_id, category):
 
 # Drag and drop handlers
 func _on_drag_started(item_id, item_data, source_slot):
-	if debug: print(GameState.script_name_tag(self) + "Started dragging item: ", item_id)
+	const _fname : String = "_on_drag_started"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Started dragging item: ", item_id)
 	drag_item_id = item_id
 	drag_item_data = item_data
 	drag_source_slot = source_slot
@@ -667,12 +685,14 @@ func _on_drag_started(item_id, item_data, source_slot):
 
 # This is now only used if the slot itself emits the signal - our main handling is in _input
 func _on_drag_ended():#   target_slot):
+	const _fname : String = "_on_drag_ended"
 	# Most drag ending is now handled in _input and _handle_drag_end
 	# This is just a fallback
-	if debug: print(GameState.script_name_tag(self) + "_on_drag_ended called directly - should not happen normally")
+	if debug: print(GameState.script_name_tag(self, _fname) + "_on_drag_ended called directly - should not happen normally")
 	cleanup_drag()
 
 func create_drag_preview():
+	const _fname : String = "create_drag_preview"
 	# Remove any existing preview
 	if drag_preview:
 		drag_preview.queue_free()
@@ -689,6 +709,7 @@ func create_drag_preview():
 	drag_preview.draw.connect(_on_drag_preview_draw)
 
 func _on_drag_preview_draw():
+	const _fname : String = "_on_drag_preview_draw"
 	if drag_preview and drag_item_id and drag_item_data:
 		var icon_system_path = "res://scripts/ui/inventory_item_icons.gd"
 		if ResourceLoader.exists(icon_system_path):
@@ -710,6 +731,7 @@ func _on_drag_preview_draw():
 			drag_preview.draw_rect(rect, Color(0.3, 0.5, 0.3, 1.0))
 
 func cleanup_drag():
+	const _fname : String = "cleanup_drag"
 	is_dragging = false
 	drag_item_id = null
 	drag_item_data = null
@@ -720,8 +742,9 @@ func cleanup_drag():
 		drag_preview = null
 
 func _input(event):
+	const _fname : String = "_input"
 	if visible and event.is_action_pressed("ui_cancel"):
-		if debug: print(GameState.script_name_tag(self) + "UI cancel detected in inventory panel")
+		if debug: print(GameState.script_name_tag(self, _fname) + "UI cancel detected in inventory panel")
 		toggle_visibility()
 		get_viewport().set_input_as_handled()
 		
@@ -742,10 +765,10 @@ func _input(event):
 			var target_slot = get_slot_at_position(mouse_pos)
 			
 			if target_slot:
-				if debug: print(GameState.script_name_tag(self) + "Ending drag on slot under cursor: ", target_slot.slot_index)
+				if debug: print(GameState.script_name_tag(self, _fname) + "Ending drag on slot under cursor: ", target_slot.slot_index)
 				_handle_drag_end(target_slot)
 			else:
-				if debug: print(GameState.script_name_tag(self) + "No slot under cursor, dropping back to source")
+				if debug: print(GameState.script_name_tag(self, _fname) + "No slot under cursor, dropping back to source")
 				if drag_source_slot:
 					_handle_drag_end(drag_source_slot)
 				
@@ -754,6 +777,7 @@ func _input(event):
 
 # Find which slot is under a given position
 func get_slot_at_position(pos):
+	const _fname : String = "get_slot_at_position"
 	for slot in item_slots:
 		if slot:
 			var slot_rect = Rect2(slot.global_position, slot.size)
@@ -763,21 +787,22 @@ func get_slot_at_position(pos):
 
 # Handle the drop operation at the end of a drag
 func _handle_drag_end(target_slot):
+	const _fname : String = "_handle_drag_end"
 	if not drag_source_slot or not drag_item_id:
 		return
 		
-	if debug: print(GameState.script_name_tag(self) + "Handling drag end. Source: ", drag_source_slot.slot_index, 
+	if debug: print(GameState.script_name_tag(self, _fname) + "Handling drag end. Source: ", drag_source_slot.slot_index, 
 		", Target: ", target_slot.slot_index)
 	
 	# If dropped on a different slot than source
 	if target_slot != drag_source_slot:
 		# If target slot has an item, swap them
 		if target_slot.item_id:
-			if debug: print(GameState.script_name_tag(self) + "Swapping items between different slots")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Swapping items between different slots")
 			swap_items(drag_source_slot, target_slot)
 		else:
 			# Move item to empty slot
-			if debug: print(GameState.script_name_tag(self) + "Moving item to empty slot")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Moving item to empty slot")
 			move_item(drag_source_slot, target_slot)
 			
 		# Re-select the item in its new location
@@ -789,16 +814,17 @@ func _handle_drag_end(target_slot):
 				slot.modulate = Color(1, 1, 1)
 		target_slot.modulate = Color(1.3, 1.3, 0.8)  # Yellowish highlight
 	else:
-		if debug: print(GameState.script_name_tag(self) + "Dropped on same slot - no changes made")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dropped on same slot - no changes made")
 
 func swap_items(slot1, slot2):
+	const _fname : String = "swap_items"
 	# Get the items from both slots
 	var item1_id = slot1.item_id
 	var item1_data = slot1.item_data.duplicate() if slot1.item_data else null
 	var item2_id = slot2.item_id
 	var item2_data = slot2.item_data.duplicate() if slot2.item_data else null
 	
-	if debug: print(GameState.script_name_tag(self) + "Swapping items: ", item1_id, " and ", item2_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Swapping items: ", item1_id, " and ", item2_id)
 	
 	# Swap the items in the slots (visually)
 	slot1.clear_slot()
@@ -814,18 +840,19 @@ func swap_items(slot1, slot2):
 		# Update position tracking
 		item_positions[item1_id] = slot2.slot_index
 	
-	if debug: print(GameState.script_name_tag(self) + "Swapped items between slots ", slot1.slot_index, " and ", slot2.slot_index)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Swapped items between slots ", slot1.slot_index, " and ", slot2.slot_index)
 
 func move_item(source_slot, target_slot):
+	const _fname : String = "move_item"
 	# Get item data
 	var item_id = source_slot.item_id
 	var item_data = source_slot.item_data.duplicate() if source_slot.item_data else null
 	
 	if !item_id:
-		if debug: print(GameState.script_name_tag(self) + "No item to move from slot ", source_slot.slot_index)
+		if debug: print(GameState.script_name_tag(self, _fname) + "No item to move from slot ", source_slot.slot_index)
 		return
 	
-	if debug: print(GameState.script_name_tag(self) + "Moving item ", item_id, " from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Moving item ", item_id, " from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
 	
 	# Clear both slots first
 	source_slot.clear_slot()
@@ -837,77 +864,100 @@ func move_item(source_slot, target_slot):
 	# Update position tracking
 	item_positions[item_id] = target_slot.slot_index
 	
-	if debug: print(GameState.script_name_tag(self) + "Moved item from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Moved item from slot ", source_slot.slot_index, " to slot ", target_slot.slot_index)
 
 
 func _on_drop_button_pressed():
+	const _fname : String = "_on_drop_button_pressed"
+	var player : Player = GameState.get_player()
+	var current_scene = GameState.get_current_scene()
 	if current_selected_item_id and inventory_system:
-		if debug: print(GameState.script_name_tag(self) + "Dropping item: ", current_selected_item_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dropping item: ", current_selected_item_id)
 		
 		# Check if item exists and get its data
 		if not inventory_system.has_item(current_selected_item_id):
-			if debug: print(GameState.script_name_tag(self) + "Item no longer exists in inventory")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Item no longer exists in inventory")
 			refresh_inventory()
 			return
 			
 		# Get item data BEFORE removing from inventory
 		var item_data = inventory_system.get_item_data(current_selected_item_id)
 		if not item_data:
-			if debug: print(GameState.script_name_tag(self) + "Could not get item data")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Could not get item data")
 			return
-			
+		var item_id = current_selected_item_id
+		var pos_str = str(player.get_position().x) + "_" + str(player.get_position().y)
+		var scene_name = current_scene.name
+		var pickup_id = scene_name + "_dropped_" + item_id + "_" + pos_str + "_" +  str(Time.get_unix_time_from_system())
+		var amount = item_data["amount"]
+		var auto_pickup: bool
+		if item_data.has("auto_pickup"):
+			auto_pickup = item_data["auto_pickup"]
+		else:
+			auto_pickup = false
+		var pickup_range : int
+		if item_data.has("pickup_range"):
+			pickup_range = item_data["pickup_range"]
+		else:
+			pickup_range = int(30 * player.scale.y)
 		# Make a copy of relevant item data
 		var item_data_copy = {
-			"id": current_selected_item_id,
-			"name": item_data.name if item_data.has("name") else "Unknown Item",
-			"description": item_data.description if item_data.has("description") else "",
-			"category": item_data.category if item_data.has("category") else 0
+			"pickup_instance_id": pickup_id,
+			"item_id": item_id,
+			"item_name": item_data["name"],
+			"item_amount": amount,
+			"scale": player.scale * 0.4,
+			"auto_pickup": auto_pickup,
+			"pickup_range": 50.0,
+			"position": player.get_position()
 		}
+
+		PickupSystem.drop_item_in_world(item_data_copy) # item_id: String, amount: int, position: Vector2) 
+		refresh_inventory()
+
 		
 		# Get the player
-		var player = get_tree().get_first_node_in_group("player")
 		if not player:
-			if debug: print(GameState.script_name_tag(self) + "Player not found")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Player not found")
 			return
 			
 		# Calculate drop position
-		var drop_pos = player.global_position
-		if is_instance_valid(player) and player.get("last_direction") != null:
-			drop_pos += player.last_direction.normalized() * 40
 			
-		# Only remove from inventory if we have all the prerequisites for creating the pickup
+	# Only remove from inventory if we have all the prerequisites for creating the pickup
 		if inventory_system.remove_item(current_selected_item_id, 1):
-			if debug: print(GameState.script_name_tag(self) + "Item removed from inventory, creating pickup")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Item removed from inventory, creating pickup")
+
+
 			
 			# Get current scene
-			var current_scene = player.get_parent()
+#			var current_scene = player.get_parent()
 			
 			# Create pickup scene
-			var pickup_scene = load("res://scenes/pickups/pickup_item.tscn")
-			if pickup_scene:
-				var pickup = pickup_scene.instantiate()
-				pickup.item_id = item_data_copy.id
-				pickup.item_name = item_data_copy.name
-				pickup.item_description = item_data_copy.description
-				pickup.item_category = item_data_copy.category
-				pickup.item_amount = 1
+#			var pickup_scene = load("res://scenes/pickups/pickup_item.tscn")
+#			if pickup_scene:
+#				var pickup = pickup_scene.instantiate()
+#				pickup.item_id = item_data_copy.id
+#				pickup.item_data.item_name = item_data_copy.name
+#				pickup.item_data.item_description = item_data_copy.description
+#				pickup.item_data.item_category = item_data_copy.category
+#				pickup.item_data.item_amount = 1
 				
-				pickup.global_position = drop_pos
-				current_scene.add_child(pickup)
-				if debug: print(GameState.script_name_tag(self) + "Created pickup item in world: ", item_data_copy.id)
-			else:
-				if debug: print(GameState.script_name_tag(self) + "ERROR: Could not load pickup_item.tscn")
-		else:
-			if debug: print(GameState.script_name_tag(self) + "Failed to remove item from inventory")
+#				pickup.global_position = drop_pos
+#				current_scene.add_child(pickup)
+#				if debug: print(GameState.script_name_tag(self, _fname) + "Created pickup item in world: ", item_data_copy.id)
+#			else:
+#				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not load pickup_item.tscn")
+#		else:
+#			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to remove item from inventory")
 			
 		# Always refresh inventory
-		refresh_inventory()
-	else:
-		if debug: print(GameState.script_name_tag(self) + "No item selected or inventory system not found")
+#	else:
+#		if debug: print(GameState.script_name_tag(self, _fname) + "No item selected or inventory system not f#ound")
 
 # Reset the inventory panel state
 func reset():
-	if debug: print(GameState.script_name_tag(self) + "Resetting inventory panel state")
+	const _fname : String = "reset"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Resetting inventory panel state")
 	
 	# Clear the current selection
 	current_selected_item_id = null

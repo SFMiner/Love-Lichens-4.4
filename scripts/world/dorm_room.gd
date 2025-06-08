@@ -4,18 +4,18 @@ extends Node2D
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
-const scr_debug :bool = true
+const scr_debug : bool = false
 var debug
 var visit_areas = {}
 var all_areas_visited = false
 @onready var z_objects = $Node2D/z_Objects
-var camera_limit_right = 2030
-var camera_limit_bottom = 1000
-var camera_limit_left = 150
+var camera_limit_right = 525	
+var camera_limit_bottom = 125
+var camera_limit_left = 30
 var camera_limit_top = 0
-var zoom_factor = 1.0
+var zoom_factor = 5
 
-@onready var player = $Player
+@onready var player = z_objects.get_node_or_null("Player")
 
 func _ready():
 	var _fname = "_ready"

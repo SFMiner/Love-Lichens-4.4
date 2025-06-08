@@ -19,7 +19,7 @@ enum TriggerType {
 	NPC_TALKED_TO
 }
 
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 
 var current_target = null

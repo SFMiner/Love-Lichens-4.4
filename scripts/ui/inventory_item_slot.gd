@@ -16,6 +16,7 @@ var is_dragging = false
 # References to UI elements
 @onready var item_count = $ItemCount
 @onready var item_icon = $ItemIcon
+var pickup_id : String = ""
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug 
@@ -73,39 +74,39 @@ func set_item(id, data):
 	queue_redraw()
 
 func get_item_texture(item_id):
-	print(GameState.script_name_tag(self) + "Trying to load texture for item_id: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Trying to load texture for item_id: ", item_id)
 	var texture = null
 	
 	# First attempt: Try to get from inventory system templates
 	if InventorySystem: #Engine.has_singleton("InventorySystem"):
-		print(GameState.script_name_tag(self) + "InventorySystem singleton found")
+		if debug: print(GameState.script_name_tag(self) + "InventorySystem singleton found")
 		var inventory_system = InventorySystem #Engine.get_singleton("InventorySystem")
 		
 		if inventory_system.has_method("get_item_template"):
-			print(GameState.script_name_tag(self) + "get_item_template method exists")
+			if debug: print(GameState.script_name_tag(self) + "get_item_template method exists")
 			var template = inventory_system.get_item_template(item_id)
 			
 			if template:
-				print(GameState.script_name_tag(self) + "Template found for item: ", item_id)
+				if debug: print(GameState.script_name_tag(self) + "Template found for item: ", item_id)
 				if template.has("image_path"):
 					var path = template.image_path
-					print(GameState.script_name_tag(self) + "Image path from template: ", path)
+					if debug: print(GameState.script_name_tag(self) + "Image path from template: ", path)
 					
 					if ResourceLoader.exists(path):
-						print(GameState.script_name_tag(self) + "Image file exists at path: ", path)
+						if debug: print(GameState.script_name_tag(self) + "Image file exists at path: ", path)
 						texture = load(path)
-						print(GameState.script_name_tag(self) + "Texture loaded successfully from template path")
+						if debug: print(GameState.script_name_tag(self) + "Texture loaded successfully from template path")
 						return texture
 					else:
-						print(GameState.script_name_tag(self) + "WARNING: Image file does not exist at path: ", path)
+						if debug: print(GameState.script_name_tag(self) + "WARNING: Image file does not exist at path: ", path)
 				else:
-					print(GameState.script_name_tag(self) + "Template has no image_path property")
+					if debug: print(GameState.script_name_tag(self) + "Template has no image_path property")
 			else:
-				print(GameState.script_name_tag(self) + "No template found for item: ", item_id)
+				if debug: print(GameState.script_name_tag(self) + "No template found for item: ", item_id)
 		else:
-			print(GameState.script_name_tag(self) + "get_item_template method doesn't exist")
+			if debug: print(GameState.script_name_tag(self) + "get_item_template method doesn't exist")
 	else:
-		print(GameState.script_name_tag(self) + "InventorySystem singleton not found")
+		if debug: print(GameState.script_name_tag(self) + "InventorySystem singleton not found")
 	
 	# Second attempt: Try direct paths as fallback
 	#var direct_paths = { 
@@ -117,11 +118,11 @@ func get_item_texture(item_id):
 	#}
 	
 	#if direct_paths.has(item_id) and ResourceLoader.exists(direct_paths[item_id]):
-	#	print(GameState.script_name_tag(self) + "Loading texture directly for " + item_id)
+	#	if debug: print(GameState.script_name_tag(self) + "Loading texture directly for " + item_id)
 	#	texture = load(direct_paths[item_id])
 	#	return texture
 	
-	print(GameState.script_name_tag(self) + "Could not find texture through any method for: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Could not find texture through any method for: ", item_id)
 	return null
 
 func update_item_icon():
@@ -136,7 +137,7 @@ func update_item_icon():
 		return
 		
 	# Get the texture
-	print(GameState.script_name_tag(self) + "calling texture for " + item_id)
+	if debug: print(GameState.script_name_tag(self) + "calling texture for " + item_id)
 	var texture = get_item_texture(item_id)
 	
 	if texture:

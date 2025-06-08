@@ -2,14 +2,15 @@
 
 ~ start
 Li: Don’t mind me, just observing the local chaos.
-- "Anything interesting?" => li_snark
+~ general_chat
+- Anything interesting? => li_snark
 - Adam: You always wear two pairs of glasses? [if GameState.has_tag("li_lucky_glasses_seen")]
 		=> ask_li_about_glasses 
 - Leave Li to their observations => END!
 
 ~ li_snark
 Li: Saw a squirrel get into a vending machine. It won’t end well—for either of them. 
-=> start
+=> general_chat
 
 ~ ask_li_about_glasses
 Li: Only when I need backup. These ones are from fifth grade. They’re hollow now — no lenses. Just muscle memory.

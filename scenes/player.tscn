@@ -959,7 +959,7 @@ character_id = "adam"
 curr_animation_frame = 18
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-7.15256e-07, -30)
+position = Vector2(-7.15256e-07, -30.96)
 scale = Vector2(1.095, 1.095)
 texture = ExtResource("3_dqkch")
 hframes = 8
@@ -967,10 +967,11 @@ vframes = 4
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.959999)
 shape = SubResource("RectangleShape2D_tuyoq")
 
 [node name="InteractionArea" type="Area2D" parent="."]
-position = Vector2(0, -24.91)
+position = Vector2(0, -25.87)
 collision_layer = 0
 collision_mask = 2
 
@@ -978,7 +979,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_v5p1k")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -24.91)
+position = Vector2(0, -25.87)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -987,9 +988,9 @@ libraries = {
 
 [node name="Label" type="Label" parent="."]
 offset_left = 13.0
-offset_top = -38.0
+offset_top = -38.96
 offset_right = 53.0
-offset_bottom = -15.0
+offset_bottom = -15.96
 theme_override_font_sizes/font_size = 11
 
 [node name="CharacterAnimator" type="Node" parent="."]

@@ -128,7 +128,7 @@ func apply_font_for_character(character_name: String):
 	# Default values
 	var font_to_use = loaded_fonts.get("Default")
 	var color_to_use = Color(1, 1, 1, 1)  # Default white
-	var font_size = 24  # Default font size
+	var font_size = 25  # Default font size
 	
 	if character:
 		if character.font_path:
@@ -136,7 +136,7 @@ func apply_font_for_character(character_name: String):
 		if character.font_color:
 			color_to_use = character.font_color
 		if character.font_size:
-			font_size = 24 + character.font_size
+			font_size = 25 + character.font_size
 		
 	dialogue_label.add_theme_font_override("normal_font", font_to_use)
 	if debug: print(GameState.script_name_tag(self, _fname) + "Applied font: ", font_to_use.resource_path if font_to_use.resource_path else "built-in")

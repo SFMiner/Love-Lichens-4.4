@@ -11,12 +11,12 @@ var all_areas_visited = false
 @onready var player = get_node_or_null("Node2D/z_Objects/Player")
 @onready var entrance = %entrance
 @onready var exit = %LibraryExit
-var camera_limit_right = 4818.062
-var camera_limit_bottom = 1552.083
+var camera_limit_right = 6022
+var camera_limit_bottom = 1980
 var camera_limit_left = 0
 var camera_limit_top = 0
-var zoom_factor = 0.75
-var scene_speed_mod : float = 1.8
+var zoom_factor = 0.6
+var scene_speed_mod : float = 1.5
 
 
 func _ready():

@@ -149,22 +149,62 @@ position = Vector2(388, 1711)
 [node name="CommonLichen1" parent="." instance=ExtResource("28_jjvpw")]
 position = Vector2(610, 1998)
 item_id = "common_lichen1"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="CommonLichen2" parent="." instance=ExtResource("28_jjvpw")]
 position = Vector2(1976, 1874)
 item_id = "common_lichen2"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="CommonLichen3" parent="." instance=ExtResource("28_jjvpw")]
 position = Vector2(2442, 1029)
 item_id = "common_lichen3"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="RareLichen1" parent="." instance=ExtResource("28_jjvpw")]
 position = Vector2(2129, 1160)
 item_id = "rare_lichen1"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="RareLichen2" parent="." instance=ExtResource("28_jjvpw")]
 position = Vector2(1064, 1803)
 item_id = "rare_lichen2"
+item_amount = null
+auto_pickup = null
+pickup_range = null
+pickup_instance_id = null
+fallback_name = null
+fallback_description = null
+fallback_category = null
+fallback_tags = null
 
 [node name="Player" parent="." instance=ExtResource("29_77yo5")]
 position = Vector2(1169, 1112)

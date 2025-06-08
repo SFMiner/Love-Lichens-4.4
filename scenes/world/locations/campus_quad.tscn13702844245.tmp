@@ -1176,13 +1176,13 @@ position = Vector2(2387, 787)
 position = Vector2(3025, 134)
 
 [node name="LabEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(2575, 1894)
+position = Vector2(2568, 1914)
 scale = Vector2(1.66489, 1.66489)
 target_location = "research_lab"
 transition_name = "Research Lab"
 
 [node name="lab_exit" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(2571, 1948)
+position = Vector2(2578, 1925)
 scale = Vector2(0.85348, 0.85348)
 
 [node name="LibraryEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]

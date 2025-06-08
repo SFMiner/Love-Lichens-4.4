@@ -443,6 +443,10 @@ scale = Vector2(0.479, 0.479)
 texture = ExtResource("47_rjlar")
 offset = Vector2(-31.7429, -34.0104)
 
+[node name="Player" parent="Sprite2D/z_Objects" instance=ExtResource("2_jfo7o")]
+position = Vector2(411.135, 471.411)
+scale = Vector2(2.06363, 2.06363)
+
 [node name="EntranceSpawn" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(1764.41, 1743.41)
 scale = Vector2(0.881168, 0.881168)
@@ -939,7 +943,3 @@ position = Vector2(759, 1002)
 scale = Vector2(1.4697, 1.4697)
 texture = ExtResource("51_b70eq")
 offset = Vector2(-4, -16)
-
-[node name="Player" parent="." instance=ExtResource("2_jfo7o")]
-position = Vector2(1670.96, 1783.96)
-scale = Vector2(3.80019, 3.80019)

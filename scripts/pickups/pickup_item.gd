@@ -18,6 +18,8 @@ signal item_picked_up(item_id, item_data)
 @export var fallback_category: int = 0
 @export var fallback_tags: Array[String] = []
 
+	
+
 const item_type : int = 2
 const scr_debug :bool = true
 static var debug
@@ -77,10 +79,28 @@ func _ready():
 		if player and global_position.distance_to(player.global_position) <= pickup_range:
 			interact()
 
+func die():
+	self.remove_from_group("interactable")
+	self.remove_from_group("pickup")
+	self.get_parent().remove_child(self)
+	self.queue_free()
+
+func get_save_data():
+	var save_data : Dictionary = {
+		"item_id": item_id,
+		"item_amount": item_amount,
+#		"item_pos": get_global_position(),
+		"auto_pickup": auto_pickup,
+		"scale": scale,
+		"position": get_position(),
+		"pickup_range": pickup_range
+		}
+	return save_data
+
 # NEW: Generate a unique pickup ID based on scene and position
 func _generate_pickup_id() -> String:
 	var scene_name = get_tree().current_scene.scene_file_path.get_file().get_basename()
-	var pos_str = str(int(global_position.x)) + "_" + str(int(global_position.y))
+	var pos_str = str(int(position.x)) + "_" + str(int(position.y))
 	return scene_name + "_" + item_id + "_" + pos_str
 
 # Load item data from the template
@@ -177,7 +197,7 @@ func _draw():
 		draw_circle(Vector2.ZERO, 10, Color(0.9, 0.7, 0.2))
 
 func interact():
-	if debug: print(GameState.script_name_tag(self) + "Player interacting with item: ", item_id)
+	if debug: print(GameState.script_name_tag(self) + "Player interacting with item: ", item_id + " at " + str(get_global_position()))
 	
 	# Get inventory system
 	var inventory_system = get_node_or_null("/root/InventorySystem")
@@ -198,7 +218,8 @@ func interact():
 			item_picked_up.emit(item_id, item_data)
 			
 			# Remove from world
-			queue_free()
+			die()
+			if debug: print(GameState.script_name_tag(self) + str(GameState.get_pickups()))
 		else:
 			if debug: print(GameState.script_name_tag(self) + "Failed to add item to inventory: ", item_id)
 	else:
@@ -206,16 +227,17 @@ func interact():
 
 # NEW: Get save data for this pickup
 func get_pickup_save_data() -> Dictionary:
+	const _fname : String = "get_pickup_save_data"
+	if debug: print(GameState.script_name_tag(self) + "Position of " + name + " = " + str(global_position))
 	return {
 		"pickup_instance_id": pickup_instance_id,
 		"item_id": item_id,
+		"item_name": item_data["name"],
 		"item_amount": item_amount,
 		"auto_pickup": auto_pickup,
 		"pickup_range": pickup_range,
-		"position": {
-			"x": global_position.x,
-			"y": global_position.y
-		},
+		"scale": scale,
+		"position": get_position(),
 		"scene_path": get_tree().current_scene.scene_file_path
 	}
 
@@ -225,8 +247,8 @@ static func create_in_world(parent, new_position, new_item_id, custom_data=null)
 	var pickup = load("res://scenes/pickups/pickup_item.tscn")
 	if pickup:
 		var instance = pickup.instantiate()
+
 		instance.item_id = new_item_id
-		
 		# Set amount if provided
 		if custom_data and custom_data.has("amount"):
 			instance.item_amount = custom_data.amount
@@ -244,6 +266,7 @@ static func create_in_world(parent, new_position, new_item_id, custom_data=null)
 		# Let the normal initialization handle the rest
 		if debug: print("pickup_item.gd: " + "Created pickup item in world: ", new_item_id)
 		return instance
+		if debug: print(GameState.script_name_tag(create_in_world) + "Position of " + instance.name + " = " + str(instance.global_position))
 	else:
 		if debug: print("pickup_item.gd: " + "ERROR: Failed to load pickup_item.tscn")
 		return null
