@@ -38,17 +38,7 @@ func _on_new_game_pressed():
 	
 	# Then start new game
 	game_controller.start_new_game()
-#	if debug: print(GameState.script_name_tag(self) + "New game selected")
-#	# We'll try different ways to access the GameController
-#	if Engine.has_singleton("GameController"):
-#		if debug: print(GameState.script_name_tag(self) + "Using GameController singleton")
-#		var GameController = Engine.get_singleton("GameController")
-#		GameController.start_new_game()
-#	elif get_node_or_null("/root/GameController"):
-#		if debug: print(GameState.script_name_tag(self) + "Using node path to access GameController")
-#		get_node("/root/GameController").start_new_game()
-#	else:
-#		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found - did you add it as an Autoload in Project Settings?")
+
 
 func _on_load_game_pressed():
 	# Get the save/load system
@@ -60,20 +50,7 @@ func _on_load_game_pressed():
 		save_load_system.load_game(0)
 	else:
 		if debug: print(GameState.script_name_tag(self) + "ERROR: SaveLoadSystem not found for load game")
-#	if debug: print(GameState.script_name_tag(self) + "Load game selected - showing load game screen")
-	# In a complete implementation, this would show a load game dialog
-	# For now, just load from slot 0
-	
-	# We'll try different ways to access the GameController
-#	if Engine.has_singleton("GameController"):
-#		if debug: print(GameState.script_name_tag(self) + "Using GameController singleton")
-#		var GameController = Engine.get_singleton("GameController")
-#		GameController.load_game(0)
-#	elif get_node_or_null("/root/GameController"):
-#		if debug: print(GameState.script_name_tag(self) + "Using node path to access GameController")
-#		get_node("/root/GameController").load_game(0)
-#	else:
-#		if debug: print(GameState.script_name_tag(self) + "ERROR: GameController not found - did you add it as an Autoload in Project Settings?")
+
 
 func _on_options_pressed():
 	if debug: print(GameState.script_name_tag(self) + "Options selected")

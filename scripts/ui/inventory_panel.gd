@@ -2,7 +2,7 @@
 # inventory_panel.gd
 extends Control
 
-const scr_debug :bool = true
+const scr_debug :bool = false
 var debug : bool
 
 # Reference to inventory system
@@ -928,31 +928,6 @@ func _on_drop_button_pressed():
 			if debug: print(GameState.script_name_tag(self, _fname) + "Item removed from inventory, creating pickup")
 
 
-			
-			# Get current scene
-#			var current_scene = player.get_parent()
-			
-			# Create pickup scene
-#			var pickup_scene = load("res://scenes/pickups/pickup_item.tscn")
-#			if pickup_scene:
-#				var pickup = pickup_scene.instantiate()
-#				pickup.item_id = item_data_copy.id
-#				pickup.item_data.item_name = item_data_copy.name
-#				pickup.item_data.item_description = item_data_copy.description
-#				pickup.item_data.item_category = item_data_copy.category
-#				pickup.item_data.item_amount = 1
-				
-#				pickup.global_position = drop_pos
-#				current_scene.add_child(pickup)
-#				if debug: print(GameState.script_name_tag(self, _fname) + "Created pickup item in world: ", item_data_copy.id)
-#			else:
-#				if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not load pickup_item.tscn")
-#		else:
-#			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to remove item from inventory")
-			
-		# Always refresh inventory
-#	else:
-#		if debug: print(GameState.script_name_tag(self, _fname) + "No item selected or inventory system not f#ound")
 
 # Reset the inventory panel state
 func reset():

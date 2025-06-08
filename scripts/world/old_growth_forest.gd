@@ -2,7 +2,7 @@ extends Node2D
 const location_scene : bool = true
 
 # Initializes the level and manages scene-specific logic
-const scr_debug :bool = false
+const scr_debug : bool = false
 var debug
 var visit_areas = {}
 var curr_scale : float = 1.0

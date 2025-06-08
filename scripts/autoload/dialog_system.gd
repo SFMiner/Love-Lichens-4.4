@@ -11,7 +11,7 @@ signal memory_dialogue_added(character_id, dialogue_title)
 signal memory_dialogue_selected(character_id, dialogue_title, memory_tag)
 
 
-const scr_debug :bool = true
+const scr_debug :bool = false
 var debug
 
 # Dictionary to track which dialogs have been seen

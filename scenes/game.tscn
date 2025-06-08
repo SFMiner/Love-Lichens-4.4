@@ -35,16 +35,9 @@ offset_right = 120.0
 offset_bottom = 50.0
 text = "Phone"
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-visible = false
-offset_left = 386.0
-offset_top = 274.0
-offset_right = 435.0
-offset_bottom = 297.0
-text = "NPCs: "
-
 [node name="PhoneCanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
-visible = false
 
 [node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_abcde")]
+
+[connection signal="pressed" from="CanvasLayer/PhoneToggleButton" to="." method="_on_phone_toggle_button_pressed"]

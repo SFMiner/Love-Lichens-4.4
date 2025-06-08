@@ -19,7 +19,7 @@ var dialogue_memory_cache: Dictionary = {}
 var conditional_dialogue_cache: Dictionary = {}
 var character_memory_states: Dictionary = {}
 
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug
 
 func _ready():

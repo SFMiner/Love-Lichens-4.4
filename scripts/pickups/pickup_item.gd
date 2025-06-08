@@ -21,7 +21,7 @@ signal item_picked_up(item_id, item_data)
 	
 
 const item_type : int = 2
-const scr_debug :bool = true
+const scr_debug :bool = false
 static var debug
 
 var item_data = {}

@@ -55,6 +55,18 @@ var scenes: Dictionary = {
 		"pickups":[]
 	}	
 }
+
+var phone_apps : Dictionary = {
+	"cameraroll_app_entries": {},
+	"discord_app_entries": {},
+	"email_app_entries": {},	
+	"grades_app_entries": {},
+	"journal_app_entries": [],
+	"messaging_app_entries": {},
+	"social_media_app_entries": {},
+	"snake_media_app_entries": {},
+	"spore_app_entries": {},
+}
 var scenes_visited = []
 
 #var memory_tag_registry 
@@ -102,7 +114,7 @@ var game_data = {
 	"turns_per_day": 8
 }
 
-const scr_debug : bool = true
+const scr_debug : bool = false
 var debug 
 
 func _ready():
@@ -757,7 +769,6 @@ func start_new_game():
 	start_time = Time.get_unix_time_from_system()
 	play_time = 0
 	last_save_time = 0
-	
 	# Reset all game systems
 	reset_all_systems()
 	
@@ -794,6 +805,7 @@ func start_new_game():
 
 # End current game
 func end_game():
+	reset_all_systems()
 	if current_game_id == "":
 		return
 		
@@ -847,6 +859,7 @@ func save_game(slot):
 
 # Load a saved game
 func load_game(slot):
+	reset_all_systems()
 	var save_load_system = get_node_or_null("/root/SaveLoadSystem")
 	if save_load_system:
 		var success = save_load_system.load_game(slot)
@@ -1025,25 +1038,32 @@ func reset_all_systems():
 		"QuestSystem", 
 		"RelationshipSystem",
 		"DialogSystem",
-		"PickupSystem"
+		"PickupSystem",
+		"PhoneSystem"
 	]
 	
 		# NEW: Reset pickup system
 	
 	for system_name in systems_to_reset:
-		var system = get_node_or_null("/root/" + system_name)
-		if system and system.has_method("reset"):
-			system.reset()
-		elif system_name == "InventorySystem" and system:
-			if system.has_method("clear_inventory"):
-				system.clear_inventory()
-		elif system_name == "QuestSystem" and system:
-			if system.has_method("load_quests"):
-				system.load_quests({"active_quests": {}, "completed_quests": {}, "available_quests": {}, "visited_areas": {}})
-		elif system_name == "PickupSystem" and system:
-			if system.has_method("reset"):
+		var system
+		if system_name == "PhoneSystem":
+			system = get_node_or_null("/root/" + "Game/PhoneCanvasLayer/PhoneSceneInstance")
+			if system and system.has_method("reset"):
 				system.reset()
-				if debug: print(script_name_tag(self, _fname) + "Reset pickup system")
+		else:
+			system = get_node_or_null("/root/" + system_name)
+			if system and system.has_method("reset"):
+				system.reset()
+			elif system_name == "InventorySystem" and system:
+				if system.has_method("clear_inventory"):
+					system.clear_inventory()
+			elif system_name == "QuestSystem" and system:
+				if system.has_method("load_quests"):
+					system.load_quests({"active_quests": {}, "completed_quests": {}, "available_quests": {}, "visited_areas": {}})
+			elif system_name == "PickupSystem" and system:
+				if system.has_method("reset"):
+					system.reset()
+					if debug: print(script_name_tag(self, _fname) + "Reset pickup system")
 
 func get_pickups():
 	var _fname = "get_pickups"

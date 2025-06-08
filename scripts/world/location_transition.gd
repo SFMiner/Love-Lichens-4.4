@@ -16,7 +16,7 @@ signal transition_triggered(target_location, spawn_point)
 # Optional hint text shown when player is near but cannot use transition
 @export_multiline var locked_hint: String = "This door is locked."
 
-const scr_debug:bool = true
+const scr_debug:bool = false
 var debug
 var player_in_area: bool = false
 @onready var label : Label = $Label

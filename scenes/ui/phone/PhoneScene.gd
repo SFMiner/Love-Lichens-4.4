@@ -24,6 +24,18 @@ const APP_SCENE_PATHS = {
 	"AppButton_Snake": "res://scenes/ui/phone/apps/SnakeApp.tscn"
 }
 
+const APP_SCRIPT_PATHS = {
+	"Messages": "res://scenes/ui/phone/apps/MessagesApp.gd",
+	"Discord": "res://scenes/ui/phone/apps/DiscordApp.gd", # Updated path
+	"SocialFeed": "res://scenes/ui/phone/apps/SocialFeedApp.gd", # Assuming this exists or is placeholder
+	"Journal": "res://scenes/ui/phone/apps/JournalApp.gd", # Assuming this exists or is placeholder
+	"Email": "res://scenes/ui/phone/apps/EmailApp.gd", # Updated path
+	"Grades": "res://scenes/ui/phone/apps/GradesApp.gd", # Assuming this exists or is placeholder
+	"CameraRoll": "res://scenes/ui/phone/apps/CameraRollApp.gd",
+	"Spore": "res://scenes/ui/phone/apps/SporeApp.gd", # Assuming this exists or is placeholder
+	"Snake": "res://scenes/ui/phone/apps/SnakeApp.gd"
+	}
+
 const scr_debug : bool = false
 var debug: bool = false
 
@@ -93,7 +105,7 @@ func _on_app_panel_resized() -> void:
 	print("AppPanel.size = ", str(app_panel.size))   # Replace with function body.
 	
 # Save/Load System Integration for Phone Apps
-func get_save_data():
+func get_save_data_original():
 	var save_data = {
 		"phone_apps": {}
 	}
@@ -175,7 +187,7 @@ func get_save_data():
 	print("PhoneScene: Collected phone app data")
 	return save_data
 
-func load_save_data(data):
+func load_save_data_original(data):
 	if typeof(data) != TYPE_DICTIONARY:
 		print("PhoneScene: ERROR: Invalid data type for phone apps load")
 		return false
@@ -254,3 +266,99 @@ func load_save_data(data):
 	
 	print("PhoneScene: Phone apps restoration complete")
 	return true
+
+func reset():
+	for key in GameState.phone_apps:
+		GameState.phone_apps[key].clear()
+	for key in APP_SCRIPT_PATHS.keys():
+		var script = load(APP_SCRIPT_PATHS[key])
+		if script.has_method("clear_data"):
+			script.clear_data()
+	
+func load_save_data(data : Dictionary):
+	if typeof(data) != TYPE_DICTIONARY:
+		print("PhoneScene: ERROR: Invalid data type for phone apps load")
+		return false
+	GameState.phone_apps = data
+	# Restore Discord App
+	print("saved phone data for reload = ", str(data))
+	if data.has("phone_apps") and data.phone_apps.has("discord"):
+		var discord_app = get_node_or_null("DiscordApp")
+		if discord_app and discord_app.has_method("load_save_data"):
+			discord_app.load_save_data(data.phone_apps.discord)
+		elif discord_app:
+			# Fallback restoration
+			var discord_data = data.phone_apps.discord
+			if discord_data.has("messages") and discord_app.has("messages"):
+				discord_app.messages = discord_data.messages
+			if discord_data.has("channels") and discord_app.has("channels"):
+				discord_app.channels = discord_data.channels
+			if discord_data.has("read_status") and discord_app.has("read_status"):
+				discord_app.read_status = discord_data.read_status
+			if discord_data.has("current_channel") and discord_app.has("current_channel"):
+				discord_app.current_channel = discord_data.current_channel
+	
+	# Restore Email App
+	if data.has("phone_apps") and data.phone_apps.has("email"):
+		var email_app = get_node_or_null("EmailApp")
+		if email_app and email_app.has_method("load_save_data"):
+			email_app.load_save_data(data.phone_apps.email)
+		elif email_app:
+			# Fallback restoration
+			var email_data = data.phone_apps.email
+			if email_data.has("inbox") and email_app.has("inbox"):
+				email_app.inbox = email_data.inbox
+			if email_data.has("sent") and email_app.has("sent"):
+				email_app.sent = email_data.sent
+			if email_data.has("drafts") and email_app.has("drafts"):
+				email_app.drafts = email_data.drafts
+			if email_data.has("read_emails") and email_app.has("read_emails"):
+				email_app.read_emails = email_data.read_emails
+	
+	# Restore Journal App
+	if data.has("phone_apps") and data.phone_apps.has("journal"):
+		var journal_app = get_node_or_null("JournalApp")
+		if journal_app and data.has("journal_app_entries"):
+			journal_app._refresh_list()
+#		if journal_app and journal_app.has_method("load_save_data"):
+#			journal_app.load_save_data(data.phone_apps.journal)
+			
+#		elif journal_app:
+			# Fallback restoration
+#			var journal_data = data.phone_apps.journal
+#			if journal_data.has("entries") and journal_app.has("entries"):
+#				journal_app.entries = journal_data.entries
+#			if journal_data.has("categories") and journal_app.has("categories"):
+#				journal_app.categories = journal_data.categories
+#			if journal_data.has("bookmarks") and journal_app.has("bookmarks"):
+#				journal_app.bookmarks = journal_data.bookmarks
+#			if journal_data.has("last_entry_date") and journal_app.has("last_entry_date"):
+#				journal_app.last_entry_date = journal_data.last_entry_date
+	
+	# Restore Snake App (the working app)
+	if data.has("phone_apps") and data.phone_apps.has("snake"):
+		var snake_app = get_node_or_null("SnakeApp")
+		if snake_app and snake_app.has_method("load_save_data"):
+			snake_app.load_save_data(data.phone_apps.snake)
+		elif snake_app:
+			# Fallback restoration
+			var snake_data = data.phone_apps.snake
+			if snake_data.has("high_score") and snake_app.has("high_score"):
+				snake_app.high_score = snake_data.high_score
+	
+	# Restore Phone UI state
+	if data.has("phone_ui"):
+		var ui_data = data.phone_ui
+		if ui_data.has("current_app"):
+			current_app = ui_data.current_app
+		if ui_data.has("notifications"):
+			notifications = ui_data.notifications
+		if ui_data.has("app_settings"):
+			app_settings = ui_data.app_settings
+	
+	print("PhoneScene: Phone apps restoration complete")
+	return true
+
+
+func get_save_data():
+	return GameState.phone_apps

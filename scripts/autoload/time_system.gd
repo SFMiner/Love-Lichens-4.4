@@ -13,9 +13,9 @@ enum TimeOfDay {
 }
 
 # Time tracking
-var current_day: int = 1
-var current_month: int = 1
-var current_year: int = 1
+var current_day: int = 19
+var current_month: int = 8
+var current_year: int = 2024
 var current_time_of_day: TimeOfDay = TimeOfDay.MORNING
 
 var day_names: Array = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -38,6 +38,9 @@ func _ready() -> void:
 
 	if debug:
 		print(GameState.script_name_tag(self) + "TimeSystem initialized on " + get_formatted_date())
+
+	var result = format_game_time("mm/dd - h:nn", "-3h -20n")
+	print("""format_game_time("mm/dd - h:nn", "-3h -20n") = """ + result)
 
 func _process(delta: float) -> void:
 	time_accumulator += delta * time_scale
@@ -163,6 +166,130 @@ func get_formatted_date() -> String:
 		current_year,
 		get_time_name()
 	]
+
+func format_game_time(format_string: String, offset_string: String = "") -> String:
+	var _fname = "format_game_time"
+
+	# 1. Convert current game time into total minutes
+	var total_minutes := (
+		current_year * 12 * 30 * 24 * 60 +
+		(current_month - 1) * 30 * 24 * 60 +
+		(current_day - 1) * 24 * 60 +
+		time_accumulator
+	)
+	
+# 2. Parse offset string like "-1d 3h 2n"
+	if offset_string != "":
+		var regex := RegEx.new()
+		regex.compile("^([+-]?)(\\d+)([hdnmy])$")
+
+		var offset_tokens := offset_string.strip_edges().split(" ")
+		print ("offset_tokens = " + str(offset_tokens))
+		for token in offset_tokens:
+			if token == "":
+				print ("tonken == '': continuing")
+				continue
+			var result := regex.search(token)
+			
+			if result:
+
+				print ("result.get_string(1) = " + result.get_string(1))
+				print ("result.get_string(2) = " + result.get_string(2))
+				print ("result.get_string(3) = " + result.get_string(3))
+				
+				var sign := -1 if result.get_string(1) == "-" else 1
+				sign
+				var value := int(result.get_string(2)) * sign
+				print("value = " + str(value))
+				var unit := result.get_string(3)
+				print("unit = " + unit)
+				
+				match unit:
+					"n":
+						total_minutes += value
+					"h":
+						total_minutes += value * 60
+					"d":
+						total_minutes += value * 24 * 60
+					"m":
+						total_minutes += value * 30 * 24 * 60
+					"y":
+						total_minutes += value * 12 * 30 * 24 * 60
+				print("total_minutes based on result: " + str(total_minutes))
+			else:
+				push_warning("Unrecognized time offset token: %s" % token)
+	else:
+		print("Formatting current date.")
+
+	# 3. Convert total minutes back to Y/M/D/h/m
+	var minutes := int(total_minutes) % 60
+	print("minutes = " + str(minutes))
+	var hours := int(total_minutes / 60) % 24
+	print("hours = " + str(hours))
+	var days_total := int(total_minutes / (24 * 60))
+	print("days_total = " + str(days_total))
+	var day := (days_total % 30) + 1
+	print("day = " + str(day))
+	var months_total := int(days_total / 30)
+	print("months_total = " + str(months_total))
+	var month := (months_total % 12) + 1
+	print("month = " + str(month))
+	var year := int(months_total / 12)
+	print("year = " + str(year))
+
+# "Mmm dd, 'yy - hh:mm"
+
+	var month_names := [
+		"January", "February", "March", "April", "May", "June",
+		"July", "August", "September", "October", "November", "December"
+	]
+	var month_name: String = month_names[month - 1]
+	var month_abbr: String = month_name.substr(0, 3)
+
+	print("str(month) " + str(month))
+	print("str(month).pad_zeros(2) " + str(month).pad_zeros(2))
+	
+	# 4. Replace formatting tokens
+	var replacements := {
+		"MMMM": month_name.to_upper(),
+		"mmmm": month_name.to_lower(),
+		"Mmmm": month_name.capitalize(),
+		"MMM": month_abbr.to_upper(),
+		"mmm": month_abbr.to_lower(),
+		"Mmm": month_abbr.capitalize(),
+		"MM": str(month).pad_zeros(2),
+		"mm": str(month).pad_zeros(2),
+		"M": str(month),
+		"m": str(month),
+		"dd": str(day).pad_zeros(2),
+		"d": str(day),
+		"yyyy": str(year),
+		"YYYY": str(year),
+		"yy": str(year % 100).pad_zeros(2),
+		"YY": str(year % 100).pad_zeros(2),
+		"y": str(year % 100),
+		"Y": str(year % 100),
+		"hh": str(hours).pad_zeros(2),
+		"h": str(hours),
+		"nn": str(minutes).pad_zeros(2),
+		"n": str(minutes),
+	}
+	print("format_string = Mmm dd, 'yy - hh:mm, -1d 3h 2n")
+	
+
+	# Sort by length descending to prioritize longer tokens first
+	var keys := replacements.keys()
+	keys.sort_custom(func(a, b): return b.length() - a.length())
+
+	# Compile regex for each token to prevent nested substitution
+	for key in keys:
+		var regex := RegEx.new()
+		regex.compile("\\b" + key + "\\b")  # Match full token only
+		format_string = regex.sub(format_string, replacements[key])
+		print("   format_string [" + key + "] = " + format_string)
+
+	return format_string
+
 
 # Time scaling
 func set_time_scale(s: float) -> void:

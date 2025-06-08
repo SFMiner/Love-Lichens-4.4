@@ -175,6 +175,11 @@ func _collect_save_data():
 	if quest_system and quest_system.has_method("get_all_quests"):
 		save_data["quests"] = quest_system.get_all_quests()
 
+	# Get phone data
+	var phone_system = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	if phone_system and phone_system.has_method("get_save_data"):
+		save_data["phone"] = phone_system.get_save_data()
+
 	# NEW: Get pickup system data
 	var pickup_system = get_node_or_null("/root/PickupSystem")
 	if pickup_system and pickup_system.has_method("get_save_data"):
@@ -260,7 +265,12 @@ func _apply_save_data(save_data):
 	if navigation_manager and save_data.has("navigation") and navigation_manager.has_method("load_navigtion"):
 		if debug: print(GameState.script_name_tag(self) + "Restoring nvigation data...")
 		navigation_manager.load_navigation(save_data.navigation)
-		
+	
+	# Get phone data
+	var phone_system = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+	if phone_system and save_data.has("phone") and phone_system.has_method("load_save_data"):
+		phone_system.load_save_data(save_data.phone)
+	
 	# Apply to quest system
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and save_data.has("quests") and quest_system.has_method("load_quests"):
