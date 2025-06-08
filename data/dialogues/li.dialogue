@@ -4,8 +4,10 @@
 Li: Don’t mind me, just observing the local chaos.
 ~ general_chat
 - Anything interesting? => li_snark
-- Adam: You always wear two pairs of glasses? [if GameState.has_tag("li_lucky_glasses_seen")]
+- You always wear two pairs of glasses? [if GameState.has_tag("li_lucky_glasses_seen")]
 		=> ask_li_about_glasses 
+- Can you make an entry in my journal? 
+	do GameState.add_journal_entry("Test Title||Test Title|Test Title")
 - Leave Li to their observations => END!
 
 ~ li_snark

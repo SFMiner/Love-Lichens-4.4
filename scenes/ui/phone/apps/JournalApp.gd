@@ -10,6 +10,7 @@ extends Control
 var editing_key: String = ""
 
 var all_entries: Array = []
+var editing_entry = false
 
 func _ready() -> void:
 	new_entry_button.pressed.connect(Callable(self, "_on_new_entry_pressed"))
@@ -19,6 +20,7 @@ func _ready() -> void:
 	print()
 
 func _on_new_entry_pressed() -> void:
+	editing_entry = false
 	entry_panel.visible = true
 	body_edit.text = ""
 	toolbar.visible = false
@@ -65,6 +67,29 @@ func _on_save_pressed() -> void:
 	entry_panel.visible = false
 	toolbar.visible = true
 
+static func parse_entry(entry_string : String):
+	# split into Title, Body, Tags, and Timestamp components
+	var split_string = entry_string.split("|", true)
+	# split tags, if multiple
+	var split_tags = split_string[2].split("#")
+	# assign prsed components to entry dictionary:
+	var new_entry : Dictionary = {
+		"title": split_string[0],
+		"date": TimeSystem.format_game_time("mm-dd-yy - h:nn", split_string[1]),
+		"tags": split_string[2],
+		"body": split_string[0]
+	} 
+	return new_entry
+
+static func add_packed_entry(entry_string: String) -> void:
+	# parse entry_string into dictionary:
+	var new_entry : Dictionary = parse_entry(entry_string)
+	# Check entry
+	print("new_entry = " + str(new_entry))
+	# add to GameState.phone_apps["journal_app_entries"]
+	GameState.phone_apps["journal_app_entries"].append(new_entry)
+#	print (GameState.phone_apps["journal_app_entries"])
+
 func add_entry(title: String, date: String, tags: Array, body: String) -> void:
 	var new_entry : Dictionary = {
 		"title": title,
@@ -73,19 +98,20 @@ func add_entry(title: String, date: String, tags: Array, body: String) -> void:
 		"body": body
 	} 
 	print("new_entry = " + str(new_entry))
-	var found : bool = false
-	for entry_position in all_entries.size():
-		if all_entries[entry_position]["date"] == date:
-			found = true	
-			all_entries.remove_at(entry_position)
-			all_entries.insert(entry_position, new_entry)
-			print("Found! " + str(all_entries[entry_position]))
-		else:
-			print("Not found. " + str(all_entries[entry_position]))
-
-	if ! found:
+	if editing_entry == true:
+		var found : bool = false
+		for entry_position in all_entries.size():
+			if all_entries[entry_position]["date"] == date:
+				found = true	
+				all_entries.remove_at(entry_position)
+				all_entries.insert(entry_position, new_entry)
+				print("Found! " + str(all_entries[entry_position]))
+			else:
+				print("Not found. " + str(all_entries[entry_position]))
+		if ! found:
+			all_entries.append(new_entry)
+	else: 
 		all_entries.append(new_entry)
-
 	GameState.phone_apps["journal_app_entries"] = all_entries
 #	print (GameState.phone_apps["journal_app_entries"])
 	_refresh_list()
@@ -142,7 +168,7 @@ func _open_entry(idx: int) -> void:
 	entry_panel.visible = true
 	save_button.visible = true
 	cancel_button.text = "Cancel"
-
+	editing_entry = true
 	
 func clear_data():
 	all_entries = []

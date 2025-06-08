@@ -56,6 +56,19 @@ var scenes: Dictionary = {
 	}	
 }
 
+
+const PHONE_APP_SCRIPT_PATHS = {
+	"messages": "res://scenes/ui/phone/apps/MessagesApp.gd",
+	"discord": "res://scenes/ui/phone/apps/DiscordApp.gd", # Updated path
+	"social_feed": "res://scenes/ui/phone/apps/SocialFeedApp.gd", # Assuming this exists or is placeholder
+	"journal": "res://scenes/ui/phone/apps/JournalApp.gd", # Assuming this exists or is placeholder
+	"email": "res://scenes/ui/phone/apps/EmailApp.gd", # Updated path
+	"grades": "res://scenes/ui/phone/apps/GradesApp.gd", # Assuming this exists or is placeholder
+	"camera_roll": "res://scenes/ui/phone/apps/CameraRollApp.gd",
+	"spore": "res://scenes/ui/phone/apps/SporeApp.gd", # Assuming this exists or is placeholder
+	"snake": "res://scenes/ui/phone/apps/SnakeApp.gd"
+	}
+
 var phone_apps : Dictionary = {
 	"cameraroll_app_entries": {},
 	"discord_app_entries": {},
@@ -114,13 +127,30 @@ var game_data = {
 	"turns_per_day": 8
 }
 
-const scr_debug : bool = false
+const scr_debug : bool = true
 var debug 
 
 func _ready():
 	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug
 #	_load_memory_registry()
+
+
+
+func add_journal_entry(entry_string : String):
+	var _fname = "add_journal_entry"
+	if debug: print(script_name_tag(self, _fname) + "entry_string = " + entry_string)
+	# get path to journal.gd script:
+	var journal_path : String = PHONE_APP_SCRIPT_PATHS["journal"]
+	if debug: print(script_name_tag(self, _fname) + "journal_path =" + journal_path)
+	# load script at object "journal"
+	var journal = load(journal_path)
+	# check that "journal" exists
+	if debug: print(script_name_tag(self, _fname) + "journal = " + str(journal))
+	# call add_packed_entry on journal
+	journal.add_packed_entry(entry_string)
+	
+
 
 # SIMPLIFIED: Load only the registry
 func _load_memory_registry():
