@@ -4,33 +4,166 @@
 
 [node name="EmailApp" type="Control"]
 layout_mode = 3
-anchor_left = 0.002
-anchor_top = 0.003
-anchor_right = 0.998
-anchor_bottom = 0.997
-offset_left = 0.16
-offset_top = 0.76
-offset_right = -0.160034
-offset_bottom = -0.76001
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_emailgd")
 
-[node name="Label" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -11.5
-offset_right = 100.0
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
 text = "Email App - Placeholder"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="InboxTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="EmailList_Inbox" type="VBoxContainer" parent="VBoxContainer/TabContainer/InboxTab"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SentTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="EmailList_Sent" type="VBoxContainer" parent="VBoxContainer/TabContainer/SentTab"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ArchiveTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="EmailList_Archive" type="VBoxContainer" parent="VBoxContainer/TabContainer/ArchiveTab"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EmailViewerPanel" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="SubjectLabel" type="Label" parent="VBoxContainer/EmailViewerPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/EmailViewerPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SenderLabel" type="Label" parent="VBoxContainer/EmailViewerPanel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TimestampLabel" type="Label" parent="VBoxContainer/EmailViewerPanel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RecipientLabel" type="Label" parent="VBoxContainer/EmailViewerPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BodyText" type="RichTextLabel" parent="VBoxContainer/EmailViewerPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+justification_flags = 35
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="ReplyButton" type="Button" parent="VBoxContainer/EmailViewerPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "  Reply  "
+
+[node name="ArchiveButton" type="Button" parent="VBoxContainer/EmailViewerPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "  Archive  "
+
+[node name="ReadCancelButton" type="Button" parent="VBoxContainer/EmailViewerPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cancel"
+
+[node name="ComposePanel" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ComposePanel"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ComposePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="bold_button" type="Button" parent="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Bold"
+
+[node name="italic_button" type="Button" parent="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Italic"
+
+[node name="img_button" type="Button" parent="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Add image"
+
+[node name="SendButton" type="Button" parent="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Send"
+
+[node name="SendCancelButton" type="Button" parent="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Cancel"
+
+[node name="ToField" type="LineEdit" parent="VBoxContainer/ComposePanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SubjectField" type="LineEdit" parent="VBoxContainer/ComposePanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BodyEdit" type="TextEdit" parent="VBoxContainer/ComposePanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer/bold_button" to="." method="_on_bold_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer/italic_button" to="." method="_on_italic_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ComposePanel/VBoxContainer/HBoxContainer/img_button" to="." method="_on_img_button_pressed"]

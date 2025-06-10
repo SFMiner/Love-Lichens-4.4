@@ -1153,9 +1153,6 @@ position = Vector2(397, 3063)
 position = Vector2(243, -190)
 shape = SubResource("RectangleShape2D_48pq8")
 
-[node name="BuildingLabels" type="Node2D" parent="Node2D"]
-position = Vector2(388, 1711)
-
 [node name="DormEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
 position = Vector2(2394, 774)
 scale = Vector2(1.66489, 1.66489)
@@ -1239,6 +1236,9 @@ position = Vector2(1621, 886)
 
 [node name="right_marker" parent="Node2D" instance=ExtResource("36_bm7ek")]
 position = Vector2(1981, 1193)
+
+[node name="BuildingLabels" type="Node2D" parent="Node2D"]
+position = Vector2(388, 1711)
 
 [node name="ColorRect" type="ColorRect" parent="Node2D"]
 offset_left = 3064.0

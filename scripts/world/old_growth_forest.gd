@@ -9,13 +9,13 @@ var curr_scale : float = 1.0
 var all_areas_visited = false
 @onready var z_objects = $Node2D/z_Objects
 @onready var bugzones = $Node2D/bugzones
-@onready var player = $Player
+@onready var player = GameState.get_player()
 @onready var entrance = $entrance
-var camera_limit_right = 2000
-var camera_limit_bottom = 2030
+var camera_limit_right = 1030
+var camera_limit_bottom = 1030
 var camera_limit_left = 0
 var camera_limit_top = 0
-var zoom_factor = 1.00
+var zoom_factor = 2
 var scene_speed_mod : float = 1.8
 
 func _ready():
@@ -42,6 +42,6 @@ func spawn_player():
 
 func _process(delta):
 	curr_scale = float(player.global_position.y/2125)*8
-	scene_speed_mod = curr_scale/4
+	scene_speed_mod = curr_scale/2
 	player.scale = Vector2(curr_scale, curr_scale)
 	player.calculate_speed()

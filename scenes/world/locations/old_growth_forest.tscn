@@ -51,8 +51,7 @@
 script = ExtResource("1_h6ule")
 
 [node name="Node2D" type="Sprite2D" parent="."]
-position = Vector2(1017, 1015)
-scale = Vector2(2, 2)
+position = Vector2(517, 509)
 texture = ExtResource("1_b0wtv")
 
 [node name="nonwalkable_areas" type="StaticBody2D" parent="Node2D"]
@@ -369,11 +368,11 @@ scale = Vector2(0.2, 0.2)
 polygon = PackedVector2Array(7.5, -52.5, 337.5, -372.5, 565, -100, 340, 30)
 
 [node name="entrance" type="Marker2D" parent="." groups=["spawn_point"]]
-position = Vector2(1058, 2009)
+position = Vector2(624, 979)
 scale = Vector2(0.844761, 0.844761)
 
 [node name="Forest Exit" parent="." instance=ExtResource("46_xnexo")]
-position = Vector2(1048, 1969)
+position = Vector2(542, 977)
 scale = Vector2(2.00211, 2.00211)
 target_location = "campus_quad"
 spawn_point = "forest_exit"
@@ -383,6 +382,13 @@ transition_name = "Foerst Exit"
 offset_top = 2.67029e-05
 offset_bottom = 26.0
 text = "Exit"
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 1029.0
+offset_top = 1029.0
+offset_right = 1069.0
+offset_bottom = 1069.0
 
 [editable path="Node2D/bugzones/BugZone1"]
 [editable path="Node2D/bugzones/BugZone2"]

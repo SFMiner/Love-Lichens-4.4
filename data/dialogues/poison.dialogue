@@ -9,15 +9,15 @@
 ~ start
 
 Poison: [#wry] What's up?
-- How's it going?
+- Adam: How's it going?
 	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. 
 	=> general_chat
-- I've been exploring campus
+- Adam: I've been exploring campus
 	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 
 	=> general_chat
-- What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared") ]
+- Adam: What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared") ]
 	=> ask_poison_about_necklace
-- Would you tell me about that necklace again? [if GameState.has_tag("poison_necklace_seen") and GameState.has_tag("poison_necklace_shared") ]
+- Adam: Would you tell me about that necklace again? [if GameState.has_tag("poison_necklace_seen") and GameState.has_tag("poison_necklace_shared") ]
 	=> ask_poison_about_necklace
 - You mentioned a story about your PeePaw? Would you like to tell me now? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
@@ -40,7 +40,7 @@ Poison: So... biology major, huh? Must be fun to stare at moss all day.
 		do GameState.gs_print("Tag poison_peepaw_known set")
 - You mentioned a story about your peepaw? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
-	- Hey, hwo did that story about your peepaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and  GameState.has_tag("poison_peepaw_story_shared")]
+	- Hey, how did that story about your peepaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and  GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
 Poison: Anyway, I should get going. Have a lab to pretend to care about.
 - See you around
@@ -79,6 +79,7 @@ Poison: [#surprised] Oh, this?
 Poison: [#awkward_laugh] It's, uh... it's got some of Pee-Paw's ashes in it. My grandfather.
 do GameState.set_tag("poison_peepaw_known")
 do GameState.set_tag("poison_necklace_shared")
+do GameState.add_journal_entry("Poison's necklace||#poison#friends#peepaw|Poison's necklace containing the ashes of his grandfather, PeePaw.")
 - That's a beautiful way to remember someone
 	Poison: [#genuine] Yeah. Keeps him close, you know? He was always there for me when I needed him.
 	Poison: [#shifting] Anyway, not trying to get all heavy on you.

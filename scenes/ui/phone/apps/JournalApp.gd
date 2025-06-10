@@ -20,7 +20,7 @@ func _ready() -> void:
 	print()
 
 func _on_new_entry_pressed() -> void:
-	editing_entry = false
+	editing_entry = false 
 	entry_panel.visible = true
 	body_edit.text = ""
 	toolbar.visible = false
@@ -77,7 +77,7 @@ static func parse_entry(entry_string : String):
 		"title": split_string[0],
 		"date": TimeSystem.format_game_time("mm-dd-yy - h:nn", split_string[1]),
 		"tags": split_string[2],
-		"body": split_string[0]
+		"body": split_string[3]
 	} 
 	return new_entry
 
@@ -115,8 +115,6 @@ func add_entry(title: String, date: String, tags: Array, body: String) -> void:
 	GameState.phone_apps["journal_app_entries"] = all_entries
 #	print (GameState.phone_apps["journal_app_entries"])
 	_refresh_list()
-
-
 
 func _refresh_list() -> void:
 	for c in entries_list.get_children():
@@ -157,7 +155,6 @@ func _refresh_list_original() -> void:
 		entries_list.add_child(b)
 
 	$UI/Scroll.scroll_vertical = 0
-
 
 func _open_entry(idx: int) -> void:
 	var e = all_entries[idx]

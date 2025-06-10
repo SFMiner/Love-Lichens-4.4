@@ -1,6 +1,6 @@
 extends Node2D
 
-# Campus Quad scene script
+# Old Growth Forest scen script
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
@@ -8,24 +8,24 @@ const scr_debug :bool = false
 var debug
 var visit_areas = {}
 var all_areas_visited = false
-@onready var z_objects = $Node2D/z_Objects
+var z_objects : Node2D
 var camera_limit_right = 1790	
 var camera_limit_bottom = 1790
 var camera_limit_left = 0
 var camera_limit_top = 0
 var zoom_factor = 1.2
-@onready var player = $Player
+@onready var player = GameState.get_player
 
 func _ready():
 	var debug_label = get_node_or_null("CanvasLayer/GameInfo")
 	GameState.set_current_scene(self)
-	player.set_camera_limits(camera_limit_right, camera_limit_bottom, camera_limit_left, camera_limit_top, zoom_factor)
+	z_objects = $Node2D/z_Objects
 	if debug_label:
 		if player and player.interactable_object:
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nCan interact with: " + player.interactable_object.name
 		else:
 			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
-	$ColorRect.size.x = 30 * player.scale.y
+#	$ColorRect.size.x = 30 * player.scale.y
 	
 	
 	print(GameState.script_name_tag(self) + "Campus Quad scene initialized")
@@ -36,6 +36,7 @@ func _ready():
 	
 	# Initialize necessary systems
 	initialize_systems()
+	print(z_objects)
 	for child in z_objects.get_children():
 			child.z_index = child.global_position.y
 			print(GameState.script_name_tag(self) + child.name + " now has z-index " + str(child.z_index))

@@ -6,8 +6,8 @@ Li: Don’t mind me, just observing the local chaos.
 - Anything interesting? => li_snark
 - You always wear two pairs of glasses? [if GameState.has_tag("li_lucky_glasses_seen")]
 		=> ask_li_about_glasses 
-- Can you make an entry in my journal? 
-	do GameState.add_journal_entry("Test Title||Test Title|Test Title")
+- Can you send me an email? 
+	do GameState.send_email_from_dialogue("Li", "adam", "Lichen Sampling - Week 1", "Attached is the full image set.")
 - Leave Li to their observations => END!
 
 ~ li_snark

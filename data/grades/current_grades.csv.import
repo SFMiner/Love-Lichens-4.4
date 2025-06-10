@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://d3o5qsglnm8p4"
+
+[deps]
+
+files=["res://data/grades/current_grades.Grade.translation", "res://data/grades/current_grades.Credits.translation", "res://data/grades/current_grades.Professor.translation"]
+
+source_file="res://data/grades/current_grades.csv"
+dest_files=["res://data/grades/current_grades.Grade.translation", "res://data/grades/current_grades.Credits.translation", "res://data/grades/current_grades.Professor.translation"]
+
+[params]
+
+compress=true
+delimiter=0

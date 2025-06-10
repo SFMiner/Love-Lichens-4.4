@@ -17,7 +17,7 @@ func _ready():
 	#     GameController.perform_some_initialization_if_needed()
 
 	if phone_toggle_button:
-		phone_toggle_button.pressed.connect(_on_phone_toggle_button_pressed)
+		pass #phone_toggle_button.pressed.connect(_on_phone_toggle_button_pressed)
 	else:
 		if debug: print("GameController: PhoneToggleButton not found at path /root/Game/CanvasLayer/PhoneToggleButton")
 

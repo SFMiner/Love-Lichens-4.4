@@ -103,11 +103,13 @@ Unlike other graves, this one has no lichen growth at all—the stone surface ap
 - Move on => END
 
 ~ headstone5_qr
-You use your phone to scan the QR code.
+if GameState.has_phone:
+	You use your phone to scan the QR code.
+	It links to an academic database containing Dr. Lin's final published paper: "Antagonistic Properties of Novobiocin Derivatives Against Symbiotic Fungal Colonization."
+	The paper discusses methods to prevent fungal and lichen growth on various surfaces. The irony isn't lost on you—a lichenologist who developed ways to prevent lichen growth.
+if not GameState.has_phone:
+	Unfortunately, you'll need a phone to do that.
 
-It links to an academic database containing Dr. Lin's final published paper: "Antagonistic Properties of Novobiocin Derivatives Against Symbiotic Fungal Colonization."
-
-The paper discusses methods to prevent fungal and lichen growth on various surfaces. The irony isn't lost on you—a lichenologist who developed ways to prevent lichen growth.
 
 => END
 

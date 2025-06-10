@@ -21,7 +21,10 @@ var start_time = 0
 var play_time = 0
 var last_save_time = 0
 var interaction_range = 0
+var has_phone = false
 var player : CharacterBody2D = null
+@onready var phone = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
+@onready var camera_app = load(PHONE_APP_SCRIPT_PATHS["camera_roll"])
 var tags: Dictionary = {}
 var scenes: Dictionary = {
 	"CampusQuad":{
@@ -70,7 +73,7 @@ const PHONE_APP_SCRIPT_PATHS = {
 	}
 
 var phone_apps : Dictionary = {
-	"cameraroll_app_entries": {},
+	"camera_roll_app_entries": {},
 	"discord_app_entries": {},
 	"email_app_entries": {},	
 	"grades_app_entries": {},
@@ -135,8 +138,47 @@ func _ready():
 	debug = scr_debug or GameController.sys_debug
 #	_load_memory_registry()
 
+func _initialize_camera_roll_starter_images():
+	const _fname = "_initialize_camera_roll_starter_images"
 
+	# Ensure the camera roll data structure exists
+	if debug: print(script_name_tag(self, _fname) + " function called.")
 
+	if not phone_apps.has("camera_roll_app_entries"):
+		phone_apps["camera_roll_app_entries"] = {}
+	
+	# Add starter images directly to GameState
+	var starter_images = {
+		"campus_welcome": {
+			"image_id": "mantis1",
+			"thumbnail_path": "res://assets/images/camera_roll_images/mantis.jpg",
+			"full_image_path": "res://assets/images/camera_roll_images/mantis.jpg",
+			"caption": "Mantis I found in the cemetery!",
+			"timestamp": "March 10, 2024",
+			"tags": "#mantis, #bug",
+			"source": "Adam's Camera"
+		},
+		"Mushroom": {
+			"image_id": "mushroom1", 
+			"thumbnail_path": "res://assets/images/camera_roll_images/mushroom1.png",
+			"full_image_path": "res://assets/images/camera_roll_images/mushroom1.png",
+			"caption": "New friend!",
+			"timestamp": "March 10, 2024",
+			"tags": "#musfroom, #fungus",
+			"source": "Adam's Camera"
+		}
+	}
+	
+	# Only add if camera roll is empty
+	if phone_apps["camera_roll_app_entries"].size() == 0:
+		if debug: print(script_name_tag(self, _fname) + "phone_apps['camera_roll_app_entries'].size() = " + str(phone_apps["camera_roll_app_entries"].size()))
+		phone_apps["camera_roll_app_entries"] = starter_images
+	else:
+		if debug: print(script_name_tag(self, _fname) + "phone_apps['camera_roll_app_entries'].size() = " + str(phone_apps["camera_roll_app_entries"].size()))
+	print(script_name_tag(self, _fname) + "Added starter images to camera roll")
+	print(script_name_tag(self, _fname) + "phone_apps(camera_roll_app_entries) = " + str(phone_apps["camera_roll_app_entries"]))
+	
+	
 func add_journal_entry(entry_string : String):
 	var _fname = "add_journal_entry"
 	if debug: print(script_name_tag(self, _fname) + "entry_string = " + entry_string)
@@ -150,6 +192,41 @@ func add_journal_entry(entry_string : String):
 	# call add_packed_entry on journal
 	journal.add_packed_entry(entry_string)
 	
+# GameState.gd additions
+
+func add_email_to_inbox(email_data: Dictionary) -> void:
+	email_data["box"] = "inbox"
+	var email_id = email_data.get("email_id", generate_email_id())
+	email_data["email_id"] = email_id
+	["email_app_entries"][email_id] = email_data
+
+func add_email_to_sent(email_data: Dictionary) -> void:
+	email_data["box"] = "sent"
+	var email_id = email_data.get("email_id", generate_email_id())
+	email_data["email_id"] = email_id
+	phone_apps["email_app_entries"][email_id] = email_data
+
+func get_email_by_id(email_id: String) -> Dictionary:
+	return phone_apps["email_app_entries"].get(email_id, {})
+
+func send_email_from_dialogue(sender: String, recipient: String, subject: String, body: String, reply_to_id: String = "") -> void:
+	var email_id = generate_email_id()
+	var email := {
+		"email_id": email_id,
+		"reply_to_id": reply_to_id,
+		"subject": subject,
+		"body": body,
+		"timestamp": TimeSystem.format_game_time("Mmmm, dd, yyyy h:nn"),
+		"sender": sender,
+		"recipient": recipient,
+		"box": "inbox"
+	}
+	phone_apps["email_app_entries"][email_id] = email
+
+func generate_email_id() -> String:
+	return str(Time.get_unix_time_from_system()) + "_" + str(randi())
+
+
 
 
 # SIMPLIFIED: Load only the registry
@@ -801,7 +878,7 @@ func start_new_game():
 	last_save_time = 0
 	# Reset all game systems
 	reset_all_systems()
-	
+
 	# Set default game data
 	game_data = {
 		"player_name": "Adam Major",
@@ -829,6 +906,10 @@ func start_new_game():
 	var game_controller = get_node_or_null("/root/GameController")
 	if game_controller:
 		game_controller.change_scene("res://scenes/world/locations/dorm_room.tscn")
+	
+	
+	_initialize_camera_roll_starter_images()
+
 	
 	# Emit signal
 	game_started.emit(current_game_id)

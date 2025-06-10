@@ -1,4 +1,10 @@
-[gd_scene format=3 uid="uid://b2codddiu7twf"]
+[gd_scene load_steps=4 format=3 uid="uid://b2codddiu7twf"]
+
+[ext_resource type="Script" uid="uid://vp3wy5xtxhbn" path="res://scenes/ui/phone/apps/GradesApp.gd" id="1_grades"]
+[ext_resource type="Texture2D" uid="uid://cam706otydpxc" path="res://assets/images/maple_seed_mascot.png" id="2_iahts"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gcwu8"]
+bg_color = Color(0.480819, 0.656883, 0.436184, 1)
 
 [node name="GradesApp" type="Control"]
 layout_mode = 3
@@ -9,42 +15,98 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_grades")
 
-[node name="GradesTable" type="GridContainer" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_gcwu8")
 
-[node name="HeaderCourse" type="Label" parent="GradesTable"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/HeaderContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.325737, 0.259672, 9.62615e-08, 1)
+text = "Academic Records"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SemesterLabel" type="Label" parent="VBoxContainer/HeaderContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.325737, 0.259672, 9.62615e-08, 1)
+text = "Fall 2024"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GPALabel" type="Label" parent="VBoxContainer/HeaderContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.325737, 0.259672, 9.62615e-08, 1)
+text = "GPA: Calculating..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GradesTable" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="HeaderCourse" type="Label" parent="VBoxContainer/ScrollContainer/GradesTable"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Course"
 
-[node name="HeaderProfessor" type="Label" parent="GradesTable"]
+[node name="HeaderProfessor" type="Label" parent="VBoxContainer/ScrollContainer/GradesTable"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Professor"
+horizontal_alignment = 1
 
-[node name="HeaderGrade" type="Label" parent="GradesTable"]
+[node name="HeaderGrade" type="Label" parent="VBoxContainer/ScrollContainer/GradesTable"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Grade"
+horizontal_alignment = 1
 
-[node name="SampleCourse" type="Label" parent="GradesTable"]
+[node name="HeaderCredits" type="Label" parent="VBoxContainer/ScrollContainer/GradesTable"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Intro to Magic"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Credits"
 
-[node name="SampleProfessor" type="Label" parent="GradesTable"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Prof. Elm"
-
-[node name="SampleGrade" type="Label" parent="GradesTable"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "A+"
+[node name="MapleSeedMascot" type="Sprite2D" parent="."]
+position = Vector2(42, 43)
+scale = Vector2(1.28, 1.28)
+texture = ExtResource("2_iahts")

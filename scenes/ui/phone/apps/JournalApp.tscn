@@ -61,6 +61,8 @@ custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Type entry here."
+wrap_mode = 1
+indent_wrapped_lines = true
 scroll_smooth = true
 
 [node name="Buttons" type="HBoxContainer" parent="EntryPanel/DialogVBox"]

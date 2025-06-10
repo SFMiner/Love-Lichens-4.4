@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1q2w3e4r5t6y"]
+
+[ext_resource type="Script" uid="uid://bpu626bdvle75" path="res://scenes/ui/phone/apps/EmailApp.gd" id="1_emailgd"]
+
+[node name="EmailApp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Email App - Placeholder"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="InboxTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="EmailList_Inbox" type="Tree" parent="VBoxContainer/TabContainer/InboxTab"]
+layout_mode = 2
+
+[node name="SentTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="EmailList_Sent" type="Tree" parent="VBoxContainer/TabContainer/SentTab"]
+layout_mode = 2
+
+[node name="ArchiveTab" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="EmailList_Archive" type="Tree" parent="VBoxContainer/TabContainer/ArchiveTab"]
+layout_mode = 2
+
+[node name="EmailViewerPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SubjectLabel" type="Label" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="SenderLabel" type="Label" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="RecipientLabel" type="Label" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="TimestampLabel" type="Label" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="BodyText" type="RichTextLabel" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="ReplyButton" type="Button" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="ArchiveButton" type="Button" parent="VBoxContainer/EmailViewerPanel"]
+layout_mode = 2
+
+[node name="ComposePanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ToField" type="LineEdit" parent="VBoxContainer/ComposePanel"]
+layout_mode = 2
+
+[node name="SubjectField" type="LineEdit" parent="VBoxContainer/ComposePanel"]
+layout_mode = 2
+
+[node name="BodyEdit" type="TextEdit" parent="VBoxContainer/ComposePanel"]
+layout_mode = 2
+
+[node name="SendButton" type="Button" parent="VBoxContainer/ComposePanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_emailgd")
