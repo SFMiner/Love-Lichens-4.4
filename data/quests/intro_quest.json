@@ -19,7 +19,12 @@
 	"rewards": [
 		{
 			"type": "item",
-			"id": "common_lichen1",
+			"id": "common_lichen3",
+			"amount": 1
+		},
+		{
+			"type": "item",
+			"id": "common_lichen3",
 			"amount": 1
 		},
 		{
@@ -32,7 +37,7 @@
 			"amount": 2
 		}
 	],
-	"follow_up_quests": ["lichen_research"],
+	"follow_up_quests": ["quest_lichen_research"],
 	"auto_start_follow_ups": false,
 	"completed": false
 }

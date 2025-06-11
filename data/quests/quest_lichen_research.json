@@ -1,0 +1,48 @@
+{
+	"id": "lichen_research",
+	"title": "Lichen Research Project",
+	"description": "Collect lichen samples for Professor Moss's research and analyze them using the microscope in the research lab.",
+	"objectives": [
+		{
+			"type": "gather_tag",
+			"tag": "common_lichen",
+			"target": "common_lichen",
+			"description": "Collect 2 common lichen samples",
+			"progress": 0,
+			"required": 2
+		},
+		{
+			"type": "gather_tag", 
+			"tag": "rare_lichen",
+			"target": "rare_lichen",
+			"description": "Collect 2 rare lichen samples",
+			"progress": 0,
+			"required": 2
+		},
+		{
+			"type": "custom",
+			"target": "microscope",
+			"description": "Examine your samples using the microscope in the research lab"
+		}
+	],
+	"rewards": [
+		{
+			"type": "item",
+			"id": "research_notes",
+			"amount": 1
+		},
+		{
+			"type": "knowledge",
+			"id": "lichen_analysis_techniques"
+		},
+		{
+			"type": "relationship",
+			"character": "professor_moss",
+			"amount": 3
+		}
+	],
+	"prerequisites": ["intro_quest"],
+	"follow_up_quests": ["advanced_lichen_study"],
+	"auto_start_follow_ups": false,
+	"completed": false
+}

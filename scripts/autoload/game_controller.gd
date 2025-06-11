@@ -9,7 +9,7 @@ signal day_advanced
 signal location_changed(old_location, new_location)
 
 const sys_debug : bool = false
-const scr_debug : bool = false
+const scr_debug : bool = true
 var debug 
 var active_scene
 var is_phone_active: bool = false

@@ -1,6 +1,6 @@
 extends Control
 
-const scr_debug := true
+const scr_debug := false
 var debug := false
 var current_reply_to := ""
 var all_emails : Dictionary

@@ -5,23 +5,25 @@ extends Control
 @onready var semester_label: Label = %SemesterLabel
 @onready var gpa_label: Label = %GPALabel
 
-const scr_debug := true
+const scr_debug := false
 var debug := false
 
 var grades_data: Array = []
 
 func _ready() -> void:
+	const _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug
 	load_grades_from_csv("res://data/grades/current_grades.csv")
 
 func load_grades_from_csv(file_path: String) -> void:
-	if debug: print("GradesApp: Loading grades from ", file_path)
+	const _fname = "load_grades_from_csv"
+	if debug: print(GameState.script_name_tag(self) + "GradesApp: Loading grades from ", file_path)
 	
 	# Clear existing grade rows (keep headers)
 	clear_grade_rows()
 	
 	if not FileAccess.file_exists(file_path):
-		if debug: print("GradesApp: Grades file not found: ", file_path)
+		if debug: print(GameState.script_name_tag(self) + "GradesApp: Grades file not found: ", file_path)
 		show_error_message("Grades file not found")
 		return
 	

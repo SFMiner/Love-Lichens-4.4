@@ -77,7 +77,7 @@ func check_relationship_level_up(character_id):
 		return
 		
 	# Check if affinity crosses threshold
-	if affinity >= thresholds[current_level]:
+	if affinity >= thresholds[int(current_level)]:
 		var new_level = current_level + 1
 		update_relationship_level(character_id, new_level)
 		

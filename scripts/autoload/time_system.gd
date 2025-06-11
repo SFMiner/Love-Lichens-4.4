@@ -31,16 +31,15 @@ var time_scale: float = 1.0      # multiplier for speeding up/slowing down time
 # Internal tracking
 var time_accumulator: float = 0.0
 const scr_debug : bool = false
-var debug: bool = false
+var debug
 
 func _ready() -> void:
 	debug = scr_debug or GameController.sys_debug 
 
-	if debug:
-		print(GameState.script_name_tag(self) + "TimeSystem initialized on " + get_formatted_date())
+	if debug: print(GameState.script_name_tag(self) + "TimeSystem initialized on " + get_formatted_date())
 
 	var result = format_game_time("mm/dd - h:nn", "-3h -20n")
-	print("""format_game_time("mm/dd - h:nn", "-3h -20n") = """ + result)
+	if debug: print(GameState.script_name_tag(self) + """format_game_time("mm/dd - h:nn", "-3h -20n") = """ + result)
 
 func _process(delta: float) -> void:
 	time_accumulator += delta * time_scale
@@ -53,7 +52,7 @@ func advance_time_of_day() -> void:
 	var old = current_time_of_day
 	current_time_of_day = (current_time_of_day + 1) % 4
 	if debug:
-		print(GameState.script_name_tag(self) + "Time of day: %s → %s" %
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Time of day: %s → %s" %
 			[_get_time_name(old), _get_time_name(current_time_of_day)])
 	emit_signal("time_of_day_changed", old, current_time_of_day)
 
@@ -65,7 +64,7 @@ func advance_day() -> void:
 	var old_day = current_day
 	current_day += 1
 	if debug:
-		print(GameState.script_name_tag(self) + "Day: %d → %d" % [old_day, current_day])
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Day: %d → %d" % [old_day, current_day])
 	emit_signal("day_changed", old_day, current_day)
 
 	var dim = _days_in_month(current_year, current_month)
@@ -86,7 +85,7 @@ func _rollover_month() -> void:
 	if current_month > 12:
 		_rollover_year()
 	if debug:
-		print(GameState.script_name_tag(self) + "Month: %s → %s" %
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Month: %s → %s" %
 			[month_names[old_mon - 1], month_names[current_month - 1]])
 	emit_signal("month_changed", old_mon, current_month)
 
@@ -94,7 +93,7 @@ func _rollover_year() -> void:
 	var old_year = current_year
 	current_year += 1
 	if debug:
-		print(GameState.script_name_tag(self) + "Year: %d → %d" % [old_year, current_year])
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Year: %d → %d" % [old_year, current_year])
 	emit_signal("year_changed", old_year, current_year)
 
 func _days_in_month(year: int, month: int) -> int:
@@ -184,25 +183,25 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 		regex.compile("^([+-]?)(\\d+)([hdnmy])$")
 
 		var offset_tokens := offset_string.strip_edges().split(" ")
-		print ("offset_tokens = " + str(offset_tokens))
+		if debug: print(GameState.script_name_tag(self) + "offset_tokens = " + str(offset_tokens))
 		for token in offset_tokens:
 			if token == "":
-				print ("tonken == '': continuing")
+				if debug: print(GameState.script_name_tag(self) + "tonken == '': continuing")
 				continue
 			var result := regex.search(token)
 			
 			if result:
 
-				print ("result.get_string(1) = " + result.get_string(1))
-				print ("result.get_string(2) = " + result.get_string(2))
-				print ("result.get_string(3) = " + result.get_string(3))
+				if debug: print(GameState.script_name_tag(self) + "result.get_string(1) = " + result.get_string(1))
+				if debug: print(GameState.script_name_tag(self) + "result.get_string(2) = " + result.get_string(2))
+				if debug: print(GameState.script_name_tag(self) + "result.get_string(3) = " + result.get_string(3))
 				
 				var sign := -1 if result.get_string(1) == "-" else 1
 				sign
 				var value := int(result.get_string(2)) * sign
-				print("value = " + str(value))
+				if debug: print(GameState.script_name_tag(self) + "value = " + str(value))
 				var unit := result.get_string(3)
-				print("unit = " + unit)
+				if debug: print(GameState.script_name_tag(self) + "unit = " + unit)
 				
 				match unit:
 					"n":
@@ -215,27 +214,27 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 						total_minutes += value * 30 * 24 * 60
 					"y":
 						total_minutes += value * 12 * 30 * 24 * 60
-				print("total_minutes based on result: " + str(total_minutes))
+				if debug: print(GameState.script_name_tag(self) + "total_minutes based on result: " + str(total_minutes))
 			else:
 				push_warning("Unrecognized time offset token: %s" % token)
 	else:
-		print("Formatting current date.")
+		if debug: print(GameState.script_name_tag(self) + "Formatting current date.")
 
 	# 3. Convert total minutes back to Y/M/D/h/m
 	var minutes := int(total_minutes) % 60
-	print("minutes = " + str(minutes))
+	if debug: print(GameState.script_name_tag(self) + "minutes = " + str(minutes))
 	var hours := int(total_minutes / 60) % 24
-	print("hours = " + str(hours))
+	if debug: print(GameState.script_name_tag(self) + "hours = " + str(hours))
 	var days_total := int(total_minutes / (24 * 60))
-	print("days_total = " + str(days_total))
+	if debug: print(GameState.script_name_tag(self) + "days_total = " + str(days_total))
 	var day := (days_total % 30) + 1
-	print("day = " + str(day))
+	if debug: print(GameState.script_name_tag(self) + "day = " + str(day))
 	var months_total := int(days_total / 30)
-	print("months_total = " + str(months_total))
+	if debug: print(GameState.script_name_tag(self) + "months_total = " + str(months_total))
 	var month := (months_total % 12) + 1
-	print("month = " + str(month))
+	if debug: print(GameState.script_name_tag(self) + "month = " + str(month))
 	var year := int(months_total / 12)
-	print("year = " + str(year))
+	if debug: print(GameState.script_name_tag(self) + "year = " + str(year))
 
 # "Mmm dd, 'yy - hh:mm"
 
@@ -246,8 +245,8 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 	var month_name: String = month_names[month - 1]
 	var month_abbr: String = month_name.substr(0, 3)
 
-	print("str(month) " + str(month))
-	print("str(month).pad_zeros(2) " + str(month).pad_zeros(2))
+	if debug: print(GameState.script_name_tag(self) + "str(month) " + str(month))
+	if debug: print(GameState.script_name_tag(self) + "str(month).pad_zeros(2) " + str(month).pad_zeros(2))
 	
 	# 4. Replace formatting tokens
 	var replacements := {
@@ -274,7 +273,7 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 		"nn": str(minutes).pad_zeros(2),
 		"n": str(minutes),
 	}
-	print("format_string = Mmm dd, 'yy - hh:mm, -1d 3h 2n")
+	if debug: print(GameState.script_name_tag(self) + "format_string = Mmm dd, 'yy - hh:mm, -1d 3h 2n")
 	
 
 	# Sort by length descending to prioritize longer tokens first
@@ -286,7 +285,7 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 		var regex := RegEx.new()
 		regex.compile("\\b" + key + "\\b")  # Match full token only
 		format_string = regex.sub(format_string, replacements[key])
-		print("   format_string [" + key + "] = " + format_string)
+		if debug: print(GameState.script_name_tag(self) + "   format_string [" + key + "] = " + format_string)
 
 	return format_string
 
@@ -295,7 +294,7 @@ func format_game_time(format_string: String, offset_string: String = "") -> Stri
 func set_time_scale(s: float) -> void:
 	time_scale = max(0.0, s)
 	if debug:
-		print(GameState.script_name_tag(self) + "Time scale set to %f" % time_scale)
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Time scale set to %f" % time_scale)
 
 func get_time_scale() -> float:
 	return time_scale
@@ -303,12 +302,12 @@ func get_time_scale() -> float:
 func pause_time() -> void:
 	time_scale = 0.0
 	if debug:
-		print(GameState.script_name_tag(self) + "Time paused")
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Time paused")
 
 func resume_time() -> void:
 	time_scale = 1.0
 	if debug:
-		print(GameState.script_name_tag(self) + "Time resumed")
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Time resumed")
 
 # Save/load
 func save_data() -> Dictionary:
@@ -332,4 +331,4 @@ func load_data(data: Dictionary) -> void:
 	if data.has("accumulator"):
 		time_accumulator = data.accumulator
 	if debug:
-		print(GameState.script_name_tag(self) + "Loaded time: " + get_formatted_date())
+		if debug: print(GameState.script_name_tag(self) + GameState.script_name_tag(self) + "Loaded time: " + get_formatted_date())

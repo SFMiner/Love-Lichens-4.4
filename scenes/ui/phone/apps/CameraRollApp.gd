@@ -15,7 +15,7 @@ const THUMB_SIZE: int = 80
 var all_images: Dictionary = {}
 var filtered_images: Array = []
 
-const scr_debug := true
+const scr_debug := false
 var debug := false
 
 func _ready():

@@ -56,7 +56,7 @@ func _ready() -> void:
 				# Ensure the callable is correctly formed for binding arguments
 				button.pressed.connect(Callable(self, "_on_app_button_pressed").bind(app_scene_path))
 			else:
-				print("Warning: No scene path defined for button: ", button_name)
+				if debug: print(GameState.script_name_tag(self) + "Warning: No scene path defined for button: ", button_name)
 				
 	# Connect back button signal
 	back_button.pressed.connect(Callable(self, "_on_back_button_pressed"))
@@ -73,7 +73,7 @@ func _on_app_button_pressed(app_scene_path: String):
 		var app_instance = app_scene_res.instantiate()
 		app_panel.add_child(app_instance)
 	else:
-		print("Error: Could not load app scene: ", app_scene_path)
+		if debug: print(GameState.script_name_tag(self) + "Error: Could not load app scene: ", app_scene_path)
 		return # Don't change visibility if scene loading failed
 
 	# Visibility changes
@@ -102,7 +102,7 @@ func _on_back_button_pressed():
 func _on_app_panel_resized() -> void:
 	app_panel = $PhoneCase/PhoneScreen/PhoneShell/VBoxContainer/AppPanel
 
-	print("AppPanel.size = ", str(app_panel.size))   # Replace with function body.
+	if debug: print(GameState.script_name_tag(self) + "AppPanel.size = ", str(app_panel.size))   # Replace with function body.
 	
 # Save/Load System Integration for Phone Apps
 func get_save_data_original():
@@ -184,12 +184,12 @@ func get_save_data_original():
 	}
 	
 	# Print debug info
-	print("PhoneScene: Collected phone app data")
+	if debug: print(GameState.script_name_tag(self) + "PhoneScene: Collected phone app data")
 	return save_data
 
 func load_save_data_original(data):
 	if typeof(data) != TYPE_DICTIONARY:
-		print("PhoneScene: ERROR: Invalid data type for phone apps load")
+		if debug: print(GameState.script_name_tag(self) + "PhoneScene: ERROR: Invalid data type for phone apps load")
 		return false
 	
 	# Restore Discord App
@@ -264,7 +264,7 @@ func load_save_data_original(data):
 		if ui_data.has("app_settings"):
 			app_settings = ui_data.app_settings
 	
-	print("PhoneScene: Phone apps restoration complete")
+	if debug: print(GameState.script_name_tag(self) + "PhoneScene: Phone apps restoration complete")
 	return true
 
 func reset():
@@ -277,11 +277,11 @@ func reset():
 	
 func load_save_data(data : Dictionary):
 	if typeof(data) != TYPE_DICTIONARY:
-		print("PhoneScene: ERROR: Invalid data type for phone apps load")
+		if debug: print(GameState.script_name_tag(self) + "PhoneScene: ERROR: Invalid data type for phone apps load")
 		return false
 	GameState.phone_apps = data
 	# Restore Discord App
-	print("saved phone data for reload = ", str(data))
+	if debug: print(GameState.script_name_tag(self) + "saved phone data for reload = ", str(data))
 	if data.has("phone_apps") and data.phone_apps.has("discord"):
 		var discord_app = get_node_or_null("DiscordApp")
 		if discord_app and discord_app.has_method("load_save_data"):
@@ -356,7 +356,7 @@ func load_save_data(data : Dictionary):
 		if ui_data.has("app_settings"):
 			app_settings = ui_data.app_settings
 	
-	print("PhoneScene: Phone apps restoration complete")
+	if debug: print(GameState.script_name_tag(self) + "PhoneScene: Phone apps restoration complete")
 	return true
 
 

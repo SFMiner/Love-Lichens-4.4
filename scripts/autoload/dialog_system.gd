@@ -11,7 +11,7 @@ signal memory_dialogue_added(character_id, dialogue_title)
 signal memory_dialogue_selected(character_id, dialogue_title, memory_tag)
 
 
-const scr_debug :bool = false
+const scr_debug :bool = true
 var debug
 
 # Dictionary to track which dialogs have been seen
@@ -23,6 +23,8 @@ var balloon_scene
 var memory_system = null
 var game_state
 
+# Add this to dialog_system.gd - replace the existing _ready() function
+
 func _ready():
 	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug
@@ -30,12 +32,12 @@ func _ready():
 	game_state = GameState
 	memory_system = MemorySystem
 	if debug: print(GameState.script_name_tag(self, _fname) + "Memory system reference obtained: ", memory_system != null)
+	
 	# Load our custom balloon scene
 	if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/encounter_dialogue_balloon.tscn")
 		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded enhanced dialogue balloon scene")
 	elif ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
-	#if ResourceLoader.exists("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn"):
 		balloon_scene = load("res://scenes/ui/dialogue_balloon/dialogue_balloon.tscn")
 		if debug: print(GameState.script_name_tag(self, _fname) + "Loaded custom dialogue balloon scene")
 	else:
@@ -54,18 +56,102 @@ func _ready():
 			add_child(extension)
 			if debug: print(GameState.script_name_tag(self, _fname) + "Added DialogMemoryExtension")
 
-	# Connect to DialogueManager signals
+	# SIMPLIFIED: Just try to connect to DialogueManager signals
 	if Engine.has_singleton("DialogueManager"):
 		var dialogue_manager = Engine.get_singleton("DialogueManager")
-		dialogue_manager.dialogue_started.connect(_on_dialogue_started)
-		dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
+		if dialogue_manager.has_signal("dialogue_started"):
+			dialogue_manager.dialogue_started.connect(_on_dialogue_started)
+		if dialogue_manager.has_signal("dialogue_ended"):
+			dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
 		if debug: print(GameState.script_name_tag(self, _fname) + "Connected to DialogueManager signals")
 	else:
 		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: DialogueManager singleton not found!")
 	
+	# Start a continuous monitoring process for dialogue end detection
+	_start_continuous_dialogue_monitoring()
+	
 	# Get references to other systems
 	await get_tree().process_frame
+
+# NEW: Continuous monitoring for dialogue end detection
+func _start_continuous_dialogue_monitoring():
+	var _fname = "_start_continuous_dialogue_monitoring"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting continuous dialogue monitoring")
 	
+	# Create a timer that runs continuously
+	var monitor_timer = Timer.new()
+	monitor_timer.name = "DialogueMonitorTimer"
+	monitor_timer.wait_time = 0.2  # Check every 200ms
+	monitor_timer.timeout.connect(_monitor_dialogue_state)
+	monitor_timer.autostart = true
+	add_child(monitor_timer)
+
+# NEW: Monitor dialogue state continuously
+func _monitor_dialogue_state():
+	var _fname = "_monitor_dialogue_state"
+	
+	# Only monitor if we think dialogue is active
+	if current_character_id == "":
+		return
+	
+	# Check if there are any dialogue balloons still active
+	var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
+	
+	# If no balloons and we have a current character, dialogue has ended
+	if balloons.size() == 0:
+		if debug: print(GameState.script_name_tag(self, _fname) + "=== DIALOGUE END DETECTED VIA MONITORING ===")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager ended dialogue")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Current character ID: '", current_character_id, "'")
+		
+		var ended_character_id = current_character_id
+		
+		# Emit the signal BEFORE clearing current_character_id
+		if debug: print(GameState.script_name_tag(self, _fname) + "Emitting dialog_ended signal with character: '", current_character_id, "'")
+		dialog_ended.emit(current_character_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended with " + current_character_id)
+		
+		# Clear the current character ID AFTER emitting the signal
+		current_character_id = ""
+		
+		# Make sure to properly "release" the dialogue control mode
+		Engine.time_scale = 1.0
+		get_tree().paused = false
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended with character '", ended_character_id, "' - control released")
+		if debug: print(GameState.script_name_tag(self, _fname) + "=== END DIALOGUE END DETECTION ===")
+
+# Keep the original signal handlers in case they work
+func _on_dialogue_started():
+	var _fname = "_on_dialogue_started"
+	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager started dialogue with character: '", current_character_id, "'")
+
+func _on_dialogue_ended():
+	var _fname = "_on_dialogue_ended"
+	if debug: print(GameState.script_name_tag(self, _fname) + "=== ORIGINAL DIALOGUE_ENDED SIGNAL ===")
+	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager ended dialogue")
+	if debug: print(GameState.script_name_tag(self, _fname) + "Current character ID: '", current_character_id, "'")
+	
+	# Get the current balloons and force cleanup if any remain
+	var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
+	if balloons.size() > 0:
+		if debug: print(GameState.script_name_tag(self, _fname) + "Found " + str(balloons.size()) + " dialogue balloons to force cleanup")
+		for balloon in balloons:
+			if balloon.has_method("queue_free"):
+				balloon.queue_free()
+	
+	# Emit the signal with the character ID
+	if debug: print(GameState.script_name_tag(self, _fname) + "Emitting dialog_ended signal with character: '", current_character_id, "'")
+	dialog_ended.emit(current_character_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended with " + current_character_id)
+	
+	# Clear the current character ID AFTER emitting the signal
+	var ended_character_id = current_character_id
+	current_character_id = ""
+	
+	# Make sure to properly "release" the dialogue control mode
+	Engine.time_scale = 1.0
+	get_tree().paused = false
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended with character '", ended_character_id, "' - control released")
+	if debug: print(GameState.script_name_tag(self, _fname) + "=== END ORIGINAL DIALOGUE_ENDED SIGNAL ===")
 
 #SIMPLIFIED: Memory-based dialogue functions using registry
 func unlock_memory(tag: String) -> void:
@@ -279,13 +365,55 @@ func preload_dialogue(character_id):
 		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find dialogue file: ", file_path)
 		return false
 
-# Pass custom signals from DialogueManager to our own signals
-func _on_dialogue_started():
-	var _fname = "_on_dialogue_started"
-	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager started dialogue")
-	# We've already emitted our own signal at this point
+# NEW: Workaround to detect when dialogue ends
+func _start_dialogue_end_detection():
+	var _fname = "_start_dialogue_end_detection"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting dialogue end detection")
+	
+	# Create a timer to check for dialogue end
+	var timer = Timer.new()
+	timer.wait_time = 0.1  # Check every 100ms
+	timer.timeout.connect(_check_dialogue_ended)
+	add_child(timer)
+	timer.start()
 
-func _on_dialogue_ended():
+# NEW: Check if dialogue has ended by looking for dialogue balloons
+func _check_dialogue_ended():
+	var _fname = "_check_dialogue_ended"
+	
+	# Only check if we think dialogue is active
+	if current_character_id == "":
+		return
+	
+	# Check if there are any dialogue balloons still active
+	var balloons = get_tree().get_nodes_in_group("dialogue_balloon")
+	
+	if balloons.size() == 0:
+		# No balloons found - dialogue has ended
+		if debug: print(GameState.script_name_tag(self, _fname) + "=== DIALOGUE END DETECTED (No balloons found) ===")
+		if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager ended dialogue")
+		
+		# Clean up the timer
+		var timers = get_children().filter(func(child): return child is Timer)
+		for timer in timers:
+			timer.queue_free()
+		
+		# Emit our signal manually
+		if debug: print(GameState.script_name_tag(self, _fname) + "Emitting dialog_ended signal with character: '", current_character_id, "'")
+		dialog_ended.emit(current_character_id)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialog ended with " + current_character_id)
+		
+		# Clear the current character ID
+		current_character_id = ""
+		
+		# Make sure to properly "release" the dialogue control mode
+		Engine.time_scale = 1.0
+		get_tree().paused = false
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialog control released")
+		if debug: print(GameState.script_name_tag(self, _fname) + "=== END DIALOGUE END DETECTION ===")
+		
+
+func _on_dialogue_ended_original():
 	var _fname = "_on_dialogue_ended"
 	if debug: print(GameState.script_name_tag(self, _fname) + "DialogueManager ended dialogue")
 	
@@ -298,6 +426,9 @@ func _on_dialogue_ended():
 				balloon.queue_free()
 	
 	dialog_ended.emit(current_character_id)
+	if debug: 
+		print(GameState.script_name_tag(self, _fname) + "Dialog ended with " + current_character_id)
+	
 	# Clear the current character ID to indicate dialogue is no longer active
 	current_character_id = ""
 	

@@ -23,6 +23,8 @@ var last_save_time = 0
 var interaction_range = 0
 var has_phone = false
 var player : CharacterBody2D = null
+var tracker_id : int = 0
+
 @onready var phone = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
 @onready var camera_app = load(PHONE_APP_SCRIPT_PATHS["camera_roll"])
 var tags: Dictionary = {}
@@ -1251,26 +1253,26 @@ func debug_memory_definitions():
 	if not debug:
 		return
 	
-	print("\n" + script_name_tag(self, _fname) + "=== MEMORY DEFINITIONS DEBUG ===")
-	print(script_name_tag(self, _fname) + "Total memory definitions: ", memory_definitions.size())
+	if debug: print("\n" + script_name_tag(self, _fname) + "=== MEMORY DEFINITIONS DEBUG ===")
+	if debug: print(script_name_tag(self, _fname) + "Total memory definitions: ", memory_definitions.size())
 	
 	for memory_id in memory_definitions:
 		var memory = memory_definitions[memory_id]
-		print(script_name_tag(self, _fname) + "Memory ID: ", memory_id)
-		print(script_name_tag(self, _fname) + "  Type: ", typeof(memory))
+		if debug: print(script_name_tag(self, _fname) + "Memory ID: ", memory_id)
+		if debug: print(script_name_tag(self, _fname) + "  Type: ", typeof(memory))
 		if typeof(memory) == TYPE_DICTIONARY:
-			print(script_name_tag(self, _fname) + "  Keys: ", memory.keys())
-			print(script_name_tag(self, _fname) + "  Trigger type: ", memory.get("trigger_type", "MISSING"))
-			print(script_name_tag(self, _fname) + "  Target ID: ", memory.get("target_id", "MISSING"))
+			if debug: print(script_name_tag(self, _fname) + "  Keys: ", memory.keys())
+			if debug: print(script_name_tag(self, _fname) + "  Trigger type: ", memory.get("trigger_type", "MISSING"))
+			if debug: print(script_name_tag(self, _fname) + "  Target ID: ", memory.get("target_id", "MISSING"))
 		else:
 			print(script_name_tag(self, _fname) + "  Value: ", memory)
 		print(script_name_tag(self, _fname) + "---")
 	
-	print(script_name_tag(self, _fname) + "Memories by trigger:")
+	if debug: print(script_name_tag(self, _fname) + "Memories by trigger:")
 	for trigger_type in memories_by_trigger:
-		print(script_name_tag(self, _fname) + "  Type ", trigger_type, ": ", memories_by_trigger[trigger_type].size(), " targets")
+		if debug: print(script_name_tag(self, _fname) + "  Type ", trigger_type, ": ", memories_by_trigger[trigger_type].size(), " targets")
 	
-	print(script_name_tag(self, _fname) + "===============================\n")
+	if debug: print(script_name_tag(self, _fname) + "===============================\n")
 	
 func script_name(node):
 	var path_string = str(node.get_script().get_path())
@@ -1280,9 +1282,12 @@ func script_name(node):
 	#return(path_string.right(path_string.length() - 14))
 
 func script_name_tag(node, function_name = null):
+	var _fname = "script_name_tag"
 	var this_tag : String
+	var tracker_str = "%04d" % tracker_id
 	if function_name:
-		this_tag = script_name(node) + "." + function_name + ": "
+		this_tag = tracker_str + ". " + script_name(node) + "." + function_name + ": "
 	else:
-		this_tag = script_name(node) + ": "
+		this_tag = tracker_str + ". " + script_name(node) + ": "
+	tracker_id += 1
 	return this_tag

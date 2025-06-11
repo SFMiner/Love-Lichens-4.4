@@ -6,7 +6,7 @@ signal quest_updated(quest_id)
 signal quest_completed(quest_id)
 signal objective_updated(quest_id, objective_index, progress, required)
 
-const scr_debug : bool = false
+const scr_debug : bool = true
 var debug
 
 var visited_areas = {}
@@ -52,6 +52,58 @@ func _ready():
 	# Connect signals from other systems
 	_connect_signals()
 	
+	call_deferred("debug_quest_state")
+	
+	
+func debug_quest_state():
+	var _fname = "debug_quest_state"
+	if not debug:
+		return
+		
+	print("\n" + GameState.script_name_tag(self, _fname) + "=== QUEST SYSTEM DEBUG STATE ===")
+	print(GameState.script_name_tag(self, _fname) + "Active quests: ", active_quests.size())
+	print(GameState.script_name_tag(self, _fname) + "Available quests: ", available_quests.size())
+	print(GameState.script_name_tag(self, _fname) + "Completed quests: ", completed_quests.size())
+	print(GameState.script_name_tag(self, _fname) + "Quest templates loaded: ", quest_templates.size())
+	
+	# Check intro quest specifically
+	if active_quests.has("intro_quest"):
+		var intro_quest = active_quests["intro_quest"]
+		print(GameState.script_name_tag(self, _fname) + "INTRO QUEST FOUND:")
+		print(GameState.script_name_tag(self, _fname) + "  Title: ", intro_quest.get("title", "N/A"))
+		print(GameState.script_name_tag(self, _fname) + "  Completed: ", intro_quest.get("completed", false))
+		
+		if intro_quest.has("objectives"):
+			print(GameState.script_name_tag(self, _fname) + "  Objectives: ", intro_quest.objectives.size())
+			for i in range(intro_quest.objectives.size()):
+				var obj = intro_quest.objectives[i]
+				print(GameState.script_name_tag(self, _fname) + "    [", i, "] Type: ", obj.type, ", Target: '", obj.target, "', Completed: ", obj.completed)
+				if obj.type == "explore":
+					print(GameState.script_name_tag(self, _fname) + "        Progress: ", obj.get("progress", 0), "/", obj.get("required", 1))
+	else:
+		print(GameState.script_name_tag(self, _fname) + "INTRO QUEST NOT FOUND in active quests")
+		
+		# Check if it's in available or completed
+		if available_quests.has("intro_quest"):
+			print(GameState.script_name_tag(self, _fname) + "INTRO QUEST found in available quests")
+		elif completed_quests.has("intro_quest"):
+			print(GameState.script_name_tag(self, _fname) + "INTRO QUEST found in completed quests")
+		elif quest_templates.has("intro_quest"):
+			print(GameState.script_name_tag(self, _fname) + "INTRO QUEST found in templates but not active")
+		else:
+			print(GameState.script_name_tag(self, _fname) + "INTRO QUEST not found anywhere!")
+	
+	# Check system connections
+	print(GameState.script_name_tag(self, _fname) + "System connections:")
+	print(GameState.script_name_tag(self, _fname) + "  inventory_system: ", inventory_system != null)
+	print(GameState.script_name_tag(self, _fname) + "  dialog_system: ", dialog_system != null)
+	
+	if dialog_system:
+		print(GameState.script_name_tag(self, _fname) + "  dialog_system.dialog_ended connected: ", dialog_system.dialog_ended.is_connected(_on_dialog_ended))
+	
+	print(GameState.script_name_tag(self, _fname) + "================================\n")
+
+
 # ENHANCED: Check quest completion with memory validation
 func check_quest_completion(quest_id):
 	"""Check quest completion with registry-based memory validation"""

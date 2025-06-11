@@ -12,12 +12,19 @@ var editing_key: String = ""
 var all_entries: Array = []
 var editing_entry = false
 
+
+const scr_debug := false
+var debug := false
+
+
+
 func _ready() -> void:
+	debug = scr_debug or GameController.sys_debug
 	new_entry_button.pressed.connect(Callable(self, "_on_new_entry_pressed"))
 	save_button.pressed.connect(Callable(self, "_on_save_pressed"))
 	cancel_button.pressed.connect(Callable(self, "_on_cancel_pressed"))
 	_refresh_list()
-	print()
+	if debug: print(GameState.script_name_tag(self))
 
 func _on_new_entry_pressed() -> void:
 	editing_entry = false 
@@ -43,7 +50,7 @@ func _on_save_pressed() -> void:
 	var title = lines[0]
 
 	# 2) Body = all remaining lines
-#	print("lines class name: ", lines.get_class())  # should be PackedStringArray
+#	if debug: print(GameState.script_name_tag(self) + "lines class name: ", lines.get_class())  # should be PackedStringArray
 #	var body = lines.slice(1).join("\n") if lines.size() > 1 else ""
 	var body = "\n".join(lines.slice(1)) if lines.size() > 1 else ""
 	# 3) Parse #tags via regex
@@ -85,7 +92,7 @@ static func add_packed_entry(entry_string: String) -> void:
 	# parse entry_string into dictionary:
 	var new_entry : Dictionary = parse_entry(entry_string)
 	# Check entry
-	print("new_entry = " + str(new_entry))
+	print("JournalApp.gd.add_packed_entry" + "new_entry = " + str(new_entry))
 	# add to GameState.phone_apps["journal_app_entries"]
 	GameState.phone_apps["journal_app_entries"].append(new_entry)
 #	print (GameState.phone_apps["journal_app_entries"])
@@ -97,7 +104,7 @@ func add_entry(title: String, date: String, tags: Array, body: String) -> void:
 		"tags": tags,
 		"body": body
 	} 
-	print("new_entry = " + str(new_entry))
+	if debug: print(GameState.script_name_tag(self) + "new_entry = " + str(new_entry))
 	if editing_entry == true:
 		var found : bool = false
 		for entry_position in all_entries.size():
@@ -105,9 +112,9 @@ func add_entry(title: String, date: String, tags: Array, body: String) -> void:
 				found = true	
 				all_entries.remove_at(entry_position)
 				all_entries.insert(entry_position, new_entry)
-				print("Found! " + str(all_entries[entry_position]))
+				if debug: print(GameState.script_name_tag(self) + "Found! " + str(all_entries[entry_position]))
 			else:
-				print("Not found. " + str(all_entries[entry_position]))
+				if debug: print(GameState.script_name_tag(self) + "Not found. " + str(all_entries[entry_position]))
 		if ! found:
 			all_entries.append(new_entry)
 	else: 
@@ -122,7 +129,7 @@ func _refresh_list() -> void:
 	var saved_entries = GameState.phone_apps["journal_app_entries"]
 	all_entries = saved_entries
 	for idx in saved_entries.size():
-		print("all_entries[idx] = " + str(saved_entries[idx]))
+		if debug: print(GameState.script_name_tag(self) + "all_entries[idx] = " + str(saved_entries[idx]))
 		var e = saved_entries[idx]
 		var b = Button.new()
 		b.text = "%s — %s" % [e["date"], e["title"]]
@@ -141,7 +148,7 @@ func _refresh_list_original() -> void:
 		c.queue_free()
 
 	for idx in all_entries.size():
-		print("all_entries[idx] = " + str(all_entries[idx]))
+		if debug: print(GameState.script_name_tag(self) + "all_entries[idx] = " + str(all_entries[idx]))
 		var e = all_entries[idx]
 		var b = Button.new()
 		b.text = "%s — %s" % [e["date"], e["title"]]
