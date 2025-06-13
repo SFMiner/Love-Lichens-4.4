@@ -1,0 +1,26 @@
+{
+	"campus_intro": {
+		"description": "Introduction to the campus quad area",
+		"dialog_file": "campus_intro_dialogue",
+		"location": "campus_quad",
+		"scene_path": "res://scenes/cutscenes/campus_intro_cutscene.tscn",
+		"triggers": [
+			"first_visit_campus"
+		],
+		"unlocks": [
+			"campus_explored"
+		]
+	},
+	"lab_meeting": {
+		"description": "Meeting with the research team",
+		"dialog_file": "lab_meeting_dialogue",
+		"location": "research_lab",
+		"scene_path": "res://scenes/cutscenes/lab_meeting_cutscene.tscn",
+		"triggers": [
+			"research_started"
+		],
+		"unlocks": [
+			"met_research_team"
+		]
+	}
+}

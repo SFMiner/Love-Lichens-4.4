@@ -10,7 +10,8 @@ const DMSettings = preload("./settings.gd")
 const DMCompiler = preload("./compiler/compiler.gd")
 const DMCompilerResult = preload("./compiler/compiler_result.gd")
 const DMResolvedLineData = preload("./compiler/resolved_line_data.gd")
-
+const scr_debug : bool = true
+var debug
 
 ## Emitted when a dialogue balloon is created and dialogue starts
 signal dialogue_started(resource: DialogueResource)
@@ -67,6 +68,8 @@ var _dotnet_dialogue_manager: RefCounted
 
 
 func _ready() -> void:
+	var _fname = "_ready"
+	debug = scr_debug or GameController.sys_debug
 	# Cache the known Node2D properties
 	_node_properties = ["Script Variables"]
 	var temp_node: Node2D = Node2D.new()
@@ -82,6 +85,8 @@ func _ready() -> void:
 ## Step through lines and run any mutations until we either hit some dialogue or the end of the conversation
 func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_game_states: Array = [], mutation_behaviour: DMConstants.MutationBehaviour = DMConstants.MutationBehaviour.Wait) -> DialogueLine:
 	# You have to provide a valid dialogue resource
+	var _fname : String = "get_next_dialogue_line"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue_resource: ", str(resource))
 	if resource == null:
 		assert(false, DMConstants.translate(&"runtime.no_resource"))
 	if resource.lines.size() == 0:
@@ -129,8 +134,11 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 
 ## Get a line by its ID
 func get_line(resource: DialogueResource, key: String, extra_game_states: Array) -> DialogueLine:
-	key = key.strip_edges()
+	var _fname : String = "get_line"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue_resource: ", str(resource))
 
+	key = key.strip_edges()
+	
 	# See if we were given a stack instead of just the one key
 	var stack: Array = key.split("|")
 	key = stack.pop_front()
@@ -160,6 +168,8 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 
 	if key in resource.titles.values():
 		passed_title.emit(resource.titles.find_key(key))
+
+
 
 	if not resource.lines.has(key):
 		assert(false, DMConstants.translate(&"errors.key_not_found").format({ key = key }))

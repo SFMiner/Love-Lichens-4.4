@@ -4,6 +4,7 @@
 	"description": "Sharp and emotionally guarded. Hard to get close to, but not unfriendly.",
 	"portrait_path": "res://assets/characters/li_portrait.png",
 	"dialogue_file": "res://data/dialogues/li.dialogue",
+	"character_scale": 2.537,
 	"initial_dialogue_title": "start",
 	"personality_traits": ["private", "witty", "distant", "perceptive"],
 	"interests": ["comics", "dark humor", "personal autonomy"],

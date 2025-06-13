@@ -1,13 +1,24 @@
 # poison.dialogue
-~ tages
+~ tags
 	"poison_necklace_seen" - have seen Poison's necklace
 	"poison_necklace_shared" - Poison explained necklace
 	"poison_peepaw_known" - Poison said who PeePaw is
 	"poison_peepaw_memory_stirred" - Poison has recalled the PeePaw story
 	"poison_peepaw_story_shared" - Poison has told the PeePaw story
 
-~ start
 
+~ start
+if not GameState.has_tag("met_poison")
+	=> player_introduction
+	do GameState.set_tag("met_poison")
+if GameState.has_tag("met_poison")
+	=> start_talking
+
+~ player_introduction
+The stranger looks up.
+Poison: Oh. Hey. Are you... Adam?
+
+~ start_talking
 Poison: [#wry] What's up?
 - Adam: How's it going?
 	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. 

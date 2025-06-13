@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://bdmcytf16gdh6"]
+[gd_scene load_steps=44 format=4 uid="uid://bdmcytf16gdh6"]
 
 [ext_resource type="Script" uid="uid://gq7aml27ux5u" path="res://scripts/world/campus_quad.gd" id="1_hybx1"]
 [ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="2_hybx1"]
@@ -33,8 +33,6 @@
 [ext_resource type="Texture2D" uid="uid://bt5vpfrq7k6gm" path="res://assets/images/items/nature/low_Bush010b.png" id="31_bm7ek"]
 [ext_resource type="Texture2D" uid="uid://cbhymf4el3mu6" path="res://assets/images/items/nature/low_bush02-b.png" id="32_mv20j"]
 [ext_resource type="Texture2D" uid="uid://bk01al72pqwtj" path="res://assets/images/items/nature/low_Bush..png" id="33_sapw3"]
-[ext_resource type="PackedScene" uid="uid://cwnw4x1ocl0ro" path="res://scenes/world/movement_marker.tscn" id="36_bm7ek"]
-[ext_resource type="Script" uid="uid://bkjrc6uvayktp" path="res://scripts/world/interaction_agent.gd" id="36_t30kj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_t30kj"]
 vertices = PackedVector2Array(2231.01, 1141.07, 2822.64, 1125.27, 2872.43, 1140.6, 1639.78, 1871.64, 2138.2, 1212.69, 2197.1, 1158.7, 2907, 1126.77, 2907, 1113.23, 3060.01, 24.9375, 3065.98, 3040.1, 1606.71, 1902.27, 2872.93, 1099.6, 2823.38, 1109.76, 2399.07, 1075.92, 2366.49, 1056.67, 2146.31, 1131.44, 2147.82, 1144.8, 2100.94, 1186.44, 2065.03, 1198.87, 775.047, 1185.7, 774.953, 1170.18, 1185.21, 828.508, 1218.85, 834.109, 2103.2, 1226.69, 1633.99, 1838.35, 1457.04, 472.148, 1402.39, 695.438, 1370.2, 708.609, 1192.56, 663.969, 1195.13, 649.539, 1455.1, 456.273, 2137.79, 1198.72, 1523.05, 453.039, 1766.02, 339.391, 1522.95, 467.094, 1437.97, 720.641, 1438.03, 705.422, 1497.22, 476.172, 2064.97, 1213.03, 1564.13, 1802.87, 1250.49, 829.797, 1251.47, 813.398, 1406.55, 729.219, 1371.93, 723.68, 2396.62, 1089.6, 2230.99, 1128.9, 2365.91, 1095.18, 1505.15, 1806.14, 1434.29, 1845.51, 746.5, 1193.21, 2331.98, 1088.39, -10.9219, 3073.88, 1524.48, 1918.29, 1439.83, 1892.67, 2330.18, 1074.1, 2189.87, 1107.68, 1767.82, 325.109, 1731.85, 346.227, 1696.9, 338.156, 1218.21, 804.719, 1184.8, 811.977, 1160.17, 668.188, 1131.21, 659.5, 1695.24, 324.203, 1494.05, 442.359, 1163.73, 633.094, 10.9219, 8.04688, 711.359, 1187.59, 710.656, 1171.28, 745, 1162.69, 1130.8, 645.07, 1729.92, 306.859)
@@ -532,8 +530,6 @@ pattern_1 = SubResource("TileMapPattern_163tt")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_48pq8"]
 size = Vector2(389.5, 239)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bm7ek"]
-
 [node name="CampusQuad" type="Node2D"]
 script = ExtResource("1_hybx1")
 
@@ -727,6 +723,10 @@ character_id = "erik"
 character_name = "Erik"
 dialogue_file = "res://data/dialogues/erik.dialogue"
 initial_dialogue_title = "fire_alarm"
+
+[node name="Player" parent="Node2D/z_Objects" instance=ExtResource("2_hybx1")]
+position = Vector2(1169, 1112)
+scale = Vector2(2.53736, 2.53736)
 
 [node name="Kitty" parent="Node2D/z_Objects" instance=ExtResource("7_e0xc3")]
 position = Vector2(1908, 1085)
@@ -1153,52 +1153,6 @@ position = Vector2(397, 3063)
 position = Vector2(243, -190)
 shape = SubResource("RectangleShape2D_48pq8")
 
-[node name="DormEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(2394, 774)
-scale = Vector2(1.66489, 1.66489)
-target_location = "dorm_room"
-target_scene = "uid://cexat8mt4n8pk"
-transition_name = "DoormRoom"
-
-[node name="CampusQuadSpawn" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(1168, 1113)
-
-[node name="CemeteryExitSpawn" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(3015, 113)
-
-[node name="DormExitSpawn" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(2387, 787)
-
-[node name="CemeteryEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(3025, 134)
-
-[node name="LabEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(2575, 1894)
-scale = Vector2(1.66489, 1.66489)
-target_location = "research_lab"
-transition_name = "Research Lab"
-
-[node name="lab_exit" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(2571, 1948)
-scale = Vector2(0.85348, 0.85348)
-
-[node name="LibraryEntrance" parent="Node2D" instance=ExtResource("8_6tb1a")]
-position = Vector2(2439, 2951)
-scale = Vector2(1.66489, 1.66489)
-target_location = "library"
-transition_name = "Library"
-
-[node name="library_exit" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(2436.53, 2999)
-scale = Vector2(0.85348, 0.85348)
-
-[node name="forest_exit" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
-position = Vector2(42, 3032)
-scale = Vector2(0.85348, 0.85348)
-
-[node name="ForestEntrance2" parent="Node2D" instance=ExtResource("9_75lav")]
-position = Vector2(43, 3008)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="Node2D"]
 visible = false
 
@@ -1222,21 +1176,6 @@ position = Vector2(1730, 806)
 script = ExtResource("15_ttvvx")
 spawn_positions = [Vector2(1730, 800), Vector2(1730, 1000)]
 
-[node name="TestCutsceneArea" type="Area2D" parent="Node2D"]
-position = Vector2(1337, 955)
-script = ExtResource("36_t30kj")
-interaction_id = "Cutscene Test"
-dialog_id = "cutscene_test"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/TestCutsceneArea"]
-shape = SubResource("CircleShape2D_bm7ek")
-
-[node name="center_marker" parent="Node2D" instance=ExtResource("36_bm7ek")]
-position = Vector2(1621, 886)
-
-[node name="right_marker" parent="Node2D" instance=ExtResource("36_bm7ek")]
-position = Vector2(1981, 1193)
-
 [node name="BuildingLabels" type="Node2D" parent="Node2D"]
 position = Vector2(388, 1711)
 
@@ -1246,6 +1185,50 @@ offset_top = 3044.0
 offset_right = 3104.0
 offset_bottom = 3084.0
 
-[node name="Player" parent="Node2D" instance=ExtResource("2_hybx1")]
-position = Vector2(1169, 1112)
-scale = Vector2(2.53736, 2.53736)
+[node name="Transitions" type="Node2D" parent="Node2D"]
+
+[node name="DormEntrance" parent="Node2D/Transitions" instance=ExtResource("8_6tb1a")]
+position = Vector2(2394, 774)
+scale = Vector2(1.66489, 1.66489)
+target_location = "dorm_room"
+target_scene = "uid://cexat8mt4n8pk"
+transition_name = "DoormRoom"
+
+[node name="CampusQuadSpawn" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(1168, 1113)
+
+[node name="CemeteryExitSpawn" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(3015, 113)
+
+[node name="DormExitSpawn" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(2387, 787)
+
+[node name="CemeteryEntrance" parent="Node2D/Transitions" instance=ExtResource("8_6tb1a")]
+position = Vector2(3025, 134)
+
+[node name="LabEntrance" parent="Node2D/Transitions" instance=ExtResource("8_6tb1a")]
+position = Vector2(2575, 1894)
+scale = Vector2(1.66489, 1.66489)
+target_location = "research_lab"
+transition_name = "Research Lab"
+
+[node name="lab_exit" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(2571, 1948)
+scale = Vector2(0.85348, 0.85348)
+
+[node name="LibraryEntrance" parent="Node2D/Transitions" instance=ExtResource("8_6tb1a")]
+position = Vector2(2439, 2951)
+scale = Vector2(1.66489, 1.66489)
+target_location = "library"
+transition_name = "Library"
+
+[node name="library_exit" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(2436.53, 2999)
+scale = Vector2(0.85348, 0.85348)
+
+[node name="forest_exit" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
+position = Vector2(42, 3032)
+scale = Vector2(0.85348, 0.85348)
+
+[node name="ForestEntrance2" parent="Node2D/Transitions" instance=ExtResource("9_75lav")]
+position = Vector2(43, 3008)

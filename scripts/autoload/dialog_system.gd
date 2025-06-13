@@ -479,9 +479,9 @@ func make_choice(choice_id):
 	return ""
 
 # Starts a custom dialog from a string
-func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
+func start_custom_dialog(dialog_content: String, title: String = "start"):
 	var _fname = "start_custom_dialog"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Starting custom dialog at ", entry_point)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Starting custom dialog at ", title)
 	
 	# Use the Dialogue Manager to parse and start the dialogue
 	var dialogue_resource = DialogueManager.create_resource_from_text(dialog_content)
@@ -495,7 +495,7 @@ func start_custom_dialog(dialog_content: String, entry_point: String = "start"):
 			var balloon = DialogueManager.show_dialogue_balloon_scene(
 				balloon_scene, 
 				dialogue_resource, 
-				entry_point
+				title
 			)
 			return true
 	

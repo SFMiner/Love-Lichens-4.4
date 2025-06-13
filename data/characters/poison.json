@@ -4,6 +4,7 @@
 	"description": "Wry, sharp-tongued and funny without cruelty. Masks deeper loyalty and tenderness under sarcasm.",
 	"portrait_path": "res://assets/characters/poison_portrait.png",
 	"dialogue_file": "res://data/dialogues/poison.dialogue",
+	"character_scale": 2.537,
 	"initial_dialogue_title": "start",
 	"font_path": "res://assets/fonts/numb_bunny/Numbbunny-L7L5.otf",
 	"font_color": "#74ff33",

@@ -21,7 +21,7 @@ else
 You carefully examine the lichen samples under the microscope. The structures are fascinating! You can see the fungal hyphae and algal cells living together in symbiosis.
 
 The different varieties show unique structural patterns. With these samples, you should have enough data to report back to Professor Moss.
-do QuestSystem.complete_custom_objective("lichen_collection", "microscope")
+do QuestSystem.complete_custom_objective("lichen_research", "microscope")
 => END
 
 ~ need_more_samples

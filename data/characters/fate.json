@@ -4,6 +4,7 @@
 	"description": "Dreamy and intuitive. Emotionally open and deeply in tune with others.",
 	"portrait_path": "res://assets/characters/fate_portrait.png",
 	"dialogue_file": "res://data/dialogues/fate.dialogue",
+	"character_scale": 2.537,
 	"initial_dialogue_title": "start",
 	"personality_traits": ["mystical", "compassionate", "playful", "emotional"],
 	"interests": ["dreams", "memory theory", "spirituality", "cats"],

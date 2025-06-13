@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://cexat8mt4n8pk"]
+[gd_scene load_steps=35 format=4 uid="uid://cexat8mt4n8pk"]
 
 [ext_resource type="Script" uid="uid://b485yhr8p6gf3" path="res://scripts/world/dorm_room.gd" id="1_ny2cb"]
 [ext_resource type="Texture2D" uid="uid://bplwuuq64gf00" path="res://assets/tilesets/1_Room_Builder_Office/Room_Builder_Office_16x16.png" id="4_117n6"]
@@ -10,6 +10,10 @@
 [ext_resource type="Script" uid="uid://d1c5wotact3ml" path="res://scripts/world/lab_cat.gd" id="7_k1mv0"]
 [ext_resource type="Texture2D" uid="uid://bj0diliqrp7dj" path="res://assets/tilesets/chair1.png" id="8_csjam"]
 [ext_resource type="Texture2D" uid="uid://dll52tnfcud6o" path="res://assets/sprites/LabCatSleep_Sheet.png" id="8_p2a5m"]
+[ext_resource type="PackedScene" uid="uid://ctc0ybfp2odgx" path="res://scenes/tools/cutscene.tscn" id="13_csjam"]
+[ext_resource type="PackedScene" uid="uid://div0lg3fnck5k" path="res://scenes/tools/cutscene_marker.tscn" id="14_7jqhf"]
+[ext_resource type="Script" uid="uid://blbbleacawjft" path="res://scripts/tools/cutscene_designer.gd" id="14_vslu6"]
+[ext_resource type="Script" uid="uid://d628e8m7br8c" path="res://scripts/resources/character_data.gd" id="15_07i2o"]
 [ext_resource type="Script" uid="uid://bhfkcl6u6ldi0" path="res://scripts/world/location_transition.gd" id="40_dy7y6"]
 [ext_resource type="PackedScene" uid="uid://bvb20kbggr188" path="res://scenes/player.tscn" id="41_xy0uw"]
 
@@ -529,55 +533,85 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbj4a"]
 radius = 30.0
 
+[sub_resource type="Resource" id="Resource_07i2o"]
+script = ExtResource("15_07i2o")
+character_id = "player"
+character_name = "Player"
+starting_marker = "A0"
+dialogue_file = ""
+initial_dialogue_title = ""
+initial_animation = "idle_up"
+is_player = true
+scene_path = ""
+temporary = false
+
+[sub_resource type="Resource" id="Resource_e88aq"]
+script = ExtResource("15_07i2o")
+character_id = "poison"
+character_name = "Poison"
+starting_marker = "P0"
+dialogue_file = "poison.dialogue"
+initial_dialogue_title = "start"
+initial_animation = "idle_right"
+is_player = false
+scene_path = "res://scenes/npc.tscn"
+temporary = false
+
+[sub_resource type="Resource" id="Resource_wi512"]
+script = ExtResource("15_07i2o")
+character_id = "kitty"
+character_name = "Kitty"
+starting_marker = "K0"
+dialogue_file = "kitty.dialogue"
+initial_dialogue_title = "start"
+initial_animation = "idle_down"
+is_player = false
+scene_path = "res://scenes/npc.tscn"
+temporary = false
+
 [node name="DormRoom" type="Node2D"]
 script = ExtResource("1_ny2cb")
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="ColorRect2" type="ColorRect" parent="Node2D"]
-offset_left = -2.71739
-offset_right = 2123.28
-offset_bottom = 1395.0
-color = Color(0, 0, 0, 1)
-
-[node name="LayerHolder2" type="Node2D" parent="Node2D"]
+[node name="Backgrounds" type="Node2D" parent="Node2D"]
 scale = Vector2(1.63043, 1.63043)
 
-[node name="Walls" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Walls" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.1667, 28.6666)
 tile_map_data = PackedByteArray("AAAEAP//AAANAAUAAAAEAAAAAAANAAYAAAAFAP//AAAOAAUAAAAFAAAAAAAOAAYAAAAGAP//AAAPAAUAAAAGAAAAAAAPAAYAAAAHAP//AAANAAUAAAAHAAAAAAANAAYAAAAIAP//AAAOAAUAAAAIAAAAAAAOAAYAAAAJAP//AAAPAAUAAAAJAAAAAAAPAAYAAAAKAP//AAANAAUAAAAKAAAAAAANAAYAAAALAP//AAAOAAUAAAALAAAAAAAOAAYAAAAMAP//AAAPAAUAAAAMAAAAAAAPAAYAAAANAP//AAANAAUAAAANAAAAAAANAAYAAAAOAP//AAAOAAUAAAAOAAAAAAAOAAYAAAAPAP//AAAPAAUAAAAPAAAAAAAPAAYAAAAQAP//AAANAAUAAAAQAAAAAAANAAYAAAARAP//AAAOAAUAAAARAAAAAAAOAAYAAAASAP//AAAPAAUAAAASAAAAAAAPAAYAAAATAP//AAANAAUAAAATAAAAAAANAAYAAAA=")
 tile_set = SubResource("TileSet_2w1fr")
 
-[node name="Window1" type="Sprite2D" parent="Node2D/LayerHolder2"]
+[node name="Window1" type="Sprite2D" parent="Node2D/Backgrounds"]
 position = Vector2(43.9999, 22.6666)
 scale = Vector2(0.416667, 0.416667)
 texture = ExtResource("5_2w1fr")
 
-[node name="Floor" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Floor" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.0001, 26.8333)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAANAAEAAAATAAgAAAAFAAEAAAATAAgAAAASAAEAAAASAAgAAAAEAAEAAAASAAgAAAAEAAIAAAASAAgAAAAFAAIAAAATAAgAAAAEAAMAAAASAAgAAAAFAAMAAAATAAgAAAAEAAQAAAASAAgAAAAFAAQAAAATAAgAAAAEAAUAAAASAAgAAAAFAAUAAAATAAgAAAAGAAEAAAASAAgAAAAHAAEAAAATAAgAAAAGAAIAAAASAAgAAAAHAAIAAAATAAgAAAAGAAMAAAASAAgAAAAHAAMAAAATAAgAAAAGAAQAAAASAAgAAAAHAAQAAAATAAgAAAAGAAUAAAASAAgAAAAHAAUAAAATAAgAAAAIAAEAAAASAAgAAAAJAAEAAAATAAgAAAAIAAIAAAASAAgAAAAJAAIAAAATAAgAAAAIAAMAAAASAAgAAAAJAAMAAAATAAgAAAAIAAQAAAASAAgAAAAJAAQAAAATAAgAAAAIAAUAAAASAAgAAAAJAAUAAAATAAgAAAAKAAEAAAASAAgAAAALAAEAAAATAAgAAAAKAAIAAAASAAgAAAALAAIAAAATAAgAAAAKAAMAAAASAAgAAAALAAMAAAATAAgAAAAKAAQAAAASAAgAAAALAAQAAAATAAgAAAAKAAUAAAASAAgAAAALAAUAAAATAAgAAAAMAAEAAAASAAgAAAAMAAIAAAASAAgAAAANAAIAAAATAAgAAAAMAAMAAAASAAgAAAANAAMAAAATAAgAAAAMAAQAAAASAAgAAAANAAQAAAATAAgAAAAMAAUAAAASAAgAAAANAAUAAAATAAgAAAAOAAEAAAASAAgAAAAPAAEAAAATAAgAAAAOAAIAAAASAAgAAAAPAAIAAAATAAgAAAAOAAMAAAASAAgAAAAPAAMAAAATAAgAAAAOAAQAAAASAAgAAAAPAAQAAAATAAgAAAAOAAUAAAASAAgAAAAPAAUAAAATAAgAAAAQAAEAAAASAAgAAAARAAEAAAATAAgAAAAQAAIAAAASAAgAAAARAAIAAAATAAgAAAAQAAMAAAASAAgAAAARAAMAAAATAAgAAAAQAAQAAAASAAgAAAARAAQAAAATAAgAAAAQAAUAAAASAAgAAAARAAUAAAATAAgAAAATAAEAAAATAAgAAAASAAIAAAASAAgAAAATAAIAAAATAAgAAAASAAMAAAASAAgAAAATAAMAAAATAAgAAAASAAQAAAASAAgAAAATAAQAAAATAAgAAAASAAUAAAASAAgAAAATAAUAAAATAAgAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furniture" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Furniture" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.0001, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAKAAAAAAASAAMAAAAKAAEAAAASAAQAAAALAAAAAAATAAMAAAALAAEAAAATAAQAAAAMAAAAAAAUAAMAAAAMAAEAAAAUAAQAAAAGAAAAAAAQAAMAAAAGAAEAAAAQAAQAAAAHAAAAAAARAAMAAAAHAAEAAAARAAQAAAAIAAEAAAAFAAAAAAAOAAEAAAARAAAAAAAQAAEAAAARAAAAAAATAAEAAAARAAAAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Furnishings" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.0001, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAHAP//AAATAAkAAAAHAAAAAAATAAoAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings Half_V" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Furnishings Half_V" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.0001, 10.8333)
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAKAAEAAAAFAAYAAAAOAAEAAAAEAAMAAAAFAAEAAAAOAAAAAAAFAAIAAAAOAAEAAAANAAEAAAAOAAAAAAANAAIAAAAOAAEAAAASAAEAAAAOAAAAAAASAAIAAAAOAAEAAAA=")
 tile_set = SubResource("TileSet_vslu6")
 
-[node name="Furnishings Half_H" type="TileMapLayer" parent="Node2D/LayerHolder2"]
+[node name="Furnishings Half_H" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-37.1667, 21.1666)
 scale = Vector2(0.5, 0.5)
 tile_set = SubResource("TileSet_vslu6")
@@ -843,11 +877,13 @@ libraries = {
 &"": SubResource("AnimationLibrary_7mnoe")
 }
 
-[node name="entrance" type="Marker2D" parent="Node2D" groups=["spawn_point"]]
+[node name="Transitions" type="Node2D" parent="Node2D"]
+
+[node name="entrance" type="Marker2D" parent="Node2D/Transitions" groups=["spawn_point"]]
 position = Vector2(158.916, 177.394)
 scale = Vector2(0.239448, 0.239448)
 
-[node name="CampusExitPoint" type="Area2D" parent="Node2D" groups=["interactable"]]
+[node name="CampusExitPoint" type="Area2D" parent="Node2D/Transitions" groups=["interactable"]]
 position = Vector2(159.188, 176.851)
 scale = Vector2(0.271739, 0.271739)
 collision_layer = 2
@@ -856,11 +892,11 @@ target_location = "campus_quad"
 spawn_point = "DormExitSpawn"
 transition_name = "Return to Campus"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/CampusExitPoint"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Transitions/CampusExitPoint"]
 position = Vector2(0.687977, -26.6937)
 shape = SubResource("CircleShape2D_dbj4a")
 
-[node name="ColorRect" type="ColorRect" parent="Node2D/CampusExitPoint"]
+[node name="ColorRect" type="ColorRect" parent="Node2D/Transitions/CampusExitPoint"]
 visible = false
 offset_left = -23.6753
 offset_top = -50.9018
@@ -869,7 +905,7 @@ offset_bottom = -2.90179
 color = Color(0.235294, 0.172549, 0.0862745, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Node2D/CampusExitPoint"]
+[node name="Label" type="Label" parent="Node2D/Transitions/CampusExitPoint"]
 offset_left = -78.1284
 offset_top = -5.66785
 offset_right = 82.8716
@@ -878,3 +914,54 @@ text = "Return to Campus"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="cutscene_designer" parent="Node2D" instance=ExtResource("13_csjam")]
+script = ExtResource("14_vslu6")
+cutscene_id = "intro_to_poison"
+location_name = "dorm_room"
+number_of_characters = 3
+character_data = Array[ExtResource("15_07i2o")]([SubResource("Resource_07i2o"), SubResource("Resource_e88aq"), SubResource("Resource_wi512")])
+export_to_json = false
+cutscenes_base_path = "res://data/cutscenes/"
+show_marker_labels = true
+marker_color = Color(1, 0, 0, 1)
+
+[node name="P0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(230, 90)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(0.341176, 1, 0.34902, 1)
+
+[node name="P1" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(356, 89)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(2.32472e-05, 0.881529, 0.131454, 1)
+
+[node name="P3" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(292, 94)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(1.33322e-05, 0.577033, 0.0708341, 1)
+
+[node name="A0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(159, 177)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(0.341176, 1, 0.34902, 1)
+
+[node name="A1" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(197, 105)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(1.67495e-05, 0.802229, 0.115667, 1)
+
+[node name="A2" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(257, 95)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(1.33322e-05, 0.577033, 0.0708341, 1)
+
+[node name="K0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(277, 77)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(1, 0.582337, 0.792742, 1)
+
+[node name="K1" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(287, 94)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(0.999999, 0.423257, 0.737071, 1)

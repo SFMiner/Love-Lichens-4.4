@@ -1,0 +1,9 @@
+~ poison
+Hmm. It seems you've walked in on a roommate who is not a cat.
+- Sit and watch
+	The figure goes on, absorbed in their business in a way you know from many people you've met... and your own experience. Ah, hyperfocus... 
+- Say hello.
+	do CutsceneManager.face_to("poison", "player")
+	do DialogSystem.start_dialog("poison", "player_introduction")
+- Clear your throat
+	do DialogSystem.start_dialog("poison", "player_introduction")

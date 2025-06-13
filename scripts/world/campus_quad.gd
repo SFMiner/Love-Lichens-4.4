@@ -20,12 +20,14 @@ var zoom_factor = 1
 @onready var camera = get_node_or_null("Camerad2D")
 @onready var z_objects = get_node_or_null("Node2D/z_Objects") 
 @onready var professor_moss = z_objects.get_node_or_null("ProfessorMoss")
+
 func _ready():
 	var debug_label = $Node2D/CanvasLayer/GameInfo
 	debug = scr_debug or GameController.sys_debug 
 	GameState.set_current_scene(self)
 	if debug: print(GameState.script_name_tag(self) + "loaded scene")
 	player = GameState.get_player()
+	GameState.set_tag("left_dorm")
 	if debug:
 		if debug_label:
 			if player and player.interactable_object:

@@ -4,6 +4,7 @@
 	"description": "Calm, supportive, and slightly aloof. Offers stability to the group.",
 	"portrait_path": "res://assets/characters/erik_portrait.png",
 	"dialogue_file": "res://data/dialogues/erik.dialogue",
+	"character_scale": 2.537,
 	"initial_dialogue_title": "fire_alarm",
 	"personality_traits": ["reliable", "quiet", "grounded", "funny"],
 	"interests": ["camping", "survival gear", "gummies", "cloud watching"],

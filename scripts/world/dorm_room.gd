@@ -1,6 +1,6 @@
 extends Node2D
 
-# Campus Quad scene script
+# Doorm Room scene script
 # Initializes the level and manages scene-specific logic
 const location_scene :bool = true
 
@@ -14,6 +14,7 @@ var camera_limit_bottom = 125
 var camera_limit_left = 30
 var camera_limit_top = 0
 var zoom_factor = 5
+var cutscene = get_node_or_null("Node2D/Cutscene")
 
 @onready var player = z_objects.get_node_or_null("Player")
 
@@ -42,11 +43,8 @@ func _ready():
 			child.z_index = child.global_position.y
 			if debug: print(GameState.script_name_tag(self) + child.name + " now has z-index " + str(child.z_index))
 	
-	
-
 	# Initialize necessary systems
 	initialize_systems()
-
 	
 	# Find and set up visitable areas
 	setup_visit_areas()
@@ -57,6 +55,10 @@ func _ready():
 	if quest_system and quest_system.has_method("on_location_entered"):
 		quest_system.on_location_entered("dorm-room")
 		if debug: print(GameState.script_name_tag(self) + "Notified quest system of location: dorm-room")
+	if GameState.has_tag("left_dorm") and not GameState.has_tag("met_poison"):
+		CutsceneManager.start_cutscene("intro_to_poison")
+		DialogSystem.start_dialog("introductions", "poison")
+
 
 
 func setup_player():

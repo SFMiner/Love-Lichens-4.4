@@ -128,17 +128,6 @@ func initialize_systems():
 	else:
 		print(GameState.script_name_tag(self) + "WARNING: Relationship System not found")
 
-# Optional function to update debug info on screen
-func _process(delta):
-	pass
-#	var debug_label = $CanvasLayer/GameInfo
-#	if debug_label:
-#		var player = $Player
-#		if player and player.interactable_object:
-#			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nCan interact with: " + player.interactable_object.name
-#		else:
-#			debug_label.text = "Love & Lichens - Demo\nUse WASD or arrow keys to move\nPress E or Space to interact with NPCs\n\nNo interactable object nearby"
-
 func _on_visit_area_entered(body, area_name):
 	if not body.is_in_group("player"):
 		return

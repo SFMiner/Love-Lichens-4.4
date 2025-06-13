@@ -162,7 +162,7 @@ func _notification(what: int) -> void:
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
 	var _fname = "start"
 	if debug: print(GameState.script_name_tag(self, _fname) + "Start method called")
-	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue resource: ", dialogue_resource)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue resource: " + GameState.script_name(dialogue_resource))
 	if debug: print(GameState.script_name_tag(self, _fname) + "Title: ", title)
 	
 	resource = dialogue_resource
