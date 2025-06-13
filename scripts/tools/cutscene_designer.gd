@@ -201,6 +201,7 @@ func export_cutscene_data():
 				"marker": char_data.starting_marker,
 				"character_id": char_data.character_id,
 				"character_name": char_data.character_name,
+				"parent": char_data.parent,
 				"dialogue_file": char_data.dialogue_file,
 				"dialogue_title": char_data.initial_dialogue_title,
 				"initial_animation": char_data.initial_animation,

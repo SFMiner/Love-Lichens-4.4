@@ -110,21 +110,24 @@ func _spawn_cutscene_npcs(cutscene_data: Dictionary):
 	var npcs_data = cutscene_data.get("npcs", [])
 	
 	# Find z_Objects container
-	var z_objects = _find_z_objects_container()
-	if not z_objects:
-		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find z_Objects container")
-		return
+#	var z_objects = _find_z_objects_container()
+#	if not z_objects:
+#		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find z_Objects container")
+#		return
+		
 	
 	for npc_data in npcs_data:
-		_spawn_single_npc(npc_data, z_objects)
+		_spawn_single_npc(npc_data)
 
-func _spawn_single_npc(npc_data: Dictionary, parent_node: Node):
+
+
+func _spawn_single_npc(npc_data: Dictionary):
 	const _fname : String = "_spawn_single_npc"
 	"""Spawn a single NPC from data"""
 	var scene_path = npc_data.get("scene_path", "")
 	if scene_path == "":
 		return
-	
+		
 	# Load the NPC scene
 	var npc_scene = load(scene_path)
 	if not npc_scene:
@@ -165,16 +168,20 @@ func _spawn_single_npc(npc_data: Dictionary, parent_node: Node):
 	npc_instance.global_position = spawn_pos
 	
 	# Set direction and animation
-	var direction = npc_data.get("direction", npc_data.get("initial_direction", "down"))
+	var direction = npc_data.get("direction", npc_data.get("initial_direction"))
 	if npc_instance.has_method("set_direction"):
 		npc_instance.set_direction(direction)
 	elif "direction" in npc_instance:
 		npc_instance.direction = direction
 	
-	var initial_animation = npc_data.get("initial_animation", "idle_right")
+	var initial_animation = npc_data.get("initial_animation")
 	if "initial_animation" in npc_instance:
 		npc_instance.initial_animation = initial_animation
-	
+
+	var parent_layer = npc_data.get("parent")
+	var parent_node = GameState.get_layer(parent_layer)
+
+
 	# Add to scene and groups
 	parent_node.add_child(npc_instance)
 	npc_instance.add_to_group("npc")
@@ -182,7 +189,11 @@ func _spawn_single_npc(npc_data: Dictionary, parent_node: Node):
 	# Track for cleanup
 	active_cutscene_npcs.append(npc_instance)
 	
+	npc_instance.set_animation(initial_animation)
+	
 	if debug: print(GameState.script_name_tag(self, _fname) + "Spawned NPC: ", npc_id, " at ", spawn_pos)
+	
+	
 
 func _spawn_cutscene_props(cutscene_data: Dictionary):
 	const _fname : String = "_spawn_cutscene_props"

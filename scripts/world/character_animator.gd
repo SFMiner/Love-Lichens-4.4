@@ -1,6 +1,6 @@
 extends Node
 
-const scr_debug: bool = false
+const scr_debug: bool = true
 var debug: bool
 
 @onready var sprite: Sprite2D = get_parent().get_node_or_null("Sprite2D")
@@ -9,12 +9,12 @@ var debug: bool
 
 var animation_data: Dictionary = {}
 var sheets_path: String = ""
-var current_anim = "idle"
 var current_direction = 0
-var last_anim: String = "idle"
-var current_base_anim = "idle"
-var current_animation_name = "idle_down"
-var current_direction_name = "down"
+@onready var current_animation_name
+@onready var current_base_anim
+@onready var current_direction_name : String
+@onready var last_anim : String
+@onready var current_anim : String
 
 func _ready():
 	debug = scr_debug or GameController.sys_debug
@@ -35,6 +35,16 @@ func _ready():
 		_load_animation_texture("idle")
 	else:
 		if debug: print(GameState.script_name_tag(self) + "ERROR: No sprite found for: ", get_parent().name)
+
+
+func _initialize_animation_info(_animation_name):
+	current_animation_name = _animation_name
+	current_base_anim= current_animation_name.left(current_animation_name.find("_"))
+	current_direction_name = current_animation_name.right(current_animation_name.length() - current_animation_name.length() - 1)
+	last_anim = current_animation_name
+	current_anim = current_base_anim
+
+
 
 func set_sheets_path(char_id: String):
 	sheets_path = "res://assets/character_sprites/" + char_id + "/standard/"
@@ -91,6 +101,9 @@ func set_animation_data():
 	if debug: print(GameState.script_name_tag(self) + "Animation data initialized for: ", get_parent().name)
 
 func set_animation(anim_name: String, direction, character_id: String):
+	const _fname = "set_animation"
+	if debug: print(GameState.script_name_tag(self) + "anim_name = " + anim_name + ", direction = " + direction + ", and character_id = " + character_id)
+
 	# Make sure our paths are set correctly
 	if sheets_path == "" or not sheets_path.contains(character_id):
 		set_sheets_path(character_id)
@@ -127,27 +140,27 @@ func set_animation(anim_name: String, direction, character_id: String):
 	# Generate the full animation name
 	var new_animation_name = base_anim + "_" + dir_string
 	
-	if debug: print(GameState.script_name_tag(self) + "Setting animation to: ", new_animation_name, " for character: ", character_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Setting animation to: ", new_animation_name, " for character: ", character_id)
 	
 	# Extract the base animation type (walk, run, jump, etc.)
 	var new_base_anim = anim_name
 	
 	# Check if the AnimationPlayer has the animation
 	if not AP.has_animation(new_animation_name):
-		if debug: print(GameState.script_name_tag(self) + "ERROR: Animation not found in AnimationPlayer: ", new_animation_name)
-		if debug: print(GameState.script_name_tag(self) + "Available animations: ", AP.get_animation_list())
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Animation not found in AnimationPlayer: ", new_animation_name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Available animations: ", AP.get_animation_list())
 		return
 	
 	# Update spritesheet if animation type has changed
 	var spritesheet_changed = false
 	if current_base_anim != base_anim:
-		if debug: print(GameState.script_name_tag(self) + "Animation type changed from ", current_base_anim, " to ", base_anim)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Animation type changed from ", current_base_anim, " to ", base_anim)
 		current_base_anim = base_anim
 		spritesheet_changed = true
 		
 		# Load the new spritesheet texture
 		if not _load_animation_texture(base_anim):
-			if debug: print(GameState.script_name_tag(self) + "Failed to load texture for animation: ", base_anim)
+			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to load texture for animation: ", base_anim)
 			return
 	
 	# Only change animation if it's actually different or we changed spritesheets
@@ -156,7 +169,7 @@ func set_animation(anim_name: String, direction, character_id: String):
 		current_animation_name = new_animation_name
 		current_direction_name = dir_string
 		
-		if debug: print(GameState.script_name_tag(self) + "Playing animation: ", new_animation_name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "Playing animation: ", new_animation_name)
 		
 		# Stop any current animation
 		AP.stop(true)
@@ -167,17 +180,18 @@ func set_animation(anim_name: String, direction, character_id: String):
 		# Play the animation
 		AP.play(new_animation_name)
 	else:
-		if debug: print(GameState.script_name_tag(self) + "Animation ", new_animation_name, " is already playing")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Animation ", new_animation_name, " is already playing")
 
 # Load texture for a specific animation type
 func _load_animation_texture(anim_type: String) -> bool:
+	const _fname : String = "_load_animation_texture"
 	if not animation_data.has(anim_type):
-		if debug: print(GameState.script_name_tag(self) + "ERROR: No animation data for type: ", anim_type, " for character: ", get_parent().name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: No animation data for type: ", anim_type, " for character: ", get_parent().name)
 		return false
 	
 	var anim = animation_data[anim_type]
 	if not anim.has("path"):
-		if debug: print(GameState.script_name_tag(self) + "ERROR: No path defined for animation: ", anim_type, " for character: ", get_parent().name)
+		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: No path defined for animation: ", anim_type, " for character: ", get_parent().name)
 		return false
 	
 	if debug: print(GameState.script_name_tag(self) + "Loading texture from: ", anim.path, " for character: ", get_parent().name)

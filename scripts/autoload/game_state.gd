@@ -1178,6 +1178,24 @@ func reset_all_systems():
 					system.reset()
 					if debug: print(script_name_tag(self, _fname) + "Reset pickup system")
 
+func get_layer(layer_name : String):
+	const _fname : String = "get_layer"
+	var layers : Array
+	var curr_scene = GameState.get_current_scene()
+	var Node_2D = curr_scene.get_node_or_null("Node2D")
+	layers = Node_2D.get_children()
+	
+	if Node_2D.get_node_or_null("Backgrounds"):
+		for child in Node_2D.get_node_or_null("Backgrounds").get_children():
+			layers.append(child)
+
+	if debug: print(script_name_tag(self, _fname) + "layers = " + str(layers))
+
+	for layer in layers:
+		if layer.name.to_lower() ==  layer_name.to_lower():
+			if debug: print(script_name_tag(self, _fname) + "layer = " + layer.name)
+			return layer
+	
 func get_pickups():
 	var _fname = "get_pickups"
 	return get_tree().get_nodes_in_group("pickup")

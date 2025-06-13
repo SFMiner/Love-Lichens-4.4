@@ -2,6 +2,8 @@
 	"auto_trigger": false,
 	"cutscene_id": "intro_to_poison",
 	"description": "Auto-generated cutscene",
+	"dialog_file": "intro_to_poison",
+	"dialog_title": "start",
 	"location": "dorm_room",
 	"marker_positions": {
 		"A0": {
@@ -9,24 +11,24 @@
 			"y": 177.0
 		},
 		"A1": {
-			"x": 197.0,
-			"y": 105.0
+			"x": 263.0,
+			"y": 117.0
 		},
 		"A2": {
-			"x": 257.0,
-			"y": 95.0
+			"x": 304.0,
+			"y": 105.0
 		},
 		"K0": {
-			"x": 277.0,
-			"y": 77.0
+			"x": 278.0,
+			"y": 84.0
 		},
 		"K1": {
-			"x": 287.0,
-			"y": 94.0
+			"x": 259.0,
+			"y": 106.000007629395
 		},
 		"P0": {
-			"x": 230.0,
-			"y": 90.0
+			"x": 251.000015258789,
+			"y": 104.0
 		},
 		"P1": {
 			"x": 356.0,
@@ -42,9 +44,10 @@
 			"character_id": "poison",
 			"character_name": "Poison",
 			"dialogue_file": "poison.dialogue",
-			"dialogue_title": "player_introduction",
+			"dialogue_title": "start",
+			"parent": "z_objects",
 			"id": "poison",
-			"initial_animation": "idle_right",
+			"initial_animation": "idle_up",
 			"marker": "P0",
 			"scene_path": "res://scenes/npc.tscn",
 			"temporary": false
@@ -54,6 +57,7 @@
 			"character_name": "Kitty",
 			"dialogue_file": "kitty.dialogue",
 			"dialogue_title": "start",
+			"parent": "floor",
 			"id": "kitty",
 			"initial_animation": "idle_down",
 			"marker": "K0",
@@ -63,7 +67,7 @@
 	],
 	"one_time": true,
 	"player_start_marker": "A0",
-	"priority": 1,
+	"priority": 1.0,
 	"props": [],
 	"triggers": [],
 	"unlocks": []

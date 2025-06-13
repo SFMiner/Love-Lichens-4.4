@@ -25,6 +25,7 @@ signal observed(feature_id)
 @export var portrait_path: String = ""
 @export var initial_animation: String = "idle_down"
 
+
 # ==========================================
 # CHARACTER PERSONALITY & BACKGROUND (@export for easy editing)
 # ==========================================
@@ -62,15 +63,15 @@ var observable_features: Dictionary = {}
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var interaction_area = get_node_or_null("InteractionArea")
 @onready var ap = get_node_or_null("AnimationPlayer")
+@onready var char_anim = get_node_or_null("CharacterAnimator")
 
 # Character state and animation
-var current_animation: String = "idle_down"
 
 # System references
 var dialogue_system
 var memory_system
 
-const scr_debug : bool = false
+const scr_debug : bool = true
 
 
 # ==========================================
@@ -99,6 +100,13 @@ func _ready():
 		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_color: ", font_color)
 		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Character font_size: ", str(font_size))
 
+		char_anim._initialize_animation_info(initial_animation)
+
+func set_animation(animation_direction):
+	var animation_name= animation_direction.left(animation_direction.find("_"))
+	var direction_name = animation_direction.right(animation_direction.length() - animation_name.length() - 1)
+
+	char_anim.set_animation(animation_name,  direction_name, character_id)
 
 func _sync_to_character_data():
 	"""Sync @export variables to character_data dictionary and load additional data from JSON"""
@@ -258,64 +266,6 @@ func _initialize_game_behavior():
 	# Play initial animation
 	if ap:
 		ap.play(initial_animation)
-
-# ==========================================
-# CHARACTER-SPECIFIC SETUP FUNCTIONS
-# ==========================================
-
-func _setup_poison_features():
-	"""Set up Poison's observable features and special properties"""
-	add_observable_feature(
-		"necklace",
-		"Poison's wearing a small metal vial necklace. It catches the light strangely, and they sometimes touch it without seeming to realize.",
-		"poison_necklace_seen"
-	)
-	
-	add_observable_feature(
-		"expression",
-		"Their expression shifts between sarcastic and genuinely warm, especially when talking about certain topics.",
-		"poison_expression_seen"
-	)
-
-func _setup_erik_features():
-	"""Set up Erik's observable features"""
-	add_observable_feature(
-		"gummy_pack", 
-		"Erik carries a crumpled foil bag of THC gummies — an emergency stash, apparently.",
-		"erik_gummies_seen"
-	)
-
-func _setup_dusty_features():
-	"""Set up Dusty's observable features"""
-	add_observable_feature(
-		"bracelet",
-		"Dusty wears a wooden bracelet that looks handmade — maybe by a family member.",
-		"dusty_bracelet_seen"
-	)
-
-func _setup_kitty_features():
-	"""Set up Kitty's observable features"""
-	add_observable_feature(
-		"bell",
-		"A tiny brass bell on a faded purple collar. Barely makes a sound.",
-		""  # No memory tag defined in registry
-	)
-
-func _setup_li_features():
-	"""Set up Li's observable features"""
-	add_observable_feature(
-		"double_glasses",
-		"Li is wearing two pairs of glasses — the second, broken and lensless, looks worn from childhood.",
-		""  # Invalid memory tag in registry, so leave empty
-	)
-
-func _setup_professor_moss_features():
-	"""Set up Professor Moss's observable features"""
-	add_observable_feature(
-		"fossil_sample",
-		"Professor Moss occasionally wears a fossil shard in a leather pouch. It glints oddly when it catches the light.",
-		""  # Invalid memory tag in registry, so leave empty
-	)
 
 # ==========================================
 # CHARACTER DATA ACCESS METHODS
@@ -497,18 +447,22 @@ func get_look_description() -> String:
 	return result
 
 func interact():
-	if debug: print(GameState.script_name_tag(self) + "Interaction pressed")
+	const _fname : String = "interact"
+	if debug: print(GameState.script_name_tag(self, _fname) + "Interaction pressed")
 	"""Handle player interaction with this NPC"""
 	if not interactable:
-		if debug: print(GameState.script_name_tag(self) + character_name, " is not interactable")
+		if debug: print(GameState.script_name_tag(self, _fname) + character_name, " is not interactable")
 		return
 		
-	if debug: print(GameState.script_name_tag(self) + "Interacting with: ", character_name)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Interacting with: ", character_name)
 	interaction_started.emit(character_id)
 	
-	var player = get_tree().get_first_node_in_group("player")
+	var player = GameState.get_player()
 	if player:
+		if debug: print(GameState.script_name_tag(self, _fname) + "player found, face_target called")
 		face_target(player)
+	else:
+		if debug: print(GameState.script_name_tag(self, _fname) + "player not found")
 	
 	# Start dialogue using the Dialogue Manager
 	if dialogue_system:
@@ -517,11 +471,11 @@ func interact():
 		
 		var result = dialogue_system.start_dialog(character_id, initial_dialogue_title)
 		if result:
-			if debug: print(GameState.script_name_tag(self) + "Dialogue started successfully")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue started successfully")
 		else:
-			if debug: print(GameState.script_name_tag(self) + "Failed to start dialogue!")
+			if debug: print(GameState.script_name_tag(self, _fname) + "Failed to start dialogue!")
 	else:
-		if debug: print(GameState.script_name_tag(self) + "Dialogue system not found!")
+		if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue system not found!")
 
 # ==========================================
 # SERIALIZATION SUPPORT
@@ -748,8 +702,9 @@ func update_animation(input_vector: Vector2):
 				set("last_animation", "idle")
 
 func play_animation(anim_name: String):
+	const _fname : String = "play_animation"
 	"""Play specific animation"""
-	if debug: print(GameState.script_name_tag(self) + "Playing animation " + anim_name + " for " + character_id)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Playing animation " + anim_name + " for " + character_id)
 	
 	# Check if this is a jump animation
 	var is_jump_anim = anim_name.begins_with("jump")
@@ -780,11 +735,21 @@ func play_animation(anim_name: String):
 		if debug: print(GameState.script_name_tag(self) + "Animation not found: " + anim_name)
 
 func change_facing(dir: String):
+	const _fname : String = "change_facing"
 	"""Change character facing direction"""
-	print(GameState.script_name_tag(self) + "Changing facing toward: ", dir)
+	if debug: print(GameState.script_name_tag(self, _fname) + "Changing facing toward: ", dir)
+
 	var last_animation = get("last_animation") if has_method("get") else "idle"
+
+	if debug: print(GameState.script_name_tag(self, _fname) + character_id + "was originally facing direction " + last_animation)
+
 	if has_method("get") and get("animator") and get("animator").has_method("set_animation"):
 		get("animator").set_animation(last_animation, dir, character_id)
+
+	if debug: print(GameState.script_name_tag(self, _fname) + character_id + "is now  facing direction " + last_animation + dir + character_id)
+
+
+
 
 func test_all_animations():
 	"""Test all character animations (debug function)"""
@@ -859,8 +824,11 @@ func end_interaction():
 	"""End interaction with this NPC"""
 	interaction_ended.emit(character_id)
 
-func face_target(target: Node):
+func face_target(target):
+	const _fname : String ="face_target"
 	"""Face toward a target (like the player)"""
+	if debug: print(GameState.script_name_tag(self, _fname) + "called")
+
 	if not target:
 		return
 	
@@ -871,8 +839,9 @@ func face_target(target: Node):
 		facing_dir = "right" if direction.x > 0 else "left"
 	else:
 		facing_dir = "down" if direction.y > 0 else "up"
-	
+	if debug: print(GameState.script_name_tag(self, _fname) + "last_direction = " + str(last_direction))
 	change_facing(facing_dir)
+	if debug: print(GameState.script_name_tag(self, _fname) + "last_direction = " + str(last_direction))
 
 # ==========================================
 # DIALOGUE INTEGRATION (from original NPC)

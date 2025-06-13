@@ -1,7 +1,8 @@
-[gd_scene load_steps=35 format=4 uid="uid://cexat8mt4n8pk"]
+[gd_scene load_steps=38 format=4 uid="uid://cexat8mt4n8pk"]
 
 [ext_resource type="Script" uid="uid://b485yhr8p6gf3" path="res://scripts/world/dorm_room.gd" id="1_ny2cb"]
 [ext_resource type="Texture2D" uid="uid://bplwuuq64gf00" path="res://assets/tilesets/1_Room_Builder_Office/Room_Builder_Office_16x16.png" id="4_117n6"]
+[ext_resource type="Texture2D" uid="uid://djkc6ubd3niii" path="res://assets/tilesets/floors/wooden.png" id="4_e88aq"]
 [ext_resource type="Texture2D" uid="uid://cjfdp1d577vin" path="res://assets/tilesets/window1.png" id="5_2w1fr"]
 [ext_resource type="Script" uid="uid://b0vt1wx861dgx" path="res://scripts/world/interactable.gd" id="5_385yi"]
 [ext_resource type="Texture2D" uid="uid://c3v0p6auvcegw" path="res://assets/tilesets/home_pack-export_32PX.png" id="6_csjam"]
@@ -184,6 +185,16 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.941176, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_j5xem")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wi512"]
+texture = ExtResource("4_e88aq")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_5xma3"]
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/color = Color(0.693665, 1.92523e-06, 0.405018, 1)
+sources/0 = SubResource("TileSetAtlasSource_wi512")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7jqhf"]
 texture = ExtResource("6_csjam")
@@ -538,6 +549,7 @@ script = ExtResource("15_07i2o")
 character_id = "player"
 character_name = "Player"
 starting_marker = "A0"
+parent = "z_objects"
 dialogue_file = ""
 initial_dialogue_title = ""
 initial_animation = "idle_up"
@@ -550,9 +562,10 @@ script = ExtResource("15_07i2o")
 character_id = "poison"
 character_name = "Poison"
 starting_marker = "P0"
+parent = "z_objects"
 dialogue_file = "poison.dialogue"
 initial_dialogue_title = "start"
-initial_animation = "idle_right"
+initial_animation = "idle_up"
 is_player = false
 scene_path = "res://scenes/npc.tscn"
 temporary = false
@@ -562,6 +575,7 @@ script = ExtResource("15_07i2o")
 character_id = "kitty"
 character_name = "Kitty"
 starting_marker = "K0"
+parent = "floor"
 dialogue_file = "kitty.dialogue"
 initial_dialogue_title = "start"
 initial_animation = "idle_down"
@@ -588,10 +602,8 @@ scale = Vector2(0.416667, 0.416667)
 texture = ExtResource("5_2w1fr")
 
 [node name="Floor" type="TileMapLayer" parent="Node2D/Backgrounds"]
-position = Vector2(-45.0001, 26.8333)
-scale = Vector2(0.5, 0.5)
-tile_map_data = PackedByteArray("AAANAAEAAAATAAgAAAAFAAEAAAATAAgAAAASAAEAAAASAAgAAAAEAAEAAAASAAgAAAAEAAIAAAASAAgAAAAFAAIAAAATAAgAAAAEAAMAAAASAAgAAAAFAAMAAAATAAgAAAAEAAQAAAASAAgAAAAFAAQAAAATAAgAAAAEAAUAAAASAAgAAAAFAAUAAAATAAgAAAAGAAEAAAASAAgAAAAHAAEAAAATAAgAAAAGAAIAAAASAAgAAAAHAAIAAAATAAgAAAAGAAMAAAASAAgAAAAHAAMAAAATAAgAAAAGAAQAAAASAAgAAAAHAAQAAAATAAgAAAAGAAUAAAASAAgAAAAHAAUAAAATAAgAAAAIAAEAAAASAAgAAAAJAAEAAAATAAgAAAAIAAIAAAASAAgAAAAJAAIAAAATAAgAAAAIAAMAAAASAAgAAAAJAAMAAAATAAgAAAAIAAQAAAASAAgAAAAJAAQAAAATAAgAAAAIAAUAAAASAAgAAAAJAAUAAAATAAgAAAAKAAEAAAASAAgAAAALAAEAAAATAAgAAAAKAAIAAAASAAgAAAALAAIAAAATAAgAAAAKAAMAAAASAAgAAAALAAMAAAATAAgAAAAKAAQAAAASAAgAAAALAAQAAAATAAgAAAAKAAUAAAASAAgAAAALAAUAAAATAAgAAAAMAAEAAAASAAgAAAAMAAIAAAASAAgAAAANAAIAAAATAAgAAAAMAAMAAAASAAgAAAANAAMAAAATAAgAAAAMAAQAAAASAAgAAAANAAQAAAATAAgAAAAMAAUAAAASAAgAAAANAAUAAAATAAgAAAAOAAEAAAASAAgAAAAPAAEAAAATAAgAAAAOAAIAAAASAAgAAAAPAAIAAAATAAgAAAAOAAMAAAASAAgAAAAPAAMAAAATAAgAAAAOAAQAAAASAAgAAAAPAAQAAAATAAgAAAAOAAUAAAASAAgAAAAPAAUAAAATAAgAAAAQAAEAAAASAAgAAAARAAEAAAATAAgAAAAQAAIAAAASAAgAAAARAAIAAAATAAgAAAAQAAMAAAASAAgAAAARAAMAAAATAAgAAAAQAAQAAAASAAgAAAARAAQAAAATAAgAAAAQAAUAAAASAAgAAAARAAUAAAATAAgAAAATAAEAAAATAAgAAAASAAIAAAASAAgAAAATAAIAAAATAAgAAAASAAMAAAASAAgAAAATAAMAAAATAAgAAAASAAQAAAASAAgAAAATAAQAAAATAAgAAAASAAUAAAASAAgAAAATAAUAAAATAAgAAAA=")
-tile_set = SubResource("TileSet_vslu6")
+tile_map_data = PackedByteArray("AAAHAAQAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAIAAAAAAAAAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_5xma3")
 
 [node name="Furniture" type="TileMapLayer" parent="Node2D/Backgrounds"]
 position = Vector2(-45.0001, 21.1666)
@@ -862,6 +874,7 @@ position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
 [node name="LabCat" type="Node2D" parent="Node2D/z_Objects/Fate\'s Bed"]
+visible = false
 position = Vector2(-17.2061, -36.324)
 scale = Vector2(0.193136, 0.241543)
 script = ExtResource("7_k1mv0")
@@ -927,7 +940,7 @@ show_marker_labels = true
 marker_color = Color(1, 0, 0, 1)
 
 [node name="P0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
-position = Vector2(230, 90)
+position = Vector2(251, 104)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(0.341176, 1, 0.34902, 1)
 
@@ -944,24 +957,24 @@ color = Color(1.33322e-05, 0.577033, 0.0708341, 1)
 [node name="A0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
 position = Vector2(159, 177)
 scale = Vector2(0.0944614, 0.0944614)
-color = Color(0.341176, 1, 0.34902, 1)
+color = Color(0.595043, 0.920167, 0.997042, 1)
 
 [node name="A1" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
-position = Vector2(197, 105)
+position = Vector2(263, 117)
 scale = Vector2(0.0944614, 0.0944614)
-color = Color(1.67495e-05, 0.802229, 0.115667, 1)
+color = Color(0.0801992, 0.678984, 0.829128, 1)
 
 [node name="A2" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
-position = Vector2(257, 95)
+position = Vector2(304, 105)
 scale = Vector2(0.0944614, 0.0944614)
-color = Color(1.33322e-05, 0.577033, 0.0708341, 1)
+color = Color(0.172834, 0.390948, 0.547863, 1)
 
 [node name="K0" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
-position = Vector2(277, 77)
+position = Vector2(278, 84)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(1, 0.582337, 0.792742, 1)
 
 [node name="K1" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
-position = Vector2(287, 94)
+position = Vector2(259, 106)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(0.999999, 0.423257, 0.737071, 1)

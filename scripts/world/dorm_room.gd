@@ -15,7 +15,7 @@ var camera_limit_left = 30
 var camera_limit_top = 0
 var zoom_factor = 5
 var cutscene = get_node_or_null("Node2D/Cutscene")
-
+@onready var floor = get_node_or_null("$Node2D/Backgrounds/Floor")
 @onready var player = z_objects.get_node_or_null("Player")
 
 func _ready():
