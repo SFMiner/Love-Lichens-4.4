@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://cat2hsijx0mea"
 path="res://.godot/imported/kitty.dialogue-1809b035cfd8a6852d9a35576d2dddbd.tres"

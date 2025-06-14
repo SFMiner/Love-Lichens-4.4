@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://ch1c6fp88wtgf"
 path="res://.godot/imported/dorm_room.dialogue-2358cd9d85ee4f688557dd6dba5a6f1f.tres"

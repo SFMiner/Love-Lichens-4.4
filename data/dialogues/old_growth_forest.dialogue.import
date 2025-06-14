@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://cn0g88kmdx061"
 path="res://.godot/imported/old_growth_forest.dialogue-2a41c83b3ce059985d6ca9ebfa18f7fc.tres"

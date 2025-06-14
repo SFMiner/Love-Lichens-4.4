@@ -1061,7 +1061,7 @@ func face_to(actor, target):
 		cur_target = Node2D.new()
 		cur_target.set_global_position(target)
 	elif typeof(target) == typeof("target"):
-		if actor == "player":
+		if target == "player":
 			cur_target = GameState.get_player()
 		else:
 			cur_target = GameState.get_npc_by_id(actor)

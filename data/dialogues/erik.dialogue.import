@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://x8qbtvk0d8ck"
 path="res://.godot/imported/erik.dialogue-0c2547234fd6194ce61e38e3f3714157.tres"

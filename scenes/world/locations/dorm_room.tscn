@@ -772,14 +772,6 @@ object_type = 4
 position = Vector2(-2.86769, -94.6336)
 shape = SubResource("CircleShape2D_2w1fr")
 
-[node name="ColorRect" type="ColorRect" parent="Node2D/z_Objects"]
-offset_left = 125.815
-offset_top = 135.054
-offset_right = 139.815
-offset_bottom = 149.054
-scale = Vector2(0.926844, 0.814197)
-metadata/_edit_use_anchors_ = true
-
 [node name="Chair1" type="Sprite2D" parent="Node2D/z_Objects"]
 position = Vector2(401.359, 145.109)
 texture = ExtResource("8_csjam")

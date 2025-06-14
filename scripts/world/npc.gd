@@ -834,6 +834,7 @@ func face_target(target):
 	const _fname : String ="face_target"
 	"""Face toward a target (like the player)"""
 	if debug: print(GameState.script_name_tag(self, _fname) + "called")
+	if debug: print(GameState.script_name_tag(self, _fname) + name + " turning to face " + target.name + ".")
 
 	if not target:
 		return

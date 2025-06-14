@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://bvvdekruhob8b"
 path="res://.godot/imported/iris_bookwright.dialogue-ffc31cc4056555788a90dce1de022f90.tres"
