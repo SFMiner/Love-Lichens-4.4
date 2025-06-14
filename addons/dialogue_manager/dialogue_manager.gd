@@ -10,8 +10,7 @@ const DMSettings = preload("./settings.gd")
 const DMCompiler = preload("./compiler/compiler.gd")
 const DMCompilerResult = preload("./compiler/compiler_result.gd")
 const DMResolvedLineData = preload("./compiler/resolved_line_data.gd")
-const scr_debug : bool = true
-var debug
+
 
 ## Emitted when a dialogue balloon is created and dialogue starts
 signal dialogue_started(resource: DialogueResource)
@@ -68,8 +67,6 @@ var _dotnet_dialogue_manager: RefCounted
 
 
 func _ready() -> void:
-	var _fname = "_ready"
-	debug = scr_debug or GameController.sys_debug
 	# Cache the known Node2D properties
 	_node_properties = ["Script Variables"]
 	var temp_node: Node2D = Node2D.new()
@@ -85,8 +82,6 @@ func _ready() -> void:
 ## Step through lines and run any mutations until we either hit some dialogue or the end of the conversation
 func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_game_states: Array = [], mutation_behaviour: DMConstants.MutationBehaviour = DMConstants.MutationBehaviour.Wait) -> DialogueLine:
 	# You have to provide a valid dialogue resource
-	var _fname : String = "get_next_dialogue_line"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue_resource: ", str(resource))
 	if resource == null:
 		assert(false, DMConstants.translate(&"runtime.no_resource"))
 	if resource.lines.size() == 0:
@@ -134,11 +129,8 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 
 ## Get a line by its ID
 func get_line(resource: DialogueResource, key: String, extra_game_states: Array) -> DialogueLine:
-	var _fname : String = "get_line"
-	if debug: print(GameState.script_name_tag(self, _fname) + "Dialogue_resource: ", str(resource))
-
 	key = key.strip_edges()
-	
+
 	# See if we were given a stack instead of just the one key
 	var stack: Array = key.split("|")
 	key = stack.pop_front()
@@ -169,12 +161,10 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 	if key in resource.titles.values():
 		passed_title.emit(resource.titles.find_key(key))
 
-
-
 	if not resource.lines.has(key):
 		assert(false, DMConstants.translate(&"errors.key_not_found").format({ key = key }))
 
-	var data: Dictionary = resource.lines.get(key).duplicate(true)
+	var data: Dictionary = resource.lines.get(key)
 
 	# If next_id is an expression we need to resolve it.
 	if data.has(&"next_id_expression"):
@@ -195,6 +185,7 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 				continue
 			elif await _check_case_value(value, case, extra_game_states):
 				next_id = case.next_id
+				break
 		# Nothing matched so check for else case
 		if next_id == "":
 			if not else_case.is_empty():
@@ -215,15 +206,6 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 				break
 			else:
 				cummulative_weight += sibling.weight
-
-	# Find any simultaneously said lines.
-	if data.has(&"concurrent_lines"):
-		# If the list includes this line then it isn't the origin line so ignore it.
-		if not data.concurrent_lines.has(data.id):
-			# Resolve IDs to their actual lines.
-			data.concurrent_lines = data.concurrent_lines.map(func(line_id):
-				return await get_line(resource, line_id, extra_game_states)
-			)
 
 	# If this line is blank and it's the last line then check for returning snippets.
 	if data.type in [DMConstants.TYPE_COMMENT, DMConstants.TYPE_UNKNOWN]:
@@ -264,6 +246,14 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 
 	# If the jump point somehow has no content then just end.
 	if not line: return null
+
+	# Find any simultaneously said lines.
+	if data.has(&"concurrent_lines"):
+		# If the list includes this line then it isn't the origin line so ignore it.
+		if not data.concurrent_lines.has(data.id):
+			# Resolve IDs to their actual lines.
+			for line_id: String in data.concurrent_lines:
+				line.concurrent_lines.append(await get_line(resource, line_id, extra_game_states))
 
 	# If we are the first of a list of responses then get the other ones.
 	if data.type == DMConstants.TYPE_RESPONSE:
@@ -450,6 +440,18 @@ func show_dialogue_balloon_scene(balloon_scene, resource: DialogueResource, titl
 	return balloon
 
 
+## Resolve a static line ID to an actual line ID
+func static_id_to_line_id(resource: DialogueResource, static_id: String) -> String:
+	var ids = static_id_to_line_ids(resource, static_id)
+	if ids.size() == 0: return ""
+	return ids[0]
+
+
+## Resolve a static line ID to any actual line IDs that match
+func static_id_to_line_ids(resource: DialogueResource, static_id: String) -> PackedStringArray:
+	return resource.lines.values().filter(func(l): return l.get(&"translation_key", "") == static_id).map(func(l): return l.id)
+
+
 # Call "start" on the given balloon.
 func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
 	get_current_scene.call().add_child(balloon)
@@ -532,7 +534,7 @@ func show_error_for_missing_state_value(message: String, will_show: bool = true)
 
 # Translate a string
 func translate(data: Dictionary) -> String:
-	if translation_source == DMConstants.TranslationSource.None:
+	if TranslationServer.get_loaded_locales().size() == 0 or translation_source == DMConstants.TranslationSource.None:
 		return data.text
 
 	var translation_key: String = data.get(&"translation_key", data.text)
@@ -613,12 +615,13 @@ func create_response(data: Dictionary, extra_game_states: Array) -> DialogueResp
 		type = DMConstants.TYPE_RESPONSE,
 		next_id = data.next_id,
 		is_allowed = data.is_allowed,
+		condition_as_text = data.get(&"condition_as_text", ""),
 		character = await get_resolved_character(data, extra_game_states),
 		character_replacements = data.get(&"character_replacements", [] as Array[Dictionary]),
 		text = resolved_data.text,
 		text_replacements = data.get(&"text_replacements", [] as Array[Dictionary]),
 		tags = data.get(&"tags", []),
-		translation_key = data.get(&"translation_key", data.text)
+		translation_key = data.get(&"translation_key", data.text),
 	})
 
 
@@ -637,7 +640,7 @@ func _get_game_states(extra_game_states: Array) -> Array:
 		game_states = [_autoloads]
 		# Add any other state shortcuts from settings
 		for node_name in DMSettings.get_setting(DMSettings.STATE_AUTOLOAD_SHORTCUTS, ""):
-			var state: Node = Engine.get_main_loop().root.get_node_or_null(node_name)
+			var state: Node = Engine.get_main_loop().root.get_node_or_null(NodePath(node_name))
 			if state:
 				game_states.append(state)
 
@@ -669,21 +672,31 @@ func _check_case_value(match_value: Variant, data: Dictionary, extra_game_states
 
 	var expression: Array[Dictionary] = data.condition.expression.duplicate(true)
 
-	# If the when is a comparison when insert the match value as the first value to compare to
-	var already_compared: bool = false
-	if expression[0].type == DMConstants.TOKEN_COMPARISON:
-		expression.insert(0, {
-			type = DMConstants.TOKEN_VALUE,
-			value = match_value
-		})
-		already_compared = true
+	# Check for multiple values
+	var expressions_to_check: Array = []
+	var previous_comma_index: int = 0
+	for i in range(0, expression.size()):
+		if expression[i].type == DMConstants.TOKEN_COMMA:
+			expressions_to_check.append(expression.slice(previous_comma_index, i))
+			previous_comma_index = i + 1
+		elif i == expression.size() - 1:
+			expressions_to_check.append(expression.slice(previous_comma_index))
 
-	var resolved_value = await _resolve(expression, extra_game_states)
+	for expression_to_check in expressions_to_check:
+		# If the when is a comparison when insert the match value as the first value to compare to
+		var already_compared: bool = false
+		if expression_to_check[0].type == DMConstants.TOKEN_COMPARISON:
+			expression_to_check.insert(0, {
+				type = DMConstants.TOKEN_VALUE,
+				value = match_value
+			})
+			already_compared = true
 
-	if already_compared:
-		return resolved_value
-	else:
-		return match_value == resolved_value
+		var resolved_value = await _resolve(expression_to_check, extra_game_states)
+		if (already_compared and resolved_value) or match_value == resolved_value:
+			return true
+
+	return false
 
 
 # Make a change to game state or run a method
@@ -765,6 +778,13 @@ func _get_state_value(property: String, extra_game_states: Array):
 			if state.has(property):
 				return state.get(property)
 		else:
+			# Try for a C# constant first
+			if state.get_script() \
+			and state.get_script().resource_path.ends_with(".cs") \
+			and _get_dotnet_dialogue_manager().ThingHasConstant(state, property):
+				return _get_dotnet_dialogue_manager().ResolveThingConstant(state, property)
+
+			# Otherwise just let Godot try and resolve it.
 			var result = expression.execute([], state, false)
 			if not expression.has_execute_failed():
 				return result
@@ -790,7 +810,7 @@ func _warn_about_state_name_collisions(target_key: String, extra_game_states: Ar
 	# Get the list of state shortcuts.
 	var state_shortcuts: Array = []
 	for node_name in DMSettings.get_setting(DMSettings.STATE_AUTOLOAD_SHORTCUTS, ""):
-		var state: Node = Engine.get_main_loop().root.get_node_or_null(node_name)
+		var state: Node = Engine.get_main_loop().root.get_node_or_null(NodePath(node_name))
 		if state:
 			state_shortcuts.append(state)
 
@@ -1384,6 +1404,10 @@ func _thing_has_property(thing: Object, property: String) -> bool:
 			continue
 		if p.name == property:
 			return true
+
+	if thing.get_script() and thing.get_script().resource_path.ends_with(".cs"):
+		# If we get this far then the property might be a C# constant.
+		return _get_dotnet_dialogue_manager().ThingHasConstant(thing, property)
 
 	return false
 

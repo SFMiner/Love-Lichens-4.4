@@ -64,7 +64,6 @@ var observable_features: Dictionary = {}
 @onready var interaction_area = get_node_or_null("InteractionArea")
 @onready var ap = get_node_or_null("AnimationPlayer")
 @onready var char_anim = get_node_or_null("CharacterAnimator")
-
 # Character state and animation
 
 # System references
@@ -93,6 +92,13 @@ func _ready():
 	
 	# Initialize game behavior
 	_initialize_game_behavior()
+	
+	z_index = 0
+	z_as_relative = false
+	
+	sprite.z_index = 0
+	sprite.z_as_relative = false
+	
 	
 	if debug: 
 		print(GameState.script_name_tag(self, _fname) + "Character setup complete. Observable features: ", observable_features.keys())

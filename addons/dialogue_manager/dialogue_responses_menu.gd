@@ -6,7 +6,7 @@ class_name DialogueResponsesMenu extends Container
 
 ## Emitted when a response is selected.
 signal response_selected(response)
-var debug = true
+
 
 ## Optionally specify a control to duplicate for each response
 @export var response_template: Control
@@ -23,7 +23,6 @@ var responses: Array = []:
 		return responses
 	set(value):
 		responses = value
-		if debug: print(GameState.script_name_tag(self, "var responses") + "get_children = " + str(get_children()))
 
 		# Remove any current items
 		for item in get_children():
@@ -90,9 +89,7 @@ func get_menu_items() -> Array:
 
 # Prepare the menu for keyboard and mouse navigation.
 func _configure_focus() -> void:
-	var _fname = "_configure_focus"
 	var items = get_menu_items()
-	if debug: print(GameState.script_name_tag(self, _fname) + "items = " + str(items))
 	for i in items.size():
 		var item: Control = items[i]
 
@@ -103,16 +100,20 @@ func _configure_focus() -> void:
 
 		if i == 0:
 			item.focus_neighbor_top = item.get_path()
+			item.focus_neighbor_left = item.get_path()
 			item.focus_previous = item.get_path()
 		else:
 			item.focus_neighbor_top = items[i - 1].get_path()
+			item.focus_neighbor_left = items[i - 1].get_path()
 			item.focus_previous = items[i - 1].get_path()
 
 		if i == items.size() - 1:
 			item.focus_neighbor_bottom = item.get_path()
+			item.focus_neighbor_right = item.get_path()
 			item.focus_next = item.get_path()
 		else:
 			item.focus_neighbor_bottom = items[i + 1].get_path()
+			item.focus_neighbor_right = items[i + 1].get_path()
 			item.focus_next = items[i + 1].get_path()
 
 		item.mouse_entered.connect(_on_response_mouse_entered.bind(item))

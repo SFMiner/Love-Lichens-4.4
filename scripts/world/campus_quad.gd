@@ -14,7 +14,7 @@ var camera_limit_bottom = 3050
 var camera_limit_left = 0
 var camera_limit_top = 0
 var zoom_factor = 1
-@onready var player = $Node2D/Player
+@onready var player = GameState.get_player()
 @onready var construct_spawner = $Node2D/ConstructSpawner
 @onready var combat_manager = get_node_or_null("/root/CombatManager")
 @onready var camera = get_node_or_null("Camerad2D")
@@ -22,6 +22,7 @@ var zoom_factor = 1
 @onready var professor_moss = z_objects.get_node_or_null("ProfessorMoss")
 
 func _ready():
+	const _fname : String = "_ready"
 	var debug_label = $Node2D/CanvasLayer/GameInfo
 	debug = scr_debug or GameController.sys_debug 
 	GameState.set_current_scene(self)

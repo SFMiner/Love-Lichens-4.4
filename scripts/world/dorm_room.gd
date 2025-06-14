@@ -59,8 +59,6 @@ func _ready():
 		CutsceneManager.start_cutscene("intro_to_poison")
 		DialogSystem.start_dialog("introductions", "poison")
 
-
-
 func setup_player():
 	if player:
 		if debug: print(GameState.script_name_tag(self) + "Player found in scene")

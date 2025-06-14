@@ -723,9 +723,11 @@ size = Vector2(21, 8)
 radius = 30.0
 
 [node name="NPC" type="CharacterBody2D"]
+z_as_relative = false
 script = ExtResource("1_2mokx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
 position = Vector2(-3.41061e-13, -24)
 scale = Vector2(1.095, 1.095)
 texture = ExtResource("3_7n8xq")

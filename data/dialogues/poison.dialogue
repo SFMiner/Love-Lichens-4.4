@@ -5,6 +5,11 @@
 	"poison_peepaw_known" - Poison said who PeePaw is
 	"poison_peepaw_memory_stirred" - Poison has recalled the PeePaw story
 	"poison_peepaw_story_shared" - Poison has told the PeePaw story
+	"met_fate" = Adam has met Fate
+	"told_poison_where_from" = Adam has told Poison where he's from
+	"from_the_Bronx" - Adam has told Poison he's from the Bronx
+	"from_small_town" - Adam has told Poison he's from a small town
+
 
 
 ~ start
@@ -17,18 +22,127 @@ if GameState.has_tag("met_poison")
 ~ player_introduction
 The stranger looks up.
 Poison: Oh. Hey. Are you... Adam?
+if GameState.has_tag("met_fate")
+	Adam: Yes! Hi. You must be Poison! 
+	Poison: Yep. I guess you must have met Fate, then.
+	Adam: Yeah, earlier. I guess they're not around right now...
+if not GameState.has_tag("met_fate")
+	Adam: Hi. Um. Are you Fate, or Poison?
+	Poison: Ha! I'm Poison. I guess you haven't met Fate either, then, huh?
+	Adam: Not yet. They're not around, are they?
+	
+Poison: No, but they'll be back. We have their cat! Somewhere...
+Adam: Oh, yeah! I saw some cat things when I first got in.
+Poison: But not the cat, huh? It's been hiding since Ive been here too. I guess they're a scaredy cat!
+~ still_meeting_poison
+if GameState.has_tag("know_poison_major") and GameState.has_tag("poison_said_where_from_vague") and GameState.has_tag("poison_necklace_shared") and GameState.has_tag("told_poison_where_from")
+	Poison: Well, it was really cool meeting you. I have to get back to my little guys now. You should come by and meet them when it's they're settled in!
+	do GameState.set_tag("met_poison")
+	=> END!
+if GameState.has_tag("know_poison_major") and GameState.has_tag("poison_said_where_from_vague")
+	- Well it was cool meeting you. Iv've got some things to do before it gets too late, but I'll see you later!
+		do GameState.set_tag("met_poison")
+		=> END!
+if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared")
+	- Adam: What's that necklace you're wearing? 
+		do GameState.set_tag("still_meeting_poison")
+		=> ask_poison_about_necklace
+- What are you studying? [if not GameState.has_tag("know_poison_major")]
+	Poison: Entomology. 
+	Adam: Bugs?
+	Poison: Someone's gotta eat up all our messes, right? [next]
+	do GameState.set_tag("know_poison_major") [next]
+	if not GameState.has_tag("poison_peepaw_known")
+		Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation.
+		do GameState.set_tag("poison_peepaw_known") [next]
+	Poison: What about you?
+	Adam: Environmental engineering!
+	Poison: So... math and mushrooms?
+	Adam: Save vs. calculus!
+	Poison: I understood that reference!
+	=> still_meeting_poison
+- Where are you from? [if not GameState.has_tag("poison_said_where_from_vague")]
+	=> where_are_you_from
+- Where are you from again? [if GameState.has_tag("poison_said_where_from_vague")]
+	=> where_are_you_from
+
+
+~ where_are_you_from
+if not GameState.has_tag("told_poison_where_from")
+	Poison: A little place at once not far from here and thousand miles from anywhere. You? [next]
+	do GameState.set_tag("poison_said_where_from_vague")
+	- Bigger place. The Bronx. => from_the_Bronx
+	- Same as you. Small place. Too small for me. => from_a_small_town
+	- I'd rather not talk about it right now. I'm just enjoying being here. => not_say_where
+elif GameState.has_tag("told_poison_where_from")
+	Poison: Like I said, a little place, nothing much to say about it. Oh, except there's another freshman from there.
+	if GameState.has_tag("from_the_Bronx")
+		Adam: You went to high school together?
+		Poison: ... \nOh, right! You're from the big city, you have a thousand schools to pick from, don't you? Yeah, where we're from everyone from three towns around went to the same high school: Morton J. Pricker High School.
+		Adam: ... "Pricker?" Are you serious?
+		Poison: I honestly don't think I could make up anything that good. 
+		Adam: How does anyone say it with a straight face?
+		Poison: Oh, if you said it any other way, you wouldn't do it a second time. The principal would come down on you like a ton of bricks. Bricks dipped in bitterness and irony.
+		Adam: Irony?
+		Poison: Yeah. Principal... Woody... Einhorn.
+		Adam: OMG is your town's board of ed some kind of phallocentric boy's club? 
+		Poison: It explains why he gets so protective over the name, doesn't it? \n... \nAren't you going to ask me who Morton J. Pricker was?
+		Adam: Dare I?
+		Poison: You do if you're gonna be roomies with me!
+		Adam: Okay, then: Who was Morton J. Pricker? 
+		Poison: Well, only because you asked... \nIn 1965, Dr. Morton J. Pricker wrote the health curriculum adopted by the ten surrounding counties. 
+		Poison: Strict emphasis on abstinence before marriage, refraining from "inducing emissions" for penis-haveers (and no mention of the possibility of anyone else doing the same kind of thing) 
+		Poison: ...and multiple references to the importance of cultivating healthy same-sex friendships while also absolutely coming down on "uhealthy friendships" -- but never once saying exactly what those might look like.
+		Adam: Oh dear.
+		Poison: Some of the older teachers still quote him with a straight face.
+		Adam: They must have loved you.
+		Poison: They mostly did, actually. I was a pretty good kid. They never once called me by the right name or pronoun, but they thought I was the best little... well. You get the idea.
+		Adam: Yeah. Sorry.
+		Poison: Hey. I'm here now. I got out. That's all that matters.	
+	if not GameState.has_tag("from_the_Bronx")
+		Adam: Wow. Small world.
+		Poison: Well, you get two queer autistic kids each with a love of things most people think are creepy, and there's good odds they'll both end up here.
+		Adam: I... guess I can see that.
+		Poison: Have you not met anyone? It's the neurodivergent alphabet mafia around here. 
+		Adam: I hadn't noticed, I guess I'll have to look closer.
+		Poison: You won't have to look that close, I promise.
+		=> still_meeting_poison
+
+
+~ from_the_Bronx
+do GameState.set_tag("told_poison_where_from") [next]
+do GameState.set_tag("from_the_Bronx") [next]
+Poison: Ooh, big-city boy! Hope you're not gonna rob me!
+Adam: ... If I weren't white, that would have been offensive.
+Poison: Yeah, and if you weren't white I wouldn't have said it!
+=> still_meeting_poison
+
+~ from_a_small_town
+do GameState.set_tag("told_poison_where_from") [next]
+do GameState.set_tag("from_small_town") [next]
+Poison: Well welcome to the big college town! Home to not one but TWO bars!
+Adam: Well... I guess that's still better than Buffy had.
+Poison: Yeah but at least the Bronze has good live music. The Ettercap only has Jimmy and his Amazing Spoons, and that's only from 8-10 on Wednesday nights.
+Adam: I'm kind of excited that you got my Buffy reference.
+Poison: I was thinking the thing be excited about was the lack of vampires.
+Adam: That too.
+=> still_meeting_poison
+
+~ not_say_where
+Poison: That's cool. You've got plenty of time to be here, now.
+=> still_meeting_poison
 
 ~ start_talking
-Poison: [#wry] What's up?
-- Adam: How's it going?
+Poison: [#wry] What've you been up to?
+- How's it going?
 	Poison: [#sarcasm] Oh, you know. Living the dream in lichen paradise. 
 	=> general_chat
-- Adam: I've been exploring campus
+- I've been exploring campus
 	Poison: Find anything interesting yet? Besides, you know, an excessive amount of school spirit and questionable dining options. 
 	=> general_chat
-- Adam: What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared") ]
+- What's that necklace you're wearing? [if GameState.has_tag("poison_necklace_seen") and not GameState.has_tag("poison_necklace_shared") ]
 	=> ask_poison_about_necklace
-- Adam: Would you tell me about that necklace again? [if GameState.has_tag("poison_necklace_seen") and GameState.has_tag("poison_necklace_shared") ]
+- Would you tell me about that necklace again? [if GameState.has_tag("poison_necklace_seen") and GameState.has_tag("poison_necklace_shared") ]
 	=> ask_poison_about_necklace
 - You mentioned a story about your PeePaw? Would you like to tell me now? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
@@ -38,17 +152,12 @@ Poison: [#wry] What's up?
 ~ general_chat
 
 Poison: So... biology major, huh? Must be fun to stare at moss all day.
-- It's actually fascinating
+- It's actually fascinating.
 	Poison: [#softens] Yeah, I know. Just giving you a hard time. There's something kind of peaceful about plants just doing their thing without all the drama.
 - Lichens, not moss
-	Poison: [#amused] Oh, excuse my botanical faux pas. Lichens, not moss. Got it, Professor.
+	Poison: [#amused] Oh, excuse my botanical faux pas... Lichens, not moss. Got it, Professor.
 	Poison: [#genuine] For real though, what made you pick that specific field?
-- What are you studying?
-	Poison: Entomology. Someone's gotta eat up all our messes, right? 
-	if not GameState.has_tag("poison_peepaw_known")
-		Poison: [#quiet] Plus, I promised Pee-Paw I'd take care of things. He was really into conservation. 
-		do GameState.set_tag("poison_peepaw_known") [next]
-		do GameState.gs_print("Tag poison_peepaw_known set")
+
 - You mentioned a story about your peepaw? [if GameState.has_tag("poison_peepaw_memory_stirred") and not GameState.has_tag("poison_peepaw_story_shared")]
 	=> peepaw_story 
 	- Hey, how did that story about your peepaw go again? [if GameState.has_tag("poison_peepaw_memory_stirred") and  GameState.has_tag("poison_peepaw_story_shared")]
@@ -71,7 +180,6 @@ if GameState.has_tag("poison_necklace_seen")
 	=> ask_poison_about_necklace
 
 
-
 ~ peepaw_brief
 Poison: [#thoughtful] Pee-Paw practically raised me. Taught me how to fish, how to fix things, how to call out BS when I saw it.
 Poison: [#shifting] Sorry, not really trying to get all sentimental in the middle of the quad.
@@ -85,7 +193,6 @@ Poison: [#shifting] Sorry, not really trying to get all sentimental in the middl
 	
 
 ~ ask_poison_about_necklace
-
 Poison: [#surprised] Oh, this?
 Poison: [#awkward_laugh] It's, uh... it's got some of Pee-Paw's ashes in it. My grandfather.
 do GameState.set_tag("poison_peepaw_known")
@@ -103,6 +210,10 @@ do GameState.add_journal_entry("Poison's necklace||#poison#friends#peepaw|Poison
 Poison: [#changing_subject] We should probably get to class. Catch you later?
 - Sure, see you
 	Poison: Later.
+if GameState.has_tag("still_meeting_poison")
+	=> still_meeting_poison
+
+
 
 ~ family_conversation
 # This would be triggered during a separate conversation event
@@ -129,6 +240,7 @@ Poison: [#smile] And out of nowhere, completely serious, he goes: "If you ever f
 	Poison: [#laughing] Or at least I'd convince myself it did.
 Poison: [#grateful] Thanks for listening to my random Pee-Paw story. Not many people I share that stuff with.
 do GameState.set_tag("poison_peepaw_story_shared")
+do GameState.add_journal_entry("PeePaw story||#poison#friends#peepaw|Poison's grandfather, PeePaw, once told him, 'If you ever find yourself on a roof with a goat and a weathervane, bet on the goat.'. \nTo this day, Poison has no idea what the old man meant, and doesn't seem to mind.")
 do RelationshipSystem.increase_affinity("Poison", 5)
 - It's nice getting to know you better
 	Poison: [#genuine_smile] Yeah. You're alright, Adam.

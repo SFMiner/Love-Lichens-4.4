@@ -61,6 +61,7 @@ var scenes: Dictionary = {
 	}	
 }
 
+var poison_shared_facts = 0
 
 const PHONE_APP_SCRIPT_PATHS = {
 	"messages": "res://scenes/ui/phone/apps/MessagesApp.gd",

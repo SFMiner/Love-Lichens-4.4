@@ -4,7 +4,7 @@ extends Node
 signal movement_started(character_id, target)
 signal movement_completed(character_id)
 
-const scr_debug : bool = false
+const scr_debug : bool = true
 var debug
 
 # Dictionary to track active movements
@@ -108,21 +108,13 @@ func _spawn_cutscene_npcs(cutscene_data: Dictionary):
 	const _fname : String = "_spawn_cutscene_npcs"
 	"""Spawn NPCs from cutscene data"""
 	var npcs_data = cutscene_data.get("npcs", [])
-	
-	# Find z_Objects container
-#	var z_objects = _find_z_objects_container()
-#	if not z_objects:
-#		if debug: print(GameState.script_name_tag(self, _fname) + "ERROR: Could not find z_Objects container")
-#		return
-		
-	
+
 	for npc_data in npcs_data:
 		_spawn_single_npc(npc_data)
 
-
-
 func _spawn_single_npc(npc_data: Dictionary):
 	const _fname : String = "_spawn_single_npc"
+	if debug: print(GameState.script_name_tag(self, _fname) + "function_called")
 	"""Spawn a single NPC from data"""
 	var scene_path = npc_data.get("scene_path", "")
 	if scene_path == "":
@@ -136,6 +128,7 @@ func _spawn_single_npc(npc_data: Dictionary):
 	
 	# Instance the NPC
 	var npc_instance = npc_scene.instantiate()
+	npc_instance.z_as_relative = false
 	var npc_id = npc_data.get("id", npc_data.get("npc_id", ""))
 	npc_instance.name = npc_id
 	
@@ -147,9 +140,17 @@ func _spawn_single_npc(npc_data: Dictionary):
 	var character_name = npc_data.get("character_name", character_id.capitalize())
 	if "character_name" in npc_instance:
 		npc_instance.character_name = character_name
+	if debug: print(GameState.script_name_tag(self, _fname) + "npc_instance.character_name = " + character_name)
+
 	
+	var parent_layer = npc_data.get("parent")
+	var parent_node = GameState.get_layer(parent_layer)
+	if debug: print(GameState.script_name_tag(self, _fname) + "parent_layer = " + parent_layer)
+
+
 	# Set character scale to match scene
-	var npc_scale = GameState.get_player().scale  # Default scale from campus_quad
+	if debug: print(GameState.script_name_tag(self, _fname) + parent_node.name + " scale = " + str(parent_node.scale))
+	var npc_scale = GameState.get_player().scale / parent_node.scale  / parent_node.get_parent().scale # Default scale from campus_quad
 	npc_instance.scale = npc_scale
 	if debug: print(GameState.script_name_tag(self, _fname) + "Set character scale to: ", npc_scale)
 	
@@ -165,7 +166,7 @@ func _spawn_single_npc(npc_data: Dictionary):
 	
 	# Set position from marker or direct coordinates
 	var spawn_pos = _get_spawn_position(npc_data)
-	npc_instance.global_position = spawn_pos
+	npc_instance.global_position = spawn_pos /  parent_node.scale  / parent_node.get_parent().scale 
 	
 	# Set direction and animation
 	var direction = npc_data.get("direction", npc_data.get("initial_direction"))
@@ -177,9 +178,6 @@ func _spawn_single_npc(npc_data: Dictionary):
 	var initial_animation = npc_data.get("initial_animation")
 	if "initial_animation" in npc_instance:
 		npc_instance.initial_animation = initial_animation
-
-	var parent_layer = npc_data.get("parent")
-	var parent_node = GameState.get_layer(parent_layer)
 
 
 	# Add to scene and groups
@@ -1048,6 +1046,8 @@ func start_cutscene_original(cutscene_id: String) -> bool:
 	return true
 
 func face_to(actor, target):
+	const _fname = "face_to"
+	if debug: print(GameState.script_name_tag(self, _fname) + "function called")
 	var cur_actor : Combatant
 	var cur_target
 	if actor is Combatant:
@@ -1057,7 +1057,6 @@ func face_to(actor, target):
 			cur_actor = GameState.get_player()
 		else:
 			cur_actor = GameState.get_npc_by_id(actor)
-			
 	if typeof(target) == typeof(Vector2(1.2,2.3)):
 		cur_target = Node2D.new()
 		cur_target.set_global_position(target)

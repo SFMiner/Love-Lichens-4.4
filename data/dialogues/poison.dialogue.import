@@ -1,6 +1,7 @@
 [remap]
 
-importer="dialogue_manager_compiler_14"
+importer="dialogue_manager"
+importer_version=15
 type="Resource"
 uid="uid://ch5jr6u0vnysi"
 path="res://.godot/imported/poison.dialogue-f0aa61d4ab46cc9a113eaf7f5d6a2613.tres"

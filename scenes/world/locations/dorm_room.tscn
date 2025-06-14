@@ -949,7 +949,7 @@ position = Vector2(356, 89)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(2.32472e-05, 0.881529, 0.131454, 1)
 
-[node name="P3" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+[node name="P2" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
 position = Vector2(292, 94)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(1.33322e-05, 0.577033, 0.0708341, 1)
@@ -978,3 +978,8 @@ color = Color(1, 0.582337, 0.792742, 1)
 position = Vector2(259, 106)
 scale = Vector2(0.0944614, 0.0944614)
 color = Color(0.999999, 0.423257, 0.737071, 1)
+
+[node name="PL" parent="Node2D/cutscene_designer" instance=ExtResource("14_7jqhf")]
+position = Vector2(251, 38)
+scale = Vector2(0.0944614, 0.0944614)
+color = Color(0.341176, 1, 0.34902, 1)
