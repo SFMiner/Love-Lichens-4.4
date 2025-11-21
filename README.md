@@ -87,4 +87,4 @@ love_and_lichens/
 
 ## Credits
 
-Developed as a solo project by S3an Miner
+Developed as a solo project by Sean Miner
