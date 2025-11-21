@@ -58,8 +58,8 @@ func _ready():
 	quest_system = QuestSystem
 	var time_system = get_node_or_null("/root/TimeSystem")
 	if time_system:
-		time_system.day_changed.connect(_on_day_changed)
-		time_system.time_of_day_changed.connect(_on_time_of_day_changed)
+		GameState.safe_connect(time_system, "day_changed", Callable(self, "_on_day_changed"))
+		GameState.safe_connect(time_system, "time_of_day_changed", Callable(self, "_on_time_of_day_changed"))
 		if debug: print(GameState.script_name_tag(self, _fname) + "Connected to TimeSystem signals")
 	_ensure_input_actions()
 
@@ -69,9 +69,9 @@ func _ready():
 		var root = get_tree().root
 		current_scene_node = root.get_child(root.get_child_count() - 1)
 		if debug: print(GameState.script_name_tag(self, _fname) + "Using root as current scene container")
-	#======================================================	
+	#======================================================
 	# By default, go to main menu
-	call_deferred("change_scene", "res://scenes/main_menu.tscn")
+	call_deferred("change_scene", Paths.get_scene("main_menu"))
 
 	# Get references to other systems
 	# These should be added as autoloads in the project settings
@@ -83,8 +83,9 @@ func _ready():
 
 	_ensure_input_actions()
 	# Try to preload the pause menu scene
-	if ResourceLoader.exists("res://scenes/ui/pause_menu.tscn"):
-		pause_menu_scene = load("res://scenes/ui/pause_menu.tscn")
+	var pause_path = Paths.get_ui("pause_menu")
+	if ResourceLoader.exists(pause_path):
+		pause_menu_scene = load(pause_path)
 
 	# Get reference to the current scene node from main scene (if available)
 	current_scene_node = get_node_or_null("/root/Game/CurrentScene")
@@ -114,14 +115,16 @@ func _ready():
 		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_inventory' action with I key")
 
 	# Try to preload the inventory panel scene
-	if ResourceLoader.exists("res://scenes/ui/inventory_panel.tscn"):
-		inventory_panel_scene = load("res://scenes/ui/inventory_panel.tscn")
+	var inventory_path = Paths.get_ui("inventory_panel")
+	if ResourceLoader.exists(inventory_path):
+		inventory_panel_scene = load(inventory_path)
 	else:
 		if debug: print(GameState.script_name_tag(self, _fname) + "Could not find inventory_panel.tscn - will need to create it")
 
 	# Try to preload the quest panel scene
-	if ResourceLoader.exists("res://scenes/ui/quest_panel.tscn"):
-		quest_panel_scene = load("res://scenes/ui/quest_panel.tscn")
+	var quest_path = Paths.get_ui("quest_panel")
+	if ResourceLoader.exists(quest_path):
+		quest_panel_scene = load(quest_path)
 	else:
 		if debug: print(GameState.script_name_tag(self, _fname) + "Could not find quest_panel.tscn - will need to create it")
 
@@ -133,7 +136,7 @@ func _ready():
 		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_quest_panel' action with J key")
 	GameState.get_current_npcs()
 	# By default, go to main menu
-	call_deferred("change_scene", "res://scenes/main_menu.tscn")
+	call_deferred("change_scene", Paths.get_scene("main_menu"))
 	player = GameState.get_player()
 
 func _on_day_changed(old_day, new_day):
@@ -152,50 +155,42 @@ func _on_time_of_day_changed(old_time, new_time):
 # Modified _unhandled_input function for game_controller.gd
 func _ensure_input_actions():
 	var _fname = "_ensure_input_actions"
-	# Clear existing mappings to avoid duplicates
-	if InputMap.has_action("toggle_inventory"):
-		InputMap.erase_action("toggle_inventory")
-	if InputMap.has_action("toggle_quest_panel"):
-		InputMap.erase_action("toggle_quest_panel")
-	if InputMap.has_action("save_game"):
-		InputMap.erase_action("save_game")
-	if InputMap.has_action("interact"):
-		InputMap.erase_action("interact")
 
+	# Define all required actions with default keys
+	var required_actions = {
+		"interact": [KEY_E, KEY_SPACE],
+		"ui_up": [KEY_W, KEY_UP],
+		"ui_down": [KEY_S, KEY_DOWN],
+		"ui_left": [KEY_A, KEY_LEFT],
+		"ui_right": [KEY_D, KEY_RIGHT],
+		"toggle_inventory": [KEY_I],
+		"toggle_quest_journal": [KEY_J],
+		"pause": [KEY_ESCAPE]
+	}
+
+	# Special actions with modifiers
+	var save_action_keys = [KEY_S]
+	var save_requires_ctrl = true
+
+	# Process standard actions
+	for action in required_actions:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			for key in required_actions[action]:
+				var event = InputEventKey.new()
+				event.keycode = key
+				InputMap.action_add_event(action, event)
+			DebugManager.print_debug(self, _fname, "Added action: " + action)
+
+	# Process save_game action with Ctrl modifier
 	if not InputMap.has_action("save_game"):
 		InputMap.add_action("save_game")
-		var event = InputEventKey.new()
-		event.keycode = KEY_S
-		event.ctrl_pressed = true
-		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'save_game' action with Ctrl+S")
-
-	if not InputMap.has_action("toggle_inventory"):
-		InputMap.add_action("toggle_inventory")
-		var event = InputEventKey.new()
-		event.keycode = KEY_I
-		InputMap.action_add_event("toggle_inventory", event)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_inventory' action with I key")
-
-	if not InputMap.has_action("toggle_quest_journal"):
-		InputMap.add_action("toggle_quest_journal")
-		var event = InputEventKey.new()
-		event.keycode = KEY_J
-		InputMap.action_add_event("toggle_quest_journal", event)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_quest_journal' action with J key")
-
-	# Ensure toggle_inventory action
-	if not InputMap.has_action("toggle_inventory"):
-		InputMap.add_action("toggle_inventory")
-		var inventory_event = InputEventKey.new()
-		inventory_event.keycode = KEY_I
-		InputMap.action_add_event("toggle_inventory", inventory_event)
-		if debug: print(GameState.script_name_tag(self, _fname) + "Added 'toggle_inventory' action with I key")
-
-	if not InputMap.has_action("interact"):
-		InputMap.add_action("interact")
-		var event = InputEventKey.new()
-		event.keycode = KEY_E
-		InputMap.action_add_event("interact", event)
+		for key in save_action_keys:
+			var event = InputEventKey.new()
+			event.keycode = key
+			event.ctrl_pressed = save_requires_ctrl
+			InputMap.action_add_event("save_game", event)
+		DebugManager.print_debug(self, _fname, "Added action: save_game (Ctrl+S)")
 
 func _unhandled_input(event):
 	var _fname = "_unhandled_input"
@@ -289,7 +284,7 @@ func start_new_game():
 		game_state.start_new_game()
 	else:
 		# Fallback if GameState doesn't exist
-		change_scene("res://scenes/world/locations/dorm_room.tscn")
+		change_scene(Paths.get_scene("dorm_room"))
 
 # Load a game
 func load_game(slot):
@@ -345,7 +340,7 @@ func toggle_pause_menu():
 	if is_main_menu and player:
 		is_main_menu = false
 		# Fix the scene path
-		current_scene_path = "res://scenes/world/locations/dorm_room.tscn"
+		current_scene_path = Paths.get_scene("dorm_room")
 		if debug: print(GameState.script_name_tag(self, _fname) + "Fixed scene path - we're actually in gameplay")
 
 	if is_main_menu:
@@ -371,10 +366,10 @@ func toggle_pause_menu():
 			pause_menu = pause_menu_scene.instantiate()
 			canvas.add_child(pause_menu)
 
-			pause_menu.connect("resume_game", _on_resume_game)
-			pause_menu.connect("save_game", _on_save_game)
-			pause_menu.connect("load_game", _on_load_game)
-			pause_menu.connect("quit_to_menu", _on_quit_to_menu)
+			GameState.safe_connect(pause_menu, "resume_game", Callable(self, "_on_resume_game"))
+			GameState.safe_connect(pause_menu, "save_game", Callable(self, "_on_save_game"))
+			GameState.safe_connect(pause_menu, "load_game", Callable(self, "_on_load_game"))
+			GameState.safe_connect(pause_menu, "quit_to_menu", Callable(self, "_on_quit_to_menu"))
 			get_tree().paused = true
 			if debug: print(GameState.script_name_tag(self, _fname) + "Pause menu created and game paused")
 		else:

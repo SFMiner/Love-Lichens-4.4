@@ -16,8 +16,8 @@ var debug
 var current_save_slot = -1
 
 func _ready():
-	debug = scr_debug or GameController.sys_debug 
-	if debug: print(GameState.script_name_tag(self) + "Save/Load System initialized")
+	debug = scr_debug or GameController.sys_debug
+	DebugManager.print_debug(self, "_ready", "Save/Load System initialized")
 	# Create the saves directory if it doesn't exist
 	var dir = DirAccess.open("user://")
 	if not dir.dir_exists(SAVE_FOLDER.trim_suffix("/")):
@@ -25,55 +25,63 @@ func _ready():
 
 func save_game(slot):
 	if slot < 0 or slot >= MAX_SAVE_SLOTS:
-		if debug: print(GameState.script_name_tag(self) + "Invalid save slot: ", slot)
+		DebugManager.print_debug(self, "save_game", "Invalid save slot: " + str(slot))
 		return false
-	
+
 	var save_data = _collect_save_data()
 	var save_path = SAVE_FOLDER + "save_" + str(slot) + SAVE_EXTENSION
-	
+
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if not file:
-		if debug: print(GameState.script_name_tag(self) + "Failed to open save file: ", save_path)
+		ErrorHandler.log_error(ErrorHandler.ErrorLevel.ERROR, "SaveLoadSystem", "Failed to open save file: " + save_path)
 		return false
-		
+
 	file.store_string(JSON.stringify(save_data))
 	file.close()
-	
+
 	current_save_slot = slot
-	if debug: print(GameState.script_name_tag(self) + "Game saved to slot: ", slot)
+	DebugManager.print_debug(self, "save_game", "Game saved to slot: " + str(slot))
 	game_saved.emit(slot)
 	return true
 	
 func load_game(slot):
 	if slot < 0 or slot >= MAX_SAVE_SLOTS:
-		if debug: print(GameState.script_name_tag(self) + "Invalid save slot: ", slot)
+		DebugManager.print_debug(self, "load_game", "Invalid save slot: " + str(slot))
 		return false
-		
+
 	var save_path = SAVE_FOLDER + "save_" + str(slot) + SAVE_EXTENSION
-	
+
 	if not FileAccess.file_exists(save_path):
-		if debug: print(GameState.script_name_tag(self) + "Save file does not exist: ", save_path)
+		DebugManager.print_debug(self, "load_game", "Save file does not exist: " + save_path)
 		return false
-		
+
 	var file = FileAccess.open(save_path, FileAccess.READ)
 	if not file:
-		if debug: print(GameState.script_name_tag(self) + "Failed to open save file: ", save_path)
+		ErrorHandler.log_error(ErrorHandler.ErrorLevel.ERROR, "SaveLoadSystem", "Failed to open save file: " + save_path)
 		return false
-		
+
 	var json_string = file.get_as_text()
 	file.close()
-	
+
 	var json = JSON.new()
 	var parse_result = json.parse(json_string)
 	if parse_result != OK:
-		if debug: print(GameState.script_name_tag(self) + "Failed to parse save file JSON: ", json.get_error_message())
+		ErrorHandler.log_error(ErrorHandler.ErrorLevel.ERROR, "SaveLoadSystem", "Failed to parse save file JSON: " + json.get_error_message())
 		return false
-		
+
 	var save_data = json.data
+
+	# Migrate save data if needed
+	if save_data is Dictionary:
+		save_data = SaveDataMigrator.migrate_save_data(save_data)
+		if not SaveDataMigrator.validate_save_data(save_data):
+			ErrorHandler.log_error(ErrorHandler.ErrorLevel.ERROR, "SaveLoadSystem", "Save data validation failed")
+			return false
+
 	_apply_save_data(save_data)
-	
+
 	current_save_slot = slot
-	if debug: print(GameState.script_name_tag(self) + "Game loaded from slot: ", slot)
+	DebugManager.print_debug(self, "load_game", "Game loaded from slot: " + str(slot))
 	game_loaded.emit(slot)
 	return true
 	
@@ -121,18 +129,18 @@ func get_all_save_slots_info():
 func delete_save(slot):
 	if slot < 0 or slot >= MAX_SAVE_SLOTS:
 		return false
-		
+
 	var save_path = SAVE_FOLDER + "save_" + str(slot) + SAVE_EXTENSION
-	
+
 	if not FileAccess.file_exists(save_path):
 		return false
-		
+
 	var dir = DirAccess.open(SAVE_FOLDER)
 	if dir.remove("save_" + str(slot) + SAVE_EXTENSION) != OK:
-		if debug: print(GameState.script_name_tag(self) + "Failed to delete save file: ", save_path)
+		ErrorHandler.log_error(ErrorHandler.ErrorLevel.ERROR, "SaveLoadSystem", "Failed to delete save file: " + save_path)
 		return false
-		
-	if debug: print(GameState.script_name_tag(self) + "Deleted save in slot: ", slot)
+
+	DebugManager.print_debug(self, "delete_save", "Deleted save in slot: " + str(slot))
 	if current_save_slot == slot:
 		current_save_slot = -1
 	
@@ -147,7 +155,7 @@ func _collect_save_data():
 	]
 	
 	var save_data = {
-		"save_format_version": 1,
+		"save_format_version": SaveDataMigrator.CURRENT_VERSION,
 		"save_date": date_string,
 		"play_time": 0,  # In a real game, you'd track play time
 		"player_name": "Adam Major",
@@ -172,8 +180,8 @@ func _collect_save_data():
 		
 	# Get quest data
 	var quest_system = get_node_or_null("/root/QuestSystem")
-	if quest_system and quest_system.has_method("get_all_quests"):
-		save_data["quests"] = quest_system.get_all_quests()
+	if GameState.node_has_method(quest_system, "get_all_quests"):
+		save_data["quests"] = GameState.safe_call_method(quest_system, "get_all_quests")
 
 	# Get phone data
 	var phone_system = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
@@ -184,7 +192,7 @@ func _collect_save_data():
 	var pickup_system = get_node_or_null("/root/PickupSystem")
 	if pickup_system and pickup_system.has_method("get_save_data"):
 		save_data["pickup_system"] = pickup_system.get_save_data()
-		if debug: print(GameState.script_name_tag(self) + "Collected pickup system data")
+		DebugManager.print_debug(self, "_collect_save_data", "Collected pickup system data")
 
 	# Get dialog system data - track seen dialogs
 	var dialog_system = get_node_or_null("/root/DialogSystem")
@@ -233,91 +241,91 @@ func _collect_save_data():
 
 # Apply loaded save data to game systems
 func _apply_save_data(save_data):
-	if debug: print(GameState.script_name_tag(self) + "Applying save data...")
-	
+	DebugManager.print_debug(self, "_apply_save_data", "Applying save data...")
+
 	# First, apply scene change if needed
 	var game_controller = get_node_or_null("/root/GameController")
 	if game_controller and save_data.has("current_scene_path"):
 		var target_scene = save_data.current_scene_path
 		if target_scene.is_empty(): # Fallback to campus_quad if no scene is saved
 			target_scene = "res://scenes/world/locations/campus_quad.tscn"
-			
-		if debug: print(GameState.script_name_tag(self) + "Changing to scene: ", target_scene)
+
+		DebugManager.print_debug(self, "_apply_save_data", "Changing to scene: " + target_scene)
 		game_controller.change_scene(target_scene)
-		
+
 		# Wait a frame to let the scene load before continuing
 		await get_tree().process_frame
-		
+
 	# Apply to inventory system
 	var inventory_system = get_node_or_null("/root/InventorySystem")
 	if inventory_system and save_data.has("inventory"):
-		if debug: print(GameState.script_name_tag(self) + "Restoring inventory data...")
+		DebugManager.print_debug(self, "_apply_save_data", "Restoring inventory data...")
 		inventory_system.inventory = save_data.inventory
 		
 	# Apply to relationship system
 	var relationship_system = get_node_or_null("/root/RelationshipSystem")
 	if relationship_system and save_data.has("relationships"):
-		if debug: print(GameState.script_name_tag(self) + "Restoring relationship data...")
+		DebugManager.print_debug(self, "_apply_save_data", "Restoring relationship data...")
 		relationship_system.relationships = save_data.relationships
-		
-	# Apply to navigtion system
-	var navigation_manager = get_node_or_null("/root/NavigtionManager")
-	if navigation_manager and save_data.has("navigation") and navigation_manager.has_method("load_navigtion"):
-		if debug: print(GameState.script_name_tag(self) + "Restoring nvigation data...")
+
+	# Apply to navigation system
+	var navigation_manager = get_node_or_null("/root/NavigationManager")
+	if navigation_manager and save_data.has("navigation") and navigation_manager.has_method("load_navigation"):
+		DebugManager.print_debug(self, "_apply_save_data", "Restoring navigation data...")
 		navigation_manager.load_navigation(save_data.navigation)
-	
+
 	# Get phone data
 	var phone_system = get_node_or_null("/root/Game/PhoneCanvasLayer/PhoneSceneInstance")
 	if phone_system and save_data.has("phone") and phone_system.has_method("load_save_data"):
 		phone_system.load_save_data(save_data.phone)
-	
+
 	# Apply to quest system
 	var quest_system = get_node_or_null("/root/QuestSystem")
 	if quest_system and save_data.has("quests") and quest_system.has_method("load_quests"):
-		if debug: print(GameState.script_name_tag(self) + "Restoring quest data...")
+		DebugManager.print_debug(self, "_apply_save_data", "Restoring quest data...")
 		quest_system.load_quests(save_data.quests)
-		
+
 	# NEW: Apply to pickup system
 	var pickup_system = get_node_or_null("/root/PickupSystem")
 	if pickup_system and save_data.has("pickup_system") and pickup_system.has_method("load_save_data"):
-		if debug: print(GameState.script_name_tag(self) + "Restoring pickup system data...")
+		DebugManager.print_debug(self, "_apply_save_data", "Restoring pickup system data...")
 		pickup_system.load_save_data(save_data.pickup_system)
-		
+
 	# Apply to dialog system
 	var dialog_system = get_node_or_null("/root/DialogSystem")
 	if dialog_system:
-		if save_data.has("dialog_seen") and dialog_system.has_method("set_seen_dialogs"):
-			if debug: print(GameState.script_name_tag(self) + "Restoring dialog history...")
-			dialog_system.set_seen_dialogs(save_data.dialog_seen)
+		if save_data.has("dialog_seen") and GameState.node_has_method(dialog_system, "set_seen_dialogs"):
+			DebugManager.print_debug(self, "_apply_save_data", "Restoring dialog history...")
+			GameState.safe_call_method(dialog_system, "set_seen_dialogs", [save_data.dialog_seen])
 	
 	# Give the scene time to fully load before trying to find the player
 	await get_tree().create_timer(0.1).timeout
 	
 	# Apply player position if available
 	if save_data.has("player_position"):
-		if debug: print(GameState.script_name_tag(self) + "Applying player position...")
-		
+		DebugManager.print_debug(self, "_apply_save_data", "Applying player position...")
+
 		# Try different ways to find the player
 		var player = null
-		
+
 		# First check in the Game/CurrentScene structure
 		var scene_container = get_node_or_null("/root/Game/CurrentScene")
 		if scene_container and scene_container.get_child_count() > 0:
 			var scene = scene_container.get_child(0)
 			player = scene.get_node_or_null("Player")
-		
+
 		# If not found, try various paths
 		if not player:
 			player = get_node_or_null("/root/CurrentScene/Player")
 		if not player:
 			player = get_node_or_null("/root/Game/CurrentScene/Player")
-			
+
 		# Try to find it in the campus_quad scene
 		if not player:
 			var quad = get_node_or_null("/root/Game/CurrentScene/CampusQuad")
 			if quad:
 				player = quad.get_node_or_null("Player")
-				
+
 		# Last resort: search in groups
 		if not player:
 			var players = get_tree().get_nodes_in_group("z_Objects")
@@ -325,12 +333,12 @@ func _apply_save_data(save_data):
 				if obj.name == "Player":
 					player = obj
 					break
-		
+
 		if player:
-			if debug: print(GameState.script_name_tag(self) + "Player found, setting position to: ", save_data.player_position.x, ", ", save_data.player_position.y)
+			DebugManager.print_debug(self, "_apply_save_data", "Player found, setting position to: " + str(save_data.player_position.x) + ", " + str(save_data.player_position.y))
 			player.position.x = save_data.player_position.x
 			player.position.y = save_data.player_position.y
-			
+
 			# Set direction if available - using get() method which is safer
 			if save_data.has("player_direction"):
 				# Check if player has last_direction property using get() which returns null if not found
@@ -340,20 +348,20 @@ func _apply_save_data(save_data):
 					if player.has_method("update_interaction_ray"):
 						player.update_interaction_ray(player.last_direction)
 				else:
-					if debug: print(GameState.script_name_tag(self) + "Player does not have last_direction property")
-			
+					DebugManager.print_debug(self, "_apply_save_data", "Player does not have last_direction property")
+
 			# Set animation if available
 			if save_data.has("player_animation") and player.has_method("play_animation"):
 				player.play_animation(save_data.player_animation)
 		else:
-			if debug: print(GameState.script_name_tag(self) + "Player not found in the scene")
+			DebugManager.print_debug(self, "_apply_save_data", "Player not found in the scene")
 
 	# Ensure Phone UI is hidden after all data is applied
 	if game_controller and game_controller.has_method("hide_phone_ui_on_load"):
-		if debug: print(GameState.script_name_tag(self) + "SaveLoadSystem: Ensuring Phone UI is hidden post-load.")
+		DebugManager.print_debug(self, "_apply_save_data", "SaveLoadSystem: Ensuring Phone UI is hidden post-load.")
 		game_controller.hide_phone_ui_on_load()
 	else:
-		if debug: print(GameState.script_name_tag(self) + "SaveLoadSystem: GameController or hide_phone_ui_on_load method not found when trying to hide phone UI post-load.")
-			
-	if debug: print(GameState.script_name_tag(self) + "Save data applied successfully")
+		DebugManager.print_debug(self, "_apply_save_data", "SaveLoadSystem: GameController or hide_phone_ui_on_load method not found when trying to hide phone UI post-load.")
+
+	DebugManager.print_debug(self, "_apply_save_data", "Save data applied successfully")
 	return true

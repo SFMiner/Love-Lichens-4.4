@@ -16,6 +16,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 	value = true_val if condition else false_val 
 - NEVER check for a property within a script unless you know that it has been declared. Checking an undeclared property will cause an error
 
+## Best Practices (Updated)
+
+### Property Checking
+- ✅ Use: `if "property_name" in object:` for object properties
+- ✅ Use: `if property_name:` for self properties in same script
+- ✅ Use: `if dict.has("key"):` for Dictionary keys
+- ❌ Avoid: `if object.has("property_name"):` (doesn't exist in GDScript)
+
+### Signal Connections
+- ✅ Use: `GameState.safe_connect(signal_object, "signal_name", Callable(self, "method_name"))`
+- This prevents duplicate connections and validates signals before connecting
+
+### Debug Output
+- ✅ Use: `DebugManager.print_debug(self, "_function_name", "message")`
+- ✅ Use: `DebugManager.print_warning(self, "_function_name", "message")`
+- ✅ Use: `DebugManager.print_error(self, "_function_name", "message")`
+- This provides consistent, controllable debug output respecting both `sys_debug` and `scr_debug` settings
+
+### Error Handling
+- ✅ Use: `ErrorHandler.log_error(level, source, message)` for structured error logging
+- ✅ Use: `ErrorHandler.validate_node(node, path, source)` to validate node existence
+- ✅ Use: `ErrorHandler.validate_method(obj, method, source)` to validate methods
+- Error levels: `ErrorLevel.INFO`, `ErrorLevel.WARNING`, `ErrorLevel.ERROR`, `ErrorLevel.CRITICAL`
+
+### Path Management
+- ✅ Use: `Paths.get_scene("scene_id")` instead of hardcoded paths
+- ✅ Use: `Paths.get_ui("ui_id")` for UI scenes
+- ✅ Use: `Paths.get_data_dir("type")` for data directories
+- Prevents path duplication and makes it easier to refactor locations
+
+### Null Safety
+- ✅ Use: `GameState.safe_get_node(from_node, path)` for critical nodes (returns warning if not found)
+- ✅ Use: `GameState.safe_call_method(node, method, args)` for safe method calls with array arguments
+- ✅ Use: `GameState.node_has_method(node, method)` for validation before calling
+- Example: `if GameState.node_has_method(quest_system, "get_all_quests"): save_data["quests"] = GameState.safe_call_method(quest_system, "get_all_quests")`
+
+### Save Data Migration
+- ✅ New saves should use: `"save_format_version": SaveDataMigrator.CURRENT_VERSION`
+- ✅ Use: `SaveDataMigrator.migrate_save_data(data)` when loading old saves
+- ✅ Use: `SaveDataMigrator.validate_save_data(data)` to ensure data integrity
+- Current save format version: 2 (includes navigation fixes and pickup system data)
+
 ## Build/Run Commands
 - Run game: Godot Editor → Play button or F5
 - Export game: Godot Editor → Project → Export

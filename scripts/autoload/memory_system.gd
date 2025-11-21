@@ -31,11 +31,8 @@ func _ready():
 	if debug: print(GameState.script_name_tag(self, _fname) + "Memory System initialized")
 	
 	# Wait for GameState to load memory data
-	if GameState.has_signal("memory_data_loaded"):
-		if not GameState.memory_data_loaded.is_connected(_on_memory_data_ready):
-			GameState.memory_data_loaded.connect(_on_memory_data_ready)
-	else:
-		# If signal doesn't exist, just proceed
+	if not GameState.safe_connect(GameState, "memory_data_loaded", Callable(self, "_on_memory_data_ready")):
+		# If connection fails, proceed deferred
 		call_deferred("_on_memory_data_ready")
 	
 	_connect_to_other_systems()
@@ -57,14 +54,13 @@ func _connect_to_other_systems():
 	var _fname = "_connect_to_other_systems"
 	# Connect to inventory for item acquisitions
 	var inventory_system = get_node_or_null("/root/InventorySystem")
-	if inventory_system and inventory_system.has_signal("item_added"):
-		inventory_system.item_added.connect(_on_item_acquired)
-	
+	if inventory_system:
+		GameState.safe_connect(inventory_system, "item_added", Callable(self, "_on_item_acquired"))
+
 	# Connect to dialog system for dialogue choices
 	var dialog_system = get_node_or_null("/root/DialogSystem")
 	if dialog_system:
-		if dialog_system.has_signal("dialog_ended"):
-			dialog_system.dialog_ended.connect(_on_dialog_ended)
+		GameState.safe_connect(dialog_system, "dialog_ended", Callable(self, "_on_dialog_ended"))
 
 # SIMPLIFIED: Main trigger functions now use registry
 func trigger_look_at(target_id: String) -> bool:

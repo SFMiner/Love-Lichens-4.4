@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Love & Lichens 4.4 4-12"
 run/main_scene="res://scenes/game.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -36,6 +36,8 @@ TimeSystem="*res://scripts/autoload/time_system.gd"
 CutsceneManager="*res://scripts/autoload/cutscene_manager.gd"
 NavigationManager="*res://scripts/autoload/navigation_manager.gd"
 PickupSystem="*res://scripts/autoload/pickup_system.gd"
+DebugManager="*res://scripts/autoload/debug_manager.gd"
+Paths="*res://scripts/autoload/paths.gd"
 
 [dialogue_manager]
 

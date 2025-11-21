@@ -1310,3 +1310,52 @@ func script_name_tag(node, function_name = null):
 		this_tag = tracker_str + ". " + script_name(node) + ": "
 	tracker_id += 1
 	return this_tag
+
+# ==========================================
+# SIGNAL CONNECTION SAFETY
+# ==========================================
+
+# Safe signal connection helper
+static func safe_connect(signal_object: Object, signal_name: String, callable_target: Callable) -> bool:
+	if not signal_object:
+		push_warning("Cannot connect signal: signal_object is null")
+		return false
+
+	if not signal_object.has_signal(signal_name):
+		push_warning("Signal does not exist: " + signal_name)
+		return false
+
+	var signal_ref = signal_object.get(signal_name)
+	if signal_ref.is_connected(callable_target):
+		# Already connected, skip
+		return true
+
+	signal_ref.connect(callable_target)
+	return true
+
+# ==========================================
+# NULL SAFETY HELPERS
+# ==========================================
+
+# Safely get a node with warning if not found
+static func safe_get_node(from_node: Node, path: String) -> Node:
+	var node = from_node.get_node_or_null(path)
+	if not node:
+		push_warning("Node not found at path: " + path)
+	return node
+
+# Safely call a method on a node
+static func safe_call_method(node: Node, method: String, args: Array = []):
+	if not node:
+		push_warning("Cannot call method on null node: " + method)
+		return null
+	if not node.has_method(method):
+		push_warning("Node missing method: " + method)
+		return null
+	return node.callv(method, args)
+
+# Check if node exists and has method
+static func node_has_method(node: Node, method: String) -> bool:
+	if not node:
+		return false
+	return node.has_method(method)

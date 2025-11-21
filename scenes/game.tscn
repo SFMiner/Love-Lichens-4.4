@@ -37,6 +37,7 @@ text = "Phone"
 
 [node name="PhoneCanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
+visible = false
 
 [node name="PhoneSceneInstance" parent="PhoneCanvasLayer" instance=ExtResource("3_abcde")]
 
