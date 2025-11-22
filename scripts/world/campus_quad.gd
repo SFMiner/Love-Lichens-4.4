@@ -67,7 +67,7 @@ func _ready():
 	for child in z_objects.get_children():
 		if "z_index" in child:
 			child.add_to_group('z_Objects')
-			child.z_index = child.global_position.y
+			child.z_index = child.global_position.y/5
 	
 	# Find and set up visitable areas
 	setup_visit_areas()

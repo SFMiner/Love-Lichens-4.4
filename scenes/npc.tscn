@@ -750,11 +750,30 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_6eakx")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 13.0
+offset_left = 47.0
 offset_top = -38.0
-offset_right = 53.0
+offset_right = 87.0
 offset_bottom = -15.0
 theme_override_font_sizes/font_size = 11
+text = "z_index"
+
+[node name="Label2" type="Label" parent="."]
+visible = false
+offset_left = 48.0
+offset_top = -24.0
+offset_right = 88.0
+offset_bottom = -1.0
+theme_override_font_sizes/font_size = 11
+text = "label_z_index"
+
+[node name="Label3" type="Label" parent="."]
+visible = false
+offset_left = 48.0
+offset_top = -8.0
+offset_right = 118.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 11
+text = "label_z_index"
 
 [node name="CharacterAnimator" type="Node" parent="."]
 script = ExtResource("1_6eakx")

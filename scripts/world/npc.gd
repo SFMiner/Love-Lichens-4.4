@@ -59,11 +59,14 @@ var observable_features: Dictionary = {}
 # ==========================================
 
 # Node references
-@onready var sprite = get_node_or_null("Sprite2D")
+#@onready var sprite = get_node_or_null("Sprite2D")
 @onready var nav_agent: NavigationAgent2D = get_node_or_null("NavigationAgent2D")
 @onready var interaction_area = get_node_or_null("InteractionArea")
 @onready var ap = get_node_or_null("AnimationPlayer")
 @onready var char_anim = get_node_or_null("CharacterAnimator")
+#@onready var label : Label = get_node_or_null("Label")
+#@onready var label_z : Label = get_node_or_null("Label2")
+#@onready var label3 : Label = get_node_or_null("Label3")
 # Character state and animation
 
 # System references
@@ -81,7 +84,10 @@ func _ready():
 	var _fname = "_ready"
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print(GameState.script_name_tag(self, _fname) + "NPC initialized: ", character_id)
-	
+	z_index = global_position.y/5
+	label.text = str(z_index)
+	label_z.text = str(sprite.z_index)
+	label3.text = str(z_index)
 	super._ready()
 	
 	# Sync @export variables to character_data dictionary

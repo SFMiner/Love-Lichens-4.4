@@ -43,6 +43,11 @@ var navigation_target = null
 var is_navigating = false
 var navigation_speed_multiplier = 1.0
 
+@onready var label : Label = get_node_or_null("Label")
+@onready var label_z : Label = get_node_or_null("Label2")
+@onready var label3 : Label = get_node_or_null("Label3")
+@onready var sprite : Sprite2D = get_node_or_null("Sprite2D")
+
 func _ready():
 	# Common initialization
 	current_health = max_health
@@ -122,7 +127,10 @@ func update_animation(input_vector):
 func update_position_tracking():
 	if position != last_position:
 		last_position = position
-		z_index = int(global_position.y)
+		z_index = int(global_position.y/5)
+		label.text = str(z_index)
+		label_z.text = str(sprite.z_index)
+		label3.text = str(z_index)
 
 func begin_jump():
 	is_jumping = true

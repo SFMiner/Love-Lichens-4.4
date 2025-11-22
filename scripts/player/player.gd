@@ -18,7 +18,7 @@ var interaction_range : int
 @onready var max_interaction_distance : int= interaction_range  # Maximum distance for mouse clicks
 @onready var current_speed = base_speed
 @onready var AP = get_node_or_null("AnimationPlayer")
-@onready var sprite = get_node_or_null("Sprite2D")
+#@onready var sprite = get_node_or_null("Sprite2D")
 @onready var interaction_area = get_node_or_null("InteractionArea")
 #@onready var animator = get_node_or_null("CharacterAnimator")
 var path_to_target = []
@@ -31,7 +31,10 @@ var interactable_object = null
 var in_dialog = false
 @export var curr_animation_frame : int = 0
 
-@onready var label : Label = $Label
+#@onready var label : Label = get_node_or_null("Label")
+#@onready var label_z : Label = get_node_or_null("Label2")
+#@onready var label3 : Label = get_node_or_null("Label3")
+
 @onready var camera : Camera2D = $Camera2D
 
 # Sleep interface reference
@@ -62,7 +65,9 @@ func _ready():
 	current_speed = base_speed * current_scene_speed_mod
 	debug = scr_debug or GameController.sys_debug 
 	if debug: print(GameState.script_name_tag(self) + "Player initialized: ", character_name)
-	
+	label.text = str(z_index)
+	label_z.text = str(sprite.z_index)
+	label3.text = str(z_index)
 	# Set up interaction area if it doesn't exist
 	if not has_node("InteractionArea"):
 		var area = Area2D.new()
